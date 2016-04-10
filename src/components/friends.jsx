@@ -3,9 +3,7 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 
 import {pluralForm} from '../utils';
-
-import {acceptUserRequest, rejectUserRequest,
-        revokeSentRequest} from '../redux/action-creators';
+import {acceptUserRequest, rejectUserRequest, revokeSentRequest} from '../redux/action-creators';
 import {tileUserListFactory, PLAIN, WITH_REQUEST_HANDLES, WITH_REVOKE_SENT_REQUEST} from './tile-user-list';
 
 const TileList = tileUserListFactory({type: PLAIN, displayQuantity: true});
@@ -28,8 +26,8 @@ const FriendsHandler = (props) => {
           acceptRequest={props.acceptUserRequest}
           rejectRequest={props.rejectUserRequest}/>
 
+        <TileList {...props.mutualSubscriptions}/>
         <TileList {...props.subscriptions}/>
-        <TileList {...props.mutual}/>
         <TileList {...props.blockedByMe}/>
 
         <TileListWithRevoke
@@ -53,7 +51,7 @@ function calculateMutual(subscriptions, subscribers) {
     );
 
     return {
-      header: 'Mutual Friends',
+      header: 'Mutual subscriptions',
       users: _.sortBy(mutual, 'username')
     };
 
@@ -64,21 +62,25 @@ function calculateMutual(subscriptions, subscribers) {
 
 function selectState(state) {
   const feedRequests = state.userRequests;
-  const subscriptions = {
-    header: 'Friends',
-    users: _.sortBy(state.usernameSubscriptions.payload, 'username')
-  };
-  const mutual = calculateMutual(
+
+  const mutualSubscriptions = calculateMutual(
     state.usernameSubscriptions,
     state.usernameSubscribers
   );
+
+  const subscriptions = {
+    header: 'Subscriptions',
+    users: _.sortBy(state.usernameSubscriptions.payload, 'username')
+  };
+
   const blockedByMe = {
-    header: 'Blocked',
+    header: 'Blocked users',
     users: _.sortBy(state.usernameBlockedByMe.payload, 'username')
   };
+
   const sentRequests = state.sentRequests;
 
-  return { feedRequests, subscriptions, mutual, blockedByMe, sentRequests };
+  return { feedRequests, subscriptions, mutualSubscriptions, blockedByMe, sentRequests };
 }
 
 function selectActions(dispatch) {
