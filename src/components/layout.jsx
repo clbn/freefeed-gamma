@@ -134,6 +134,8 @@ class Layout extends React.Component {
           <div className="col-xs-9 col-sm-6">
             <h1>
               <IndexLink to="/" onClick={logoHandler(props.routeName, props.home)}>FreeFeed</IndexLink>
+              <sup title="Gamma">&gamma;</sup>
+              <div className="tagline">The Greek letter for the rest of us</div>
             </h1>
           </div>
 
