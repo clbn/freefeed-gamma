@@ -42,31 +42,24 @@ const FriendsHandler = (props) => {
 
 function calculateMutual(subscriptions, subscribers) {
   if (!subscribers.isPending && !subscriptions.isPending &&
-     !subscribers.errorString && !subscriptions.errorString) {
-
-    const mutual = _.intersectionWith(
+      !subscribers.errorString && !subscriptions.errorString) {
+    return _.intersectionWith(
       subscriptions.payload,
       subscribers.payload,
       (a, b) => a.id == b.id
     );
-
-    return {
-      header: 'Mutual subscriptions',
-      users: _.sortBy(mutual, 'username')
-    };
-
   } else {
-    return { users: [] };
+    return [];
   }
 }
 
 function selectState(state) {
   const feedRequests = state.userRequests;
 
-  const mutualSubscriptions = calculateMutual(
-    state.usernameSubscriptions,
-    state.usernameSubscribers
-  );
+  const mutualSubscriptions = {
+    header: 'Mutual subscriptions',
+    users: _.sortBy(calculateMutual(state.usernameSubscriptions, state.usernameSubscribers), 'username')
+  };
 
   const subscriptions = {
     header: 'Subscriptions',
