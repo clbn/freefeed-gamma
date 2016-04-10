@@ -27,7 +27,7 @@ const FriendsHandler = (props) => {
           rejectRequest={props.rejectUserRequest}/>
 
         <TileList {...props.mutualSubscriptions}/>
-        <TileList {...props.subscriptions}/>
+        <TileList {...props.otherSubscriptions}/>
         <TileList {...props.blockedByMe}/>
 
         <TileListWithRevoke
@@ -53,6 +53,18 @@ function calculateMutual(subscriptions, subscribers) {
   }
 }
 
+function calculateNonMutual(allSubscriptions, mutualSubscriptions) {
+  if (!allSubscriptions.isPending && !allSubscriptions.errorString) {
+    return _.differenceWith(
+      allSubscriptions.payload,
+      mutualSubscriptions.users,
+      (a, b) => a.id == b.id
+    );
+  } else {
+    return [];
+  }
+}
+
 function selectState(state) {
   const feedRequests = state.userRequests;
 
@@ -61,9 +73,9 @@ function selectState(state) {
     users: _.sortBy(calculateMutual(state.usernameSubscriptions, state.usernameSubscribers), 'username')
   };
 
-  const subscriptions = {
+  const otherSubscriptions = {
     header: 'Subscriptions',
-    users: _.sortBy(state.usernameSubscriptions.payload, 'username')
+    users: _.sortBy(calculateNonMutual(state.usernameSubscriptions, mutualSubscriptions), 'username')
   };
 
   const blockedByMe = {
@@ -73,7 +85,7 @@ function selectState(state) {
 
   const sentRequests = state.sentRequests;
 
-  return { feedRequests, subscriptions, mutualSubscriptions, blockedByMe, sentRequests };
+  return { feedRequests, mutualSubscriptions, otherSubscriptions, blockedByMe, sentRequests };
 }
 
 function selectActions(dispatch) {
