@@ -44,10 +44,10 @@ class UserCard extends React.Component {
           </Link>
 
           <div className="names">
-            <Link to={`/${props.user.username}`} className="display-name">{props.user.screenName}</Link><br/>
+            <Link to={`/${props.user.username}`} className="display-name">{props.user.screenName}</Link>
 
             {props.user.screenName !== props.user.username ? (
-              <span className="username">@{props.user.username}</span>
+              <div className="username">@{props.user.username}</div>
             ) : false}
           </div>
 

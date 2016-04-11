@@ -35,6 +35,11 @@
 
     font-size: 13px !important;
     line-height: 17px;
+    text-align: left;
+
+    a {
+      font-size: 13px !important;
+    }
 
     .userpic {
       float: left;
@@ -79,8 +84,10 @@
     color: #666;
     font-size: 13px !important;
     line-height: 17px;
+    text-align: left;
 
     a {
+      font-size: 13px !important;
       color: #555599 !important;
       font-weight: normal !important;
     }
