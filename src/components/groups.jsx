@@ -71,7 +71,7 @@ function selectState(state) {
   };
 
   const groupsIAmIn = {
-    header: 'Groups i\'m in',
+    header: "Groups I'm in",
     users: _.sortBy(state.groups, 'username')
   };
 
