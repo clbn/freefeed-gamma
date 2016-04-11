@@ -55,8 +55,9 @@ const GroupsHandler = (props) => {
           </div>
         ) : false}
 
-        <TileList {...props.myGroups}/>
-        <TileList {...props.groupsIAmIn}/>
+        <TileList {...props.managedGroups}/>
+
+        <TileList {...props.otherGroups}/>
       </div>
       <div className="box-footer"></div>
     </div>
@@ -66,17 +67,23 @@ const GroupsHandler = (props) => {
 function selectState(state) {
   const groupRequests = state.managedGroups.filter(group => group.requests.length) || [];
 
-  const myGroups = {
+  const managedGroups = {
     header: 'Groups I admin',
     users: _.sortBy(state.managedGroups, 'username')
   };
 
-  const groupsIAmIn = {
+  const otherGroupsList = _.differenceWith(
+    _.toArray(state.groups),
+    state.managedGroups,
+    (a, b) => (a.id == b.id)
+  );
+
+  const otherGroups = {
     header: "Groups I'm in",
-    users: _.sortBy(state.groups, 'username')
+    users: _.sortBy(otherGroupsList, 'username')
   };
 
-  return { groupRequests, myGroups, groupsIAmIn };
+  return { groupRequests, managedGroups, otherGroups };
 }
 
 function selectActions(dispatch) {
