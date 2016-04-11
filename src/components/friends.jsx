@@ -5,6 +5,7 @@ import _ from 'lodash';
 import {pluralForm} from '../utils';
 import {acceptUserRequest, rejectUserRequest, revokeSentRequest} from '../redux/action-creators';
 import {tileUserListFactory, PLAIN, WITH_REQUEST_HANDLES, WITH_REVOKE_SENT_REQUEST} from './tile-user-list';
+import throbber100 from 'assets/images/throbber.gif';
 
 const TileList = tileUserListFactory({type: PLAIN, displayQuantity: true});
 const TileListWithAcceptAndReject = tileUserListFactory({type: WITH_REQUEST_HANDLES, displayQuantity: true});
@@ -19,23 +20,31 @@ const FriendsHandler = (props) => {
       <div className="box-header-timeline">
         Friends
       </div>
-      <div className="box-body">
-        <TileListWithAcceptAndReject
-          header={feedRequestsHeader}
-          users={props.feedRequests}
-          acceptRequest={props.acceptUserRequest}
-          rejectRequest={props.rejectUserRequest}/>
 
-        <TileList {...props.mutualSubscriptions}/>
-        <TileList {...props.otherSubscriptions}/>
-        <TileList {...props.blockedByMe}/>
+      {props.isLoading ? (
+        <div className="box-body">
+          <img width="100" height="100" src={throbber100}/>
+        </div>
+      ) : (
+        <div className="box-body">
+          <TileListWithAcceptAndReject
+            header={feedRequestsHeader}
+            users={props.feedRequests}
+            acceptRequest={props.acceptUserRequest}
+            rejectRequest={props.rejectUserRequest}/>
 
-        <TileListWithRevoke
-          header={sentRequestsHeader}
-          users={props.sentRequests}
-          revokeSentRequest={props.revokeSentRequest}/>
-      </div>
-      <div className="box-footer"></div>
+          <TileList {...props.mutualSubscriptions}/>
+
+          <TileList {...props.otherSubscriptions}/>
+
+          <TileList {...props.blockedByMe}/>
+
+          <TileListWithRevoke
+            header={sentRequestsHeader}
+            users={props.sentRequests}
+            revokeSentRequest={props.revokeSentRequest}/>
+        </div>
+      )}
     </div>
   );
 };
@@ -66,6 +75,8 @@ function calculateNonMutual(allSubscriptions, mutualSubscriptions) {
 }
 
 function selectState(state) {
+  const isLoading = (state.usernameSubscriptions.isPending || state.usernameSubscribers.isPending);
+
   const feedRequests = state.userRequests;
 
   const mutualSubscriptions = {
@@ -85,7 +96,7 @@ function selectState(state) {
 
   const sentRequests = state.sentRequests;
 
-  return { feedRequests, mutualSubscriptions, otherSubscriptions, blockedByMe, sentRequests };
+  return { isLoading, feedRequests, mutualSubscriptions, otherSubscriptions, blockedByMe, sentRequests };
 }
 
 function selectActions(dispatch) {
