@@ -15,8 +15,6 @@ import DropzoneComponent from 'react-dropzone-component';
 import {api as apiConfig} from '../config';
 import {getToken} from '../services/auth';
 import PostMoreMenu from './post-more-menu';
-import EmbedlyLink from './embedly-link';
-import {getFirstLinkToEmbed} from '../utils';
 
 export default class Post extends React.Component {
   constructor(props) {
@@ -277,9 +275,6 @@ export default class Post extends React.Component {
       </span>
     ) : false);
 
-    const linkToEmbed = getFirstLinkToEmbed(props.body);
-    const noImageAttachments = !props.attachments.some(attachment => attachment.mediaType === 'image');
-
     return (props.isRecentlyHidden ? (
       <div className="post recently-hidden-post">
         <i>Entry hidden - </i>
@@ -354,9 +349,6 @@ export default class Post extends React.Component {
             attachments={props.attachments}
             isEditing={props.isEditing}
             removeAttachment={this.removeAttachment}/>
-
-          {props.allowLinksPreview && noImageAttachments && linkToEmbed ? (
-            <EmbedlyLink link={linkToEmbed}/>) : false}
 
           <div className="dropzone-previews"></div>
 

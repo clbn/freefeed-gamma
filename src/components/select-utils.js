@@ -112,8 +112,6 @@ export const joinPostData = state => postId => {
     .map(userId => state.subscribers[userId])
     .filter(user => user);
 
-  const allowLinksPreview = state.user.frontendPreferences.allowLinksPreview;
-
   return {...post,
     createdBy,
     isDirect,
@@ -122,8 +120,7 @@ export const joinPostData = state => postId => {
     usersLikedPost,
     comments,
     ...postViewState,
-    isEditable,
-    allowLinksPreview
+    isEditable
   };
 };
 
