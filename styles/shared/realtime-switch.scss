@@ -1,4 +1,109 @@
+$switch-width: 37px;
+$switch-toggle-diameter: 13px;
+$switch-padding: 2px;
+
+$switch-font-size: 12px;
+
+$switch-label-color: #666;
+$switch-off-range-color: #aaa;
+$switch-off-state-color: #eee;
+$switch-on-range-color: #1d66bf;
+$switch-on-state-color: #b3d7ff;
+$switch-toggle-color: #fff;
+
+
+// Switch (wrapper)
+
 .realtime-switch {
-  font-size: 14px;
+  font-size: $switch-font-size;
+  font-weight: normal;
+  vertical-align: middle;
+  line-height: $switch-toggle-diameter + $switch-padding * 2;
+  margin-top: 6px;
+}
+
+
+// Switch label (next to the switch itself)
+
+.realtime-switch-label {
+  display: inline-block;
+  visibility: hidden;
+
+  vertical-align: middle;
+  margin-right: 5px;
+
+  color: $switch-label-color;
+}
+.realtime-switch:hover .realtime-switch-label {
+  visibility: visible;
+}
+
+
+// Switch itself (the rounded rectangle)
+
+.realtime-switch-range {
+  display: inline-block;
+  position: relative;
+  z-index: 0;
+
+  width: $switch-width;
+  height: $switch-toggle-diameter + $switch-padding * 2;
+  border-radius: 100px;
+
   cursor: pointer;
+  background-color: $switch-off-range-color;
+
+  font-size: $switch-font-size;
+  line-height: $switch-toggle-diameter + $switch-padding * 2;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+}
+.realtime-switch.on .realtime-switch-range {
+  background-color: $switch-on-range-color;
+}
+
+
+// Switch state (the text in the rounded rectangle)
+
+.realtime-switch-state {
+  position: relative;
+  visibility: hidden;
+  z-index: 10;
+
+  left: ($switch-toggle-diameter + $switch-padding) / 2 - 2px;
+
+  color: $switch-off-state-color;
+}
+.realtime-switch.on .realtime-switch-state {
+  left: -($switch-toggle-diameter + $switch-padding) / 2;
+  color: $switch-on-state-color;
+}
+.realtime-switch:hover .realtime-switch-state {
+  visibility: visible;
+}
+
+
+// Switch toggle (the circle in the rounded rectangle)
+
+.realtime-switch-toggle {
+  position: absolute;
+  left: $switch-padding;
+  top: $switch-padding;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+
+  height: $switch-toggle-diameter;
+  width: $switch-toggle-diameter;
+  border-radius: 100px;
+
+  background-color: $switch-toggle-color;
+
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.5, 1.5, 0.5, 1);
+}
+.realtime-switch.on .realtime-switch-toggle {
+  left: $switch-width - $switch-toggle-diameter - $switch-padding;
 }

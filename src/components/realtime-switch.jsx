@@ -2,17 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {toggleRealtime, updateFrontendRealtimePreferences, home} from '../redux/action-creators';
 
-const getStatusIcon = (active, status) => {
-  if (status === 'loading') {
-    return 'refresh';
-  }
-  return active ? 'pause' : 'play';
-};
-
 const realtimeSwitch = props => (
-  <div className='realtime-switch' onClick={_ => props.toggle(props.userId, !props.realtimeActive)}>
-    {props.realtimeActive ? false : 'Paused'}
-    <span className={`glyphicon glyphicon-${getStatusIcon(props.realtimeActive, props.status)}`}/>
+  <div className={'realtime-switch' + (props.realtimeActive ? ' on' : ' off')}>
+    <div className="realtime-switch-label">Realtime updates</div>
+    <div className="realtime-switch-range" onClick={() => props.toggle(props.userId, !props.realtimeActive)}>
+      <div className="realtime-switch-state">{props.realtimeActive ? 'on' : 'off'}</div>
+      <div className="realtime-switch-toggle"></div>
+    </div>
   </div>
 );
 
