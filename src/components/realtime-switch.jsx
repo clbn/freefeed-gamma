@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
+
 import {toggleRealtime, updateFrontendRealtimePreferences, home} from '../redux/action-creators';
 
-const realtimeSwitch = props => (
+const RealtimeSwitch = props => (
   <div className={'realtime-switch' + (props.realtimeActive ? ' on' : ' off')}>
     <div className="realtime-switch-label">Realtime updates</div>
     <div className="realtime-switch-range" onClick={() => props.toggle(props.userId, !props.realtimeActive)}>
@@ -16,7 +17,7 @@ const mapStateToProps = (state) => {
   return {
     userId: state.user.id,
     realtimeActive: state.frontendRealtimePreferencesForm.realtimeActive,
-    status: state.frontendRealtimePreferencesForm.status,
+    status: state.frontendRealtimePreferencesForm.status
   };
 };
 
@@ -34,4 +35,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(realtimeSwitch);
+export default connect(mapStateToProps, mapDispatchToProps)(RealtimeSwitch);
