@@ -147,7 +147,7 @@ export default class CreatePost extends React.Component {
     };
 
     return (
-      <div className="create-post post-editor">
+      <div className={'create-post post-editor' + (this.props.sendTo.expanded ? ' expanded' : '')}>
         <div>
           {this.props.sendTo.expanded ? (
             <SendTo ref="selectFeeds"

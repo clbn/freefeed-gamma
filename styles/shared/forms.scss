@@ -54,10 +54,9 @@
 // textarea for add|edit posts and comments
 @mixin editarea {
   border: 1px solid #b4b4b4;
-  border-top-color: #727272;
-  border-bottom-color: #dadada;
-  background: white url("/img/themes/shared/textbox-bg.png") repeat-x top;
-  background-image: linear-gradient(to bottom, #b4b4b4 0px, #fff 2px);
+  border-top-color: #888;
+  border-bottom-color: #ddd;
+  background: #fff linear-gradient(to bottom, #b4b4b4 0px, #fff 2px);
   padding: 3px;
   width: 100%;
   max-width: 100%;
