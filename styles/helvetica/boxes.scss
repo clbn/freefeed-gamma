@@ -21,8 +21,8 @@
 // Timeline header
 .box-header-timeline {
   @extend .box-header;
-  font-size: 170%;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 500;
   margin-bottom: 7px;
   margin-left: 10px;
   @media (max-width: 991px){ margin-left: 0; }
