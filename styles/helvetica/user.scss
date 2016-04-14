@@ -1,14 +1,13 @@
 .avatar {
-  img {
-    border: 1px #c1c1c1 solid;
-  }
+  border: 1px #ccc solid;
 }
 
 .profile {
+  border-top: 1px solid #eee;
+  padding-top: 14px;
   padding-bottom: 14px;
   border-bottom: 1px solid #eee;
   margin-bottom: 14px;
-  margin-top: 7px;
 
   .avatar {
     float: left;

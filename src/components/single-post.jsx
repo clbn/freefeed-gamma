@@ -42,9 +42,6 @@ const SinglePostHandler = (props) => {
 
   return (
     <div className='box'>
-      <div className='box-header-timeline'>
-        {props.boxHeader}
-      </div>
       <div className='box-body'>
        {postBody}
       </div>

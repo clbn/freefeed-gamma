@@ -11,10 +11,6 @@ import UserFeed from './user-feed';
 const UserHandler = (props) => {
   return (
     <div className="box">
-      <div className="box-header-timeline">
-        {props.boxHeader}
-      </div>
-
       <div className="box-body">
         {props.breadcrumbs.shouldShowBreadcrumbs ? <Breadcrumbs {...props.breadcrumbs}/> : false}
 
