@@ -46,7 +46,7 @@ class UserName extends React.Component {
       if (this.state.isHovered) {
         this.setState({isCardOpen: true});
       }
-    }, 500);
+    }, 750);
   }
 
   leaveUserName() {
@@ -56,7 +56,7 @@ class UserName extends React.Component {
       if (!this.state.isHovered) {
         this.setState({isCardOpen: false});
       }
-    }, 500);
+    }, 750);
   }
 
   render() {
