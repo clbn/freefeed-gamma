@@ -20,7 +20,7 @@ export default class GroupPictureForm extends React.Component {
       <form onSubmit={preventDefault(this.savePicture)}>
         <h3>Profile picture</h3>
 
-        <div className="form-group avatar">
+        <div className="form-group userpic">
           <img src={this.props.group.profilePictureLargeUrl} width="75" height="75"/>
         </div>
 

@@ -8,7 +8,7 @@ import RecentGroups from './recent-groups';
 export default ({user, signOut, recentGroups}) => (
   <div className='col-md-3 sidebar'>
     <div className='logged-in'>
-      <div className='avatar'>
+      <div className='userpic'>
         <Link to={`/${user.username}`} ><img src={user.profilePictureMediumUrl} width="50" height="50"/></Link>
       </div>
 

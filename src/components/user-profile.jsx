@@ -34,7 +34,7 @@ export default class UserProfile extends React.Component {
           <div className="profile">
             <div className="row">
               <div className="col-sm-9 col-xs-12">
-                <div className="avatar">
+                <div className="userpic">
                   <img src={props.profilePictureLargeUrl} width="75" height="75"/>
                 </div>
                 <div className="description">

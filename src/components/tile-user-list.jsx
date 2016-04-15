@@ -9,7 +9,7 @@ import {confirmFirst} from '../utils';
 const renderUsers = (type) => (user) => {
   return (
     <li key={user.id}>
-      <div className="avatar">
+      <div className="userpic">
         <Link to={`/${user.username}`}>
           <img src={user.profilePictureUrl}/>
         </Link>
