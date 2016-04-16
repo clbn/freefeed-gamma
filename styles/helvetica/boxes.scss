@@ -23,14 +23,11 @@
   @extend .box-header;
   font-size: 24px;
   font-weight: 500;
-  margin-left: 10px;
-  @media (max-width: 991px){ margin-left: 0; }
   padding-bottom: 2px;
 }
 
 .box-message {
-  margin: 0 0 5px 10px;
-  @media (max-width: 991px){ margin-left: 0; }
+  margin-bottom: 5px;
   padding: 5px 10px;
 }
 
@@ -51,16 +48,8 @@
 // Content and footer
 .content {
   .box-body {
-      padding: 0 0 0 11px;
-      @media (max-width: 991px){ padding: 0 0 0 0; }
       background-color: #fff;
       @include clearfix;
-  }
-  .box-footer {
-      padding: 5px 0 5px 11px;
-      @media (max-width: 991px){ padding: 15px 0 0 0; }
-      font-size: 11px;
-      background-color: #fff;
   }
 }
 
