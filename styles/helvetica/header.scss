@@ -30,16 +30,23 @@ header {
     }
   }
 
-  .mobile-shortcuts {
+  .mobile-sidebar-toggle {
     display: none;
-    @media (min-width: 768px) { margin-top: 34px; }
-    @media (max-width: 991px) { display: block; }
+    @media (max-width: 991px) { display: inline-block; }
 
-    margin: 10px 0 20px 0;
+    position: fixed;
+    width: 50px;
+    z-index: 1000;
 
-    a {
-      margin-right: 30px;
-    }
+    cursor: pointer;
+    color: rgba(29, 102, 191, 0.5);
+    font-size: 32px;
+    line-height: 36px;
+    padding: 5px 0;
+    text-align: center;
+    margin: 12px 0 10px -50px;
+    background-color: #eee;
+    border-radius: 5px;
   }
 
   .signin-link {

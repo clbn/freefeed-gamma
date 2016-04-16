@@ -1806,3 +1806,15 @@ export function commentsHighlights(state={}, action) {
   }
   return state;
 }
+
+export function sidebarViewState(state={}, action) {
+  switch (action.type) {
+    case ActionTypes.TOGGLE_SIDEBAR: {
+      const isOpen = (action.payload.val !== null ? action.payload.val : !state.isOpen);
+      return {...state,
+        isOpen
+      };
+    }
+  }
+  return state;
+}

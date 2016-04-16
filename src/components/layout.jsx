@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import classnames from 'classnames';
 
-import {unauthenticated, home} from '../redux/action-creators';
+import {unauthenticated, home, toggleSidebar} from '../redux/action-creators';
 import Footer from './footer';
 import Sidebar from './sidebar';
 import LoaderContainer from './loader-container';
@@ -123,7 +123,8 @@ class Layout extends React.Component {
 
     let layoutClassNames = classnames({
       'container': true,
-      'dragover': this.state.isDragOver
+      'dragover': this.state.isDragOver,
+      'mobile-sidebar-open': props.sidebarViewState.isOpen
     });
 
     return (
@@ -131,7 +132,7 @@ class Layout extends React.Component {
         <Helmet title={props.title} />
 
         <header className="row">
-          <div className="col-xs-9 col-sm-6">
+          <div className="col-xs-9">
             <h1>
               <IndexLink to="/" onClick={logoHandler(props.routeName, props.home)}>FreeFeed</IndexLink>
               <sup title="Gamma">&gamma;</sup>
@@ -140,15 +141,13 @@ class Layout extends React.Component {
           </div>
 
           {props.authenticated ? (
-            <div className="col-xs-12 col-sm-6">
-              <div className="mobile-shortcuts">
-                <Link to="/filter/discussions">My discussions</Link>
-                <Link to="/filter/direct">Direct messages</Link>
-                <Link to={`/${props.user.username}`}>My feed</Link>
+            <div className="col-xs-3 text-right">
+              <div className="mobile-sidebar-toggle" onClick={() => props.toggleSidebar()}>
+                <i className="fa fa-bars" aria-hidden="true"></i>
               </div>
             </div>
           ) : (
-            <div className="col-xs-3 col-sm-6 text-right">
+            <div className="col-xs-3 text-right">
               <div className="signin-link">
                 <Link to="/signin">Sign In</Link>
               </div>
@@ -180,7 +179,8 @@ function select(state, ownProps) {
     loadingView: state.routeLoadingState,
     recentGroups: state.recentGroups,
     routeName: getCurrentRouteName(ownProps),
-    title: state.title
+    title: state.title,
+    sidebarViewState: state.sidebarViewState
   };
 }
 
@@ -188,6 +188,7 @@ function mapDispatchToProps(dispatch) {
   return {
     signOut: ()=>dispatch(unauthenticated()),
     home: ()=> dispatch(home()),
+    toggleSidebar: () => dispatch(toggleSidebar())
   };
 }
 

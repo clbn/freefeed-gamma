@@ -69,6 +69,8 @@ const enterStaticPage = title => () => {
 
 history.listen(_ => scrollTo(0, 0));
 
+history.listen(_ => store.dispatch(ActionCreators.toggleSidebar(false)));
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>

@@ -581,3 +581,10 @@ export function blockedByMe() {
     apiRequest: Api.getBlockedByMe
   };
 }
+
+export function toggleSidebar(val = null) {
+  return {
+    type: ActionTypes.TOGGLE_SIDEBAR,
+    payload: {val}
+  };
+}
