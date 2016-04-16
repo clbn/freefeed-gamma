@@ -162,11 +162,7 @@ class Layout extends React.Component {
           </div>
         </LoaderContainer>
 
-        <div className='row'>
-          <div className='col-md-12'>
-          <Footer/>
-          </div>
-        </div>
+        <Footer/>
       </div>
     );
   }
