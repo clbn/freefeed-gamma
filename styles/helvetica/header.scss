@@ -15,7 +15,13 @@ header {
       }
     }
 
-    sup {
+    .loading {
+      display: inline-block;
+      vertical-align: top;
+      line-height: 10px;
+    }
+
+    .gamma {
       color: #1d66bf;
       margin-left: 5px;
     }

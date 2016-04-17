@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {signUpChange, signUp, signUpEmpty} from '../redux/action-creators';
 import {preventDefault} from '../utils';
-import LoaderContainer from './loader-container';
 import {captcha as captchaConfig} from '../config';
 import Recaptcha from 'react-google-recaptcha';
 import validator from 'validator';
@@ -94,7 +93,6 @@ function Signup(props) {
                         </div>) : false}
         <div className='row'>
           <div className='col-md-6'>
-            <LoaderContainer loading={props.loading}>
               <form onSubmit={preventDefault(() => signUpFunc(props))} className='p-signin'>
                 <div className='form-group'>
                   <label htmlFor='username'>Username</label>
@@ -131,7 +129,6 @@ function Signup(props) {
                   <button className='btn btn-default p-signin-action' type='submit'>Sign up</button>
                 </div>
               </form>
-            </LoaderContainer>
           </div>
         </div>
       </div>

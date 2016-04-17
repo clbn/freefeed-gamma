@@ -7,16 +7,8 @@ import classnames from 'classnames';
 import {unauthenticated, home, toggleSidebar} from '../redux/action-creators';
 import Footer from './footer';
 import Sidebar from './sidebar';
-import LoaderContainer from './loader-container';
 import {getCurrentRouteName} from '../utils';
-
-const InternalLayout = ({authenticated, children}) => (
-  <div className={authenticated ? 'col-md-9' : 'col-md-12'}>
-    <div className='content'>
-      {children}
-    </div>
-  </div>
-);
+import throbber100 from 'assets/images/throbber.gif';
 
 const logoHandler = (routeName, cb) => _ => {
   if (routeName === 'home') {
@@ -135,7 +127,13 @@ class Layout extends React.Component {
           <div className="col-xs-9">
             <h1>
               <IndexLink to="/" onClick={logoHandler(props.routeName, props.home)}>FreeFeed</IndexLink>
-              <sup title="Gamma">&gamma;</sup>
+
+              {props.isLoading ? (
+                <span className="loading"><img src={throbber100} width="30" height="30"/></span>
+              ) : (
+                <sup className="gamma" title="Gamma">&gamma;</sup>
+              )}
+
               <div className="tagline">The Greek letter for the rest of us</div>
             </h1>
           </div>
@@ -155,12 +153,16 @@ class Layout extends React.Component {
           )}
         </header>
 
-        <LoaderContainer loading={props.loadingView} fullPage={true}>
-          <div className='row'>
-            <InternalLayout {...props}/>
-            {props.authenticated ? <Sidebar {...props}/> : false}
+        {props.authenticated ? (
+          <div className="row">
+            <div className="content col-md-9">{props.children}</div>
+            <Sidebar {...props}/>
           </div>
-        </LoaderContainer>
+        ) : (
+          <div className="row">
+            <div className="content col-md-12">{props.children}</div>
+          </div>
+        )}
 
         <Footer/>
       </div>
@@ -172,7 +174,7 @@ function select(state, ownProps) {
   return {
     user: state.user,
     authenticated: state.authenticated,
-    loadingView: state.routeLoadingState,
+    isLoading: state.routeLoadingState,
     recentGroups: state.recentGroups,
     routeName: getCurrentRouteName(ownProps),
     title: state.title,
