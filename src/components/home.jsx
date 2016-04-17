@@ -70,6 +70,7 @@ const FeedHandler = (props) => {
 };
 
 function selectState(state) {
+  const isLoading = state.routeLoadingState;
   const user = state.user;
   const authenticated = state.authenticated;
   const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
@@ -84,6 +85,7 @@ function selectState(state) {
   const groupRequestsCount = state.groupRequestsCount;
 
   return {
+    isLoading,
     user, authenticated,
     visibleEntries, hiddenEntries, isHiddenRevealed,
     createPostViewState, createPostForm,

@@ -1,4 +1,6 @@
 import React from 'react';
+
+import DummyPost from './dummy-post';
 import Post from './post';
 
 const HiddenEntriesToggle = (props) => {
@@ -58,6 +60,14 @@ export default (props) => {
 
   return (
     <div className="posts">
+      {props.isLoading ? (
+        <div>
+          <DummyPost/>
+          <DummyPost/>
+          <DummyPost/>
+        </div>
+      ) : false}
+
       {visibleEntries}
 
       {hiddenEntries.length > 0 ? (

@@ -181,7 +181,7 @@ const unhidePostInFeed = function(state, postId) {
 
 export function feedViewState(state = initFeed, action) {
   if (ActionHelpers.isFeedRequest(action)) {
-    return state;
+    return initFeed;
   }
   if (ActionHelpers.isFeedResponse(action)) {
     const visibleEntries = (action.payload.posts || []).filter(post => !post.isHidden).map(post => post.id);

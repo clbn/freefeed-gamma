@@ -37,6 +37,7 @@ const FeedHandler = (props) => {
 };
 
 function selectState(state) {
+  const isLoading = state.routeLoadingState;
   const user = state.user;
   const authenticated = state.authenticated;
   const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
@@ -46,7 +47,7 @@ function selectState(state) {
   const boxHeader = state.boxHeader;
   const sendTo = {...state.sendTo, defaultFeed: null};
 
-  return { user, authenticated, visibleEntries, createPostViewState, createPostForm, timelines, boxHeader, sendTo };
+  return { isLoading, user, authenticated, visibleEntries, createPostViewState, createPostForm, timelines, boxHeader, sendTo };
 }
 
 function selectActions(dispatch) {

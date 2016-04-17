@@ -28,7 +28,9 @@ const UserHandler = (props) => {
           removeAttachment={props.removeAttachment}/>
       </div>
 
-      <UserFeed {...props}/>
+      <UserFeed
+        {...props}
+        isLoading={props.viewUser.isLoading}/>
     </div>
   );
 };
