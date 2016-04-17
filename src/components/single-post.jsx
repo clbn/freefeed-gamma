@@ -1,13 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {joinPostData, postActions} from './select-utils';
 
+import {joinPostData, postActions} from './select-utils';
+import DummyPost from './dummy-post';
 import Post from './post';
 
 const SinglePostHandler = (props) => {
   let post = props.post;
 
   let postBody = <div></div>;
+
+  if (props.isLoading && !post) {
+    postBody = <DummyPost isSinglePost={true}/>;
+  }
 
   if (props.errorString) {
     postBody = <h2>{props.errorString}</h2>;
@@ -52,6 +57,7 @@ const SinglePostHandler = (props) => {
 };
 
 function selectState(state) {
+  const isLoading = state.routeLoadingState;
   const boxHeader = state.boxHeader;
   const user = state.user;
 
@@ -59,7 +65,7 @@ function selectState(state) {
   const viewState = state.postsViewState[state.singlePostId];
   const errorString = viewState && viewState.isError ? viewState.errorString : null;
 
-  return { post, user, boxHeader, errorString };
+  return { isLoading, post, user, boxHeader, errorString };
 }
 
 function selectActions(dispatch) {
