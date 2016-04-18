@@ -43,9 +43,10 @@ function selectState(state, ownProps) {
   const createPostForm = joinCreatePostData(state);
   const timelines = state.timelines;
   const boxHeader = state.boxHeader;
+  const requestedUsername = ownProps.params.userName;
   const foundUser = Object.getOwnPropertyNames(state.users)
     .map(key => state.users[key] || state.subscribers[key])
-    .filter(user => user.username === ownProps.params.userName)[0];
+    .filter(user => user.username === requestedUsername)[0];
 
   const amIGroupAdmin = (
     authenticated &&
@@ -60,6 +61,7 @@ function selectState(state, ownProps) {
   const statusExtension = {
     authenticated,
     isLoading: state.routeLoadingState,
+    requestedUsername,
     isUserFound: !!foundUser,
     isItMe: (foundUser ? foundUser.username === user.username : false),
     isItPostsPage,

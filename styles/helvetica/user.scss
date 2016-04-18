@@ -12,9 +12,17 @@
   .userpic {
     float: left;
 
+    width: 77px;
+    height: 77px;
+
     img {
       width: 75px;
       height: 75px;
+    }
+
+    &.loading {
+      border-color: #e4e4e4;
+      background-color: #f2f2f2;
     }
   }
 
@@ -27,6 +35,10 @@
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 3px;
+
+      &.loading {
+        color: #999;
+      }
     }
   }
 }

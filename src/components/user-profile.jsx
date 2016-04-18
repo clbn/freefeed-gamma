@@ -34,13 +34,24 @@ export default class UserProfile extends React.Component {
           <div className="profile">
             <div className="row">
               <div className="col-sm-9 col-xs-12">
-                <div className="userpic">
-                  <img src={props.profilePictureLargeUrl} width="75" height="75"/>
-                </div>
-                <div className="description">
-                  <div className="name">{props.screenName}</div>
-                  <PieceOfText text={props.description}/>
-                </div>
+                {props.isLoading && !props.profilePictureLargeUrl ? (
+                  <div className="userpic loading"></div>
+                ) : (
+                  <div className="userpic">
+                    <img src={props.profilePictureLargeUrl} width="75" height="75"/>
+                  </div>
+                )}
+
+                {props.isLoading && !props.screenName ? (
+                  <div className="description">
+                    <div className="name loading">{props.requestedUsername}</div>
+                  </div>
+                ) : (
+                  <div className="description">
+                    <div className="name">{props.screenName}</div>
+                    <PieceOfText text={props.description}/>
+                  </div>
+                )}
               </div>
               {props.statistics && !props.blocked ? (
                 <div className="col-sm-3 col-xs-12">
