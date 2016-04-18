@@ -37,26 +37,39 @@ class UserName extends React.Component {
       isHovered: false,
       isCardOpen: false
     };
+
+    this.timeoutIds = [];
   }
 
   enterUserName() {
     this.setState({isHovered: true});
 
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       if (this.state.isHovered) {
         this.setState({isCardOpen: true});
       }
+      this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
     }, 750);
+
+    this.timeoutIds.push(timeoutId);
   }
 
   leaveUserName() {
     this.setState({isHovered: false});
 
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       if (!this.state.isHovered) {
         this.setState({isCardOpen: false});
       }
+      this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
     }, 750);
+
+    this.timeoutIds.push(timeoutId);
+  }
+
+  componentWillUnmount() {
+    this.timeoutIds.forEach(clearTimeout);
+    this.timeoutIds = [];
   }
 
   render() {
