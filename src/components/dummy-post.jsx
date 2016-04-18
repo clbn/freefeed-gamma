@@ -61,6 +61,14 @@ export default (props) => {
   const hideLink = (Math.random() < 0.75 ? (<span>{' - '}<a>{dummyWord(4)}</a></span>) : false);
   const moreLink = (Math.random() < 0.75 ? (<span>{' - '}<a>{dummyWord(4)}</a></span>) : false);
 
+  const likes = (Math.random() < 0.75 ? (
+    <div className="likes">
+      <span className="likes-icon">{dummyWord(2) + ' '}</span>
+      <a>{dummyText(1, 3, 10, 3)}</a>
+      {' ' + dummyWord(4) + ' ' + dummyWord(3)}
+    </div>
+  ) : false);
+
   return (
     <div className={postClass}>
       <div className="userpic"></div>
@@ -83,6 +91,8 @@ export default (props) => {
           {hideLink}
           {moreLink}
         </div>
+
+        {likes}
       </div>
     </div>
   );
