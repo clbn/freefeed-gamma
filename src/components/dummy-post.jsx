@@ -34,9 +34,27 @@ export default (props) => {
     'dummy-post': true,
     'single-post': props.isSinglePost
   });
+
   const author = <a>{dummyWord(8, 4)}</a>;
   const recipients = (Math.random() < 0.5 ? (<span>{' ' + dummyWord(2) + ' '}<a>{dummyText(1, 2, 10, 3)}</a></span>) : false);
   const text = dummyText(3, 30, 5, 3);
+
+  const attachments = (Math.random() < 0.5 ? (
+    <div className="attachments">
+      <div className="image-attachments">
+        {Math.random() < 0.5 ? (
+          <div className={`attachment dummy-attachment-` + Math.floor(Math.random() * 3)}></div>
+        ) : false}
+        {Math.random() < 0.5 ? (
+          <div className={`attachment dummy-attachment-` + Math.floor(Math.random() * 3)}></div>
+        ) : false}
+        {Math.random() < 0.5 ? (
+          <div className={`attachment dummy-attachment-` + Math.floor(Math.random() * 3)}></div>
+        ) : false}
+      </div>
+    </div>
+  ) : false);
+
   const dateTime = dummyWord(10, 2);
   const commentLink = (Math.random() < 0.75 ? (<span>{' - '}<a>{dummyWord(7)}</a></span>) : false);
   const likeLink = (Math.random() < 0.75 ? (<span>{' - '}<a>{dummyWord(4)}</a></span>) : false);
@@ -55,6 +73,8 @@ export default (props) => {
         <div className="post-text">
           {text}
         </div>
+
+        {attachments}
 
         <div className="post-footer">
           {dateTime}

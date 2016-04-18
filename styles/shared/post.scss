@@ -234,6 +234,17 @@
       color: #ddd;
     }
 
+    .attachments .attachment {
+      border-color: #e4e4e4;
+      background-color: #f2f2f2;
+
+      height: 100px;
+
+      &.dummy-attachment-0 { width: 75px; }
+      &.dummy-attachment-1 { width: 100px; }
+      &.dummy-attachment-2 { width: 150px; }
+    }
+
     .post-footer a {
       color: #ced5f2;
     }
