@@ -49,9 +49,10 @@
       border: 1px solid silver;
       margin: 0 10px 0 0;
 
+      width: 77px;
+      height: 77px;
+
       &.loading {
-        width: 77px;
-        height: 77px;
         background-color: #f2f2f2;
       }
     }
