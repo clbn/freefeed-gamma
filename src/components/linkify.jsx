@@ -15,7 +15,7 @@ const finder = new URLFinder(
   config.siteDomains,
 );
 
-const arrowDetector = /(↑+|\^+)W?/g;
+const arrowDetector = /(↑+|\^+W?)/g;
 const defaultFunction = _ => _;
 const getArrowProps = ({hover = defaultFunction, leave= defaultFunction}={}, text) => ({
   className: 'reference-arrow',
@@ -72,7 +72,10 @@ class Linkify extends React.Component {
 
     const pieces = text.split(arrowDetector);
 
-    const resPieces = pieces.map(piece => {
+    const resPieces = pieces.map((piece) => {
+      if (piece === '^W') {
+        return piece;
+      }
       if (piece.match(arrowDetector)) {
         return this.createArrowElement(piece);
       }
