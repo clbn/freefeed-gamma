@@ -69,7 +69,28 @@
     font-style: italic;
   }
 
+  &:hover {
+    .reference-arrow {
+      cursor: pointer;
+
+      color: #333;
+      background-color: #eee;
+      border-radius: 2px;
+
+      padding: 1px 3px;
+      margin: -1px -3px;
+
+      &:hover {
+        background-color: #d9ebff;
+      }
+    }
+  }
+
   &.highlighted {
-    background-color: #D9EBFF;
+    background-color: #deedff;
+    border-radius: 3px;
+
+    padding: 4px 7px 5px 7px;
+    margin: 4px -7px -5px -7px;
   }
 }

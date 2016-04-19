@@ -18,7 +18,7 @@ const finder = new URLFinder(
 const arrowDetector = /(↑+|\^+)W?/g;
 const defaultFunction = _ => _;
 const getArrowProps = ({hover = defaultFunction, leave= defaultFunction}={}, text) => ({
-  className:'arrow-span',
+  className: 'reference-arrow',
   onMouseEnter: _ => hover(text.length),
   onMouseLeave: leave
 });
