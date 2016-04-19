@@ -80,7 +80,7 @@ class Linkify extends React.Component {
         return this.createArrowElement(piece);
       }
       return piece;
-    });
+    }).filter((piece) => (piece !== ''));
 
     return resPieces;
   }
