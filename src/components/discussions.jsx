@@ -7,7 +7,6 @@ import {getQuery, getCurrentRouteName} from '../utils';
 import CreatePost from './create-post';
 import Feed from './feed';
 import PaginatedView from './paginated-view';
-import Welcome from './welcome';
 
 const FeedHandler = (props) => {
   const createPostComponent = (
