@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {createPost, resetPostCreateForm, expandSendTo} from '../redux/action-creators';
 import {joinPostData, joinCreatePostData, postActions} from './select-utils';
-import {getQuery} from '../utils';
+import {getQuery, getCurrentRouteName} from '../utils';
 
 import CreatePost from './create-post';
 import Feed from './feed';
@@ -36,7 +36,7 @@ const FeedHandler = (props) => {
     </div>);
 };
 
-function selectState(state) {
+function selectState(state, ownProps) {
   const isLoading = state.routeLoadingState;
   const user = state.user;
   const authenticated = state.authenticated;
@@ -45,7 +45,9 @@ function selectState(state) {
   const createPostForm = joinCreatePostData(state);
   const timelines = state.timelines;
   const boxHeader = state.boxHeader;
-  const sendTo = {...state.sendTo, defaultFeed: null};
+
+  const defaultFeed = (getCurrentRouteName(ownProps) === 'discussions' ? user.username : null);
+  const sendTo = {...state.sendTo, defaultFeed};
 
   return { isLoading, user, authenticated, visibleEntries, createPostViewState, createPostForm, timelines, boxHeader, sendTo };
 }
