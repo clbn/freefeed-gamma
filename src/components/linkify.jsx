@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import URLFinder from 'ff-url-finder';
+
 import config from '../config';
 import UserName from './user-name';
 
@@ -13,14 +14,14 @@ const EMAIL = 'email';
 
 const finder = new URLFinder(
   ['ru', 'com', 'net', 'org', 'info', 'gov', 'edu', 'рф', 'ua'],
-  config.siteDomains,
+  config.siteDomains
 );
 
 const arrowDetector = /(↑+|\^+W?)/g;
 const defaultFunction = _ => _;
-const getArrowProps = ({hover = defaultFunction, leave= defaultFunction}={}, text) => ({
+const getArrowProps = ({hover = defaultFunction, leave = defaultFunction} = {}, text) => ({
   className: 'reference-arrow',
-  onMouseEnter: _ => hover(text.length),
+  onMouseEnter: () => hover(text.length),
   onMouseLeave: leave
 });
 
@@ -28,36 +29,25 @@ class Linkify extends React.Component {
   createLinkElement({type, username}, displayedLink, href) {
     let props = { key: `match${++this.idx}` };
 
-    if (type === AT_LINK) {
-      props['user'] = {username};
-      props['display'] = displayedLink;
-
-      if (this.userHover) {
-        props['onMouseEnter'] = () => this.userHover.hover(username);
-        props['onMouseLeave'] = this.userHover.leave;
+    switch (type) {
+      case AT_LINK: {
+        props['user'] = {username};
+        props['display'] = displayedLink;
+        if (this.userHover) {
+          props['onMouseEnter'] = () => this.userHover.hover(username);
+          props['onMouseLeave'] = this.userHover.leave;
+        }
+        return React.createElement(UserName, props);
       }
-
-      return React.createElement(
-        UserName,
-        props
-      );
-    } else if (type === LOCAL_LINK) {
-      props['to'] = href;
-
-      return React.createElement(
-        Link,
-        props,
-        displayedLink
-      );
-    } else {
-      props['href'] = href;
-      props['target'] = '_blank';
-
-      return React.createElement(
-        'a',
-        props,
-        displayedLink
-      );
+      case LOCAL_LINK: {
+        props['to'] = href;
+        return React.createElement(Link, props, displayedLink);
+      }
+      default: {
+        props['href'] = href;
+        props['target'] = '_blank';
+        return React.createElement('a', props, displayedLink);
+      }
     }
   }
 
@@ -72,8 +62,8 @@ class Linkify extends React.Component {
     );
   }
 
-  parseCounter = 0
-  idx = 0
+  parseCounter = 0;
+  idx = 0;
 
   parseArrows(text) {
     if (!this.props.arrowHover) {
@@ -134,7 +124,7 @@ class Linkify extends React.Component {
       return (elements.length === 1) ? elements[0] : elements;
     }
     catch (err) {
-      console.log('Error while liknifying text', string, err);
+      console.log('Error while linkifying text', string, err);
     }
     return [string];
   }
@@ -165,7 +155,7 @@ class Linkify extends React.Component {
     this.arrowHover = this.props.arrowHover;
     const parsedChildren = this.parse(this.props.children);
 
-    return <span className='Linkify'>{parsedChildren}</span>;
+    return <span className="Linkify">{parsedChildren}</span>;
   }
 }
 
