@@ -1107,6 +1107,19 @@ export function users(state = {}, action) {
   return state;
 }
 
+export function userErrors(state = {}, action) {
+  switch (action.type) {
+    case fail(ActionTypes.GET_USER_INFO): {
+      const username = action.request.username;
+      const status = action.response.status + ' ' + action.response.statusText;
+      return {...state,
+        [username]: status
+      };
+    }
+  }
+  return state;
+}
+
 export function subscribers(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
     return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
