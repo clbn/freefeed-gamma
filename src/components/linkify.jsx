@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import URLFinder from 'ff-url-finder';
 import config from '../config';
+import UserName from './user-name';
 
 const MAX_URL_LENGTH = 50;
 
@@ -27,12 +28,21 @@ class Linkify extends React.Component {
   createLinkElement({type, username}, displayedLink, href) {
     let props = { key: `match${++this.idx}` };
 
-    if (type == AT_LINK || type == LOCAL_LINK) {
-      props['to'] = href;
-      if (type == AT_LINK && this.userHover) {
-        props['onMouseEnter'] = _ => this.userHover.hover(username);
+    if (type === AT_LINK) {
+      props['user'] = {username};
+      props['display'] = displayedLink;
+
+      if (this.userHover) {
+        props['onMouseEnter'] = () => this.userHover.hover(username);
         props['onMouseLeave'] = this.userHover.leave;
-      };
+      }
+
+      return React.createElement(
+        UserName,
+        props
+      );
+    } else if (type === LOCAL_LINK) {
+      props['to'] = href;
 
       return React.createElement(
         Link,
