@@ -15,6 +15,9 @@ const config = {
     siteKey: '',
     sentinel: null // keep always last
   },
+  googleAnalytics: {
+    trackingId: 'UA-12345678-0'
+  },
   siteDomains: [ // for transform links in the posts, comments, etc.
     'freefeed.net',
     'm.freefeed.net',
