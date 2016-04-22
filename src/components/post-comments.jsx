@@ -60,13 +60,12 @@ export default (props) => {
     }
 
     const text = (props.post.newCommentText || '');
-    const check = new RegExp(`@${username}$`);
+    const check = new RegExp(`@${username}\\s*$`);
 
     if (!text.match(check)) {
       const addSpace = text.length && !text.match(/\s$/);
-      props.updateCommentingText(props.post.id, `${text}${addSpace ? ' ' : ''}@${username}`);
-    };
-
+      props.updateCommentingText(props.post.id, `${text}${addSpace ? ' ' : ''}@${username} `);
+    }
   };
 
   const commentMapper = renderComment(entryUrl, openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
