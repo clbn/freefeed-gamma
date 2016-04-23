@@ -3,7 +3,7 @@ import Textarea from 'react-textarea-autosize';
 
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
-import {preventDefault, confirmFirst, fromNowOrNow} from '../utils';
+import {preventDefault, confirmFirst, fromNowOrNow, getFullDate} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 export default class PostComment extends React.Component {
@@ -78,7 +78,7 @@ export default class PostComment extends React.Component {
   }
 
   render() {
-    const createdAgo = fromNowOrNow(+this.props.createdAt);
+    const createdAgo = fromNowOrNow(+this.props.createdAt) + '\n' + getFullDate(+this.props.createdAt);
 
     return (
     <div className={`comment ${this.props.highlighted ? 'highlighted' : ''}`}>
