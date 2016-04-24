@@ -138,19 +138,17 @@ class Layout extends React.Component {
             </h1>
           </div>
 
-          {props.authenticated ? (
-            <div className="col-xs-3 text-right">
+          <div className="col-xs-3 text-right">
+            {props.authenticated ? (
               <div className="mobile-sidebar-toggle" onClick={() => props.toggleSidebar()}>
                 <i className="fa fa-bars" aria-hidden="true"></i>
               </div>
-            </div>
-          ) : (
-            <div className="col-xs-3 text-right">
+            ) : (
               <div className="signin-link">
                 <Link to="/signin">Sign In</Link>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </header>
 
         {props.authenticated ? (
