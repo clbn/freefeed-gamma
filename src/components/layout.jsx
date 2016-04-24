@@ -115,6 +115,7 @@ class Layout extends React.Component {
 
     let layoutClassNames = classnames({
       'container': true,
+      'unauthenticated': !props.authenticated,
       'dragover': this.state.isDragOver,
       'mobile-sidebar-open': props.sidebarViewState.isOpen
     });

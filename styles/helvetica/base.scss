@@ -31,6 +31,12 @@ div.jsonly>p {
   }
 }
 
+@media (min-width: 992px) {
+  .container.unauthenticated {
+    width: 750px !important;
+  }
+}
+
 a, a:hover, a:focus {
   cursor: pointer;
   color: #000088;
