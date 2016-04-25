@@ -26,7 +26,7 @@ export default (props) => {
     return <div/>;
   }
 
-  const likeList = props.likes;
+  const likeList = [...props.likes];
 
   if (props.post.omittedLikes) {
     likeList.push({
