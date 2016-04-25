@@ -21,18 +21,18 @@ const renderLike = (item, i, items) => (
   </li>
 );
 
-export default ({likes, showMoreLikes, post}) => {
-  if (!likes.length) {
+export default (props) => {
+  if (!props.likes.length) {
     return <div/>;
   }
 
-  const likeList = likes;
+  const likeList = props.likes;
 
-  if (post.omittedLikes) {
+  if (props.post.omittedLikes) {
     likeList.push({
       id: 'more-likes',
-      omittedLikes: post.omittedLikes,
-      showMoreLikes: () => showMoreLikes(post.id)
+      omittedLikes: props.post.omittedLikes,
+      showMoreLikes: () => props.showMoreLikes(props.post.id)
     });
   }
 
