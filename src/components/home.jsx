@@ -36,10 +36,14 @@ const FeedHandler = (props) => {
   return (
     <div className="box">
       <div className="box-header-timeline">
-        {props.boxHeader}
+        {props.boxHeader.title}
 
         <div className="pull-right">
           {props.areOnFirstHomePage && props.authenticated ? <RealtimeSwitch/> : false}
+
+          {props.boxHeader.page > 1 ? (
+            <span className="subheader">Page {props.boxHeader.page}</span>
+          ) : false}
         </div>
       </div>
 

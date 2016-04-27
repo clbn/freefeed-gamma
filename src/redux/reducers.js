@@ -1373,22 +1373,24 @@ export function routeLoadingState(state = false, action) {
   return state;
 }
 
+const getPageByOffset = (offset) => (offset ? Math.floor(offset / 30 + 1) : 1);
+
 export function boxHeader(state = "", action) {
   switch (action.type) {
     case request(ActionTypes.HOME): {
-      return 'Home';
+      return {title: 'Home', page: getPageByOffset(action.payload.offset)};
     }
     case request(ActionTypes.DISCUSSIONS): {
-      return 'My discussions';
+      return {title: 'My discussions', page: getPageByOffset(action.payload.offset)};
     }
     case request(ActionTypes.DIRECT): {
-      return 'Direct messages';
+      return {title: 'Direct messages', page: getPageByOffset(action.payload.offset)};
     }
     case request(ActionTypes.GET_USER_FEED): {
-      return '';
+      return {};
     }
     case request(ActionTypes.GET_SINGLE_POST): {
-      return '';
+      return {};
     }
   }
   return state;

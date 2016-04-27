@@ -25,7 +25,13 @@ const FeedHandler = (props) => {
   return (
     <div className="box">
       <div className="box-header-timeline">
-        {props.boxHeader}
+        {props.boxHeader.title}
+
+        {props.boxHeader.page > 1 ? (
+          <div className="pull-right">
+            <span className="subheader">Page {props.boxHeader.page}</span>
+          </div>
+        ) : false}
       </div>
 
       <PaginatedView firstPageHead={createPostComponent} {...props}>
