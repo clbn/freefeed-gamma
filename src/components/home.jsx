@@ -34,10 +34,11 @@ const FeedHandler = (props) => {
   const bothRequestsDisplayed = userRequestsCount > 0 && groupRequestsCount > 0;
 
   return (
-    <div className='box'>
-      <div className='box-header-timeline'>
+    <div className="box">
+      <div className="box-header-timeline">
         {props.boxHeader}
-        <div className='pull-right'>
+
+        <div className="pull-right">
           {props.areOnFirstHomePage && props.authenticated ? <RealtimeSwitch/> : false}
         </div>
       </div>
@@ -64,8 +65,6 @@ const FeedHandler = (props) => {
       ) : (
         <Welcome/>
       )}
-      <div className='box-footer'>
-      </div>
     </div>);
 };
 
