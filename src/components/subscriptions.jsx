@@ -9,7 +9,7 @@ const SubscriptionsHandler = (props) => {
   return (
     <div className='box'>
       <div className='box-header-timeline'>
-        {props.boxHeader}
+        {props.boxHeader.title}
       </div>
       <div className='box-body'>
         <div><Link to={`/${props.username}`}>{props.username}</Link> › Subscriptions</div>

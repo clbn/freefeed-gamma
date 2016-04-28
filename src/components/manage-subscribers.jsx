@@ -20,7 +20,7 @@ const ManageSubscribersHandler = (props) => {
   return (
     <div className="box">
       <div className="box-header-timeline">
-        {props.boxHeader}
+        {props.boxHeader.title}
       </div>
       <div className="box-body">
         <div className="row">
