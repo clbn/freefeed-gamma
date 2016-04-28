@@ -895,6 +895,9 @@ export function posts(state = {}, action) {
     }
     case ActionTypes.REALTIME_POST_UPDATE: {
       const post = state[action.post.id];
+      if (!post) {
+        return state;
+      }
       return {...state,
         [post.id]: {...post,
           body: action.post.body,
