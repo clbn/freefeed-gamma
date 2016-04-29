@@ -178,6 +178,8 @@ module.exports = [{
       'process.env.NODE_ENV': opts.dev ? '"development"' : '"production"'
     }),
 
+    new webpack.IgnorePlugin(/react\/addons/),
+
     new PathRewriter({
       includeHash: opts.livereload,
       emitStats: false,
