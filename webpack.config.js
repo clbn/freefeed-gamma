@@ -1,10 +1,12 @@
-var path = require('path'),
-    webpack = require('webpack'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    PathRewriter = require('webpack-path-rewriter'),
-    TapWebpackPlugin = require('tap-webpack-plugin')
+var path = require('path');
+var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var PathRewriter = require('webpack-path-rewriter');
+var TapWebpackPlugin = require('tap-webpack-plugin');
 
-var env = process.env, opts = {
+var env = process.env;
+
+var opts = {
   dstDir: env.DST_DIR || path.join(__dirname, '_dist'),
   dev: strToBool(env.DEV, true),
   livereload: strToBool(env.LIVERELOAD, false),
@@ -12,17 +14,17 @@ var env = process.env, opts = {
   hash: strToBool(env.HASH, false),
   uglify: strToBool(env.UGLIFY, false),
   port: env.PORT || '8080'
-}
+};
 
 var cssCommonExtractor = new ExtractTextPlugin(
   opts.hash ? 'common-[contenthash].css' : 'common-dev.css',
   { allChunks: true }
-)
+);
 
 var cssAppExtractor = new ExtractTextPlugin(
   opts.hash ? 'app-[contenthash].css' : 'app-dev.css',
   { allChunks: true }
-)
+);
 
 module.exports = [{
   entry: {
@@ -109,7 +111,7 @@ module.exports = [{
 //test build config
 {
   entry: {
-    test: './test',
+    test: './test'
   },
   output: {
     path: opts.dstDir,
@@ -126,7 +128,7 @@ module.exports = [{
   },
   target: 'node',
   node: {
-    fs: 'empty',
+    fs: 'empty'
   },
   devtool: 'inline-source-map',
   debug: opts.dev,
@@ -188,33 +190,29 @@ module.exports = [{
 
     new TapWebpackPlugin(),
   ])
-},
-]
-
+}];
 
 function styleLoader(loader, extractor) {
   return opts.hot
     ? addSourceMapArg('style!' + loader)
-    : extractor.extract(addSourceMapArg(loader))
+    : extractor.extract(addSourceMapArg(loader));
 }
-
 
 function addSourceMapArg(loader) {
   return loader
     .split('!')
-    .map(function(l) { return l.indexOf('?') == -1 ? l + '?sourceMap' : l + '&sourceMap' })
-    .join('!')
+    .map(function(l) { return l.indexOf('?') == -1 ? l + '?sourceMap' : l + '&sourceMap'; })
+    .join('!');
 }
-
 
 function strToBool(val, def) {
-  if (val === undefined)
-    return def
-  val = val.toLowerCase()
-  return val === '1' || val === 'true' || val === 'yes' || val === 'y'
+  if (val === undefined) {
+    return def;
+  }
+  val = val.toLowerCase();
+  return val === '1' || val === 'true' || val === 'yes' || val === 'y';
 }
 
-
 function skipFalsy(array) {
-  return array.filter(function(item) { return !!item })
+  return array.filter(function(item) { return !!item; });
 }
