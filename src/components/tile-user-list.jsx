@@ -11,7 +11,7 @@ const renderUsers = (type) => (user) => {
     <li key={user.id}>
       <div className="userpic">
         <Link to={`/${user.username}`}>
-          <img src={user.profilePictureUrl}/>
+          <img src={user.profilePictureUrl} width="50" height="50"/>
         </Link>
       </div>
 
