@@ -56,6 +56,14 @@ export default class UserProfile extends React.Component {
               {props.statistics && !props.blocked ? (
                 <div className="col-sm-3 col-xs-12">
                   <div className="profile-stats">
+                    <div className="profile-stats-item">
+                      {props.canISeeSubsList ? (
+                        <Link to={`/${props.username}/subscribers`}>{pluralForm(props.statistics.subscribers, 'subscriber')}</Link>
+                      ) : (
+                        pluralForm(props.statistics.subscribers, 'subscriber')
+                      )}
+                    </div>
+                    {' '}
                     {props.type !== 'group' ? (
                       <div className="profile-stats-item">
                         {props.canISeeSubsList ? (
@@ -65,14 +73,6 @@ export default class UserProfile extends React.Component {
                         )}
                       </div>
                     ) : false}
-                    {' '}
-                    <div className="profile-stats-item">
-                      {props.canISeeSubsList ? (
-                        <Link to={`/${props.username}/subscribers`}>{pluralForm(props.statistics.subscribers, 'subscriber')}</Link>
-                      ) : (
-                        pluralForm(props.statistics.subscribers, 'subscriber')
-                      )}
-                    </div>
                     {' '}
                     {props.type !== 'group' ? (
                       <div className="profile-stats-item">
