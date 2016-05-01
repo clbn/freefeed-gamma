@@ -56,7 +56,7 @@ export default class UserProfile extends React.Component {
               {props.statistics && !props.blocked ? (
                 <div className="col-sm-3 col-xs-12">
                   <div className="profile-stats">
-                    {props.type !== 'group' && props.statistics.subscriptions >= 0 ? (
+                    {props.type !== 'group' ? (
                       <div className="profile-stats-item">
                         {props.canISeeSubsList ? (
                           <Link to={`/${props.username}/subscriptions`}>{pluralForm(props.statistics.subscriptions, 'subscription')}</Link>
@@ -66,23 +66,21 @@ export default class UserProfile extends React.Component {
                       </div>
                     ) : false}
                     {' '}
-                    {props.statistics.subscribers >= 0 ? (
-                      <div className="profile-stats-item">
-                        {props.canISeeSubsList ? (
-                          <Link to={`/${props.username}/subscribers`}>{pluralForm(props.statistics.subscribers, 'subscriber')}</Link>
-                        ) : (
-                          pluralForm(props.statistics.subscribers, 'subscriber')
-                        )}
-                      </div>
-                    ) : false}
+                    <div className="profile-stats-item">
+                      {props.canISeeSubsList ? (
+                        <Link to={`/${props.username}/subscribers`}>{pluralForm(props.statistics.subscribers, 'subscriber')}</Link>
+                      ) : (
+                        pluralForm(props.statistics.subscribers, 'subscriber')
+                      )}
+                    </div>
                     {' '}
-                    {props.type !== 'group' && props.statistics.comments >= 0 ? (
+                    {props.type !== 'group' ? (
                       <div className="profile-stats-item">
                         <Link to={`/${props.username}/comments`}>{pluralForm(props.statistics.comments, 'comment')}</Link>
                       </div>
                     ) : false}
                     {' '}
-                    {props.type !== 'group' && props.statistics.likes >= 0 ? (
+                    {props.type !== 'group' ? (
                       <div className="profile-stats-item">
                         <Link to={`/${props.username}/likes`}>{pluralForm(props.statistics.likes, 'like')}</Link>
                       </div>
