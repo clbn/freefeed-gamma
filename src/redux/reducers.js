@@ -1062,12 +1062,19 @@ export function users(state = {}, action) {
   switch (action.type) {
     case response(ActionTypes.WHO_AM_I):
     case response(ActionTypes.GET_USER_INFO): {
+      // Add some users from "admins"
+      const state2 = mergeByIds(state, (action.payload.admins || []).map(userParser));
+
+      // Add target user
       let userId = action.payload.users.id;
       let oldUser = state[userId] || {};
       let newUser = userParser(action.payload.users);
-      return {...state,
+      return {...state2,
         [userId]: {...oldUser, ...newUser}
       };
+    }
+    case response(ActionTypes.SUBSCRIBERS): {
+      return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
     }
     case response(ActionTypes.CREATE_GROUP): {
       let userId = action.payload.groups.id;
