@@ -69,7 +69,12 @@ function selectState(state, ownProps) {
   const boxHeader = state.boxHeader;
   const groupName = ownProps.params.userName;
   const user = state.user;
-  const groupAdmins = state.groupAdmins;
+
+  const foundGroup = _.find(state.users, {username: groupName}) || {};
+  const groupAdmins = (foundGroup && foundGroup.administrators
+    ? (foundGroup.administrators.map((userId) => state.users[userId]))
+    : []);
+
   const usersWhoAreNotAdmins = _.filter(state.usernameSubscribers.payload, user => {
     return groupAdmins.find(u => u.username == user.username) == null;
   });

@@ -1091,6 +1091,24 @@ export function users(state = {}, action) {
         [userId]: {...oldUser, ...newUser}
       };
     }
+    case response(ActionTypes.MAKE_GROUP_ADMIN): {
+      const group = _.find(state || [], {username: action.request.groupName});
+      const newAdmins = [...group.administrators, action.request.user.id];
+      return {...state,
+        [group.id]: {...group,
+          administrators: newAdmins
+        }
+      };
+    }
+    case response(ActionTypes.UNADMIN_GROUP_ADMIN): {
+      const group = _.find(state || [], {username: action.request.groupName});
+      const newAdmins = _.without(group.administrators, action.request.user.id);
+      return {...state,
+        [group.id]: {...group,
+          administrators: newAdmins
+        }
+      };
+    }
     case response(ActionTypes.SHOW_MORE_COMMENTS):
     case response(ActionTypes.SHOW_MORE_LIKES_ASYNC):
     case response(ActionTypes.GET_SINGLE_POST): {
@@ -1800,24 +1818,6 @@ export function frontendRealtimePreferencesForm(state=initialRealtimeSettings, a
       return {...state, status: 'error', errorMessage: (action.payload || {}).err};
     }
   }
-  return state;
-}
-
-export function groupAdmins(state = [], action) {
-  switch (action.type) {
-    case response(ActionTypes.GET_USER_INFO): {
-      return (action.payload.admins || []).map(userParser);
-    }
-    case response(ActionTypes.MAKE_GROUP_ADMIN): {
-      const user = action.request.user;
-      return [...state, user].map(userParser);
-    }
-    case response(ActionTypes.UNADMIN_GROUP_ADMIN): {
-      const user = action.request.user;
-      return state.filter((u) => u.username !== user.username);
-    }
-  }
-
   return state;
 }
 
