@@ -535,19 +535,19 @@ export function unsubscribeFromGroup(groupName, userName) {
   };
 }
 
-export function makeGroupAdmin(groupName, user) {
+export function promoteGroupAdmin(groupName, user) {
   return {
-    type: ActionTypes.MAKE_GROUP_ADMIN,
+    type: ActionTypes.PROMOTE_GROUP_ADMIN,
     payload: {groupName, user},
-    apiRequest: Api.makeGroupAdmin
+    apiRequest: Api.promoteGroupAdmin
   };
 }
 
-export function unadminGroupAdmin(groupName, user, isItMe) {
+export function demoteGroupAdmin(groupName, user, isItMe) {
   return {
-    type: ActionTypes.UNADMIN_GROUP_ADMIN,
+    type: ActionTypes.DEMOTE_GROUP_ADMIN,
     payload: {groupName, user, isItMe},
-    apiRequest: Api.unadminGroupAdmin
+    apiRequest: Api.demoteGroupAdmin
   };
 }
 

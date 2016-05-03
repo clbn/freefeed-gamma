@@ -414,7 +414,7 @@ export function unsubscribeFromGroup({groupName, userName}) {
   });
 }
 
-export function makeGroupAdmin({groupName, user}) {
+export function promoteGroupAdmin({groupName, user}) {
   return fetch(`${apiConfig.host}/v1/groups/${groupName}/subscribers/${user.username}/admin`, {
     'method': 'POST',
     'headers': {
@@ -425,7 +425,7 @@ export function makeGroupAdmin({groupName, user}) {
   });
 }
 
-export function unadminGroupAdmin({groupName, user}) {
+export function demoteGroupAdmin({groupName, user}) {
   return fetch(`${apiConfig.host}/v1/groups/${groupName}/subscribers/${user.username}/unadmin`, {
     'method': 'POST',
     'headers': {

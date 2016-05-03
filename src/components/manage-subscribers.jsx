@@ -2,8 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {Link} from 'react-router';
-import {unsubscribeFromGroup, makeGroupAdmin,
-        unadminGroupAdmin} from '../redux/action-creators';
+import {unsubscribeFromGroup, promoteGroupAdmin, demoteGroupAdmin} from '../redux/action-creators';
 
 import {tileUserListFactory, WITH_REMOVE_AND_MAKE_ADMIN_HANDLES, WITH_REMOVE_ADMIN_RIGHTS} from './tile-user-list';
 const SubsList = tileUserListFactory({type: WITH_REMOVE_AND_MAKE_ADMIN_HANDLES});
@@ -11,10 +10,10 @@ const AdminsList = tileUserListFactory({type: WITH_REMOVE_ADMIN_RIGHTS});
 
 const ManageSubscribersHandler = (props) => {
   const remove = (username) => props.unsubscribeFromGroup(props.groupName, username);
-  const makeAdmin = (user) => props.makeGroupAdmin(props.groupName, user);
+  const makeAdmin = (user) => props.promoteGroupAdmin(props.groupName, user);
   const removeAdminRights = (user) => {
     const isItMe = props.user.id === user.id;
-    props.unadminGroupAdmin(props.groupName, user, isItMe);
+    props.demoteGroupAdmin(props.groupName, user, isItMe);
   };
 
   return (
@@ -91,8 +90,8 @@ function selectState(state, ownProps) {
 function selectActions(dispatch) {
   return {
     unsubscribeFromGroup: (...args) => dispatch(unsubscribeFromGroup(...args)),
-    makeGroupAdmin: (...args) => dispatch(makeGroupAdmin(...args)),
-    unadminGroupAdmin: (...args) => dispatch(unadminGroupAdmin(...args))
+    promoteGroupAdmin: (...args) => dispatch(promoteGroupAdmin(...args)),
+    demoteGroupAdmin: (...args) => dispatch(demoteGroupAdmin(...args))
   };
 }
 

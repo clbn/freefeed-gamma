@@ -108,7 +108,7 @@ export const redirectionMiddleware = store => next => action => {
     return browserHistory.push('/');
   }
 
-  if (action.type === response(ActionTypes.UNADMIN_GROUP_ADMIN) &&
+  if (action.type === response(ActionTypes.DEMOTE_GROUP_ADMIN) &&
       store.getState().user.id === action.request.user.id) {
     browserHistory.push(`/${action.request.groupName}/subscribers`);
   }

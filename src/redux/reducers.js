@@ -1091,7 +1091,7 @@ export function users(state = {}, action) {
         [userId]: {...oldUser, ...newUser}
       };
     }
-    case response(ActionTypes.MAKE_GROUP_ADMIN): {
+    case response(ActionTypes.PROMOTE_GROUP_ADMIN): {
       const group = _.find(state || [], {username: action.request.groupName});
       const newAdmins = [...group.administrators, action.request.user.id];
       return {...state,
@@ -1100,7 +1100,7 @@ export function users(state = {}, action) {
         }
       };
     }
-    case response(ActionTypes.UNADMIN_GROUP_ADMIN): {
+    case response(ActionTypes.DEMOTE_GROUP_ADMIN): {
       const group = _.find(state || [], {username: action.request.groupName});
       const newAdmins = _.without(group.administrators, action.request.user.id);
       return {...state,
@@ -1698,7 +1698,7 @@ export function managedGroups(state = [], action) {
     case response(ActionTypes.REJECT_GROUP_REQUEST): {
       return removeItemFromGroupRequests(state, action);
     }
-    case response(ActionTypes.UNADMIN_GROUP_ADMIN): {
+    case response(ActionTypes.DEMOTE_GROUP_ADMIN): {
       if (action.request.isItMe) {
         return state.filter(group => group.username !== action.request.groupName);
       }
