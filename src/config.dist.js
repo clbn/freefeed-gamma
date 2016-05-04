@@ -2,18 +2,15 @@ import * as FrontendPrefsOptions from './utils/frontend-preferences-options';
 
 const config = {
   api:{
-    host: 'http://localhost:3000',
-    sentinel: null // keep always last
+    host: 'http://localhost:3000'
   },
   auth: {
     cookieDomain: 'localhost',
     tokenPrefix: 'freefeed_',
-    userStorageKey: 'USER_KEY',
-    sentinel: null // keep always last
+    userStorageKey: 'USER_KEY'
   },
   captcha: {
-    siteKey: '',
-    sentinel: null // keep always last
+    siteKey: ''
   },
   googleAnalytics: {
     trackingId: 'UA-12345678-0'
