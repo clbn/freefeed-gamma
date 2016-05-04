@@ -35,7 +35,7 @@ const renderUsers = (type) => (user) => {
 
       {type == WITH_REMOVE_ADMIN_RIGHTS ? (
         <div className="user-actions">
-          <a onClick={() => user.removeAdminRights(user)} title="Demote user from admin">Demote</a>
+          <a onClick={confirmFirst(() => user.removeAdminRights(user))} title="Demote user from admin">Demote</a>
         </div>
       ) : false}
 
