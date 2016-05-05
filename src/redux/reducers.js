@@ -434,12 +434,15 @@ export function postsViewState(state = {}, action) {
       if (!action.postId) {
         return state;
       }
-      const postsViewState = state[action.postId];
+      const post = state[action.postId];
+      if (!post) {
+        return state;
+      }
       return {
         ...state,
         [action.postId] : {
-          ...postsViewState,
-          omittedComments: (postsViewState.omittedComments ? postsViewState.omittedComments - 1 : 0)
+          ...post,
+          omittedComments: (post.omittedComments ? post.omittedComments - 1 : 0)
         }
       };
     }
@@ -769,9 +772,10 @@ export function posts(state = {}, action) {
       if (!action.postId) {
         return state;
       }
-
       const post = state[action.postId];
-
+      if (!post) {
+        return state;
+      }
       return {...state, [action.postId] : {
         ...post,
         comments: _.without(post.comments, action.commentId),
