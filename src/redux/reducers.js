@@ -1052,6 +1052,21 @@ export function commentViewState(state={}, action) {
         }
       };
     }
+    case ActionTypes.REALTIME_COMMENT_NEW:
+    case ActionTypes.REALTIME_COMMENT_UPDATE: {
+      return {...state,
+        [action.comment.id]: {
+          id: action.comment.id,
+          isEditing: false,
+          editText: action.comment.body
+        }
+      };
+    }
+    case ActionTypes.REALTIME_COMMENT_DESTROY: {
+      return {...state,
+        [action.commentId]: undefined
+      };
+    }
     case ActionTypes.UNAUTHENTICATED: {
       return {};
     }
