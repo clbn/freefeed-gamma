@@ -1,10 +1,10 @@
-import * as ActionTypes from './action-types';
-import * as ActionHelpers from './action-helpers';
+import * as ActionTypes from '../action-types';
+import * as ActionHelpers from '../action-helpers';
 const {request, response, fail} = ActionHelpers;
 
 import _ from 'lodash';
-import {userParser, postParser} from '../utils';
-import {frontendPreferences as frontendPrefsConfig} from '../config';
+import {userParser, postParser} from '../../utils';
+import {frontendPreferences as frontendPrefsConfig} from '../../config';
 
 export function title(state = '', action) {
   switch (action.type) {
@@ -1184,7 +1184,7 @@ export function subscribers(state = {}, action) {
   return state;
 }
 
-import {getToken, getPersistedUser} from '../services/auth';
+import {getToken, getPersistedUser} from '../../services/auth';
 
 export function authenticated(state = !!getToken(), action) {
   switch (action.type) {
