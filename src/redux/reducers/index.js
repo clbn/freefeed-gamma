@@ -686,27 +686,6 @@ export function postsViewState(state = {}, action) {
   return state;
 }
 
-export function attachments(state = {}, action) {
-  if (ActionHelpers.isFeedResponse(action)) {
-    return mergeByIds(state, action.payload.attachments);
-  }
-  switch (action.type) {
-    case response(ActionTypes.GET_SINGLE_POST): {
-      return mergeByIds(state, action.payload.attachments);
-    }
-    case ActionTypes.REALTIME_POST_NEW:
-    case ActionTypes.REALTIME_POST_UPDATE: {
-      return mergeByIds(state, action.attachments);
-    }
-    case ActionTypes.ADD_ATTACHMENT_RESPONSE: {
-      return {...state,
-        [action.payload.attachments.id]: action.payload.attachments
-      };
-    }
-  }
-  return state;
-}
-
 const COMMENT_SAVE_ERROR = 'Something went wrong while saving comment';
 
 function updateCommentViewState(state, action) {
@@ -1495,11 +1474,13 @@ export function sidebarViewState(state={}, action) {
   return state;
 }
 
+import attachments from './attachments';
 import comments from './comments';
 import posts from './posts';
 import users from './users';
 
 export {
+  attachments,
   comments,
   posts,
   users
