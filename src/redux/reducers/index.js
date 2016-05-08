@@ -267,80 +267,6 @@ const mergeByIds = (state, array) => ({...state, ...indexById(array)});
 
 const COMMENT_SAVE_ERROR = 'Something went wrong while saving comment';
 
-function updateCommentViewState(state, action) {
-  const comments = action.payload.comments || [];
-  const commentsViewState = comments.map(comment => ({
-    id: comment.id,
-    isEditing: false,
-    editText: comment.body
-  }));
-  const viewStateMap = indexById(commentsViewState);
-  return {...viewStateMap, ...state};
-}
-
-export function commentViewState(state={}, action) {
-  if (ActionHelpers.isFeedResponse(action)) {
-    return updateCommentViewState(state, action);
-  }
-  switch (action.type) {
-    case response(ActionTypes.SHOW_MORE_COMMENTS): {
-      return updateCommentViewState(state, action);
-    }
-    case response(ActionTypes.GET_SINGLE_POST): {
-      return updateCommentViewState(state, action);
-    }
-    case ActionTypes.TOGGLE_EDITING_COMMENT: {
-      return {
-        ...state,
-        [action.commentId]: {
-          ...state[action.commentId],
-          isEditing: !state[action.commentId].isEditing
-        }
-      };
-    }
-    case request(ActionTypes.SAVE_EDITING_COMMENT): {
-      return {...state, [action.payload.commentId]: {...state[action.payload.commentId], editText: action.payload.newCommentBody, isSaving: true}};
-    }
-    case response(ActionTypes.SAVE_EDITING_COMMENT): {
-      return {...state, [action.payload.comments.id]: {...state[action.payload.comments.id], isEditing: false, isSaving: false, editText: action.payload.comments.body, ...NO_ERROR}};
-    }
-    case fail(ActionTypes.SAVE_EDITING_COMMENT): {
-      return {...state, [action.payload.comments.id]: {...state[action.payload.comments.id], isEditing: true, isSaving: false, errorString: COMMENT_SAVE_ERROR}};
-    }
-    case response(ActionTypes.DELETE_COMMENT): {
-      return {...state, [action.request.commentId] : undefined};
-    }
-    case response(ActionTypes.ADD_COMMENT): {
-      return {...state,
-        [action.payload.comments.id] : {
-          id: action.payload.comments.id,
-          isEditing: false,
-          editText: action.payload.comments.body,
-        }
-      };
-    }
-    case ActionTypes.REALTIME_COMMENT_NEW:
-    case ActionTypes.REALTIME_COMMENT_UPDATE: {
-      return {...state,
-        [action.comment.id]: {
-          id: action.comment.id,
-          isEditing: false,
-          editText: action.comment.body
-        }
-      };
-    }
-    case ActionTypes.REALTIME_COMMENT_DESTROY: {
-      return {...state,
-        [action.commentId]: undefined
-      };
-    }
-    case ActionTypes.UNAUTHENTICATED: {
-      return {};
-    }
-  }
-  return state;
-}
-
 export function userErrors(state = {}, action) {
   switch (action.type) {
     case fail(ActionTypes.GET_USER_INFO): {
@@ -1014,6 +940,7 @@ export function sidebarViewState(state={}, action) {
 
 import attachments from './attachments';
 import comments from './comments';
+import commentViewState from './comments-view-state';
 import posts from './posts';
 import postsViewState from './posts-view-state';
 import subscribers from './subscribers';
@@ -1023,6 +950,7 @@ import users from './users';
 export {
   attachments,
   comments,
+  commentViewState,
   posts,
   postsViewState,
   subscribers,
