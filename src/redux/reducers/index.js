@@ -775,23 +775,6 @@ export function userErrors(state = {}, action) {
   return state;
 }
 
-export function subscribers(state = {}, action) {
-  if (ActionHelpers.isFeedResponse(action)) {
-    return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
-  }
-  switch (action.type) {
-    case ActionTypes.REALTIME_POST_NEW:
-    case ActionTypes.REALTIME_COMMENT_NEW: {
-      return mergeByIds(state, (action.subscribers || []).map(userParser));
-    }
-    case response(ActionTypes.GET_SINGLE_POST):
-    case response(ActionTypes.CREATE_POST): {
-      return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
-    }
-  }
-  return state;
-}
-
 import {getToken, getPersistedUser} from '../../services/auth';
 
 export function authenticated(state = !!getToken(), action) {
@@ -1453,6 +1436,7 @@ export function sidebarViewState(state={}, action) {
 import attachments from './attachments';
 import comments from './comments';
 import posts from './posts';
+import subscribers from './subscribers';
 import subscriptions from './subscriptions';
 import users from './users';
 
@@ -1460,6 +1444,7 @@ export {
   attachments,
   comments,
   posts,
+  subscribers,
   subscriptions,
   users
 };
