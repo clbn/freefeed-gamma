@@ -862,22 +862,6 @@ export function passwordForm(state=DEFAULT_PASSWORD_FORM_STATE, action) {
   return state;
 }
 
-export function subscriptions(state = {}, action) {
-  if (ActionHelpers.isFeedResponse(action)) {
-    return mergeByIds(state, action.payload.subscriptions);
-  }
-  switch (action.type) {
-    case response(ActionTypes.GET_SINGLE_POST):
-    case response(ActionTypes.CREATE_POST): {
-      return mergeByIds(state, action.payload.subscriptions);
-    }
-    case ActionTypes.REALTIME_POST_NEW: {
-      return mergeByIds(state, action.subscriptions);
-    }
-  }
-  return state;
-}
-
 export function userSettingsForm(state={saved: false}, action) {
   switch (action.type) {
     case ActionTypes.USER_SETTINGS_CHANGE: {
@@ -1469,11 +1453,13 @@ export function sidebarViewState(state={}, action) {
 import attachments from './attachments';
 import comments from './comments';
 import posts from './posts';
+import subscriptions from './subscriptions';
 import users from './users';
 
 export {
   attachments,
   comments,
   posts,
+  subscriptions,
   users
 };
