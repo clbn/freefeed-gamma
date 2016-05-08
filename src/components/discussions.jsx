@@ -47,13 +47,12 @@ function selectState(state, ownProps) {
   const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
   const createPostViewState = state.createPostViewState;
   const createPostForm = joinCreatePostData(state);
-  const timelines = state.timelines;
   const boxHeader = state.boxHeader;
 
   const defaultFeed = (getCurrentRouteName(ownProps) === 'discussions' ? user.username : null);
   const sendTo = {...state.sendTo, defaultFeed};
 
-  return { isLoading, user, authenticated, visibleEntries, createPostViewState, createPostForm, timelines, boxHeader, sendTo };
+  return { isLoading, user, authenticated, visibleEntries, createPostViewState, createPostForm, boxHeader, sendTo };
 }
 
 function selectActions(dispatch) {

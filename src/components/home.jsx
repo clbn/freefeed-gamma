@@ -81,7 +81,6 @@ function selectState(state) {
   const isHiddenRevealed = state.feedViewState.isHiddenRevealed;
   const createPostViewState = state.createPostViewState;
   const createPostForm = joinCreatePostData(state);
-  const timelines = state.timelines;
   const boxHeader = state.boxHeader;
   const sendTo = {...state.sendTo, defaultFeed: user.username};
   const userRequestsCount = state.userRequestsCount;
@@ -92,7 +91,7 @@ function selectState(state) {
     user, authenticated,
     visibleEntries, hiddenEntries, isHiddenRevealed,
     createPostViewState, createPostForm,
-    timelines, boxHeader, sendTo, userRequestsCount, groupRequestsCount,
+    boxHeader, sendTo, userRequestsCount, groupRequestsCount,
     areOnFirstHomePage: !state.routing.locationBeforeTransitions.query.offset,
   };
 }

@@ -862,14 +862,6 @@ export function passwordForm(state=DEFAULT_PASSWORD_FORM_STATE, action) {
   return state;
 }
 
-export function timelines(state = {}, action) {
-  if (ActionHelpers.isFeedResponse(action)) {
-    return mergeByIds(state, [action.payload.timelines]);
-  }
-
-  return state;
-}
-
 export function subscriptions(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
     return mergeByIds(state, action.payload.subscriptions);
