@@ -59,7 +59,7 @@ export const joinPostData = state => postId => {
 
   let comments = (post.comments || []).map(commentId => {
     const comment = state.comments[commentId];
-    const commentViewState = state.commentViewState[commentId];
+    const commentView = state.commentViews[commentId];
     const placeholderUser = {id: comment.createdBy};
     const author = state.users[comment.createdBy] || placeholderUser;
     if (author === placeholderUser) {
@@ -68,7 +68,7 @@ export const joinPostData = state => postId => {
     const isEditable = (user.id === comment.createdBy);
     const isDeletable = (user.id === post.createdBy);
     const highlighted = highlightComment(commentId, author);
-    return { ...comment, ...commentViewState, user: author, isEditable, isDeletable, highlighted };
+    return { ...comment, ...commentView, user: author, isEditable, isDeletable, highlighted };
   });
 
   const postView = state.postViews[post.id];

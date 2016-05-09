@@ -12,27 +12,27 @@ const NO_ERROR = {
   commentError: ''
 };
 
-const updateCommentViewState = (state, action) => {
+const updateCommentViews = (state, action) => {
   const comments = action.payload.comments || [];
-  const commentsViewState = comments.map(comment => ({
+  const commentViews = comments.map(comment => ({
     id: comment.id,
     isEditing: false,
     editText: comment.body
   }));
-  const viewStateMap = indexById(commentsViewState);
+  const viewStateMap = indexById(commentViews);
   return {...viewStateMap, ...state};
 };
 
-export default function commentViewState(state={}, action) {
+export default function commentViews(state={}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
-    return updateCommentViewState(state, action);
+    return updateCommentViews(state, action);
   }
   switch (action.type) {
     case response(ActionTypes.SHOW_MORE_COMMENTS): {
-      return updateCommentViewState(state, action);
+      return updateCommentViews(state, action);
     }
     case response(ActionTypes.GET_SINGLE_POST): {
-      return updateCommentViewState(state, action);
+      return updateCommentViews(state, action);
     }
     case ActionTypes.TOGGLE_EDITING_COMMENT: {
       return {

@@ -940,7 +940,7 @@ export function sidebarViewState(state={}, action) {
 
 import attachments from './attachments';
 import comments from './comments';
-import commentViewState from './comments-view-state';
+import commentViews from './comment-views';
 import posts from './posts';
 import postViews from './post-views';
 import subscribers from './subscribers';
@@ -950,7 +950,7 @@ import users from './users';
 export {
   attachments,
   comments,
-  commentViewState,
+  commentViews,
   posts,
   postViews,
   subscribers,
