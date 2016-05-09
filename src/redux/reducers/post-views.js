@@ -26,7 +26,7 @@ const initPostViewState = (post) => {
   return {omittedComments, omittedLikes, id, isEditing, editingText, ...NO_ERROR};
 };
 
-export default function postsViewState(state = {}, action) {
+export default function postViews(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
     return mergeByIds(state, (action.payload.posts || []).map(initPostViewState));
   }
@@ -196,7 +196,7 @@ export default function postsViewState(state = {}, action) {
     }
     // This doesn't work currently, since there's no information in the server
     // response, and just with request.commentId it's currently impossible to
-    // find the post in postsViewState's state.
+    // find the post in postViews's state.
     // TODO: Fix this.
     /*
      case response(ActionTypes.DELETE_COMMENT): {

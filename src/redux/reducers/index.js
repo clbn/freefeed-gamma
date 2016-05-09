@@ -942,7 +942,7 @@ import attachments from './attachments';
 import comments from './comments';
 import commentViewState from './comments-view-state';
 import posts from './posts';
-import postsViewState from './posts-view-state';
+import postViews from './post-views';
 import subscribers from './subscribers';
 import subscriptions from './subscriptions';
 import users from './users';
@@ -952,7 +952,7 @@ export {
   comments,
   commentViewState,
   posts,
-  postsViewState,
+  postViews,
   subscribers,
   subscriptions,
   users

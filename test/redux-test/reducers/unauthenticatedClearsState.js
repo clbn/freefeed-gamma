@@ -1,10 +1,10 @@
 import test from 'tape';
-import {commentViewState, feedViewState, posts, postsViewState, users} from 'src/redux/reducers';
+import {commentViewState, feedViewState, posts, postViews, users} from 'src/redux/reducers';
 import {unauthenticated} from 'src/redux/action-creators';
 
 test('unauthenticated action clears reducer state', t => {
 
-  const ordinaryReducers = [commentViewState, posts, postsViewState, users];
+  const ordinaryReducers = [commentViewState, posts, postViews, users];
 
   const ordinaryReducersReduced = ordinaryReducers.map(reducer => reducer({'1':{},'2':{}}, unauthenticated()));
 

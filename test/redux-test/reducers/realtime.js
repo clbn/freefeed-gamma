@@ -1,5 +1,5 @@
 import test from 'tape';
-import {postsViewState, users} from 'src/redux/reducers';
+import {postViews, users} from 'src/redux/reducers';
 import {REALTIME_COMMENT_NEW, REALTIME_COMMENT_DESTROY, REALTIME_LIKE_NEW, REALTIME_POST_NEW} from 'src/redux/action-types';
 
 const testPost = {
@@ -7,7 +7,7 @@ const testPost = {
   omittedComments: 1,
 };
 
-const postsViewStateBefore = {[testPost.id]: testPost};
+const postViewsBefore = {[testPost.id]: testPost};
 
 
 const newRealtimeCommentAction = {
@@ -25,7 +25,7 @@ const removeRealtimeCommentAction = {
 };
 
 test('number of omitted comments raised by new realtime comment', t => {
-  const result = postsViewState(postsViewStateBefore, newRealtimeCommentAction);
+  const result = postViews(postViewsBefore, newRealtimeCommentAction);
 
   t.equal(result[testPost.id].omittedComments, testPost.omittedComments + 1);
 
@@ -33,7 +33,7 @@ test('number of omitted comments raised by new realtime comment', t => {
 });
 
 test('number of omitted comments decreased by realtime comment deletion', t => {
-  const result = postsViewState(postsViewStateBefore, removeRealtimeCommentAction);
+  const result = postViews(postViewsBefore, removeRealtimeCommentAction);
 
   t.equal(result[testPost.id].omittedComments, testPost.omittedComments - 1);
 

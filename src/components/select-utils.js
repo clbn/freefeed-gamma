@@ -27,10 +27,10 @@ const MAX_LIKES = 4;
 
 const allFalse = _ => false;
 
-const commentHighlighter = ({commentsHighlights, user, postsViewState}, commentsPostId, commentList) => {
+const commentHighlighter = ({commentsHighlights, user, postViews}, commentsPostId, commentList) => {
   const {postId, author, arrows, baseCommentId} = commentsHighlights;
   const {comments} = user.frontendPreferences;
-  const {omittedComments} = postsViewState[commentsPostId];
+  const {omittedComments} = postViews[commentsPostId];
   if (!comments.highlightComments) {
     return allFalse;
   }
@@ -71,15 +71,15 @@ export const joinPostData = state => postId => {
     return { ...comment, ...commentViewState, user: author, isEditable, isDeletable, highlighted };
   });
 
-  const postViewState = state.postsViewState[post.id];
+  const postView = state.postViews[post.id];
 
-  if (postViewState.omittedComments !== 0) {
+  if (postView.omittedComments !== 0) {
     comments = [ comments[0], comments[comments.length - 1] ];
   }
 
   let usersLikedPost = _.map(post.likes, userId => state.users[userId]);
 
-  if (postViewState.omittedLikes !== 0) {
+  if (postView.omittedLikes !== 0) {
     usersLikedPost = usersLikedPost.slice(0, MAX_LIKES);
   }
 
@@ -119,7 +119,7 @@ export const joinPostData = state => postId => {
     attachments,
     usersLikedPost,
     comments,
-    ...postViewState,
+    ...postView,
     isEditable
   };
 };
