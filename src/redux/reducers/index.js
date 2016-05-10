@@ -477,29 +477,6 @@ export function routeLoadingState(state = false, action) {
   return state;
 }
 
-const getPageByOffset = (offset) => (offset ? Math.floor(offset / 30 + 1) : 1);
-
-export function boxHeader(state = "", action) {
-  switch (action.type) {
-    case request(ActionTypes.HOME): {
-      return {title: 'Home', page: getPageByOffset(action.payload.offset)};
-    }
-    case request(ActionTypes.DISCUSSIONS): {
-      return {title: 'My discussions', page: getPageByOffset(action.payload.offset)};
-    }
-    case request(ActionTypes.DIRECT): {
-      return {title: 'Direct messages', page: getPageByOffset(action.payload.offset)};
-    }
-    case request(ActionTypes.GET_USER_FEED): {
-      return {};
-    }
-    case request(ActionTypes.GET_SINGLE_POST): {
-      return {};
-    }
-  }
-  return state;
-}
-
 export function singlePostId(state = null, action) {
   if (ActionHelpers.isFeedRequest(action)) {
     return null;
@@ -843,6 +820,7 @@ export function sidebarViewState(state={}, action) {
 
 import attachments from './attachments';
 import authenticated from './authenticated';
+import boxHeader from './box-header';
 import comments from './comments';
 import commentViews from './comment-views';
 import posts from './posts';
@@ -855,6 +833,7 @@ import users from './users';
 export {
   attachments,
   authenticated,
+  boxHeader,
   comments,
   commentViews,
   posts,
