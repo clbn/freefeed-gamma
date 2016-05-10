@@ -79,38 +79,6 @@ export function serverError(state = false, action) {
   return state;
 }
 
-const CREATE_POST_ERROR = 'Something went wrong while creating the post...';
-
-export function createPostViewState(state = {}, action) {
-  switch (action.type) {
-    case response(ActionTypes.CREATE_POST): {
-      return {
-        isError: false,
-        errorString: '',
-        isPending: false
-      };
-    }
-    case request(ActionTypes.CREATE_POST): {
-      return {
-        isError: false,
-        errorString: '',
-        isPending: true
-      };
-    }
-    case fail(ActionTypes.CREATE_POST): {
-      return {
-        isError: true,
-        errorString: CREATE_POST_ERROR,
-        isPending: false
-      };
-    }
-    case ActionTypes.RESET_POST_CREATE_FORM: {
-      return {};
-    }
-  }
-  return state;
-}
-
 const NO_ERROR = {
   isError: false,
   errorString: '',
@@ -647,6 +615,7 @@ import authenticated from './authenticated';
 import boxHeader from './box-header';
 import comments from './comments';
 import commentViews from './comment-views';
+import createPostViewState from './create-post-view';
 import feedViewState from './feed-view';
 import posts from './posts';
 import postViews from './post-views';
@@ -663,6 +632,7 @@ export {
   boxHeader,
   comments,
   commentViews,
+  createPostViewState,
   feedViewState,
   posts,
   postViews,
