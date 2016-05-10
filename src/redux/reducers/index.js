@@ -282,37 +282,6 @@ export function userErrors(state = {}, action) {
 
 import {getToken, getPersistedUser} from '../../services/auth';
 
-const initUser = _ => ({
-  frontendPreferences: frontendPrefsConfig.defaultValues,
-  ...getPersistedUser()
-});
-
-export function user(state = initUser(), action) {
-  if (ActionHelpers.isUserChangeResponse(action)) {
-    const subscriptions = _.uniq((action.payload.subscriptions || []).map(sub => sub.user));
-    return {...state, ...userParser(action.payload.users), subscriptions};
-  }
-  switch (action.type) {
-    case response(ActionTypes.SEND_SUBSCRIPTION_REQUEST): {
-      return {...state,
-        pendingSubscriptionRequests: [...(state.pendingSubscriptionRequests || []),
-          action.request.id
-        ]
-      };
-    }
-    case response(ActionTypes.BAN): {
-      return {...state, banIds: [...state.banIds, action.request.id]};
-    }
-    case response(ActionTypes.UNBAN): {
-      return {...state, banIds: _.without(state.banIds, action.request.id)};
-    }
-    case response(ActionTypes.CREATE_GROUP): {
-      return {...state, subscriptions: [...state.subscriptions, action.payload.groups.id]};
-    }
-  }
-  return state;
-}
-
 const DEFAULT_PASSWORD_FORM_STATE = {
   isSaving:false,
   success:false,
@@ -828,6 +797,7 @@ import postViews from './post-views';
 import sendTo from './send-to';
 import subscribers from './subscribers';
 import subscriptions from './subscriptions';
+import user from './user';
 import users from './users';
 
 export {
@@ -841,5 +811,6 @@ export {
   sendTo,
   subscribers,
   subscriptions,
+  user,
   users
 };
