@@ -6,32 +6,6 @@ import _ from 'lodash';
 import {userParser, postParser} from '../../utils';
 import {frontendPreferences as frontendPrefsConfig} from '../../config';
 
-export function signInForm(state={username:'', password:'', error:'', loading: false}, action) {
-  switch (action.type) {
-    case ActionTypes.SIGN_IN_CHANGE: {
-      return {
-        ...state,
-        username: action.username || state.username,
-        password: action.password || state.password,
-        loading: false,
-      };
-    }
-    case ActionTypes.UNAUTHENTICATED: {
-      return {...state, error: (action.payload || {}).err, loading: false };
-    }
-    case ActionTypes.SIGN_IN_EMPTY: {
-      return {...state, error: 'Enter login and password', loading: false };
-    }
-    case request(ActionTypes.SIGN_IN): {
-      return {...state, loading: true };
-    }
-    case response(ActionTypes.SIGN_IN): {
-      return {...state, loading: false };
-    }
-  }
-  return state;
-}
-
 const INITIAL_SIGN_UP_FORM_STATE = {
   username: '',
   password: '',
@@ -620,6 +594,7 @@ import feedViewState from './feed-view';
 import posts from './posts';
 import postViews from './post-views';
 import sendTo from './send-to';
+import signInForm from './sign-in-form';
 import subscribers from './subscribers';
 import subscriptions from './subscriptions';
 import title from './title';
@@ -637,6 +612,7 @@ export {
   posts,
   postViews,
   sendTo,
+  signInForm,
   subscribers,
   subscriptions,
   title,
