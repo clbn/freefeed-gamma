@@ -282,21 +282,6 @@ export function userErrors(state = {}, action) {
 
 import {getToken, getPersistedUser} from '../../services/auth';
 
-export function authenticated(state = !!getToken(), action) {
-  switch (action.type) {
-    case response(ActionTypes.SIGN_IN): {
-      return true;
-    }
-    case response(ActionTypes.SIGN_UP): {
-      return true;
-    }
-    case ActionTypes.UNAUTHENTICATED: {
-      return false;
-    }
-  }
-  return state;
-}
-
 const initUser = _ => ({
   frontendPreferences: frontendPrefsConfig.defaultValues,
   ...getPersistedUser()
@@ -857,6 +842,7 @@ export function sidebarViewState(state={}, action) {
 }
 
 import attachments from './attachments';
+import authenticated from './authenticated';
 import comments from './comments';
 import commentViews from './comment-views';
 import posts from './posts';
@@ -868,6 +854,7 @@ import users from './users';
 
 export {
   attachments,
+  authenticated,
   comments,
   commentViews,
   posts,
