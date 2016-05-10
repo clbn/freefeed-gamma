@@ -6,44 +6,6 @@ import _ from 'lodash';
 import {userParser, postParser} from '../../utils';
 import {frontendPreferences as frontendPrefsConfig} from '../../config';
 
-const INITIAL_SIGN_UP_FORM_STATE = {
-  username: '',
-  password: '',
-  email: '',
-  captcha: null,
-  error: '',
-  loading: false,
-};
-
-export function signUpForm(state=INITIAL_SIGN_UP_FORM_STATE, action) {
-  switch (action.type) {
-    case ActionTypes.SIGN_UP_CHANGE: {
-      return {
-        ...state,
-        username: action.username || state.username,
-        password: action.password || state.password,
-        email: action.email || state.email,
-        captcha: typeof action.captcha == 'undefined' ? state.captcha : action.captcha,
-        loading: false,
-        error: ''
-      };
-    }
-    case ActionTypes.SIGN_UP_EMPTY: {
-      return {...state, error: action.message, loading: false };
-    }
-    case request(ActionTypes.SIGN_UP): {
-      return {...state, loading: true };
-    }
-    case response(ActionTypes.SIGN_UP): {
-      return {...state, loading: false };
-    }
-    case fail(ActionTypes.SIGN_UP): {
-      return {...state, error: action.payload.err, loading: false };
-    }
-  }
-  return state;
-}
-
 export function serverError(state = false, action) {
   switch (action.type) {
     case ActionTypes.SERVER_ERROR: {
@@ -595,6 +557,7 @@ import posts from './posts';
 import postViews from './post-views';
 import sendTo from './send-to';
 import signInForm from './sign-in-form';
+import signUpForm from './sign-up-form';
 import subscribers from './subscribers';
 import subscriptions from './subscriptions';
 import title from './title';
@@ -613,6 +576,7 @@ export {
   postViews,
   sendTo,
   signInForm,
+  signUpForm,
   subscribers,
   subscriptions,
   title,
