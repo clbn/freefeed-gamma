@@ -6,44 +6,6 @@ import _ from 'lodash';
 import {userParser, postParser} from '../../utils';
 import {frontendPreferences as frontendPrefsConfig} from '../../config';
 
-export function title(state = '', action) {
-  switch (action.type) {
-    case response(ActionTypes.HOME): {
-      return 'FreeFeed';
-    }
-    case response(ActionTypes.DIRECT): {
-      return 'Direct messages - FreeFeed';
-    }
-    case response(ActionTypes.DISCUSSIONS): {
-      return 'My discussions - FreeFeed';
-    }
-    case response(ActionTypes.GET_USER_FEED): {
-      const user = (action.payload.users || []).filter(user => user.username === action.request.username)[0];
-      const author = user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
-      return `${author} - FreeFeed`;
-    }
-    case response(ActionTypes.GET_SINGLE_POST): {
-      const text = action.payload.posts.body.substr(0, 60);
-      const user = (action.payload.users || [])[0];
-      const author = user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
-      return `${text} - ${author} - FreeFeed`;
-    }
-
-    case fail(ActionTypes.HOME):
-    case fail(ActionTypes.DIRECT):
-    case fail(ActionTypes.DISCUSSIONS):
-    case fail(ActionTypes.GET_USER_FEED):
-    case fail(ActionTypes.GET_SINGLE_POST): {
-      return 'Error - FreeFeed';
-    }
-
-    case ActionTypes.STATIC_PAGE: {
-      return `${action.payload.title} - FreeFeed`;
-    }
-  }
-  return state;
-}
-
 export function signInForm(state={username:'', password:'', error:'', loading: false}, action) {
   switch (action.type) {
     case ActionTypes.SIGN_IN_CHANGE: {
@@ -797,6 +759,7 @@ import postViews from './post-views';
 import sendTo from './send-to';
 import subscribers from './subscribers';
 import subscriptions from './subscriptions';
+import title from './title';
 import user from './user';
 import users from './users';
 
@@ -811,6 +774,7 @@ export {
   sendTo,
   subscribers,
   subscriptions,
+  title,
   user,
   users
 };
