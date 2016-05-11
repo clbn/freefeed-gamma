@@ -12,6 +12,8 @@ const NO_ERROR = {
   commentError: ''
 };
 
+const COMMENT_SAVE_ERROR = 'Something went wrong while saving comment';
+
 const updateCommentViews = (state, action) => {
   const comments = action.payload.comments || [];
   const commentViews = comments.map(comment => ({
@@ -60,7 +62,7 @@ export default function commentViews(state={}, action) {
         [action.payload.comments.id] : {
           id: action.payload.comments.id,
           isEditing: false,
-          editText: action.payload.comments.body,
+          editText: action.payload.comments.body
         }
       };
     }

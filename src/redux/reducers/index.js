@@ -3,7 +3,7 @@ import * as ActionHelpers from '../action-helpers';
 const {request, response, fail} = ActionHelpers;
 
 import _ from 'lodash';
-import {userParser, postParser} from '../../utils';
+import {userParser} from '../../utils';
 import {frontendPreferences as frontendPrefsConfig} from '../../config';
 
 export function serverError(state = false, action) {
@@ -15,16 +15,8 @@ export function serverError(state = false, action) {
   return state;
 }
 
-const NO_ERROR = {
-  isError: false,
-  errorString: '',
-  commentError: ''
-};
-
 const indexById = list => _.keyBy(list || [], 'id');
 const mergeByIds = (state, array) => ({...state, ...indexById(array)});
-
-const COMMENT_SAVE_ERROR = 'Something went wrong while saving comment';
 
 export function userErrors(state = {}, action) {
   switch (action.type) {
@@ -38,8 +30,6 @@ export function userErrors(state = {}, action) {
   }
   return state;
 }
-
-import {getToken, getPersistedUser} from '../../services/auth';
 
 export function groupSettings(state={}, action) {
   switch (action.type) {
