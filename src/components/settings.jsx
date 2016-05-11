@@ -21,6 +21,13 @@ const Settings = (props) => (
 
         <hr/>
 
+        <UserPictureForm
+          user={props.user}
+          updateUserPicture={props.updateUserPicture}
+          {...props.userPictureForm}/>
+
+        <hr/>
+
         <UserFrontendPreferencesForm
           userId={props.user.id}
           preferences={props.user.frontendPreferences}
@@ -32,13 +39,6 @@ const Settings = (props) => (
         <UserChangePasswordForm
           updatePassword={props.updatePassword}
           {...props.passwordForm}/>
-
-        <hr/>
-
-        <UserPictureForm
-          user={props.user}
-          updateUserPicture={props.updateUserPicture}
-          {...props.userPictureForm}/>
 
         <hr/>
       </div>
