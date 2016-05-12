@@ -314,7 +314,7 @@ export default class Post extends React.Component {
                   onKeyDown={checkSave}
                   onChange={editingPostTextChange}
                   autoFocus={true}
-                  minRows={2}
+                  minRows={3}
                   maxRows={10}
                   maxLength="1500"/>
               </div>
