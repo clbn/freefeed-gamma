@@ -108,6 +108,10 @@
 
   .post-textarea {
     @include editarea;
+
+    color: #000;
+    font-size: 16px;
+    line-height: 21px;
   }
 
   .post-edit-options {
@@ -182,6 +186,13 @@
     .post-text {
       @media (max-width: 767px) { min-height: 50px; }
 
+      font-size: 21px;
+      line-height: 26px;
+    }
+  }
+
+  .post-editor {
+    .post-textarea {
       font-size: 21px;
       line-height: 26px;
     }
