@@ -35,6 +35,9 @@
 
   .comment-body {
     margin-left: 19px;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
 
   .comment-textarea {
