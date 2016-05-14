@@ -109,12 +109,12 @@ export default class PieceOfText extends React.Component {
   }
 
   render() {
-    return (
+    return (this.props.text ? (
       <Linkify userHover={this.props.userHover} arrowHover={this.props.arrowHover}>
         {this.state.isExpanded
           ? getExpandedText(this.props.text)
           : getCollapsedText(this.props.text, this.expandText.bind(this))}
       </Linkify>
-    );
+    ) : <span/>);
   }
 }
