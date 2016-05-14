@@ -49,7 +49,7 @@ export default class UserProfile extends React.Component {
                 ) : (
                   <div className="description">
                     <div className="name">{props.screenName}</div>
-                    <PieceOfText text={props.description}/>
+                    <PieceOfText text={props.description} isExpanded={true}/>
                   </div>
                 )}
               </div>
