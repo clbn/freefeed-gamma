@@ -21,7 +21,7 @@ export default class PostAttachments extends React.Component {
     if (
       images.length > 1 &&
       !this.state.isExpanded &&
-      (this.getImageAttachmentsWidth(images) > this.getContainerWidth())
+      (this.getImagesWidth(images) > this.getContainerWidth())
     ) {
       const firstRowCapacity = this.getFirstRowCapacity(images);
       images = images.slice(0, firstRowCapacity);
@@ -49,9 +49,16 @@ export default class PostAttachments extends React.Component {
     return images;
   }
 
-  getImageAttachmentsWidth(images) {
+  getImageWidth(image) {
+    return +(image.imageSizes && (
+      image.imageSizes.t && image.imageSizes.t.w ||
+      image.imageSizes.o && image.imageSizes.o.w
+    ));
+  }
+
+  getImagesWidth(images) {
     return images.reduce((acc, item) => {
-      const w = +(item.imageSizes && item.imageSizes.t && item.imageSizes.t.w);
+      const w = this.getImageWidth(item);
       return acc + w + this.attachmentMargins;
     }, 0);
   }
@@ -68,8 +75,7 @@ export default class PostAttachments extends React.Component {
     let capacity = 0;
 
     for (let i=0; i < images.length; i++) {
-      const item = images[i];
-      const itemWidth = +(item.imageSizes && item.imageSizes.t && item.imageSizes.t.w);
+      const itemWidth = this.getImageWidth(images[i]);
 
       if (accWidth + itemWidth + margins < maxWidth) {
         accWidth += itemWidth + margins;
