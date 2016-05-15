@@ -18,7 +18,11 @@ export default class PostAttachments extends React.Component {
   getImageAttachments(images) {
     let showToggle = false;
 
-    if (!this.state.isExpanded && (this.getImageAttachmentsWidth(images) > this.getContainerWidth())) {
+    if (
+      images.length > 1 &&
+      !this.state.isExpanded &&
+      (this.getImageAttachmentsWidth(images) > this.getContainerWidth())
+    ) {
       const firstRowCapacity = this.getFirstRowCapacity(images);
       images = images.slice(0, firstRowCapacity);
       showToggle = true;
