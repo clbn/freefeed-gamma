@@ -4,11 +4,27 @@ import AudioAttachment from './post-attachment-audio';
 import GeneralAttachment from './post-attachment-general';
 
 export default class PostAttachments extends React.Component {
-  render() {
-    const attachments = this.props.attachments || [];
+  constructor(props) {
+    super(props);
 
-    const imageAttachments = attachments
-      .filter(attachment => attachment.mediaType === 'image')
+    this.state = {
+      isExpanded: !!props.isExpanded
+    };
+  }
+
+  attachmentMargins = 2 + 2 + 8; // border+padding + padding+border + margin
+  toggleWidth = 24; // "chevron-circle" width
+
+  getImageAttachments(images) {
+    let showToggle = false;
+
+    if (!this.state.isExpanded && (this.getImageAttachmentsWidth(images) > this.getContainerWidth())) {
+      const firstRowCapacity = this.getFirstRowCapacity(images);
+      images = images.slice(0, firstRowCapacity);
+      showToggle = true;
+    }
+
+    images = images
       .map(attachment => (
         <ImageAttachment
           key={attachment.id}
@@ -16,6 +32,63 @@ export default class PostAttachments extends React.Component {
           removeAttachment={this.props.removeAttachment}
           {...attachment}/>
       ));
+
+    if (showToggle) {
+      images.push(
+        <a key="show-more-images"
+           className="show-more-images fa"
+           title="Show more"
+           onClick={this.expandImages.bind(this)}></a>
+      );
+    }
+
+    return images;
+  }
+
+  getImageAttachmentsWidth(images) {
+    return images.reduce((acc, item) => {
+      const w = +(item.imageSizes && item.imageSizes.t && item.imageSizes.t.w);
+      return acc + w + this.attachmentMargins;
+    }, 0);
+  }
+
+  getContainerWidth() {
+    return 600;
+  }
+
+  getFirstRowCapacity(images) {
+    const maxWidth = this.getContainerWidth() - this.toggleWidth;
+    const margins = this.attachmentMargins;
+
+    let accWidth = 0;
+    let capacity = 0;
+
+    for (let i=0; i < images.length; i++) {
+      const item = images[i];
+      const itemWidth = +(item.imageSizes && item.imageSizes.t && item.imageSizes.t.w);
+
+      if (accWidth + itemWidth + margins < maxWidth) {
+        accWidth += itemWidth + margins;
+        capacity++;
+      } else {
+        break;
+      }
+    }
+
+    return capacity;
+  }
+
+  expandImages() {
+    this.setState({isExpanded: true});
+  }
+
+  render() {
+    const props = this.props;
+    const attachments = props.attachments || [];
+
+    const imageAttachments = this.getImageAttachments(
+      attachments.filter(attachment => attachment.mediaType === 'image')
+    );
 
     const audioAttachments = attachments
       .filter(attachment => attachment.mediaType === 'audio')

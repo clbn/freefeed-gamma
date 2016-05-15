@@ -47,28 +47,17 @@
     display: inline-block;
   }
 
-  .toggle-surplus {
-    display: none;
+  .show-more-images {
+    display: inline-block;
     color: #fad889; // logotype yellow (#f9b616) with lower saturation;
     font-size: 2em;
     text-decoration: none;
     position: relative;
     top: 2px;
-  }
-
-  &.has-surplus .toggle-surplus {
-    display: inline-block;
 
     // fa-chevron-circle-right
     &:before {
       content: "\f138";
-    }
-  }
-
-  &.has-surplus.expanded .toggle-surplus {
-    // fa-chevron-circle-left
-    &:before {
-      content: "\f137";
     }
   }
 }
