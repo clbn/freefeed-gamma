@@ -8,7 +8,8 @@ export default class PostAttachments extends React.Component {
     super(props);
 
     this.state = {
-      isExpanded: !!props.isExpanded
+      isExpanded: !!props.isExpanded,
+      containerWidth: 0
     };
   }
 
@@ -64,7 +65,10 @@ export default class PostAttachments extends React.Component {
   }
 
   getContainerWidth() {
-    return 600;
+    if (this.state.containerWidth) {
+      return this.state.containerWidth;
+    }
+    return 0;
   }
 
   getFirstRowCapacity(images) {
@@ -85,11 +89,17 @@ export default class PostAttachments extends React.Component {
       }
     }
 
-    return capacity;
+    return Math.max(capacity, 1);
   }
 
   expandImages() {
     this.setState({isExpanded: true});
+  }
+
+  componentDidMount() {
+    this.setState({
+      containerWidth: +(this.refs.attachmentsContainer && this.refs.attachmentsContainer.offsetWidth)
+    });
   }
 
   render() {
@@ -121,7 +131,7 @@ export default class PostAttachments extends React.Component {
       ));
 
     return (attachments.length > 0 ? (
-      <div className="attachments">
+      <div className="attachments" ref="attachmentsContainer">
         <div className="image-attachments">
           {imageAttachments}
         </div>
