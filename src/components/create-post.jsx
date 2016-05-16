@@ -211,6 +211,7 @@ export default class CreatePost extends React.Component {
         <PostAttachments
           attachments={this.props.createPostForm.attachments}
           isEditing={true}
+          isExpanded={true}
           removeAttachment={this.removeAttachment}/>
 
         <div className="dropzone-previews"></div>
