@@ -8,8 +8,14 @@ export default (props) => {
 
   const removeAttachment = () => props.removeAttachment(props.id);
 
+  let srcSet;
+  if (props.imageSizes.t2 && props.imageSizes.t2.url) {
+    srcSet = props.imageSizes.t2.url + ' 2x';
+  }
+
   const imageAttributes = {
     src: props.imageSizes.t && props.imageSizes.t.url || props.thumbnailUrl,
+    srcSet,
     alt: nameAndSize,
     width: props.imageSizes.t && props.imageSizes.t.w || undefined,
     height: props.imageSizes.t && props.imageSizes.t.h || undefined
