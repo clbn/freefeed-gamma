@@ -9,10 +9,10 @@ export default (props) => {
   const removeAttachment = () => props.removeAttachment(props.id);
 
   const imageAttributes = {
-    src: props.thumbnailUrl,
+    src: props.imageSizes.t && props.imageSizes.t.url || props.thumbnailUrl,
     alt: nameAndSize,
-    width: props.imageSizes.t ? props.imageSizes.t.w : undefined,
-    height: props.imageSizes.t ? props.imageSizes.t.h : undefined
+    width: props.imageSizes.t && props.imageSizes.t.w || undefined,
+    height: props.imageSizes.t && props.imageSizes.t.h || undefined
   };
 
   return (
