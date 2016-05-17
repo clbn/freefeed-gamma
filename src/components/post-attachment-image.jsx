@@ -11,6 +11,8 @@ export default (props) => {
   let srcSet;
   if (props.imageSizes.t2 && props.imageSizes.t2.url) {
     srcSet = props.imageSizes.t2.url + ' 2x';
+  } else if (props.imageSizes.o && props.imageSizes.t && props.imageSizes.o.w <= props.imageSizes.t.w * 2) {
+    srcSet = (props.imageSizes.o.url || props.url) + ' 2x';
   }
 
   const imageAttributes = {
