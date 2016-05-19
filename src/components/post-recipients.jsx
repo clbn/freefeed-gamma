@@ -4,7 +4,7 @@ import {preventDefault} from '../utils';
 
 const MY_FEED_LABEL = 'My feed';
 
-export default class SendTo extends React.Component {
+export default class PostRecipients extends React.Component {
   constructor(props) {
     super(props);
 

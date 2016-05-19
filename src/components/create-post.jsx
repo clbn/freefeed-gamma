@@ -2,7 +2,7 @@ import React from 'react';
 import {preventDefault} from '../utils';
 import Textarea from 'react-textarea-autosize';
 import throbber from 'assets/images/throbber.gif';
-import SendTo from './send-to';
+import PostRecipients from './post-recipients';
 import DropzoneComponent from 'react-dropzone-component';
 import {api as apiConfig} from '../config';
 import {getToken} from '../services/auth';
@@ -150,7 +150,7 @@ export default class CreatePost extends React.Component {
       <div className={'create-post post-editor' + (this.props.sendTo.expanded ? ' expanded' : '')}>
         <div>
           {this.props.sendTo.expanded ? (
-            <SendTo ref="selectFeeds"
+            <PostRecipients ref="selectFeeds"
               feeds={this.props.sendTo.feeds}
               defaultFeed={this.props.sendTo.defaultFeed}
               user={this.props.user}
