@@ -40,33 +40,14 @@ const getValidRecipients = (state) => {
 };
 
 const INITIAL_SEND_TO_STATE = {
-  expanded: false,
   feeds: []
 };
 
 export default function sendTo(state = INITIAL_SEND_TO_STATE, action) {
-  if (ActionHelpers.isFeedRequest(action)) {
-    return {
-      expanded: false,
-      feeds: state.feeds
-    };
-  }
-
   switch (action.type) {
     case response(ActionTypes.WHO_AM_I): {
       return {
-        expanded: false,
         feeds: getValidRecipients(action.payload)
-      };
-    }
-    case ActionTypes.EXPAND_SEND_TO: {
-      return {...state,
-        expanded: true
-      };
-    }
-    case response(ActionTypes.CREATE_POST): {
-      return {...state,
-        expanded: false
       };
     }
     case response(ActionTypes.CREATE_GROUP): {

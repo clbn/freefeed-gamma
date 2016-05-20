@@ -5,7 +5,6 @@ import {response} from 'src/redux/action-helpers';
 
 
 const stateInitial = {
-  expanded: false,
   feeds: []
 };
 
@@ -23,7 +22,6 @@ const payloadOneSub = {
 };
 
 const stateOneSub = {
-  expanded: false,
   feeds: [
     {
       id: "008d3f1e-f1b5-4395-8b31-30f2d842b3dc",
@@ -61,7 +59,6 @@ const payloadTwoSubs = {
 };
 
 const stateTwoSubs = {
-  expanded: false,
   feeds: [
     {
       id: "5d5fb359-1f8f-4e95-a16d-c5ae9b51dd47",

@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {createPost, resetPostCreateForm, expandSendTo, toggleHiddenPosts} from '../redux/action-creators';
+import {createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/action-creators';
 import {joinPostData, joinCreatePostData, postActions} from './select-utils';
 import {getQuery, pluralForm} from '../utils';
 import {Link} from 'react-router';
@@ -19,7 +19,6 @@ const FeedHandler = (props) => {
       user={props.user}
       createPost={props.createPost}
       resetPostCreateForm={props.resetPostCreateForm}
-      expandSendTo={props.expandSendTo}
       createPostForm={props.createPostForm}
       addAttachmentResponse={props.addAttachmentResponse}
       removeAttachment={props.removeAttachment}/>
@@ -101,7 +100,6 @@ function selectActions(dispatch) {
     ...postActions(dispatch),
     createPost: (feeds, postText, attachmentIds, more) => dispatch(createPost(feeds, postText, attachmentIds, more)),
     resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),
-    expandSendTo: () => dispatch(expandSendTo()),
     toggleHiddenPosts: () => dispatch(toggleHiddenPosts())
   };
 }

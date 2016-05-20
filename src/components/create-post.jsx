@@ -11,14 +11,26 @@ import PostAttachments from './post-attachments';
 export default class CreatePost extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
+      isExpanded: false,
       isFormEmpty: true,
       isMoreOpen: false,
       attachmentQueueLength: 0
     };
   }
 
-  createPost = _ => {
+  expand = () => {
+    if (!this.state.isExpanded) {
+      this.setState({isExpanded: true});
+    }
+  };
+
+  toggleMore = () => {
+    this.setState({isMoreOpen: !this.state.isMoreOpen});
+  };
+
+  createPost = () => {
     // Get all the values
     let feeds = this.refs.selectFeeds.values;
     let postText = this.refs.postText.value;
@@ -63,10 +75,6 @@ export default class CreatePost extends React.Component {
         this.createPost();
       }
     }
-  }
-
-  toggleMore() {
-    this.setState({ isMoreOpen: !this.state.isMoreOpen });
   }
 
   componentWillUnmount() {
@@ -147,9 +155,9 @@ export default class CreatePost extends React.Component {
     };
 
     return (
-      <div className={'create-post post-editor' + (this.props.sendTo.expanded ? ' expanded' : '')}>
+      <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
         <div>
-          {this.props.sendTo.expanded ? (
+          {this.state.isExpanded ? (
             <PostRecipients ref="selectFeeds"
               feeds={this.props.sendTo.feeds}
               defaultFeed={this.props.sendTo.defaultFeed}
@@ -165,7 +173,7 @@ export default class CreatePost extends React.Component {
           <Textarea
             className="post-textarea"
             ref="postText"
-            onFocus={this.props.expandSendTo}
+            onFocus={this.expand}
             onKeyDown={this.checkSave}
             onChange={this.checkCreatePostAvailability}
             minRows={3}
@@ -180,7 +188,7 @@ export default class CreatePost extends React.Component {
             Add photos or files
           </span>
 
-          <a className="post-edit-more-trigger" onClick={this.toggleMore.bind(this)}>More&nbsp;&#x25be;</a>
+          <a className="post-edit-more-trigger" onClick={this.toggleMore}>More&nbsp;&#x25be;</a>
 
           {this.state.isMoreOpen ? (
             <div className="post-edit-more">
