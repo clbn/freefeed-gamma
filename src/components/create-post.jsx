@@ -30,27 +30,33 @@ export default class CreatePost extends React.Component {
     this.setState({isMoreOpen: !this.state.isMoreOpen});
   };
 
-  createPost = () => {
+  submitForm = () => {
     // Get all the values
-    let feeds = this.refs.selectFeeds.values;
-    let postText = this.refs.postText.value;
-    let attachmentIds = this.props.createPostForm.attachments.map(attachment => attachment.id);
-    let more = {
+    const feeds = this.refs.selectFeeds.values;
+    const postText = this.refs.postText.value;
+    const attachmentIds = this.props.createPostForm.attachments.map(attachment => attachment.id);
+    const more = {
       commentsDisabled: (this.refs.commentsDisabled && this.refs.commentsDisabled.checked)
     };
 
     // Send to the server
     this.props.createPost(feeds, postText, attachmentIds, more);
+  };
 
-    // Clear the form afterwards
+  clearForm = () => {
     this.refs.postText.value = '';
+    setTimeout(() => document.activeElement.blur(), 0);
+
     this.setState({
+      isExpanded: false,
       isFormEmpty: true,
       isMoreOpen: false,
       attachmentQueueLength: 0
     });
+
+    const attachmentIds = this.props.createPostForm.attachments.map(attachment => attachment.id);
     attachmentIds.forEach(this.removeAttachment);
-  }
+  };
 
   removeAttachment = (attachmentId) => this.props.removeAttachment(null, attachmentId)
 
@@ -72,8 +78,17 @@ export default class CreatePost extends React.Component {
     if (isEnter && !isShiftPressed) {
       e.preventDefault();
       if (!this.state.isFormEmpty && this.state.attachmentQueueLength === 0 && !this.props.createPostViewState.isPending) {
-        this.createPost();
+        this.submitForm();
       }
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    // If it was successful saving, clear the form
+    const isSavingFinished = this.props.createPostViewState.isPending && !newProps.createPostViewState.isPending;
+    const isSavingFailed = newProps.createPostViewState.isError;
+    if (isSavingFinished && !isSavingFailed) {
+      this.clearForm();
     }
   }
 
@@ -212,7 +227,7 @@ export default class CreatePost extends React.Component {
           ) : false}
 
           <button className="btn btn-default btn-xs"
-            onClick={preventDefault(this.createPost)}
+            onClick={preventDefault(this.submitForm)}
             disabled={this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostViewState.isPending}>Post</button>
         </div>
 
