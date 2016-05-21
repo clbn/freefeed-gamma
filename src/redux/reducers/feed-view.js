@@ -69,6 +69,21 @@ export default function feedViewState(state = initFeed, action) {
     case ActionTypes.UNAUTHENTICATED: {
       return initFeed;
     }
+    case response(ActionTypes.GET_SINGLE_POST): {
+      const postId = action.request.postId;
+      return {...initFeed,
+        visibleEntries: [postId]
+      };
+    }
+    case fail(ActionTypes.GET_SINGLE_POST): {
+      return initFeed;
+    }
+    case response(ActionTypes.CREATE_POST): {
+      return addPostToFeed(state, action.payload.posts.id);
+    }
+    case ActionTypes.REALTIME_POST_NEW: {
+      return addPostToFeed(state, action.post.id);
+    }
     case response(ActionTypes.DELETE_POST): {
       const postId = action.request.postId;
       return {...state,
@@ -81,21 +96,6 @@ export default function feedViewState(state = initFeed, action) {
         visibleEntries: _.without(state.visibleEntries, action.postId),
         hiddenEntries: _.without(state.hiddenEntries, action.postId)
       };
-    }
-    case response(ActionTypes.CREATE_POST): {
-      return addPostToFeed(state, action.payload.posts.id);
-    }
-    case response(ActionTypes.GET_SINGLE_POST): {
-      const postId = action.request.postId;
-      return {...initFeed,
-        visibleEntries: [postId]
-      };
-    }
-    case ActionTypes.REALTIME_POST_NEW: {
-      return addPostToFeed(state, action.post.id);
-    }
-    case fail(ActionTypes.GET_SINGLE_POST): {
-      return initFeed;
     }
     case response(ActionTypes.HIDE_POST): {
       return hidePostInFeed(state, action.request.postId);
