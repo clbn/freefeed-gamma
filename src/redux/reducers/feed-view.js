@@ -11,6 +11,18 @@ const initFeed = {
   isHiddenRevealed: false
 };
 
+const addPostToFeed = (state, postId) => {
+  // Add it to visibleEntries, but check first if it's already in there,
+  // since realtime event might come first.
+  const itsAlreadyThere = (state.visibleEntries.indexOf(postId) > -1);
+  if (itsAlreadyThere) {
+    return state;
+  }
+  return {...state,
+    visibleEntries: [postId, ...state.visibleEntries]
+  };
+};
+
 const hidePostInFeed = (state, postId) => {
   // Add it to hiddenEntries, but don't remove from visibleEntries just yet
   // (for the sake of "Undo"). And check first if it's already in hiddenEntries,
@@ -71,10 +83,7 @@ export default function feedViewState(state = initFeed, action) {
       };
     }
     case response(ActionTypes.CREATE_POST): {
-      const postId = action.payload.posts.id;
-      return {...state,
-        visibleEntries: [postId, ...state.visibleEntries]
-      };
+      return addPostToFeed(state, action.payload.posts.id);
     }
     case response(ActionTypes.GET_SINGLE_POST): {
       const postId = action.request.postId;
@@ -83,10 +92,7 @@ export default function feedViewState(state = initFeed, action) {
       };
     }
     case ActionTypes.REALTIME_POST_NEW: {
-      return {
-        ...state,
-        visibleEntries: [action.post.id, ...state.visibleEntries],
-      };
+      return addPostToFeed(state, action.post.id);
     }
     case fail(ActionTypes.GET_SINGLE_POST): {
       return initFeed;
