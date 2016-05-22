@@ -133,7 +133,6 @@ export default class UserProfile extends React.Component {
 
         {props.canIPostHere ? (
           <CreatePost
-            createPostViewState={props.createPostViewState}
             sendTo={props.sendTo}
             user={props.user}
             createPost={props.createPost}

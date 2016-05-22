@@ -19,7 +19,6 @@ const UserHandler = (props) => {
           {...props.userActions}
           user={props.user}
           sendTo={props.sendTo}
-          createPostViewState={props.createPostViewState}
           createPost={props.createPost}
           resetPostCreateForm={props.resetPostCreateForm}
           createPostForm={props.createPostForm}
@@ -38,7 +37,6 @@ function selectState(state, ownProps) {
   const user = state.user;
   const authenticated = state.authenticated;
   const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
-  const createPostViewState = state.createPostViewState;
   const createPostForm = joinCreatePostData(state);
   const boxHeader = state.boxHeader;
   const requestedUsername = ownProps.params.userName;
@@ -87,7 +85,7 @@ function selectState(state, ownProps) {
 
   const sendTo = {...state.sendTo, defaultFeed: (foundUser ? foundUser.username : null)};
 
-  return { user, visibleEntries, createPostViewState, createPostForm, boxHeader, viewUser, breadcrumbs, sendTo };
+  return { user, visibleEntries, createPostForm, boxHeader, viewUser, breadcrumbs, sendTo };
 }
 
 function selectActions(dispatch) {

@@ -300,7 +300,6 @@ import boxHeader from './box-header';
 import comments from './comments';
 import commentViews from './comment-views';
 import createPostForm from './create-post-form';
-import createPostViewState from './create-post-view';
 import feedViewState from './feed-view';
 import {groupCreateForm, groupSettingsForm, groupPictureForm} from './group-forms';
 import posts from './posts';
@@ -323,7 +322,6 @@ export {
   comments,
   commentViews,
   createPostForm,
-  createPostViewState,
   feedViewState,
   groupCreateForm, groupSettingsForm, groupPictureForm,
   posts,

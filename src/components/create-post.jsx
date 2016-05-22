@@ -77,7 +77,7 @@ export default class CreatePost extends React.Component {
     const isShiftPressed = e.shiftKey;
     if (isEnter && !isShiftPressed) {
       e.preventDefault();
-      if (!this.state.isFormEmpty && this.state.attachmentQueueLength === 0 && !this.props.createPostViewState.isPending) {
+      if (!this.state.isFormEmpty && this.state.attachmentQueueLength === 0 && this.props.createPostForm.status !== 'loading') {
         this.submitForm();
       }
     }
@@ -85,9 +85,7 @@ export default class CreatePost extends React.Component {
 
   componentWillReceiveProps(newProps) {
     // If it was successful saving, clear the form
-    const isSavingFinished = this.props.createPostViewState.isPending && !newProps.createPostViewState.isPending;
-    const isSavingFailed = newProps.createPostViewState.isError;
-    if (isSavingFinished && !isSavingFailed) {
+    if (this.props.createPostForm.status === 'loading' && newProps.createPostForm.status === 'success') {
       this.clearForm();
     }
   }
@@ -220,7 +218,7 @@ export default class CreatePost extends React.Component {
         </div>
 
         <div className="post-edit-actions">
-          {this.props.createPostViewState.isPending ? (
+          {this.props.createPostForm.status === 'loading' ? (
             <span className="throbber">
               <img width="16" height="16" src={throbber}/>
             </span>
@@ -228,7 +226,7 @@ export default class CreatePost extends React.Component {
 
           <button className="btn btn-default btn-xs"
             onClick={preventDefault(this.submitForm)}
-            disabled={this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostViewState.isPending}>Post</button>
+            disabled={this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading'}>Post</button>
         </div>
 
         <PostAttachments
@@ -239,9 +237,9 @@ export default class CreatePost extends React.Component {
 
         <div className="dropzone-previews"></div>
 
-        {this.props.createPostViewState.isError ? (
+        {this.props.createPostForm.status === 'error' ? (
           <div className="create-post-error">
-            {this.props.createPostViewState.errorString}
+            {this.props.createPostForm.errorMessage}
           </div>
         ) : false}
       </div>

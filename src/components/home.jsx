@@ -14,7 +14,6 @@ import Welcome from './welcome';
 const FeedHandler = (props) => {
   const createPostComponent = (
     <CreatePost
-      createPostViewState={props.createPostViewState}
       sendTo={props.sendTo}
       user={props.user}
       createPost={props.createPost}
@@ -78,7 +77,6 @@ function selectState(state) {
   const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
   const hiddenEntries = state.feedViewState.hiddenEntries.map(joinPostData(state));
   const isHiddenRevealed = state.feedViewState.isHiddenRevealed;
-  const createPostViewState = state.createPostViewState;
   const createPostForm = joinCreatePostData(state);
   const boxHeader = state.boxHeader;
   const sendTo = {...state.sendTo, defaultFeed: user.username};
@@ -89,8 +87,7 @@ function selectState(state) {
     isLoading,
     user, authenticated,
     visibleEntries, hiddenEntries, isHiddenRevealed,
-    createPostViewState, createPostForm,
-    boxHeader, sendTo, userRequestsCount, groupRequestsCount,
+    createPostForm, boxHeader, sendTo, userRequestsCount, groupRequestsCount,
     areOnFirstHomePage: !state.routing.locationBeforeTransitions.query.offset,
   };
 }

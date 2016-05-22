@@ -11,7 +11,6 @@ import PaginatedView from './paginated-view';
 const FeedHandler = (props) => {
   const createPostComponent = (
     <CreatePost
-      createPostViewState={props.createPostViewState}
       sendTo={props.sendTo}
       user={props.user}
       createPost={props.createPost}
@@ -44,14 +43,13 @@ function selectState(state, ownProps) {
   const user = state.user;
   const authenticated = state.authenticated;
   const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
-  const createPostViewState = state.createPostViewState;
   const createPostForm = joinCreatePostData(state);
   const boxHeader = state.boxHeader;
 
   const defaultFeed = (getCurrentRouteName(ownProps) === 'discussions' ? user.username : null);
   const sendTo = {...state.sendTo, defaultFeed};
 
-  return { isLoading, user, authenticated, visibleEntries, createPostViewState, createPostForm, boxHeader, sendTo };
+  return { isLoading, user, authenticated, visibleEntries, createPostForm, boxHeader, sendTo };
 }
 
 function selectActions(dispatch) {
