@@ -77,35 +77,6 @@ export function singlePostId(state = null, action) {
   return state;
 }
 
-export function createPostForm(state = {}, action) {
-  switch (action.type) {
-    case ActionTypes.ADD_ATTACHMENT_RESPONSE: {
-      // If this is an attachment for edit-post (existent post),
-      // it should be handled in posts(), not here
-      if (action.payload.postId) {
-        return state;
-      }
-
-      return {...state,
-        attachments: [...(state.attachments || []), action.payload.attachments.id]
-      };
-    }
-    case ActionTypes.REMOVE_ATTACHMENT: {
-      // If this is an attachment for edit-post (existent post),
-      // it should be handled in posts(), not here
-      if (action.payload.postId) {
-        return state;
-      }
-
-      return {...state,
-        attachments: _.without((state.attachments || []), action.payload.attachmentId)
-      };
-    }
-  }
-
-  return state;
-}
-
 const GROUPS_SIDEBAR_LIST_LENGTH = 4;
 
 export function recentGroups(state = [], action) {
@@ -328,6 +299,7 @@ import authenticated from './authenticated';
 import boxHeader from './box-header';
 import comments from './comments';
 import commentViews from './comment-views';
+import createPostForm from './create-post-form';
 import createPostViewState from './create-post-view';
 import feedViewState from './feed-view';
 import {groupCreateForm, groupSettingsForm, groupPictureForm} from './group-forms';
@@ -350,6 +322,7 @@ export {
   boxHeader,
   comments,
   commentViews,
+  createPostForm,
   createPostViewState,
   feedViewState,
   groupCreateForm, groupSettingsForm, groupPictureForm,
