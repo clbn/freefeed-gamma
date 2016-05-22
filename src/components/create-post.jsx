@@ -238,8 +238,8 @@ export default class CreatePost extends React.Component {
         <div className="dropzone-previews"></div>
 
         {this.props.createPostForm.status === 'error' ? (
-          <div className="create-post-error">
-            {this.props.createPostForm.errorMessage}
+          <div className="alert alert-danger" role="alert">
+            Post has not been saved. Server response: "{this.props.createPostForm.errorMessage}"
           </div>
         ) : false}
       </div>
