@@ -1,7 +1,7 @@
 import React from 'react';
 import {preventDefault} from '../utils';
 import Textarea from 'react-textarea-autosize';
-import throbber from 'assets/images/throbber.gif';
+import throbber16 from 'assets/images/throbber-16.gif';
 import PostRecipients from './post-recipients';
 import DropzoneComponent from 'react-dropzone-component';
 import {api as apiConfig} from '../config';
@@ -219,8 +219,8 @@ export default class CreatePost extends React.Component {
 
         <div className="post-edit-actions">
           {this.props.createPostForm.status === 'loading' ? (
-            <span className="throbber">
-              <img width="16" height="16" src={throbber}/>
+            <span className="post-edit-throbber">
+              <img width="16" height="16" src={throbber16}/>
             </span>
           ) : false}
 
