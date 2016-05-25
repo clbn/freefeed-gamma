@@ -18,7 +18,7 @@
     &.fa-stack {
       width: 14px;
       margin-top: 1px;
-      margin-right: 6px;
+      margin-right: 5px;
       line-height: 1em;
     }
     .fa-plus,
@@ -70,6 +70,7 @@
 
   .add-comment-link {
     font-style: italic;
+    margin-left: 1px;
   }
 
   &:hover {

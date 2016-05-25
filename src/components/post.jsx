@@ -76,8 +76,7 @@ export default class Post extends React.Component {
       'direct-post': props.isDirect
     });
 
-    const toggleCommenting = props.isSinglePost ? () => {
-    } : () => props.toggleCommenting(props.id);
+    const toggleCommenting = props.isSinglePost ? () => {} : () => props.toggleCommenting(props.id);
 
     const recipientCustomDisplay = function(recipient) {
       if (recipient.id !== props.createdBy.id) {
@@ -321,7 +320,7 @@ export default class Post extends React.Component {
             creatingNewComment={props.isCommenting}
             updateCommentingText={props.updateCommentingText}
             addComment={props.addComment}
-            toggleCommenting={props.toggleCommenting}
+            toggleCommenting={toggleCommenting}
             showMoreComments={props.showMoreComments}
             commentEdit={props.commentEdit}/>
         </div>
