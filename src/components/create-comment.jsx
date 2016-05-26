@@ -62,13 +62,14 @@ export default class CreateComment extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const wasCommentJustSaved = this.props.post.isSavingComment && !newProps.post.isSavingComment;
-    const wasThereNoError = !newProps.errorString;
-    const isItSinglePostAddingComment = newProps.post.isSinglePost;
-    const shouldClearText = (wasCommentJustSaved && wasThereNoError && isItSinglePostAddingComment);
-    if (shouldClearText) {
+    // If it was successful saving, clear the form
+    const isSavingFinished = this.props.post.isSavingComment && !newProps.post.isSavingComment;
+    const isSavingFailed = newProps.post.commentError;
+    if (isSavingFinished && !isSavingFailed) {
       this.setState({editText: ''});
     }
+
+    // If it was updated from outside, update the form
     if (this.props.post.newCommentText !== newProps.post.newCommentText) {
       this.setState({editText: newProps.post.newCommentText});
     }
