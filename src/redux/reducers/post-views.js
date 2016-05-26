@@ -8,7 +8,6 @@ const indexById = list => _.keyBy(list || [], 'id');
 const mergeByIds = (state, array) => ({...state, ...indexById(array)});
 
 const POST_SAVE_ERROR = 'Something went wrong while editing the post...';
-const NEW_COMMENT_ERROR = 'Failed to add comment';
 const NO_ERROR = {
   isError: false,
   errorString: '',
@@ -122,10 +121,11 @@ export default function postViews(state = {}, action) {
     }
     case ActionTypes.TOGGLE_COMMENTING: {
       return {...state,
-        [action.postId] : {
-          ...state[action.postId],
-          isCommenting:!state[action.postId].isCommenting,
-          newCommentText: state[action.postId].newCommentText || '' }
+        [action.postId]: {...state[action.postId],
+          isCommenting: !state[action.postId].isCommenting,
+          newCommentText: state[action.postId].newCommentText || '',
+          commentError: ''
+        }
       };
     }
     case ActionTypes.UPDATE_COMMENTING_TEXT: {
@@ -162,7 +162,7 @@ export default function postViews(state = {}, action) {
         [post.id] : {
           ...post,
           isSavingComment: false,
-          commentError: NEW_COMMENT_ERROR
+          commentError: (action.payload || {}).err
         }
       };
     }

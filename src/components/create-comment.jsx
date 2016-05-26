@@ -128,10 +128,10 @@ export default class CreateComment extends React.Component {
               <span className="comment-throbber">
                 <img width="16" height="16" src={throbber16}/>
               </span>
-            ) : false}
-
-            {this.props.errorString ? (
-              <span className="comment-error">{this.props.errorString}</span>
+            ) : this.props.post.commentError ? (
+              <div className="comment-error alert alert-danger" role="alert">
+                Comment has not been saved. Server response: "{this.props.post.commentError}"
+              </div>
             ) : false}
           </div>
         ) : (

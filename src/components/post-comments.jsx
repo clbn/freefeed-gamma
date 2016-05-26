@@ -63,8 +63,7 @@ export default (props) => {
           otherCommentsNumber={props.comments.length}
           updateCommentingText={props.updateCommentingText}
           saveEditingComment={props.addComment}
-          toggleCommenting={props.toggleCommenting}
-          errorString={props.commentError}/>
+          toggleCommenting={props.toggleCommenting}/>
       ) : false}
     </div>
   );
