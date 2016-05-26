@@ -74,6 +74,12 @@ export default class CreateComment extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.post.isCommenting && this.props.post.newCommentText !== prevProps.post.newCommentText) {
+      this.refs.commentText.focus();
+    }
+  }
+
   render() {
     const showLink = this.props.otherCommentsNumber > 2 && !this.props.post.omittedComments /* TODO: && user_is_signed_in */;
     const showForm = this.props.post.isCommenting;
@@ -94,7 +100,6 @@ export default class CreateComment extends React.Component {
           <div className="comment-body">
             <div>
               <Textarea
-                autoFocus={!this.props.post.isSinglePost}
                 ref="commentText"
                 className="comment-textarea"
                 value={this.state.editText}
