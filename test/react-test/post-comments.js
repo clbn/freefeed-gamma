@@ -1,6 +1,7 @@
 import test from 'tape';
 import React from 'react';
 import PostComments from 'src/components/post-comments';
+import CreateComment from 'src/components/create-comment';
 import sd from 'skin-deep';
 
 const renderComments = (comments, omittedComments = 0, isCommenting = false) => {
@@ -15,7 +16,7 @@ const firstCommentRendered = renderedComments => renderedComments[0];
 const middleCommentsRendered = renderedComments => renderedComments[1];
 const omittedCommentsRendered = renderedComments => renderedComments[2];
 const lastCommentRendered = renderedComments => renderedComments[3];
-const isCommenting = renderedComments => renderedComments[4];
+const createCommentRendered = renderedComments => renderedComments[4];
 
 const generateArray = n => Array.apply(null, Array(n)).map(_ => ({}));
 
@@ -72,13 +73,9 @@ test('PostComments renders last comment if there\'s more than one comment' , t =
 
 });
 
-test('PostComments renders commenting section only if post is commented', t => {
-  const notCommenting = isCommenting(renderComments([], 0));
-
-  t.notOk(notCommenting);
-
-  const commenting = isCommenting(renderComments([], 0, true));
-  t.ok(commenting);
+test('PostComments renders CreateComment', t => {
+  const createComment = createCommentRendered(renderComments([], 0));
+  t.equals(createComment.type, CreateComment);
 
   t.end();
 });
