@@ -104,6 +104,7 @@ export default class CreateComment extends React.Component {
                 ref="commentText"
                 className="comment-textarea"
                 value={this.state.editText}
+                autoFocus={!this.props.post.isSinglePost}
                 onFocus={this.setCaretToTextEnd}
                 onChange={this.handleChange}
                 onKeyDown={this.checkSave}
