@@ -66,7 +66,7 @@ export default class PostComment extends React.Component {
 
   componentWillReceiveProps(newProps) {
     const wasCommentJustSaved = this.props.isSaving && !newProps.isSaving;
-    const wasThereNoError = !newProps.errorString;
+    const wasThereNoError = !newProps.errorMessage;
     const isItSinglePostAddingComment = newProps.isSinglePost;
     const shouldClearText = (wasCommentJustSaved && wasThereNoError && isItSinglePostAddingComment);
     if (shouldClearText) {
@@ -118,9 +118,10 @@ export default class PostComment extends React.Component {
             <span className="comment-throbber">
               <img width="16" height="16" src={throbber16}/>
             </span>
-          ) : false}
-          {this.props.errorString ? (
-            <span className="comment-error">{this.props.errorString}</span>
+          ) : this.props.errorMessage ? (
+            <div className="comment-error alert alert-danger" role="alert">
+              Comment has not been saved. Server response: "{this.props.errorMessage}"
+            </div>
           ) : false}
         </div>
       ) : (

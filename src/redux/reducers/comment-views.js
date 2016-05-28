@@ -8,11 +8,8 @@ const indexById = list => _.keyBy(list || [], 'id');
 
 const NO_ERROR = {
   isError: false,
-  errorString: '',
-  commentError: ''
+  errorMessage: ''
 };
-
-const COMMENT_SAVE_ERROR = 'Something went wrong while saving comment';
 
 const updateCommentViews = (state, action) => {
   const comments = action.payload.comments || [];
@@ -52,7 +49,7 @@ export default function commentViews(state={}, action) {
       return {...state, [action.payload.comments.id]: {...state[action.payload.comments.id], isEditing: false, isSaving: false, editText: action.payload.comments.body, ...NO_ERROR}};
     }
     case fail(ActionTypes.SAVE_EDITING_COMMENT): {
-      return {...state, [action.payload.comments.id]: {...state[action.payload.comments.id], isEditing: true, isSaving: false, errorString: COMMENT_SAVE_ERROR}};
+      return {...state, [action.request.commentId]: {...state[action.request.commentId], isEditing: true, isSaving: false, errorMessage: (action.payload || {}).err}};
     }
     case response(ActionTypes.DELETE_COMMENT): {
       return {...state, [action.request.commentId] : undefined};
