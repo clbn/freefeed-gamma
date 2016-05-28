@@ -7,20 +7,6 @@ import {preventDefault, confirmFirst, fromNowOrNow, getFullDate} from '../utils'
 import throbber16 from 'assets/images/throbber-16.gif';
 
 export default class PostComment extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      editText: this.props.editText || ''
-    };
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      editText: event.target.value
-    });
-  }
-
   openAnsweringComment = () => {
     if (this.props.openAnsweringComment) {
       this.props.openAnsweringComment(this.props.user.username);
@@ -64,19 +50,6 @@ export default class PostComment extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    const wasCommentJustSaved = this.props.isSaving && !newProps.isSaving;
-    const wasThereNoError = !newProps.errorMessage;
-    const isItSinglePostAddingComment = newProps.isSinglePost;
-    const shouldClearText = (wasCommentJustSaved && wasThereNoError && isItSinglePostAddingComment);
-    if (shouldClearText) {
-      this.setState({editText: ''});
-    }
-    if (this.props.editText !== newProps.editText) {
-      this.setState({editText: newProps.editText});
-    }
-  }
-
   render() {
     const createdAgo = fromNowOrNow(+this.props.createdAt) + '\n' + getFullDate(+this.props.createdAt);
 
@@ -94,7 +67,7 @@ export default class PostComment extends React.Component {
               autoFocus={!this.props.isSinglePost}
               ref="commentText"
               className="comment-textarea"
-              value={this.state.editText}
+              defaultValue={this.props.body}
               onFocus={this.setCaretToTextEnd}
               onChange={this.handleChange}
               onKeyDown={this.checkSave}
