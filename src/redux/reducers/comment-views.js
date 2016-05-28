@@ -6,11 +6,6 @@ import * as ActionHelpers from '../action-helpers';
 const {request, response, fail} = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
 
-const NO_ERROR = {
-  isError: false,
-  errorMessage: ''
-};
-
 const updateCommentViews = (state, action) => {
   const comments = action.payload.comments || [];
   const commentViews = comments.map(comment => ({
@@ -37,7 +32,8 @@ export default function commentViews(state={}, action) {
         ...state,
         [action.commentId]: {
           ...state[action.commentId],
-          isEditing: !state[action.commentId].isEditing
+          isEditing: !state[action.commentId].isEditing,
+          errorMessage: ''
         }
       };
     }
@@ -45,7 +41,7 @@ export default function commentViews(state={}, action) {
       return {...state, [action.payload.commentId]: {...state[action.payload.commentId], isSaving: true}};
     }
     case response(ActionTypes.SAVE_EDITING_COMMENT): {
-      return {...state, [action.payload.comments.id]: {...state[action.payload.comments.id], isEditing: false, isSaving: false, ...NO_ERROR}};
+      return {...state, [action.payload.comments.id]: {...state[action.payload.comments.id], isEditing: false, isSaving: false, errorMessage: ''}};
     }
     case fail(ActionTypes.SAVE_EDITING_COMMENT): {
       return {...state, [action.request.commentId]: {...state[action.request.commentId], isEditing: true, isSaving: false, errorMessage: (action.payload || {}).err}};
