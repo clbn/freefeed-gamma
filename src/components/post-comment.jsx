@@ -33,7 +33,6 @@ export default class PostComment extends React.Component {
     const isShiftPressed = event.shiftKey;
     if (isEnter && !isShiftPressed) {
       event.preventDefault();
-      event.target.blur();
       setTimeout(this.saveComment, 0);
     }
   }
