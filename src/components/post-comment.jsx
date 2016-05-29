@@ -28,12 +28,6 @@ export default class PostComment extends React.Component {
     }, 0);
   }
 
-  updateCommentingText = () => {
-    if (this.props.updateCommentingText) {
-      this.props.updateCommentingText(this.props.id, this.refs.commentText.value);
-    }
-  }
-
   checkSave = (event) => {
     const isEnter = event.keyCode === 13;
     const isShiftPressed = event.shiftKey;
@@ -71,7 +65,6 @@ export default class PostComment extends React.Component {
               onFocus={this.setCaretToTextEnd}
               onChange={this.handleChange}
               onKeyDown={this.checkSave}
-              onBlur={this.updateCommentingText}
               style={{ overflow: 'hidden', wordWrap: 'break-word' }}
               minRows={2}
               maxRows={10}
