@@ -164,6 +164,12 @@ export default class CreatePost extends React.Component {
             disabled={this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading'}>Post</button>
         </div>
 
+        {this.props.createPostForm.status === 'error' ? (
+          <div className="post-error alert alert-danger" role="alert">
+            Post has not been saved. Server response: "{this.props.createPostForm.errorMessage}"
+          </div>
+        ) : false}
+
         <PostAttachments
           attachments={this.props.createPostForm.attachments}
           isEditing={true}
@@ -171,12 +177,6 @@ export default class CreatePost extends React.Component {
           removeAttachment={this.removeAttachment}/>
 
         <div className="dropzone-previews"></div>
-
-        {this.props.createPostForm.status === 'error' ? (
-          <div className="alert alert-danger" role="alert">
-            Post has not been saved. Server response: "{this.props.createPostForm.errorMessage}"
-          </div>
-        ) : false}
       </div>
     );
   }
