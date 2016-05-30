@@ -303,9 +303,9 @@ export default class Post extends React.Component {
             {moreLink}
           </div>
 
-          {props.isError ? (
+          {props.errorMessage ? (
             <div className='post-error'>
-              {props.errorString}
+              {props.errorMessage}
             </div>
           ) : false}
 

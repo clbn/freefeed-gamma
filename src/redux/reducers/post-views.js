@@ -8,21 +8,17 @@ const indexById = list => _.keyBy(list || [], 'id');
 const mergeByIds = (state, array) => ({...state, ...indexById(array)});
 
 const POST_SAVE_ERROR = 'Something went wrong while editing the post...';
-const NO_ERROR = {
-  isError: false,
-  errorString: '',
-  commentError: ''
-};
 
 const initPostViewState = (post) => {
   const id = post.id;
-
   const omittedComments = post.omittedComments;
   const omittedLikes = post.omittedLikes;
   const isEditing = false;
   const editingText = post.body;
+  const errorMessage = '';
+  const commentError = '';
 
-  return {omittedComments, omittedLikes, id, isEditing, editingText, ...NO_ERROR};
+  return {id, omittedComments, omittedLikes, isEditing, editingText, errorMessage, commentError};
 };
 
 export default function postViews(state = {}, action) {
@@ -34,7 +30,7 @@ export default function postViews(state = {}, action) {
       const id = action.payload.posts.id;
       const omittedLikes = 0;
 
-      return { ...state, [id]: { ...state[id], omittedLikes, ...NO_ERROR } };
+      return { ...state, [id]: { ...state[id], omittedLikes } };
     }
     case request(ActionTypes.SHOW_MORE_COMMENTS): {
       const id = action.payload.postId;
@@ -47,7 +43,7 @@ export default function postViews(state = {}, action) {
       const isLoadingComments = false;
       const omittedComments = 0;
 
-      return { ...state, [id]: { ...state[id], isLoadingComments, omittedComments, ...NO_ERROR } };
+      return { ...state, [id]: { ...state[id], isLoadingComments, omittedComments } };
     }
     case response(ActionTypes.GET_SINGLE_POST): {
       const id = action.payload.posts.id;
@@ -65,31 +61,25 @@ export default function postViews(state = {}, action) {
     case fail(ActionTypes.GET_SINGLE_POST): {
       const id = action.request.postId;
       const isEditing = false;
-
-      const isError = true;
-      const errorString = action.response.status + ' ' + action.response.statusText;
-
-      return { ...state, [id]: { id, isEditing, isError, errorString }};
+      const errorMessage = action.response.status + ' ' + action.response.statusText;
+      return { ...state, [id]: { id, isEditing, errorMessage }};
     }
     case ActionTypes.SHOW_MORE_LIKES_SYNC: {
       const id = action.payload.postId;
       const omittedLikes = 0;
-
-      return { ...state, [id]: { ...state[id], omittedLikes, ...NO_ERROR } };
+      return { ...state, [id]: { ...state[id], omittedLikes } };
     }
     case ActionTypes.TOGGLE_EDITING_POST: {
       const id = action.payload.postId;
       const editingText = action.payload.newValue;
       const isEditing = !state[id].isEditing;
-
-      return { ...state, [id]: { ...state[id], isEditing, editingText, ...NO_ERROR } };
+      return { ...state, [id]: { ...state[id], editingText, isEditing, errorMessage: '' } };
     }
     case ActionTypes.CANCEL_EDITING_POST: {
       const id = action.payload.postId;
       const editingText = action.payload.newValue;
       const isEditing = false;
-
-      return { ...state, [id]: { ...state[id], isEditing, editingText, ...NO_ERROR } };
+      return { ...state, [id]: { ...state[id], editingText, isEditing, errorMessage: '' } };
     }
     case request(ActionTypes.SAVE_EDITING_POST): {
       const id = action.payload.postId;
@@ -98,26 +88,16 @@ export default function postViews(state = {}, action) {
     case response(ActionTypes.SAVE_EDITING_POST): {
       const id = action.payload.posts.id;
       const editingText = action.payload.posts.body;
-      const isEditing = false;
-      const isSaving = false;
-
-      return { ...state, [id]: { ...state[id], isEditing, isSaving, editingText, ...NO_ERROR } };
+      return { ...state, [id]: { ...state[id], editingText, isEditing: false, isSaving: false, errorMessage: '' } };
     }
     case fail(ActionTypes.SAVE_EDITING_POST): {
       const id = action.request.postId;
-      const isEditing = false;
-      const isSaving = false;
-      const isError = true;
-
-      return { ...state, [id]: { ...state[id], isEditing, isSaving, isError, errorString: POST_SAVE_ERROR} };
+      return { ...state, [id]: { ...state[id], isEditing: true, isSaving: false, errorMessage: POST_SAVE_ERROR} };
     }
     case fail(ActionTypes.DELETE_POST): {
       const id = action.request.postId;
-
-      const isError = true;
-      const errorString = 'Something went wrong while deleting the post...';
-
-      return { ...state, [id]: { ...state[id], isError, errorString} };
+      const errorMessage = 'Something went wrong while deleting the post...';
+      return { ...state, [id]: { ...state[id], errorMessage} };
     }
     case ActionTypes.TOGGLE_COMMENTING: {
       return {...state,
@@ -417,14 +397,9 @@ export default function postViews(state = {}, action) {
 
     case response(ActionTypes.CREATE_POST): {
       const post = action.payload.posts;
-      const id = post.id;
-
-      const omittedComments = post.omittedComments;
-      const omittedLikes = post.omittedLikes;
-      const isEditing = false;
-      const editingText = post.body;
-
-      return { ...state, [id]: { omittedComments, omittedLikes, id, isEditing, editingText, ...NO_ERROR } };
+      return {...state,
+        [post.id]: initPostViewState(post)
+      };
     }
     case ActionTypes.UNAUTHENTICATED: {
       return {};

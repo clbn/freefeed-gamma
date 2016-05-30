@@ -63,7 +63,7 @@ function selectState(state) {
 
   const post = joinPostData(state)(state.singlePostId);
   const viewState = state.postViews[state.singlePostId];
-  const errorString = viewState && viewState.isError ? viewState.errorString : null;
+  const errorString = viewState && viewState.errorMessage || null;
 
   return { isLoading, post, user, boxHeader, errorString };
 }
