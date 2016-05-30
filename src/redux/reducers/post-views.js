@@ -7,8 +7,6 @@ const {request, response, fail} = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
 const mergeByIds = (state, array) => ({...state, ...indexById(array)});
 
-const POST_SAVE_ERROR = 'Something went wrong while editing the post...';
-
 const initPostViewState = (post) => {
   const id = post.id;
   const omittedComments = post.omittedComments;
@@ -92,7 +90,7 @@ export default function postViews(state = {}, action) {
     }
     case fail(ActionTypes.SAVE_EDITING_POST): {
       const id = action.request.postId;
-      return { ...state, [id]: { ...state[id], isEditing: true, isSaving: false, errorMessage: POST_SAVE_ERROR} };
+      return { ...state, [id]: { ...state[id], isEditing: true, isSaving: false, errorMessage: (action.payload || {}).err} };
     }
     case fail(ActionTypes.DELETE_POST): {
       const id = action.request.postId;

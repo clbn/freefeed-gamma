@@ -275,6 +275,12 @@ export default class Post extends React.Component {
                   onClick={saveEditingPost}
                   disabled={this.state.attachmentQueueLength > 0}>Update</button>
               </div>
+
+              {!props.isSaving && props.errorMessage ? (
+                <div className="post-error alert alert-danger" role="alert">
+                  Post has not been saved. Server response: "{props.errorMessage}"
+                </div>
+              ) : false}
             </div>
           ) : (
             <div className="post-text">
@@ -302,12 +308,6 @@ export default class Post extends React.Component {
             {hideLink}
             {moreLink}
           </div>
-
-          {props.errorMessage ? (
-            <div className='post-error'>
-              {props.errorMessage}
-            </div>
-          ) : false}
 
           <PostLikes
             post={props}
