@@ -14,6 +14,7 @@ export default class CreatePost extends React.Component {
       isExpanded: false,
       isFormEmpty: true,
       isMoreOpen: false,
+      hasUploadFailed: false,
       attachmentQueueLength: 0
     };
   }
@@ -49,6 +50,7 @@ export default class CreatePost extends React.Component {
       isExpanded: false,
       isFormEmpty: true,
       isMoreOpen: false,
+      hasUploadFailed: false,
       attachmentQueueLength: 0
     });
 
@@ -98,9 +100,17 @@ export default class CreatePost extends React.Component {
       this.setState({attachmentQueueLength: this.state.attachmentQueueLength + 1});
     };
     const handleRemovedFile = () => {
+      if (this.state.attachmentQueueLength === 1) {
+        this.setState({hasUploadFailed: false});
+      }
       this.setState({attachmentQueueLength: this.state.attachmentQueueLength - 1});
     };
-    const handleUploadSuccess = (attachment) => this.props.addAttachmentResponse(null, attachment);
+    const handleUploadSuccess = (attachment) => (
+      this.props.addAttachmentResponse(null, attachment)
+    );
+    const handleUploadFailure = () => {
+      this.setState({hasUploadFailed: true});
+    };
 
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
@@ -116,7 +126,8 @@ export default class CreatePost extends React.Component {
           <PostDropzone
             onAddedFile={handleAddedFile}
             onRemovedFile={handleRemovedFile}
-            onUploadSuccess={handleUploadSuccess}/>
+            onUploadSuccess={handleUploadSuccess}
+            onUploadFailure={handleUploadFailure}/>
 
           <Textarea
             className="post-textarea"
@@ -163,6 +174,12 @@ export default class CreatePost extends React.Component {
             onClick={preventDefault(this.submitForm)}
             disabled={this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading'}>Post</button>
         </div>
+
+        {this.state.hasUploadFailed ? (
+          <div className="post-error alert alert-warning" role="alert">
+            Some files have failed to upload. You'll need to remove them from the queue to submit the post.
+          </div>
+        ) : false}
 
         {this.props.createPostForm.status === 'error' ? (
           <div className="post-error alert alert-danger" role="alert">

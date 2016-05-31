@@ -61,6 +61,11 @@ const dropzoneEventHandlers = (props) => ({
     props.onUploadSuccess(response.attachments);
   },
 
+  error: function() {
+    // Show a warning about failed upload
+    props.onUploadFailure();
+  },
+
   addedfile: props.onAddedFile,
 
   removedfile: props.onRemovedFile

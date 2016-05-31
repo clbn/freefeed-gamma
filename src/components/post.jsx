@@ -18,6 +18,7 @@ export default class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      hasUploadFailed: false,
       attachmentQueueLength: 0
     };
   }
@@ -133,9 +134,17 @@ export default class Post extends React.Component {
       this.setState({attachmentQueueLength: this.state.attachmentQueueLength + 1});
     };
     const handleRemovedFile = () => {
+      if (this.state.attachmentQueueLength === 1) {
+        this.setState({hasUploadFailed: false});
+      }
       this.setState({attachmentQueueLength: this.state.attachmentQueueLength - 1});
     };
-    const handleUploadSuccess = (attachment) => this.props.addAttachmentResponse(props.id, attachment);
+    const handleUploadSuccess = (attachment) => (
+      this.props.addAttachmentResponse(props.id, attachment)
+    );
+    const handleUploadFailure = () => {
+      this.setState({hasUploadFailed: true});
+    };
 
     // "Comments disabled" / "Comment"
     let commentLink;
@@ -238,7 +247,8 @@ export default class Post extends React.Component {
               <PostDropzone
                 onAddedFile={handleAddedFile}
                 onRemovedFile={handleRemovedFile}
-                onUploadSuccess={handleUploadSuccess}/>
+                onUploadSuccess={handleUploadSuccess}
+                onUploadFailure={handleUploadFailure}/>
 
               <div>
                 <Textarea
@@ -271,6 +281,12 @@ export default class Post extends React.Component {
                   onClick={saveEditingPost}
                   disabled={this.state.attachmentQueueLength > 0}>Update</button>
               </div>
+
+              {this.state.hasUploadFailed ? (
+                <div className="post-error alert alert-warning" role="alert">
+                  Some files have failed to upload. You'll need to remove them from the queue to submit the post.
+                </div>
+              ) : false}
 
               {!props.isSaving && props.errorMessage ? (
                 <div className="post-error alert alert-danger" role="alert">
