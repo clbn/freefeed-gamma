@@ -32,16 +32,12 @@ export default class Post extends React.Component {
     const createdAtHuman = getFullDate(+props.createdAt);
     const createdAgo = fromNowOrNow(+props.createdAt);
 
-    let editingPostText = props.editingText;
-    let editingPostTextChange = (e) => {
-      editingPostText = e.target.value;
-    };
-    const toggleEditingPost = () => props.toggleEditingPost(props.id, editingPostText);
-    const cancelEditingPost = () => props.cancelEditingPost(props.id, editingPostText);
+    const toggleEditingPost = () => props.toggleEditingPost(props.id);
+    const cancelEditingPost = () => props.cancelEditingPost(props.id);
     const saveEditingPost = () => {
       if (!props.isSaving) {
         let attachmentIds = props.attachments.map(item => item.id) || [];
-        props.saveEditingPost(props.id, {body: editingPostText, attachments: attachmentIds});
+        props.saveEditingPost(props.id, {body: this.refs.postText.value, attachments: attachmentIds});
       }
     };
     const deletePost = () => props.deletePost(props.id);
@@ -246,11 +242,11 @@ export default class Post extends React.Component {
 
               <div>
                 <Textarea
+                  ref="postText"
                   className="post-textarea"
-                  defaultValue={props.editingText}
-                  onKeyDown={checkSave}
-                  onChange={editingPostTextChange}
+                  defaultValue={props.body}
                   autoFocus={true}
+                  onKeyDown={checkSave}
                   minRows={3}
                   maxRows={10}
                   maxLength="1500"/>

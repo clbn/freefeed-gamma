@@ -12,11 +12,10 @@ const initPostViewState = (post) => {
   const omittedComments = post.omittedComments;
   const omittedLikes = post.omittedLikes;
   const isEditing = false;
-  const editingText = post.body;
   const errorMessage = '';
   const commentError = '';
 
-  return {id, omittedComments, omittedLikes, isEditing, editingText, errorMessage, commentError};
+  return {id, omittedComments, omittedLikes, isEditing, errorMessage, commentError};
 };
 
 export default function postViews(state = {}, action) {
@@ -69,15 +68,13 @@ export default function postViews(state = {}, action) {
     }
     case ActionTypes.TOGGLE_EDITING_POST: {
       const id = action.payload.postId;
-      const editingText = action.payload.newValue;
       const isEditing = !state[id].isEditing;
-      return { ...state, [id]: { ...state[id], editingText, isEditing, errorMessage: '' } };
+      return { ...state, [id]: { ...state[id], isEditing, errorMessage: '' } };
     }
     case ActionTypes.CANCEL_EDITING_POST: {
       const id = action.payload.postId;
-      const editingText = action.payload.newValue;
       const isEditing = false;
-      return { ...state, [id]: { ...state[id], editingText, isEditing, errorMessage: '' } };
+      return { ...state, [id]: { ...state[id], isEditing, errorMessage: '' } };
     }
     case request(ActionTypes.SAVE_EDITING_POST): {
       const id = action.payload.postId;
@@ -85,8 +82,7 @@ export default function postViews(state = {}, action) {
     }
     case response(ActionTypes.SAVE_EDITING_POST): {
       const id = action.payload.posts.id;
-      const editingText = action.payload.posts.body;
-      return { ...state, [id]: { ...state[id], editingText, isEditing: false, isSaving: false, errorMessage: '' } };
+      return { ...state, [id]: { ...state[id], isEditing: false, isSaving: false, errorMessage: '' } };
     }
     case fail(ActionTypes.SAVE_EDITING_POST): {
       const id = action.request.postId;
