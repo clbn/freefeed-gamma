@@ -57,12 +57,11 @@ export default class PostComment extends React.Component {
         <div className="comment-body">
           <div>
             <Textarea
-              autoFocus={!this.props.isSinglePost}
               ref="commentText"
               className="comment-textarea"
               defaultValue={this.props.body}
+              autoFocus={!this.props.isSinglePost}
               onFocus={this.setCaretToTextEnd}
-              onChange={this.handleChange}
               onKeyDown={this.checkSave}
               style={{ overflow: 'hidden', wordWrap: 'break-word' }}
               minRows={2}
