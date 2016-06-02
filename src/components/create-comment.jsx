@@ -18,12 +18,6 @@ export default class CreateComment extends React.Component {
     });
   }
 
-  openAnsweringComment = () => {
-    if (this.props.openAnsweringComment) {
-      this.props.openAnsweringComment(this.props.user.username);
-    }
-  }
-
   setCaretToTextEnd = (event) => {
     const input = event.target;
 
