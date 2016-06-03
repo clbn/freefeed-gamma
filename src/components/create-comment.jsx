@@ -8,7 +8,8 @@ export default class CreateComment extends React.Component {
     super(props);
 
     this.state = {
-      editText: this.props.post.newCommentText || ''
+      editText: this.props.post.newCommentText || '',
+      textUpdatedFromOutside: false
     };
   }
 
@@ -64,14 +65,18 @@ export default class CreateComment extends React.Component {
     }
 
     // If it was updated from outside, update the form
-    if (this.props.post.newCommentText !== newProps.post.newCommentText) {
-      this.setState({editText: newProps.post.newCommentText});
+    if (this.state.editText !== newProps.post.newCommentText) {
+      this.setState({
+        editText: newProps.post.newCommentText,
+        textUpdatedFromOutside: true
+      });
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.post.isCommenting && this.props.post.newCommentText !== prevProps.post.newCommentText) {
+    if (this.props.post.isCommenting && this.state.textUpdatedFromOutside) {
       this.refs.commentText.focus();
+      this.setState({textUpdatedFromOutside: false});
     }
   }
 
