@@ -34,7 +34,6 @@ const SinglePostHandler = (props) => {
         addAttachmentResponse={props.addAttachmentResponse}
         removeAttachment={props.removeAttachment}
         toggleCommenting={props.toggleCommenting}
-        updateCommentingText={props.updateCommentingText}
         addComment={props.addComment}
         likePost={props.likePost}
         unlikePost={props.unlikePost}

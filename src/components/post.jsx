@@ -329,7 +329,6 @@ export default class Post extends React.Component {
           <PostComments
             post={props}
             comments={props.comments}
-            updateCommentingText={props.updateCommentingText}
             addComment={props.addComment}
             toggleCommenting={toggleCommenting}
             showMoreComments={props.showMoreComments}

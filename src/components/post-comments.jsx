@@ -20,6 +20,7 @@ export default (props) => {
   const entryUrl = `/${props.post.createdBy.username}/${props.post.id}`;
 
   const openAnsweringComment = (username) => {
+/*
     if (!props.post.isCommenting && !props.post.isSinglePost) {
       props.toggleCommenting(props.post.id);
     }
@@ -31,6 +32,7 @@ export default (props) => {
       const addSpace = text.length && !text.match(/\s$/);
       props.updateCommentingText(props.post.id, `${text}${addSpace ? ' ' : ''}@${username} `);
     }
+*/
   };
 
   const commentMapper = renderComment(entryUrl, openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
@@ -61,7 +63,6 @@ export default (props) => {
         <CreateComment
           post={props.post}
           otherCommentsNumber={props.comments.length}
-          updateCommentingText={props.updateCommentingText}
           saveEditingComment={props.addComment}
           toggleCommenting={props.toggleCommenting}/>
       ) : false}

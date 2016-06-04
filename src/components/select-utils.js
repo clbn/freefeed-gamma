@@ -17,7 +17,7 @@ import {
   deletePost,
 
   // Comment actions
-  toggleCommenting, updateCommentingText, addComment,
+  toggleCommenting, addComment,
   toggleEditingComment, cancelEditingComment, saveEditingComment,
   highlightComment, clearHighlightComment,
   deleteComment
@@ -140,7 +140,6 @@ export function postActions(dispatch) {
     saveEditingPost: (postId, newPost) => dispatch(saveEditingPost(postId, newPost)),
     deletePost: (postId) => dispatch(deletePost(postId)),
     toggleCommenting: (postId) => dispatch(toggleCommenting(postId)),
-    updateCommentingText: (postId, commentText) => dispatch(updateCommentingText(postId, commentText)),
     addComment:(postId, commentText) => dispatch(addComment(postId, commentText)),
     likePost: (postId, userId) => dispatch(likePost(postId, userId)),
     unlikePost: (postId, userId) => dispatch(unlikePost(postId, userId)),

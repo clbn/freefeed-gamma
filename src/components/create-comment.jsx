@@ -4,42 +4,6 @@ import Textarea from 'react-textarea-autosize';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 export default class CreateComment extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      editText: this.props.post.newCommentText || '',
-      textUpdatedFromOutside: false
-    };
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      editText: event.target.value
-    });
-  }
-
-  setCaretToTextEnd = (event) => {
-    const input = event.target;
-
-    setTimeout(() => {
-      if (typeof input.selectionStart === 'number') {
-        input.selectionStart = input.selectionEnd = input.value.length;
-      } else if (input.createTextRange !== undefined) {
-        input.focus();
-        const range = input.createTextRange();
-        range.collapse(false);
-        range.select();
-      }
-    }, 0);
-  }
-
-  updateCommentingText = () => {
-    if (this.props.updateCommentingText) {
-      this.props.updateCommentingText(this.props.post.id, this.refs.commentText.value);
-    }
-  }
-
   checkSave = (event) => {
     const isEnter = event.keyCode === 13;
     const isShiftPressed = event.shiftKey;
@@ -61,22 +25,7 @@ export default class CreateComment extends React.Component {
     const isSavingFinished = this.props.post.isSavingComment && !newProps.post.isSavingComment;
     const isSavingFailed = newProps.post.commentError;
     if (isSavingFinished && !isSavingFailed) {
-      this.setState({editText: ''});
-    }
-
-    // If it was updated from outside, update the form
-    if (this.state.editText !== newProps.post.newCommentText) {
-      this.setState({
-        editText: newProps.post.newCommentText,
-        textUpdatedFromOutside: true
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.post.isCommenting && this.state.textUpdatedFromOutside) {
-      this.refs.commentText.focus();
-      this.setState({textUpdatedFromOutside: false});
+      this.refs.commentText.value = '';
     }
   }
 
@@ -102,12 +51,9 @@ export default class CreateComment extends React.Component {
               <Textarea
                 ref="commentText"
                 className="comment-textarea"
-                value={this.state.editText}
+                defaultValue=""
                 autoFocus={!this.props.post.isSinglePost}
-                onFocus={this.setCaretToTextEnd}
-                onChange={this.handleChange}
                 onKeyDown={this.checkSave}
-                onBlur={this.updateCommentingText}
                 style={{ overflow: 'hidden', wordWrap: 'break-word' }}
                 minRows={2}
                 maxRows={10}

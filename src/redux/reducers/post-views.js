@@ -97,16 +97,7 @@ export default function postViews(state = {}, action) {
       return {...state,
         [action.postId]: {...state[action.postId],
           isCommenting: !state[action.postId].isCommenting,
-          newCommentText: state[action.postId].newCommentText || '',
           commentError: ''
-        }
-      };
-    }
-    case ActionTypes.UPDATE_COMMENTING_TEXT: {
-      const postState = state[action.postId];
-      return {...state,
-        [action.postId]: {...postState,
-          newCommentText: action.commentText
         }
       };
     }
@@ -125,7 +116,6 @@ export default function postViews(state = {}, action) {
           ...post,
           isCommenting: false,
           isSavingComment: false,
-          newCommentText: '',
           omittedComments: (post.omittedComments ? post.omittedComments + 1 : 0)
         }
       };
