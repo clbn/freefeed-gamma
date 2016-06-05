@@ -16,56 +16,60 @@ const renderComment = (entryUrl, openAnsweringComment, isModeratingComments, com
     highlightArrowComment={arrows => commentEdit.highlightComment(postId, undefined, arrows, comment.id)}/>
 );
 
-export default (props) => {
-  const entryUrl = `/${props.post.createdBy.username}/${props.post.id}`;
+export default class PostComments extends React.Component {
+  render() {
+    const props = this.props;
 
-  const openAnsweringComment = (username) => {
-/*
-    if (!props.post.isCommenting && !props.post.isSinglePost) {
-      props.toggleCommenting(props.post.id);
-    }
+    const entryUrl = `/${props.post.createdBy.username}/${props.post.id}`;
 
-    const text = (props.post.newCommentText || '');
-    const check = new RegExp(`@${username}\\s*$`);
+    const openAnsweringComment = (username) => {
+      /*
+      if (!props.post.isCommenting && !props.post.isSinglePost) {
+        props.toggleCommenting(props.post.id);
+      }
 
-    if (!text.match(check)) {
-      const addSpace = text.length && !text.match(/\s$/);
-      props.updateCommentingText(props.post.id, `${text}${addSpace ? ' ' : ''}@${username} `);
-    }
-*/
-  };
+      const text = (props.post.newCommentText || '');
+      const check = new RegExp(`@${username}\\s*$`);
 
-  const commentMapper = renderComment(entryUrl, openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
-  const first = props.comments[0];
-  const last = props.comments.length > 1 && props.comments[props.comments.length - 1];
-  const middle = props.comments.slice(1, props.comments.length - 1).map(commentMapper);
-  const showOmittedNumber = props.post.omittedComments > 0;
-  const showMoreComments = () => props.showMoreComments(props.post.id);
-  const canAddComment = (!props.post.commentsDisabled || props.post.isEditable);
+      if (!text.match(check)) {
+        const addSpace = text.length && !text.match(/\s$/);
+        props.updateCommentingText(props.post.id, `${text}${addSpace ? ' ' : ''}@${username} `);
+      }
+      */
+    };
 
-  return (
-    <div className="comments">
-      {first ? commentMapper(first): false}
+    const commentMapper = renderComment(entryUrl, openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
+    const first = props.comments[0];
+    const last = props.comments.length > 1 && props.comments[props.comments.length - 1];
+    const middle = props.comments.slice(1, props.comments.length - 1).map(commentMapper);
+    const showOmittedNumber = props.post.omittedComments > 0;
+    const showMoreComments = () => props.showMoreComments(props.post.id);
+    const canAddComment = (!props.post.commentsDisabled || props.post.isEditable);
 
-      {middle}
+    return (
+      <div className="comments">
+        {first ? commentMapper(first): false}
 
-      {showOmittedNumber
-        ? <MoreCommentsWrapper
+        {middle}
+
+        {showOmittedNumber ? (
+          <MoreCommentsWrapper
             omittedComments={props.post.omittedComments}
             showMoreComments={showMoreComments}
             entryUrl={entryUrl}
             isLoading={props.post.isLoadingComments}/>
-        : false}
+        ) : false}
 
-      {last ? commentMapper(last) : false}
+        {last ? commentMapper(last) : false}
 
-      {canAddComment ? (
-        <CreateComment
-          post={props.post}
-          otherCommentsNumber={props.comments.length}
-          saveEditingComment={props.addComment}
-          toggleCommenting={props.toggleCommenting}/>
-      ) : false}
-    </div>
-  );
+        {canAddComment ? (
+          <CreateComment
+            post={props.post}
+            otherCommentsNumber={props.comments.length}
+            saveEditingComment={props.addComment}
+            toggleCommenting={props.toggleCommenting}/>
+        ) : false}
+      </div>
+    );
+  }
 };
