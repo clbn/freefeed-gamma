@@ -4,6 +4,11 @@ import Textarea from 'react-textarea-autosize';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 export default class CreateComment extends React.Component {
+  bindTextarea = (textarea) => {
+    this._textarea = textarea;
+    this.props.bindTextarea(this._textarea);
+  };
+
   checkSave = (event) => {
     const isEnter = event.keyCode === 13;
     const isShiftPressed = event.shiftKey;
@@ -16,7 +21,7 @@ export default class CreateComment extends React.Component {
 
   saveComment = () => {
     if (!this.props.post.isSavingComment) {
-      this.props.saveEditingComment(this.props.post.id, this.refs.commentText.value);
+      this.props.saveEditingComment(this.props.post.id, this._textarea.value);
     }
   }
 
@@ -25,7 +30,7 @@ export default class CreateComment extends React.Component {
     const isSavingFinished = this.props.post.isSavingComment && !newProps.post.isSavingComment;
     const isSavingFailed = newProps.post.commentError;
     if (isSavingFinished && !isSavingFailed) {
-      this.refs.commentText.value = '';
+      this._textarea.value = '';
     }
   }
 
@@ -49,7 +54,7 @@ export default class CreateComment extends React.Component {
           <div className="comment-body">
             <div>
               <Textarea
-                ref="commentText"
+                ref={this.bindTextarea}
                 className="comment-textarea"
                 defaultValue=""
                 autoFocus={!this.props.post.isSinglePost}

@@ -17,28 +17,41 @@ const renderComment = (entryUrl, openAnsweringComment, isModeratingComments, com
 );
 
 export default class PostComments extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      newCommentTextarea: null
+    };
+  }
+
+  bindNewCommentTextarea = (textarea) => {
+    this.setState({newCommentTextarea: textarea});
+  };
+
+  openAnsweringComment = (username) => {
+    if (!this.props.post.isCommenting && !this.props.post.isSinglePost) {
+      this.props.toggleCommenting(this.props.post.id);
+    }
+
+    setTimeout(() => {
+      if (this.state.newCommentTextarea) {
+        const text = this.state.newCommentTextarea.value;
+        const check = new RegExp(`@${username}\\s*$`);
+
+        if (!text.match(check)) {
+          const addSpace = text.length && !text.match(/\s$/);
+          this.state.newCommentTextarea.value = `${text}${addSpace ? ' ' : ''}@${username} `;
+        }
+      }
+    }, 0);
+  };
+
   render() {
     const props = this.props;
 
     const entryUrl = `/${props.post.createdBy.username}/${props.post.id}`;
 
-    const openAnsweringComment = (username) => {
-      /*
-      if (!props.post.isCommenting && !props.post.isSinglePost) {
-        props.toggleCommenting(props.post.id);
-      }
-
-      const text = (props.post.newCommentText || '');
-      const check = new RegExp(`@${username}\\s*$`);
-
-      if (!text.match(check)) {
-        const addSpace = text.length && !text.match(/\s$/);
-        props.updateCommentingText(props.post.id, `${text}${addSpace ? ' ' : ''}@${username} `);
-      }
-      */
-    };
-
-    const commentMapper = renderComment(entryUrl, openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
+    const commentMapper = renderComment(entryUrl, this.openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
     const first = props.comments[0];
     const last = props.comments.length > 1 && props.comments[props.comments.length - 1];
     const middle = props.comments.slice(1, props.comments.length - 1).map(commentMapper);
@@ -67,7 +80,8 @@ export default class PostComments extends React.Component {
             post={props.post}
             otherCommentsNumber={props.comments.length}
             saveEditingComment={props.addComment}
-            toggleCommenting={props.toggleCommenting}/>
+            toggleCommenting={props.toggleCommenting}
+            bindTextarea={this.bindNewCommentTextarea}/>
         ) : false}
       </div>
     );
