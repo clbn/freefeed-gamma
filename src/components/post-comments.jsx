@@ -42,6 +42,8 @@ export default class PostComments extends React.Component {
           const addSpace = text.length && !text.match(/\s$/);
           this.state.newCommentTextarea.value = `${text}${addSpace ? ' ' : ''}@${username} `;
         }
+
+        this.state.newCommentTextarea.focus();
       }
     }, 0);
   };
