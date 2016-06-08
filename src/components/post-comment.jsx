@@ -13,21 +13,6 @@ export default class PostComment extends React.Component {
     }
   }
 
-  setCaretToTextEnd = (event) => {
-    const input = event.target;
-
-    setTimeout(() => {
-      if (typeof input.selectionStart === 'number') {
-        input.selectionStart = input.selectionEnd = input.value.length;
-      } else if (input.createTextRange !== undefined) {
-        input.focus();
-        const range = input.createTextRange();
-        range.collapse(false);
-        range.select();
-      }
-    }, 0);
-  }
-
   checkSave = (event) => {
     const isEnter = event.keyCode === 13;
     const isShiftPressed = event.shiftKey;
@@ -61,7 +46,6 @@ export default class PostComment extends React.Component {
               className="comment-textarea"
               defaultValue={this.props.body}
               autoFocus={!this.props.isSinglePost}
-              onFocus={this.setCaretToTextEnd}
               onKeyDown={this.checkSave}
               style={{ overflow: 'hidden', wordWrap: 'break-word' }}
               minRows={2}
