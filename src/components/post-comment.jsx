@@ -45,23 +45,17 @@ export default class PostComment extends React.Component {
               ref="commentText"
               className="comment-textarea"
               defaultValue={this.props.body}
-              autoFocus={!this.props.isSinglePost}
+              autoFocus={true}
               onKeyDown={this.checkSave}
               style={{ overflow: 'hidden', wordWrap: 'break-word' }}
               minRows={2}
               maxRows={10}
               maxLength="1500"/>
           </div>
-          {this.props.isSinglePost ? (
-            <span>
-              <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Comment</button>
-            </span>
-          ) : (
-            <span>
-              <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Post</button>
-              <a className="comment-cancel" onClick={preventDefault(_=>this.props.toggleEditingComment(this.props.id))}>Cancel</a>
-            </span>
-          )}
+          <span>
+            <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Post</button>
+            <a className="comment-cancel" onClick={preventDefault(_=>this.props.toggleEditingComment(this.props.id))}>Cancel</a>
+          </span>
           {this.props.isSaving ? (
             <span className="comment-throbber">
               <img width="16" height="16" src={throbber16}/>
