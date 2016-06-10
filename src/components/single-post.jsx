@@ -19,7 +19,6 @@ const SinglePostHandler = (props) => {
   }
 
   if (post) {
-    post.isCommenting = true;
     postBody = (
       <Post {...post}
         key={post.id}

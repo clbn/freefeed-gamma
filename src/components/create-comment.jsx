@@ -57,7 +57,7 @@ export default class CreateComment extends React.Component {
                 ref={this.bindTextarea}
                 className="comment-textarea"
                 defaultValue=""
-                autoFocus={!this.props.post.isSinglePost}
+                autoFocus={true}
                 onKeyDown={this.checkSave}
                 style={{ overflow: 'hidden', wordWrap: 'break-word' }}
                 minRows={2}
@@ -87,12 +87,22 @@ export default class CreateComment extends React.Component {
             ) : false}
           </div>
         ) : (
-          <div>
-            <a className="add-comment-link" onClick={this.props.toggleCommenting}>Add comment</a>
-            {this.props.post.commentsDisabled && this.props.post.isEditable
-              ? <i> - disabled for others</i>
-              : false}
-          </div>
+          (this.props.post.isSinglePost ? (
+            <div className="comment-body">
+              <Textarea
+                className="comment-textarea"
+                rows={2}
+                defaultValue=""
+                onFocus={this.props.toggleCommenting}/>
+            </div>
+          ) : (
+            <div>
+              <a className="add-comment-link" onClick={this.props.toggleCommenting}>Add comment</a>
+              {this.props.post.commentsDisabled && this.props.post.isEditable
+                ? <i> - disabled for others</i>
+                : false}
+            </div>
+          ))
         )}
       </div>
     );

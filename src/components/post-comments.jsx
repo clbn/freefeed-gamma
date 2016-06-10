@@ -29,7 +29,7 @@ export default class PostComments extends React.Component {
   };
 
   openAnsweringComment = (username) => {
-    if (!this.props.post.isCommenting && !this.props.post.isSinglePost) {
+    if (!this.props.post.isCommenting) {
       this.props.toggleCommenting(this.props.post.id);
     }
 

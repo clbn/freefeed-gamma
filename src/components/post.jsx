@@ -73,7 +73,7 @@ export default class Post extends React.Component {
       'direct-post': props.isDirect
     });
 
-    const toggleCommenting = props.isSinglePost ? () => {} : () => props.toggleCommenting(props.id);
+    const toggleCommenting = () => props.toggleCommenting(props.id);
 
     const recipientCustomDisplay = function(recipient) {
       if (recipient.id !== props.createdBy.id) {
