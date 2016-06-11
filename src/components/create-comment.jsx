@@ -65,16 +65,10 @@ export default class CreateComment extends React.Component {
                 maxLength="1500"/>
             </div>
 
-            {this.props.post.isSinglePost ? (
-              <span>
-                <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Comment</button>
-              </span>
-            ) : (
-              <span>
-                <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Post</button>
-                <a className="comment-cancel" onClick={this.props.toggleCommenting}>Cancel</a>
-              </span>
-            )}
+            <span>
+              <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Comment</button>
+              <a className="comment-cancel" onClick={this.props.toggleCommenting}>Cancel</a>
+            </span>
 
             {this.props.post.isSavingComment ? (
               <span className="comment-throbber">
