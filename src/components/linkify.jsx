@@ -11,19 +11,14 @@ const LINK = 'link';
 const AT_LINK = 'atLink';
 const LOCAL_LINK = 'localLink';
 const EMAIL = 'email';
+const ARROW = 'arrow';
 
 const finder = new URLFinder(
   ['ru', 'com', 'net', 'org', 'info', 'gov', 'edu', 'рф', 'ua'],
   config.siteDomains
 );
 
-const arrowDetector = /(↑+|\^+W?)/g;
-const defaultFunction = _ => _;
-const getArrowProps = ({hover = defaultFunction, leave = defaultFunction} = {}, text) => ({
-  className: 'reference-arrow',
-  onMouseEnter: () => hover(text.length),
-  onMouseLeave: leave
-});
+finder.withArrows = true;
 
 class Linkify extends React.Component {
   createLinkElement({type, username}, displayedLink, href) {
@@ -43,6 +38,12 @@ class Linkify extends React.Component {
         props['to'] = href;
         return React.createElement(Link, props, displayedLink);
       }
+      case ARROW: {
+        props['className'] = 'reference-arrow';
+        props['onMouseEnter'] = () => this.arrowHover.hover(displayedLink.length);
+        props['onMouseLeave'] = this.arrowHover.leave;
+        return React.createElement('span', props, displayedLink);
+      }
       default: {
         props['href'] = href;
         props['target'] = '_blank';
@@ -51,39 +52,8 @@ class Linkify extends React.Component {
     }
   }
 
-  createArrowElement(arrows) {
-    return React.createElement(
-      'span',
-      {
-        ...getArrowProps(this.arrowHover, arrows),
-        key: `match${++this.idx}`,
-      },
-      arrows
-    );
-  }
-
   parseCounter = 0;
   idx = 0;
-
-  parseArrows(text) {
-    if (!this.props.arrowHover) {
-      return [text];
-    }
-
-    const pieces = text.split(arrowDetector);
-
-    const resPieces = pieces.map((piece) => {
-      if (piece === '^W') {
-        return piece;
-      }
-      if (piece.match(arrowDetector)) {
-        return this.createArrowElement(piece);
-      }
-      return piece;
-    }).filter((piece) => (piece !== ''));
-
-    return resPieces;
-  }
 
   parseString(string) {
     let elements = [];
@@ -110,9 +80,10 @@ class Linkify extends React.Component {
         } else if (it.type === EMAIL) {
           displayedLink = it.text;
           href = `mailto:${it.address}`;
+        } else if (it.type === ARROW && this.arrowHover) {
+          displayedLink = it.text;
         } else {
-          const textWithArrows = this.parseArrows(it.text);
-          elements = elements.concat(textWithArrows);
+          elements.push(it.text);
           return;
         }
 
