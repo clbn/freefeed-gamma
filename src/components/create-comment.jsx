@@ -35,10 +35,11 @@ export default class CreateComment extends React.Component {
   }
 
   render() {
-    const showLink = this.props.otherCommentsNumber > 2 && !this.props.post.omittedComments /* TODO: && user_is_signed_in */;
-    const showForm = this.props.post.isCommenting;
+    const writingComment = this.props.post.isCommenting;
+    const singlePost = this.props.post.isSinglePost;
+    const manyComments = this.props.otherCommentsNumber > 2 && !this.props.post.omittedComments /* TODO: && user_is_signed_in */;
 
-    if (!showLink && !showForm) {
+    if (!writingComment && !singlePost && !manyComments) {
       return false;
     }
 
@@ -50,7 +51,7 @@ export default class CreateComment extends React.Component {
           <i className="fa fa-plus fa-stack-1x"></i>
         </a>
 
-        {showForm ? (
+        {writingComment ? (
           <div className="comment-body">
             <div>
               <Textarea
@@ -80,23 +81,21 @@ export default class CreateComment extends React.Component {
               </div>
             ) : false}
           </div>
+        ) : singlePost ? (
+          <div className="comment-body">
+            <Textarea
+              className="comment-textarea"
+              rows={2}
+              defaultValue=""
+              onFocus={this.props.toggleCommenting}/>
+          </div>
         ) : (
-          (this.props.post.isSinglePost ? (
-            <div className="comment-body">
-              <Textarea
-                className="comment-textarea"
-                rows={2}
-                defaultValue=""
-                onFocus={this.props.toggleCommenting}/>
-            </div>
-          ) : (
-            <div>
-              <a className="add-comment-link" onClick={this.props.toggleCommenting}>Add comment</a>
-              {this.props.post.commentsDisabled && this.props.post.isEditable
-                ? <i> - disabled for others</i>
-                : false}
-            </div>
-          ))
+          <div>
+            <a className="add-comment-link" onClick={this.props.toggleCommenting}>Add comment</a>
+            {this.props.post.commentsDisabled && this.props.post.isEditable
+              ? <i> - disabled for others</i>
+              : false}
+          </div>
         )}
       </div>
     );
