@@ -33,6 +33,11 @@
     padding: 1px;
     margin: 0 8px 8px 0;
 
+    min-width: 36px;
+    min-height: 36px;
+    line-height: 30px;
+    text-align: center;
+
     img {
       max-width: 525px;
       max-height: 175px;
@@ -76,12 +81,14 @@
   .attachment:hover .remove-attachment {
     display: block;
     position: absolute;
+    width: 32px;
+    height: 32px;
+    line-height: 30px;
     right: 1px;
     top: 1px;
     cursor: pointer;
     color: #000;
     font-size: 20px;
-    padding: 6px 8px 7px 9px;
     z-index: 100;
     background-color: silver;
     opacity: 0.7;

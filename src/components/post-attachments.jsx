@@ -13,6 +13,7 @@ export default class PostAttachments extends React.Component {
     };
   }
 
+  attachmentMinWidth = 32; // tiny image has container of the same size as image of 32×32
   attachmentMargins = 2 + 2 + 8; // border+padding + padding+border + margin
   toggleWidth = 24; // "chevron-circle" width
 
@@ -51,10 +52,11 @@ export default class PostAttachments extends React.Component {
   }
 
   getImageWidth(image) {
-    return +(image.imageSizes && (
+    const realWidth = +(image.imageSizes && (
       image.imageSizes.t && image.imageSizes.t.w ||
       image.imageSizes.o && image.imageSizes.o.w
     ));
+    return Math.max(realWidth, this.attachmentMinWidth);
   }
 
   getImagesWidth(images) {
