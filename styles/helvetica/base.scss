@@ -56,8 +56,17 @@ a, a:hover, a:focus {
 }
 
 footer {
-  font-size: 14px;
-  margin-bottom: 20px;
+  color: #444;
+  font-size: 12px;
+  text-align: center;
+
+  border-top: 1px solid #eee;
+  padding-top: 14px;
+  padding-bottom: 14px;
+
+  a {
+    color: #339;
+  }
 }
 
 .error-string {

@@ -2,10 +2,27 @@ import React from 'react';
 import {Link} from 'react-router';
 
 export default (props) => (
-  <footer className="row">
+  <div className="row">
     <div className="col-md-12">
-      FreeFeed Gamma {APP_VERSION}<br/>
-      <Link to="/about">About</Link> | <Link to="/freefeed">News</Link> | <a href="https://twitter.com/freefeednet" target="_blank">Twitter</a> | <a href="https://status.freefeed.net/" target="_blank">Status</a> | <a href="https://dev.freefeed.net/" target="_blank">Development</a>
+      <footer>
+        FreeFeed Gamma {APP_VERSION}
+
+        {' \u00a0-\u00a0 '}
+
+        Official: <Link to="/about">About</Link>
+        {' \u00b7 '}
+        <Link to="/freefeed">News</Link>
+        {' \u00b7 '}
+        <a href="https://status.freefeed.net/" target="_blank">Status</a>
+        {' \u00b7 '}
+        <a href="https://dev.freefeed.net/" target="_blank">Development</a>
+
+        {' \u00a0-\u00a0 '}
+
+        Gamma: <Link to="/gamma">News</Link>
+        {' \u00b7 '}
+        <a href="https://github.com/clbn/freefeed-gamma" target="_blank">Development</a>
+      </footer>
     </div>
-  </footer>
+  </div>
 );
