@@ -4,6 +4,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var PathRewriter = require('webpack-path-rewriter');
 var TapWebpackPlugin = require('tap-webpack-plugin');
 
+var gitCommitDate = require('child_process').execSync('git show -s --format="%ci"').toString();
+
 var env = process.env;
 
 var opts = {
@@ -91,6 +93,7 @@ module.exports = [{
     new webpack.ContextReplacementPlugin(/moment[/]locale$/, /(?:en|ru)[.]js/),
 
     new webpack.DefinePlugin({
+      APP_VERSION: JSON.stringify(gitCommitDate.substr(0, 10).replace(/-/g, '.')),
       'process.env.NODE_ENV': opts.dev ? '"development"' : '"production"'
     }),
 
