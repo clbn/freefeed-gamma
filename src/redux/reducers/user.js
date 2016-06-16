@@ -6,7 +6,7 @@ import {getPersistedUser} from '../../services/auth';
 import {userParser} from '../../utils';
 import {frontendPreferences as frontendPrefsConfig} from '../../config';
 
-const {response} = ActionHelpers;
+const {request, response} = ActionHelpers;
 
 const initUser = () => ({
   frontendPreferences: frontendPrefsConfig.defaultValues,
@@ -34,6 +34,14 @@ export default function user(state = initUser(), action) {
     }
     case response(ActionTypes.CREATE_GROUP): {
       return {...state, subscriptions: [...state.subscriptions, action.payload.groups.id]};
+    }
+    // Update the state of realtime switch immediately
+    case request(ActionTypes.UPDATE_FRONTEND_PREFERENCES): {
+      return {...state,
+        frontendPreferences: {...state.frontendPreferences,
+          realtimeActive: action.payload.prefs.realtimeActive
+        }
+      };
     }
   }
   return state;
