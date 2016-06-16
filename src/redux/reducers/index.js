@@ -4,7 +4,6 @@ const {request, response, fail} = ActionHelpers;
 
 import _ from 'lodash';
 import {userParser} from '../../utils';
-import {frontendPreferences as frontendPrefsConfig} from '../../config';
 
 export function serverError(state = false, action) {
   switch (action.type) {
@@ -237,34 +236,6 @@ export function managedGroups(state = [], action) {
     }
   }
 
-  return state;
-}
-
-const initialRealtimeSettings = {
-  realtimeActive: false,
-  status: '',
-  errorMessage: '',
-};
-
-export function frontendRealtimePreferencesForm(state=initialRealtimeSettings, action) {
-  switch (action.type) {
-    case ActionTypes.TOGGLE_REALTIME: {
-      return {...state, realtimeActive: !state.realtimeActive, status: ''};
-    }
-    case response(ActionTypes.WHO_AM_I): {
-      const fp = action.payload.users.frontendPreferences[frontendPrefsConfig.clientId];
-      return {...state, realtimeActive: (fp ? fp.realtimeActive : initialRealtimeSettings.realtimeActive)};
-    }
-    case request(ActionTypes.UPDATE_FRONTEND_REALTIME_PREFERENCES): {
-      return {...state, status: 'loading'};
-    }
-    case response(ActionTypes.UPDATE_FRONTEND_REALTIME_PREFERENCES): {
-      return {...state, status: 'success'};
-    }
-    case fail(ActionTypes.UPDATE_FRONTEND_REALTIME_PREFERENCES): {
-      return {...state, status: 'error', errorMessage: (action.payload || {}).err};
-    }
-  }
   return state;
 }
 
