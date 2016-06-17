@@ -5,7 +5,7 @@ const config = {
     host: 'http://localhost:3000'
   },
   auth: {
-    cookieDomain: 'localhost',
+    getCookieDomain: () => 'localhost',
     tokenPrefix: 'freefeed_',
     userStorageKey: 'USER_KEY'
   },

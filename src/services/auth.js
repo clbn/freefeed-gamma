@@ -10,7 +10,7 @@ export function getToken() {
 }
 
 export function setToken(token) {
-  return setCookie(NAME, token, EXP_DAYS, PATH);
+  return setCookie(NAME, token, EXP_DAYS, PATH, authConfig.getCookieDomain());
 }
 
 export function getPersistedUser() {

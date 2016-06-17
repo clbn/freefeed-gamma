@@ -14,11 +14,13 @@ export function getCookie(name) {
   return token.trim();
 }
 
-export function setCookie(name, value = '', expireDays, path) {
-  const expiresDate = Date.now() + expireDays * 24 * 60 * 60 * 1000;
+export function setCookie(name, value = '', expiresDays, path, domain) {
+  const expiresDate = Date.now() + expiresDays * 24 * 60 * 60 * 1000;
   const expiresTime = new Date(expiresDate).toUTCString();
-  //http://stackoverflow.com/questions/1134290/cookies-on-localhost-with-explicit-domain
-  const cookie = `${name}=${value}; expires=${expiresTime}; path=${path}`;
+  const cookie = `${name}=${value}` +
+    `;expires=${expiresTime}` +
+    `;path=${path}` +
+    (domain && domain !== 'localhost' ? `;domain=${domain}` : '');
   return document.cookie = cookie;
 }
 
