@@ -12,10 +12,11 @@ const initPostViewState = (post) => {
   const omittedComments = post.omittedComments;
   const omittedLikes = post.omittedLikes;
   const isEditing = false;
+  const errorStatus = '';
   const errorMessage = '';
   const commentError = '';
 
-  return {id, omittedComments, omittedLikes, isEditing, errorMessage, commentError};
+  return {id, omittedComments, omittedLikes, isEditing, errorStatus, errorMessage, commentError};
 };
 
 export default function postViews(state = {}, action) {
@@ -58,8 +59,9 @@ export default function postViews(state = {}, action) {
     case fail(ActionTypes.GET_SINGLE_POST): {
       const id = action.request.postId;
       const isEditing = false;
-      const errorMessage = action.response.status + ' ' + action.response.statusText;
-      return { ...state, [id]: { id, isEditing, errorMessage }};
+      const errorStatus = action.response.status + ' ' + action.response.statusText;
+      const errorMessage = (action.payload || {}).err;
+      return { ...state, [id]: { id, isEditing, errorStatus, errorMessage } };
     }
     case ActionTypes.SHOW_MORE_LIKES_SYNC: {
       const id = action.payload.postId;
@@ -69,12 +71,12 @@ export default function postViews(state = {}, action) {
     case ActionTypes.TOGGLE_EDITING_POST: {
       const id = action.payload.postId;
       const isEditing = !state[id].isEditing;
-      return { ...state, [id]: { ...state[id], isEditing, errorMessage: '' } };
+      return { ...state, [id]: { ...state[id], isEditing, errorStatus: '', errorMessage: '' } };
     }
     case ActionTypes.CANCEL_EDITING_POST: {
       const id = action.payload.postId;
       const isEditing = false;
-      return { ...state, [id]: { ...state[id], isEditing, errorMessage: '' } };
+      return { ...state, [id]: { ...state[id], isEditing, errorStatus: '', errorMessage: '' } };
     }
     case request(ActionTypes.SAVE_EDITING_POST): {
       const id = action.payload.postId;
@@ -82,16 +84,21 @@ export default function postViews(state = {}, action) {
     }
     case response(ActionTypes.SAVE_EDITING_POST): {
       const id = action.payload.posts.id;
-      return { ...state, [id]: { ...state[id], isEditing: false, isSaving: false, errorMessage: '' } };
+      return { ...state, [id]: { ...state[id], isEditing: false, isSaving: false, errorStatus: '', errorMessage: '' } };
     }
     case fail(ActionTypes.SAVE_EDITING_POST): {
       const id = action.request.postId;
-      return { ...state, [id]: { ...state[id], isEditing: true, isSaving: false, errorMessage: (action.payload || {}).err} };
+      const isEditing = true;
+      const isSaving = false;
+      const errorStatus = action.response.status + ' ' + action.response.statusText;
+      const errorMessage = (action.payload || {}).err;
+      return { ...state, [id]: { ...state[id], isEditing, isSaving, errorStatus, errorMessage } };
     }
     case fail(ActionTypes.DELETE_POST): {
       const id = action.request.postId;
-      const errorMessage = 'Something went wrong while deleting the post...';
-      return { ...state, [id]: { ...state[id], errorMessage} };
+      const errorStatus = action.response.status + ' ' + action.response.statusText;
+      const errorMessage = (action.payload || {}).err;
+      return { ...state, [id]: { ...state[id], errorStatus, errorMessage } };
     }
     case ActionTypes.TOGGLE_COMMENTING: {
       return {...state,
