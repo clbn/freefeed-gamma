@@ -224,11 +224,13 @@ export default function posts(state = {}, action) {
       if (!post) {
         return state;
       }
+      const newPost = postParser(action.post);
       return {...state,
         [post.id]: {...post,
-          body: action.post.body,
-          updatedAt: action.post.updatedAt,
-          attachments: action.post.attachments || []
+          body: newPost.body,
+          attachments: newPost.attachments || [],
+          commentsDisabled: newPost.commentsDisabled,
+          updatedAt: newPost.updatedAt
         }
       };
     }
