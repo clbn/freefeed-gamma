@@ -20,7 +20,7 @@ export default function title(state = '', action) {
       return `${author} - FreeFeed`;
     }
     case response(ActionTypes.GET_SINGLE_POST): {
-      const text = action.payload.posts.body.substr(0, 60);
+      const text = (action.payload.posts.body || '').substr(0, 60);
       const user = (action.payload.users || [])[0];
       const author = user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
       return `${text} - ${author} - FreeFeed`;
