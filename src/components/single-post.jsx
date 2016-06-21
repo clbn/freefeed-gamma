@@ -14,8 +14,13 @@ const SinglePostHandler = (props) => {
     postBody = <DummyPost isSinglePost={true}/>;
   }
 
-  if (props.errorString) {
-    postBody = <h2>{props.errorString}</h2>;
+  if (props.errorStatus) {
+    postBody = (
+      <div>
+        <h2>{props.errorStatus}</h2>
+        <p><i>{props.errorMessage}</i></p>
+      </div>
+    );
   }
 
   if (post) {
@@ -61,9 +66,10 @@ function selectState(state) {
 
   const post = joinPostData(state)(state.singlePostId);
   const viewState = state.postViews[state.singlePostId];
-  const errorString = viewState && viewState.errorMessage || null;
+  const errorStatus = viewState && viewState.errorStatus || null;
+  const errorMessage = viewState && viewState.errorMessage || null;
 
-  return { isLoading, post, user, boxHeader, errorString };
+  return { isLoading, post, user, boxHeader, errorStatus, errorMessage };
 }
 
 function selectActions(dispatch) {
