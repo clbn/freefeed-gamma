@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {updateUser, userSettingsChange, updateFrontendPreferences, updatePassword, updateUserPicture} from '../redux/action-creators';
+import {updateUser, userSettingsChange, updateUserPicture, updateFrontendPreferences, updatePassword} from '../redux/action-creators';
 import UserSettingsForm from './user-settings-form';
+import UserPictureForm from './user-picture-form';
 import UserFrontendPreferencesForm from './user-frontend-preferences-form';
 import UserChangePasswordForm from './user-change-password-form';
-import UserPictureForm from './user-picture-form';
 
 const Settings = (props) => (
   <div className="content">
@@ -50,9 +50,9 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     userSettingsForm: state.userSettingsForm,
+    userPictureForm: state.userPictureForm,
     frontendPreferencesForm: state.frontendPreferencesForm,
-    passwordForm: state.passwordForm,
-    userPictureForm: state.userPictureForm
+    passwordForm: state.passwordForm
   };
 }
 
@@ -60,9 +60,9 @@ function mapDispatchToProps(dispatch) {
   return {
     updateUser: (...args) => dispatch(updateUser(...args)),
     userSettingsChange: (...args) => dispatch(userSettingsChange(...args)),
+    updateUserPicture: (...args) => dispatch(updateUserPicture(...args)),
     updateFrontendPreferences: (...args) => dispatch(updateFrontendPreferences(...args)),
-    updatePassword: (...args) => dispatch(updatePassword(...args)),
-    updateUserPicture: (...args) => dispatch(updateUserPicture(...args))
+    updatePassword: (...args) => dispatch(updatePassword(...args))
   };
 }
 
