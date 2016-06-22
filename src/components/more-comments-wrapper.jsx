@@ -11,7 +11,7 @@ export default (props) => (
       ) : false}
     </span>
     <a className="more-comments-link"
-       href={props.entryUrl}
+       href={props.postUrl}
        onClick={preventDefault(()=>props.showMoreComments())}>
       {`${props.omittedComments}`} more comments
     </a>

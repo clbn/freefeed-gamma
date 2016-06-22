@@ -4,11 +4,11 @@ import PostComment from './post-comment';
 import MoreCommentsWrapper from './more-comments-wrapper';
 import CreateComment from './create-comment';
 
-const renderComment = (entryUrl, openAnsweringComment, isModeratingComments, commentEdit, postId) => comment => (
+const renderComment = (postUrl, openAnsweringComment, isModeratingComments, commentEdit, postId) => comment => (
   <PostComment
     key={comment.id}
     {...comment}
-    entryUrl={entryUrl}
+    postUrl={postUrl}
     openAnsweringComment={openAnsweringComment}
     isModeratingComments={isModeratingComments}
     {...commentEdit}
@@ -51,9 +51,9 @@ export default class PostComments extends React.Component {
   render() {
     const props = this.props;
 
-    const entryUrl = `/${props.post.createdBy.username}/${props.post.id}`;
+    const postUrl = `/${props.post.createdBy.username}/${props.post.id}`;
 
-    const commentMapper = renderComment(entryUrl, this.openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
+    const commentMapper = renderComment(postUrl, this.openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
     const first = props.comments[0];
     const last = props.comments.length > 1 && props.comments[props.comments.length - 1];
     const middle = props.comments.slice(1, props.comments.length - 1).map(commentMapper);
@@ -71,7 +71,7 @@ export default class PostComments extends React.Component {
           <MoreCommentsWrapper
             omittedComments={props.post.omittedComments}
             showMoreComments={showMoreComments}
-            entryUrl={entryUrl}
+            postUrl={postUrl}
             isLoading={props.post.isLoadingComments}/>
         ) : false}
 
