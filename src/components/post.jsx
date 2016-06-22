@@ -113,22 +113,6 @@ export default class Post extends React.Component {
       </span>
     ));
 
-    // "Lock icon": check if the post is truly private, "partly private" or public.
-    // Truly private:
-    // - posted to author's own private feed and/or
-    // - sent to users as a direct message and/or
-    // - posted into private groups
-    // Public:
-    // - posted to author's own public feed and/or
-    // - posted into public groups
-    // "Partly private":
-    // - has mix of private and public recipients
-    const publicRecipients = props.recipients.filter((recipient) => (
-      recipient.isPrivate === '0' &&
-      (recipient.id === props.createdBy.id || recipient.type === 'group')
-    ));
-    const isReallyPrivate = (publicRecipients.length === 0);
-
     // DropzoneJS queue handlers
     const handleAddedFile = () => {
       this.setState({attachmentQueueLength: this.state.attachmentQueueLength + 1});
@@ -146,7 +130,23 @@ export default class Post extends React.Component {
       this.setState({hasUploadFailed: true});
     };
 
-    // "Comments disabled" / "Comment"
+    // "Lock icon": check if the post is truly private, "partly private" or public.
+    // Truly private:
+    // - posted to author's own private feed and/or
+    // - sent to users as a direct message and/or
+    // - posted into private groups
+    // Public:
+    // - posted to author's own public feed and/or
+    // - posted into public groups
+    // "Partly private":
+    // - has mix of private and public recipients
+    const publicRecipients = props.recipients.filter((recipient) => (
+      recipient.isPrivate === '0' &&
+      (recipient.id === props.createdBy.id || recipient.type === 'group')
+    ));
+    const isReallyPrivate = (publicRecipients.length === 0);
+
+    // "Comment" / "Comments disabled"
     let commentLink;
     if (props.commentsDisabled) {
       if (props.isEditable) {
