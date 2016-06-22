@@ -51,9 +51,7 @@ export default class PostComments extends React.Component {
   render() {
     const props = this.props;
 
-    const postUrl = `/${props.post.createdBy.username}/${props.post.id}`;
-
-    const commentMapper = renderComment(postUrl, this.openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
+    const commentMapper = renderComment(props.postUrl, this.openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
     const first = props.comments[0];
     const last = props.comments.length > 1 && props.comments[props.comments.length - 1];
     const middle = props.comments.slice(1, props.comments.length - 1).map(commentMapper);
@@ -71,7 +69,7 @@ export default class PostComments extends React.Component {
           <MoreCommentsWrapper
             omittedComments={props.post.omittedComments}
             showMoreComments={showMoreComments}
-            postUrl={postUrl}
+            postUrl={props.postUrl}
             isLoading={props.post.isLoadingComments}/>
         ) : false}
 

@@ -146,6 +146,16 @@ export default class Post extends React.Component {
     ));
     const isReallyPrivate = (publicRecipients.length === 0);
 
+    // Post URL
+    // If all the recipients are groups (so it's not sent to author's feed,
+    // or to some user as a direct message), use the first group in the URL.
+    // Otherwise, use author's name.
+    let postUrlUsername = props.createdBy.username;
+    if (props.recipients.every((recipient) => recipient.type === 'group')) {
+      postUrlUsername = props.recipients[0].username;
+    }
+    const postUrl = `/${postUrlUsername}/${props.id}`;
+
     // "Comment" / "Comments disabled"
     let commentLink;
     if (props.commentsDisabled) {
@@ -312,7 +322,7 @@ export default class Post extends React.Component {
               <i className="post-lock-icon fa fa-lock" title="This entry is private"></i>
             ) : false}
             {props.isDirect ? (<span>»&nbsp;</span>) : false}
-            <Link to={`/${props.createdBy.username}/${props.id}`} className="post-timestamp">
+            <Link to={postUrl} className="post-timestamp">
               <time dateTime={createdAtISO} title={createdAtHuman}>{createdAgo}</time>
             </Link>
             {commentLink}
@@ -328,6 +338,7 @@ export default class Post extends React.Component {
 
           <PostComments
             post={props}
+            postUrl={postUrl}
             comments={props.comments}
             addComment={props.addComment}
             toggleCommenting={toggleCommenting}
