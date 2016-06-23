@@ -16,8 +16,10 @@ export default class UserPictureForm extends React.Component {
       <form onSubmit={preventDefault(this.savePicture)}>
         <h3>Profile picture</h3>
 
-        <div className="form-group userpic">
-          <img src={this.props.user.profilePictureLargeUrl} width="75" height="75"/>
+        <div className="form-group">
+          <div className="userpic userpic-large">
+            <img src={this.props.user.profilePictureLargeUrl} width="75" height="75"/>
+          </div>
         </div>
 
         <div className="form-group">

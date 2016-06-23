@@ -35,6 +35,12 @@ export default (props) => {
     'single-post': props.isSinglePost
   });
 
+  const userpicClass = classnames({
+    'userpic': true,
+    'userpic-loading': true,
+    'userpic-large': props.isSinglePost
+  });
+
   const author = <a>{dummyWord(8, 4)}</a>;
   const recipients = (Math.random() < 0.5 ? (<span>{' ' + dummyWord(2) + ' '}<a>{dummyText(1, 2, 10, 3)}</a></span>) : false);
   const text = dummyText(3, 30, 5, 3);
@@ -71,7 +77,7 @@ export default (props) => {
 
   return (
     <div className={postClass}>
-      <div className="userpic"></div>
+      <div className={userpicClass}></div>
       <div className="post-body">
         <div className="post-header">
           {author}

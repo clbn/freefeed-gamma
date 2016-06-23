@@ -31,7 +31,7 @@ class UserCard extends React.Component {
       props.user.errorMessage ? (
         <div className="user-card">
           <div className="user-card-info">
-            <div className="userpic error">
+            <div className="userpic userpic-large userpic-error">
               <i className="fa fa-exclamation"></i>
             </div>
             <div className="names">
@@ -43,7 +43,7 @@ class UserCard extends React.Component {
       ) : !props.user.id ? (
         <div className="user-card">
           <div className="user-card-info">
-            <div className="userpic loading"></div>
+            <div className="userpic userpic-large userpic-loading"></div>
             <div className="names">
               <img width="16" height="16" src={throbber16}/>
             </div>
@@ -52,7 +52,7 @@ class UserCard extends React.Component {
       ) : (
         <div className="user-card">
           <div className="user-card-info">
-            <Link to={`/${props.user.username}`} className="userpic">
+            <Link to={`/${props.user.username}`} className="userpic userpic-large">
               <img src={props.user.profilePictureLargeUrl} width="75" height="75"/>
             </Link>
 

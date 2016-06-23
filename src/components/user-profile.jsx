@@ -35,9 +35,9 @@ export default class UserProfile extends React.Component {
             <div className="row">
               <div className="col-sm-9 col-xs-12">
                 {props.isLoading && !props.profilePictureLargeUrl ? (
-                  <div className="userpic loading"></div>
+                  <div className="userpic userpic-large userpic-loading"></div>
                 ) : (
-                  <div className="userpic">
+                  <div className="userpic userpic-large">
                     <img src={props.profilePictureLargeUrl} width="75" height="75"/>
                   </div>
                 )}

@@ -73,6 +73,11 @@ export default class Post extends React.Component {
       'direct-post': props.isDirect
     });
 
+    const userpicClass = classnames({
+      'userpic': true,
+      'userpic-large': props.isSinglePost
+    });
+
     const toggleCommenting = () => props.toggleCommenting(props.id);
 
     const recipientCustomDisplay = function(recipient) {
@@ -240,7 +245,7 @@ export default class Post extends React.Component {
       </div>
     ) : (
       <div className={postClass}>
-        <div className="userpic">
+        <div className={userpicClass}>
           <Link to={`/${props.createdBy.username}`}>
             <img src={profilePicture} width={profilePictureSize} height={profilePictureSize}/>
           </Link>

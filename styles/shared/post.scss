@@ -20,10 +20,8 @@
   }
 
   .userpic {
-    width: 52px;
-    height: 52px;
     float: left;
-    @media (max-width: 767px) { margin: 0 10px 3px 0; }
+    @media (max-width: 767px) { margin-right: 1px + 10px; margin-bottom: 1px + 3px; }
   }
 
   .post-body {
@@ -187,11 +185,6 @@
   padding-bottom: 0;
   border-bottom: 0 none;
 
-  .userpic {
-    width: 77px;
-    height: 77px;
-  }
-
   .post-body {
     margin-left: 88px;
     @media (max-width: 767px) { margin-left: 0; }
@@ -247,11 +240,6 @@
 }
 
 .dummy-post {
-  .userpic {
-    border-color: #e4e4e4;
-    background-color: #f2f2f2;
-  }
-
   .post-body {
     color: #eee;
 
