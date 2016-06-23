@@ -42,6 +42,8 @@ export default class Post extends React.Component {
       }
     };
     const deletePost = () => props.deletePost(props.id);
+
+    const toggleCommenting = () => props.toggleCommenting(props.id);
     const likePost = () => props.likePost(props.id, props.user.id);
     const unlikePost = () => props.unlikePost(props.id, props.user.id);
 
@@ -62,10 +64,8 @@ export default class Post extends React.Component {
         }
       }
     };
-    const profilePicture = props.isSinglePost ?
-      props.createdBy.profilePictureLargeUrl : props.createdBy.profilePictureMediumUrl;
-    const profilePictureSize = props.isSinglePost ? 75 : 50;
 
+    // Post class(es)
     const postClass = classnames({
       'post': true,
       'single-post': props.isSinglePost,
@@ -73,13 +73,15 @@ export default class Post extends React.Component {
       'direct-post': props.isDirect
     });
 
+    // Userpic(s)
     const userpicClass = classnames({
       'userpic': true,
       'userpic-large': props.isSinglePost
     });
+    const userpicImage = (props.isSinglePost ? props.createdBy.profilePictureLargeUrl : props.createdBy.profilePictureMediumUrl);
+    const userpicSize = (props.isSinglePost ? 75 : 50);
 
-    const toggleCommenting = () => props.toggleCommenting(props.id);
-
+    // Recipients
     const recipientCustomDisplay = function(recipient) {
       if (recipient.id !== props.createdBy.id) {
         return false;
@@ -247,7 +249,7 @@ export default class Post extends React.Component {
       <div className={postClass}>
         <div className={userpicClass}>
           <Link to={`/${props.createdBy.username}`}>
-            <img src={profilePicture} width={profilePictureSize} height={profilePictureSize}/>
+            <img src={userpicImage} width={userpicSize} height={userpicSize}/>
           </Link>
         </div>
         <div className="post-body">
