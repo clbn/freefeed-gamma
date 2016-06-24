@@ -73,13 +73,26 @@ export default class Post extends React.Component {
       'direct-post': props.isDirect
     });
 
+    // Primary recipient feed: used as main userpic and as part of canonical post URL.
+    // If all the recipients are groups (so it's not sent to author's feed,
+    // or to some user as a direct message), use the first group as primary recipient.
+    // Otherwise, use author's feed.
+    let primaryRecipient = props.createdBy;
+    if (props.recipients.every((recipient) => recipient.type === 'group')) {
+      primaryRecipient = props.recipients[0];
+    }
+
     // Userpic(s)
+    const userpicHasSecondary = (primaryRecipient.id !== props.createdBy.id);
     const userpicClass = classnames({
       'userpic': true,
-      'userpic-large': props.isSinglePost
+      'userpic-large': props.isSinglePost,
+      'userpic-has-secondary': userpicHasSecondary
     });
-    const userpicImage = (props.isSinglePost ? props.createdBy.profilePictureLargeUrl : props.createdBy.profilePictureMediumUrl);
+    const userpicImage = (props.isSinglePost ? primaryRecipient.profilePictureLargeUrl : primaryRecipient.profilePictureMediumUrl);
     const userpicSize = (props.isSinglePost ? 75 : 50);
+    const userpicSecondaryImage = props.createdBy.profilePictureMediumUrl;
+    const userpicSecondarySize = Math.round(userpicSize/1.5);
 
     // Recipients
     const recipientCustomDisplay = function(recipient) {
@@ -154,14 +167,7 @@ export default class Post extends React.Component {
     const isReallyPrivate = (publicRecipients.length === 0);
 
     // Post URL
-    // If all the recipients are groups (so it's not sent to author's feed,
-    // or to some user as a direct message), use the first group in the URL.
-    // Otherwise, use author's name.
-    let postUrlUsername = props.createdBy.username;
-    if (props.recipients.every((recipient) => recipient.type === 'group')) {
-      postUrlUsername = props.recipients[0].username;
-    }
-    const postUrl = `/${postUrlUsername}/${props.id}`;
+    const postUrl = `/${primaryRecipient.username}/${props.id}`;
 
     // "Comment" / "Comments disabled"
     let commentLink;
@@ -248,9 +254,17 @@ export default class Post extends React.Component {
     ) : (
       <div className={postClass}>
         <div className={userpicClass}>
-          <Link to={`/${props.createdBy.username}`}>
+          <Link to={`/${primaryRecipient.username}`}>
             <img src={userpicImage} width={userpicSize} height={userpicSize}/>
           </Link>
+
+          {userpicHasSecondary ? (
+            <div className="userpic-secondary">
+              <Link to={`/${props.createdBy.username}`}>
+                <img src={userpicSecondaryImage} width={userpicSecondarySize} height={userpicSecondarySize}/>
+              </Link>
+            </div>
+          ) : false}
         </div>
         <div className="post-body">
           <div className="post-header">

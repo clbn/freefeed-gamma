@@ -22,6 +22,10 @@
   .userpic {
     float: left;
     @media (max-width: 767px) { margin-right: 1px + 10px; margin-bottom: 1px + 3px; }
+
+    &.userpic-has-secondary {
+      @media (max-width: 767px) { margin-bottom: 1px + 18px; }
+    }
   }
 
   .post-body {
