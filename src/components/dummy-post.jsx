@@ -77,8 +77,10 @@ export default (props) => {
 
   return (
     <div className={postClass}>
-      <div className={userpicClass}></div>
-      <div className="post-body">
+      <div className="post-userpic">
+        <div className={userpicClass}></div>
+      </div>
+      <div className="post-top">
         <div className="post-header">
           {author}
           {recipients}
@@ -87,7 +89,9 @@ export default (props) => {
         <div className="post-text">
           {text}
         </div>
+      </div>
 
+      <div className="post-bottom">
         {attachments}
 
         <div className="post-footer">

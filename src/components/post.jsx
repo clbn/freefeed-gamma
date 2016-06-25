@@ -92,7 +92,7 @@ export default class Post extends React.Component {
     const userpicImage = (props.isSinglePost ? primaryRecipient.profilePictureLargeUrl : primaryRecipient.profilePictureMediumUrl);
     const userpicSize = (props.isSinglePost ? 75 : 50);
     const userpicSecondaryImage = props.createdBy.profilePictureMediumUrl;
-    const userpicSecondarySize = Math.round(userpicSize/1.5);
+    const userpicSecondarySize = (props.isSinglePost ? 50 : 33);
 
     // Recipients
     const recipientCustomDisplay = function(recipient) {
@@ -253,20 +253,23 @@ export default class Post extends React.Component {
       </div>
     ) : (
       <div className={postClass}>
-        <div className={userpicClass}>
-          <Link to={`/${primaryRecipient.username}`}>
-            <img src={userpicImage} width={userpicSize} height={userpicSize}/>
-          </Link>
-
-          {userpicHasSecondary ? (
-            <div className="userpic-secondary">
-              <Link to={`/${props.createdBy.username}`}>
-                <img src={userpicSecondaryImage} width={userpicSecondarySize} height={userpicSecondarySize}/>
-              </Link>
-            </div>
-          ) : false}
+        <div className="post-userpic">
+          <div className={userpicClass}>
+            <Link to={`/${primaryRecipient.username}`}>
+              <img src={userpicImage} width={userpicSize} height={userpicSize}/>
+            </Link>
+  
+            {userpicHasSecondary ? (
+              <div className="userpic-secondary">
+                <Link to={`/${props.createdBy.username}`}>
+                  <img src={userpicSecondaryImage} width={userpicSecondarySize} height={userpicSecondarySize}/>
+                </Link>
+              </div>
+            ) : false}
+          </div>
         </div>
-        <div className="post-body">
+
+        <div className={'post-top' + (userpicHasSecondary ? ' post-has-secondary-userpic' : '')}>
           <div className="post-header">
             <UserName className="post-author" user={props.createdBy}/>
             {recipients.length > 0 ? ' to ' : false}
@@ -330,7 +333,9 @@ export default class Post extends React.Component {
               <PieceOfText text={props.body}/>
             </div>
           )}
+        </div>
 
+        <div className="post-bottom">
           <PostAttachments
             attachments={props.attachments}
             isEditing={props.isEditing}

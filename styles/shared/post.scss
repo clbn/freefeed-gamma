@@ -19,22 +19,25 @@
     height: 0.35em;
   }
 
-  .userpic {
+  .post-userpic {
     float: left;
-    @media (max-width: 767px) { margin-right: 1px + 10px; margin-bottom: 1px + 3px; }
-
-    &.userpic-has-secondary {
-      @media (max-width: 767px) { margin-bottom: 1px + 18px; }
-    }
+    margin-right: 10px;
+    margin-bottom: 3px;
   }
 
-  .post-body {
-    margin-left: 63px;
-    @media (max-width: 767px) { margin-left: 0; }
-
+  // Top part of post, it wraps around userpic on mobile.
+  // Includes post-header and post-text/post-editor.
+  .post-top {
     color: #666;
     font-size: 14px;
     line-height: 19px;
+
+    margin-left: 52px + 10px;
+    @media (max-width: 767px) { margin-left: 0; min-height: 52px; }
+
+    &.post-has-secondary-userpic {
+      @media (max-width: 767px) { min-height: 52px + 16px; }
+    }
 
     .post-header {
       font-size: 15px;
@@ -52,9 +55,6 @@
     }
 
     .post-text {
-      margin-bottom: 8px;
-      @media (max-width: 767px) { min-height: 31px; }
-
       color: #000;
       font-size: 16px;
       line-height: 21px;
@@ -62,10 +62,23 @@
       overflow-wrap: break-word;
       word-wrap: break-word;
 
+      margin-bottom: 8px;
+
       a {
         color: #000088;
       }
     }
+  }
+
+  // Bottom part of post, it goes below userpic on mobile.
+  // Includes attachments, post-footer, likes and comments.
+  .post-bottom {
+    color: #666;
+    font-size: 14px;
+    line-height: 19px;
+
+    margin-left: 52px + 10px;
+    @media (max-width: 767px) { margin-left: 0; }
 
     .post-footer {
       .post-lock-icon {
@@ -189,9 +202,13 @@
   padding-bottom: 0;
   border-bottom: 0 none;
 
-  .post-body {
-    margin-left: 88px;
-    @media (max-width: 767px) { margin-left: 0; }
+  .post-top {
+    margin-left: 77px + 10px;
+    @media (max-width: 767px) { margin-left: 0; min-height: 77px; }
+
+    &.post-has-secondary-userpic {
+      @media (max-width: 767px) { min-height: 77px + 24px; }
+    }
 
     .post-header {
       font-size: 21px;
@@ -199,11 +216,14 @@
     }
 
     .post-text {
-      @media (max-width: 767px) { min-height: 50px; }
-
       font-size: 21px;
       line-height: 26px;
     }
+  }
+
+  .post-bottom {
+    margin-left: 77px + 10px;
+    @media (max-width: 767px) { margin-left: 0; }
   }
 
   .post-editor {
@@ -244,7 +264,7 @@
 }
 
 .dummy-post {
-  .post-body {
+  .post-top {
     color: #eee;
 
     .post-header a {
@@ -254,6 +274,10 @@
     .post-text {
       color: #ddd;
     }
+  }
+
+  .post-bottom {
+    color: #eee;
 
     .attachments .attachment {
       border-color: #e4e4e4;

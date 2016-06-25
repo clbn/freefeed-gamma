@@ -40,6 +40,12 @@
   &.userpic-has-secondary {
     position: relative;
 
+    margin-bottom: 1px + 16px; // 16px is half of secondary userpic that sticks out
+
+    &.userpic-large {
+      margin-bottom: 1px + 24px; // 24px is half of secondary userpic that sticks out
+    }
+
     .userpic-secondary {
       position: absolute;
 
