@@ -31,7 +31,7 @@ export default class UserProfile extends React.Component {
         {!props.isLoading && !props.isUserFound ? (
           <h2>404 Not Found</h2>
         ) : (
-          <div className="profile">
+          <div className="user-profile">
             <div className="row">
               <div className="col-sm-9 col-xs-12">
                 {props.isLoading && !props.profilePictureLargeUrl ? (
@@ -43,13 +43,20 @@ export default class UserProfile extends React.Component {
                 )}
 
                 {props.isLoading && !props.screenName ? (
-                  <div className="description">
-                    <div className="name loading">{props.requestedUsername}</div>
-                  </div>
+                  <div className="profile-displayname profile-loading">@{props.requestedUsername}</div>
                 ) : (
-                  <div className="description">
-                    <div className="name">{props.screenName}</div>
-                    <PieceOfText text={props.description} isExpanded={true}/>
+                  <div>
+                    <div className="profile-displayname">{props.screenName}</div>
+
+                    {props.screenName !== props.username ? (
+                      <div className="profile-username">@{props.username}</div>
+                    ) : false}
+
+                    {props.description ? (
+                      <div className="profile-description">
+                        <PieceOfText text={props.description} isExpanded={true}/>
+                      </div>
+                    ) : false}
                   </div>
                 )}
               </div>
