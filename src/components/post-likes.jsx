@@ -1,5 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import classnames from 'classnames';
+import _ from 'lodash';
 
 import UserName from './user-name';
 import {preventDefault} from '../utils';
@@ -27,6 +29,8 @@ export const PostLikes = (props) => {
     return <div/>;
   }
 
+  const didILikePost = _.find(props.likes, {id: props.me.id});
+
   const likeList = [...props.likes];
 
   likeList.sort((a, b) => {
@@ -44,9 +48,16 @@ export const PostLikes = (props) => {
 
   const renderedLikes = likeList.map(renderLike);
 
+  const heartClasses = classnames({
+    'likes-icon': true,
+    'fa': true,
+    'fa-heart': didILikePost,
+    'fa-heart-o': !didILikePost
+  });
+
   return (
     <div className="likes">
-      <i className="fa fa-heart icon"></i>
+      <i className={heartClasses}></i>
       <ul>{renderedLikes}</ul>
     </div>
   );
