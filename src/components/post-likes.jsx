@@ -48,7 +48,7 @@ export const PostLikes = (props) => {
 
   const renderedLikes = likeList.map(renderLike);
 
-  const heartClasses = classnames({
+  const iconClasses = classnames({
     'likes-icon': true,
     'fa': true,
     'fa-heart': didILikePost,
@@ -57,7 +57,7 @@ export const PostLikes = (props) => {
 
   return (
     <div className="likes">
-      <i className={heartClasses}></i>
+      <i className={iconClasses}></i>
       <ul>{renderedLikes}</ul>
     </div>
   );
