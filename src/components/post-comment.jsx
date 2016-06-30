@@ -1,12 +1,15 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import Textarea from 'react-textarea-autosize';
+import classnames from 'classnames';
+import _ from 'lodash';
 
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
 import {preventDefault, confirmFirst, fromNowOrNow, getFullDate} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
-export default class PostComment extends React.Component {
+class PostComment extends React.Component {
   openAnsweringComment = () => {
     if (this.props.openAnsweringComment) {
       this.props.openAnsweringComment(this.props.user.username);
@@ -29,11 +32,22 @@ export default class PostComment extends React.Component {
   }
 
   render() {
+    const amISubscribed = ((this.props.subscriptions || []).indexOf(this.props.user.id) > -1);
+    const isCommentSpecial = this.props.isEditable || amISubscribed;
+
+    const iconClasses = classnames({
+      'comment-icon': true,
+      'special-comment-icon': isCommentSpecial,
+      'fa': true,
+      'fa-comment': isCommentSpecial,
+      'fa-comment-o': !isCommentSpecial
+    });
+
     const createdAgo = fromNowOrNow(+this.props.createdAt) + '\n' + getFullDate(+this.props.createdAt);
 
     return (
     <div className={`comment ${this.props.highlighted ? 'highlighted' : ''}`}>
-      <a className="comment-icon fa fa-comment-o"
+      <a className={iconClasses}
          title={createdAgo}
          id={`comment-${this.props.id}`}
          href={`${this.props.postUrl}#comment-${this.props.id}`}
@@ -92,3 +106,11 @@ export default class PostComment extends React.Component {
     </div>
   );}
 }
+
+const mapStateToProps = (state) => {
+  return {
+    subscriptions: state.user.subscriptions
+  };
+};
+
+export default connect(mapStateToProps)(PostComment);
