@@ -37,10 +37,8 @@ class PostComment extends React.Component {
 
     const iconClasses = classnames({
       'comment-icon': true,
-      'special-comment-icon': isCommentSpecial,
-      'fa': true,
-      'fa-comment': isCommentSpecial,
-      'fa-comment-o': !isCommentSpecial
+      'comment-icon-special': isCommentSpecial,
+      'fa-stack': true
     });
 
     const createdAgo = fromNowOrNow(+this.props.createdAt) + '\n' + getFullDate(+this.props.createdAt);
@@ -51,7 +49,10 @@ class PostComment extends React.Component {
          title={createdAgo}
          id={`comment-${this.props.id}`}
          href={`${this.props.postUrl}#comment-${this.props.id}`}
-         onClick={preventDefault(this.openAnsweringComment)}></a>
+         onClick={preventDefault(this.openAnsweringComment)}>
+        <i className="fa fa-comment fa-stack-1x"></i>
+        <i className="fa fa-comment-o fa-stack-1x"></i>
+      </a>
       {this.props.isEditing ? (
         <div className="comment-body">
           <div>

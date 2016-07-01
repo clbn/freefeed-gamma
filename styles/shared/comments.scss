@@ -14,31 +14,37 @@
     margin-right: 3px;
 
     color: #999;
-    font-weight: bold;
     text-decoration: none;
+    line-height: 1em;
 
-    &.special-comment-icon {
-      color: desaturate(lighten(#1d66bf, 30%), 20%);
-    }
-
-    &.fa-stack {
-      width: 14px;
-      margin-top: 1px;
-      margin-right: 5px;
-      line-height: 1em;
+    .fa-comment {
+      color: #eee;
     }
     .fa-comment-o {
       font-weight: bold;
     }
-    .fa-plus,
-    .fa-square {
-      font-size: 60%;
-      top: 3px;
-      left: 4px;
+
+    &.comment-icon-special {
+      color: desaturate(lighten(#1d66bf, 17%), 20%);
+
+      .fa-comment {
+        color: desaturate(lighten(#1d66bf, 50%), 20%);
+      }
     }
-    .fa-plus {
-      top: 3px;
-      left: 4px;
+
+    &.comment-icon-add {
+      margin-top: 1px;
+
+      .fa-plus,
+      .fa-square {
+        font-size: 60%;
+        top: 3px;
+        left: 4px;
+      }
+      .fa-plus {
+        top: 3px;
+        left: 4px;
+      }
     }
   }
 

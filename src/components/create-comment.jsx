@@ -45,7 +45,7 @@ export default class CreateComment extends React.Component {
 
     return (
       <div className="comment">
-        <a className="comment-icon fa-stack fa-1x" onClick={this.props.toggleCommenting}>
+        <a className="comment-icon comment-icon-add fa-stack" onClick={this.props.toggleCommenting}>
           <i className="fa fa-comment-o fa-stack-1x"></i>
           <i className="fa fa-square fa-inverse fa-stack-1x"></i>
           <i className="fa fa-plus fa-stack-1x"></i>
