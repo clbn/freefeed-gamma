@@ -2,10 +2,27 @@
   margin-top: 8px;
 
   .likes-icon {
-    margin-top: 2px;
     float: left;
+    height: 16px;
+    width: 16px;
+    margin-top: 2px;
+    margin-right: 3px;
+
     color: #ffb914;
-    font-weight: bold;
+    line-height: 1em;
+
+    .fa-heart {
+      color: lighten(#ffb914, 40%);
+    }
+    .fa-heart-o {
+      font-weight: bold;
+    }
+
+    &.likes-icon-liked {
+      .fa-heart {
+        color: #ffb914;
+      }
+    }
   }
 
   ul {

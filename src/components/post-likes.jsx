@@ -50,14 +50,16 @@ export const PostLikes = (props) => {
 
   const iconClasses = classnames({
     'likes-icon': true,
-    'fa': true,
-    'fa-heart': didILikePost,
-    'fa-heart-o': !didILikePost
+    'likes-icon-liked': didILikePost,
+    'fa-stack': true
   });
 
   return (
     <div className="likes">
-      <i className={iconClasses}></i>
+      <div className={iconClasses}>
+        <i className="fa fa-heart fa-stack-1x"></i>
+        <i className="fa fa-heart-o fa-stack-1x"></i>
+      </div>
       <ul>{renderedLikes}</ul>
     </div>
   );
