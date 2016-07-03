@@ -2,8 +2,6 @@ import 'styles/common/common.scss';
 import 'styles/helvetica/app.scss';
 import 'index.jade';
 
-require.context('assets/fonts', true, /fontawesome.*/i);
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
