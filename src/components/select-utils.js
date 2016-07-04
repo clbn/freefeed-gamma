@@ -162,10 +162,10 @@ export function postActions(dispatch) {
 
 export function userActions(dispatch) {
   return {
-    ban: username => dispatch(ban(username)),
-    unban: username => dispatch(unban(username)),
-    subscribe: username => dispatch(subscribe(username)),
-    unsubscribe: username => dispatch(unsubscribe(username)),
-    sendSubscriptionRequest: username => dispatch(sendSubscriptionRequest(username))
+    ban: (payload) => dispatch(ban(payload)),
+    unban: (payload) => dispatch(unban(payload)),
+    subscribe: (payload) => dispatch(subscribe(payload)),
+    unsubscribe: (payload) => dispatch(unsubscribe(payload)),
+    sendSubscriptionRequest: (payload) => dispatch(sendSubscriptionRequest(payload))
   };
 }

@@ -20,7 +20,7 @@ class UserCard extends React.Component {
     if (this.props.amIGroupAdmin) {
       alert('You are the Admin for this group. If you want to unsubscribe please drop administrative privileges first.');
     } else {
-      this.props.unsubscribe({username: this.props.user.username});
+      this.props.unsubscribe({username: this.props.user.username, id: this.props.user.id});
     }
   }
 
@@ -96,7 +96,7 @@ class UserCard extends React.Component {
                 props.subscribed ? (
                   <a onClick={this.unsubscribe}>Unsubscribe</a>
                 ) : (
-                  <a onClick={()=>props.subscribe({username: props.user.username})}>Subscribe</a>
+                  <a onClick={()=>props.subscribe({username: props.user.username, id: props.user.id})}>Subscribe</a>
                 )
               )}
 

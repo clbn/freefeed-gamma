@@ -16,13 +16,13 @@ export default class UserProfile extends React.Component {
   }
 
   render() {
-    let props = this.props;
+    const props = this.props;
 
     const unsubscribe = () => {
       if (props.amIGroupAdmin) {
         this.setState({ isUnsubWarningDisplayed: true });
       } else {
-        props.unsubscribe({ username: props.username });
+        props.unsubscribe({username: props.username, id: props.id});
       }
     };
 
@@ -113,7 +113,7 @@ export default class UserProfile extends React.Component {
                   props.subscribed ? (
                     <a onClick={unsubscribe}>Unsubscribe</a>
                   ) : (
-                    <a onClick={()=>props.subscribe({username: props.username})}>Subscribe</a>
+                    <a onClick={()=>props.subscribe({username: props.username, id: props.id})}>Subscribe</a>
                   )
                 )}
               </div>
