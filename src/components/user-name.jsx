@@ -5,6 +5,9 @@ import {connect} from 'react-redux';
 import UserCard from './user-card';
 import * as FrontendPrefsOptions from '../utils/frontend-preferences-options';
 
+const USERCARD_SHOW_DELAY = 1000;
+const USERCARD_HIDE_DELAY = 750;
+
 const DisplayOption = ({user, me, preferences}) => {
   if (user.username === me && preferences.useYou) {
     return <span>You</span>;
@@ -49,7 +52,7 @@ class UserName extends React.Component {
         this.setState({isCardOpen: true});
       }
       this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
-    }, 750);
+    }, USERCARD_SHOW_DELAY);
 
     this.timeoutIds.push(timeoutId);
   }
@@ -62,7 +65,7 @@ class UserName extends React.Component {
         this.setState({isCardOpen: false});
       }
       this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
-    }, 750);
+    }, USERCARD_HIDE_DELAY);
 
     this.timeoutIds.push(timeoutId);
   }
