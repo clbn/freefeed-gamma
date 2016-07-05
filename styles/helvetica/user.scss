@@ -69,8 +69,16 @@
   padding-top: 14px;
   padding-bottom: 14px;
   border-bottom: 1px solid #eee;
+
+  .profile-controls-throbber {
+    margin: 0 10px;
+  }
 }
 
 .feed-message {
   padding-top: 14px;
+
+  .feed-message-throbber {
+    margin: 0 10px;
+  }
 }

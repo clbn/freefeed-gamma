@@ -4,6 +4,7 @@ import {Link} from 'react-router';
 import {preventDefault, pluralForm} from '../utils';
 import CreatePost from './create-post';
 import PieceOfText from './piece-of-text';
+import throbber16 from 'assets/images/throbber-16.gif';
 
 export default class UserProfile extends React.Component {
   constructor(props) {
@@ -116,8 +117,20 @@ export default class UserProfile extends React.Component {
                     <a onClick={()=>props.subscribe({username: props.username, id: props.id})}>Subscribe</a>
                   )
                 )}
+
+                {props.userView.isSubscribing ? (
+                  <span className="profile-controls-throbber">
+                  <img width="16" height="16" src={throbber16}/>
+                </span>
+                ) : false}
               </div>
               <div className="col-xs-5 col-sm-3 text-right">
+                {props.userView.isBlocking ? (
+                  <span className="profile-controls-throbber">
+                  <img width="16" height="16" src={throbber16}/>
+                </span>
+                ) : false}
+
                 {props.type !== 'group' && !props.subscribed ? (
                   <a onClick={preventDefault(_=>props.ban({username: props.username, id: props.id}))}>Block this user</a>
                 ) : props.amIGroupAdmin ? (
