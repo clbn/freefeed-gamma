@@ -100,6 +100,12 @@ class UserCard extends React.Component {
                 )
               )}
 
+              {props.userView.isSubscribing ? (
+                <span className="user-card-actions-throbber">
+                  <img width="15" height="15" src={throbber16}/>
+                </span>
+              ) : false}
+
               {props.user.type !== 'group' && !props.subscribed ? (
                 <span> - <a onClick={()=>props.ban({username: props.user.username, id: props.user.id})}>Block</a></span>
               ) : props.amIGroupAdmin ? (
@@ -123,8 +129,11 @@ const mapStateToProps = (state, ownProps) => {
     user.errorMessage = state.userErrors[ownProps.username];
   }
 
+  const userView = (state.userViews[user.id] || {});
+
   return {
     user,
+    userView,
     isItMe: (me.username === user.username),
     subscribed: ((me.subscriptions || []).indexOf(user.id) > -1),
     hasRequestBeenSent: ((me.pendingSubscriptionRequests || []).indexOf(user.id) > -1),

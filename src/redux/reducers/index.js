@@ -285,6 +285,7 @@ import title from './title';
 import user from './user';
 import {userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm} from './user-forms';
 import users from './users';
+import userViews from './user-views';
 
 export {
   attachments,
@@ -306,5 +307,6 @@ export {
   title,
   user,
   userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm,
-  users
+  users,
+  userViews
 };
