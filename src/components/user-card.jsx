@@ -112,6 +112,11 @@ class UserCard extends React.Component {
                 <span> - <Link to={`/${props.user.username}/settings`}>Settings</Link></span>
               ) : false}
 
+              {props.userView.isBlocking ? (
+                <span className="user-card-actions-throbber">
+                  <img width="15" height="15" src={throbber16}/>
+                </span>
+              ) : false}
             </div>
           ) : false}
         </div>
