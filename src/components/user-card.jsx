@@ -126,7 +126,7 @@ class UserCard extends React.Component {
               {props.user.type !== 'group' && !props.subscribed ? (
                 <span> - <a onClick={()=>props.ban({username: props.user.username, id: props.user.id})}>Block</a></span>
               ) : props.amIGroupAdmin ? (
-                <span> - <Link to={`/${props.user.username}/settings`}>Settings</Link></span>
+                <span> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></span>
               ) : false}
 
               {props.userView.isBlocking ? (
