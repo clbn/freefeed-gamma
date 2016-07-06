@@ -75,6 +75,26 @@ class UserCard extends React.Component {
                 {props.user.type === 'user' ? ' feed' : ' group'}
               </div>
             )}
+
+            {!props.isItMe ? (
+              <div className="status">
+                {props.blocked ? (
+                  <span><i className="fa fa-ban"></i> You've blocked the user</span>
+                ) : props.hasRequestBeenSent ? (
+                  <span><i className="fa fa-clock-o"></i> You've sent sub request</span>
+                ) : props.subscribed ? (
+                  props.user.type === 'user' ? (
+                    <span><i className="fa fa-check-square"></i> You are subscribed</span>
+                  ) : props.amIGroupAdmin ? (
+                    <span><i className="fa fa-check-square"></i> You are an admin</span>
+                  ) : (
+                    <span><i className="fa fa-check-square"></i> You are a member</span>
+                  )
+                ) : (
+                  false
+                )}
+              </div>
+            ) : false}
           </div>
 
           {props.blocked ? (
