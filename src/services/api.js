@@ -436,8 +436,8 @@ export function demoteGroupAdmin({groupName, user}) {
   });
 }
 
-export function revokeSentRequest({userName}) {
-  return fetch(`${apiConfig.host}/v2/requests/${userName}/revoke`, {
+export function revokeSentRequest({username}) {
+  return fetch(`${apiConfig.host}/v2/requests/${username}/revoke`, {
     'method': 'POST',
     'headers': {
       'Accept': 'application/json',

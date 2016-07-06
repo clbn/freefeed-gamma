@@ -41,7 +41,7 @@ const renderUsers = (type) => (user) => {
 
       {type == WITH_REVOKE_SENT_REQUEST ? (
         <div className="user-actions">
-          <a onClick={() => user.revokeSentRequest(user.username)} title="Revoke sent request">Revoke</a>
+          <a onClick={() => user.revokeSentRequest({username: user.username, id: user.id})} title="Revoke sent request">Revoke</a>
         </div>
       ) : false}
 

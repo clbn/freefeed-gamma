@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {
   // User actions
   subscribe, unsubscribe,
-  sendSubscriptionRequest,
+  sendSubscriptionRequest, revokeSentRequest,
   ban, unban,
 
   // Post actions
@@ -166,6 +166,7 @@ export function userActions(dispatch) {
     unban: (payload) => dispatch(unban(payload)),
     subscribe: (payload) => dispatch(subscribe(payload)),
     unsubscribe: (payload) => dispatch(unsubscribe(payload)),
-    sendSubscriptionRequest: (payload) => dispatch(sendSubscriptionRequest(payload))
+    sendSubscriptionRequest: (payload) => dispatch(sendSubscriptionRequest(payload)),
+    revokeSentRequest: (payload) => dispatch(revokeSentRequest(payload))
   };
 }

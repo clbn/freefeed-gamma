@@ -521,10 +521,10 @@ export function demoteGroupAdmin(groupName, user, isItMe) {
   };
 }
 
-export function revokeSentRequest(userName) {
+export function revokeSentRequest(payload) {
   return {
     type: ActionTypes.REVOKE_USER_REQUEST,
-    payload: {userName},
+    payload,
     apiRequest: Api.revokeSentRequest
   };
 }

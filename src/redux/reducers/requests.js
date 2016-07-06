@@ -40,8 +40,15 @@ export function sentRequests(state = [], action) {
     case response(ActionTypes.WHO_AM_I): {
       return pendingSubscriptionRequests(action.payload);
     }
+    case response(ActionTypes.SEND_SUBSCRIPTION_REQUEST): {
+      // There's currently no user info in the response, so we can't add the object here.
+      // The user is likely in the state.users though, so when we finally change/simplify
+      // this architecture to only use users from state.users and have just links to it
+      // everywhere else in the Redux tree, we can fix this. TODO
+      return state;
+    }
     case response(ActionTypes.REVOKE_USER_REQUEST): {
-      const userName = action.request.userName;
+      const userName = action.request.username;
       return state.filter((user) => user.username !== userName);
     }
   }
