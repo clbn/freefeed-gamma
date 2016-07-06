@@ -106,7 +106,11 @@ export default class UserProfile extends React.Component {
               <div className="col-xs-7 col-sm-9 subscribe-controls">
                 {props.isPrivate === '1' && !props.subscribed ? (
                   props.hasRequestBeenSent ? (
-                    <span><b>{props.screenName}</b> has been sent your subscription request.</span>
+                    <span>
+                      <b>{props.screenName}</b> has been sent your subscription request.
+                      {' '}
+                      <a onClick={()=>props.revokeSentRequest({username: props.username, id: props.id})}>Revoke</a>
+                    </span>
                   ) : (
                     <a onClick={()=>props.sendSubscriptionRequest({username: props.username, id: props.id})}>Request a subscription</a>
                   )
@@ -120,15 +124,15 @@ export default class UserProfile extends React.Component {
 
                 {props.userView.isSubscribing ? (
                   <span className="profile-controls-throbber">
-                  <img width="16" height="16" src={throbber16}/>
-                </span>
+                    <img width="16" height="16" src={throbber16}/>
+                  </span>
                 ) : false}
               </div>
               <div className="col-xs-5 col-sm-3 text-right">
                 {props.userView.isBlocking ? (
                   <span className="profile-controls-throbber">
-                  <img width="16" height="16" src={throbber16}/>
-                </span>
+                    <img width="16" height="16" src={throbber16}/>
+                  </span>
                 ) : false}
 
                 {props.type !== 'group' && !props.subscribed ? (
