@@ -34,9 +34,7 @@ class UserCard extends React.Component {
             <div className="userpic userpic-large userpic-error">
               <i className="fa fa-exclamation"></i>
             </div>
-            <div className="names">
-              <div className="username">@{props.user.username}</div>
-            </div>
+            <div className="username">@{props.user.username}</div>
             <div className="description">{props.user.errorMessage}</div>
           </div>
         </div>
@@ -44,7 +42,7 @@ class UserCard extends React.Component {
         <div className="user-card">
           <div className="user-card-info">
             <div className="userpic userpic-large userpic-loading"></div>
-            <div className="names">
+            <div className="username">
               <img width="16" height="16" src={throbber16}/>
             </div>
           </div>
@@ -56,27 +54,27 @@ class UserCard extends React.Component {
               <img src={props.user.profilePictureLargeUrl} width="75" height="75"/>
             </Link>
 
-            <div className="names">
-              <Link to={`/${props.user.username}`} className="display-name">{props.user.screenName}</Link>
-
-              {props.user.screenName !== props.user.username ? (
-                <div className="username">@{props.user.username}</div>
-              ) : false}
+            <div className="display-name">
+              <Link to={`/${props.user.username}`}>{props.user.screenName}</Link>
             </div>
 
-            <div className="description">
-              {props.isItMe ? (
-                "It's you!"
-              ) : props.user.type === 'user' && props.user.isPrivate === '1' ? (
-                'Private feed'
-              ) : props.user.type === 'user' && props.user.isPrivate === '0' ? (
-                'Public feed'
-              ) : props.user.type === 'group' && props.user.isPrivate === '1' ? (
-                'Private group'
-              ) : props.user.type === 'group' && props.user.isPrivate === '0' ? (
-                'Public group'
-              ) : false}
-            </div>
+            {props.user.screenName !== props.user.username ? (
+              <div className="username">@{props.user.username}</div>
+            ) : false}
+
+            {props.isItMe ? (
+              <div className="description">It's you!</div>
+            ) : (
+              <div className="description">
+                {props.user.isPrivate === '1' ? (
+                  <span><i className="fa fa-lock"></i> Private</span>
+                ) : (
+                  <span><i className="fa fa-globe"></i> Public</span>
+                )}
+                {props.user.isRestricted === '1' ? ' restricted' : false}
+                {props.user.type === 'user' ? ' feed' : ' group'}
+              </div>
+            )}
           </div>
 
           {props.blocked ? (

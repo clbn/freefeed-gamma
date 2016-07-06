@@ -30,43 +30,44 @@
   }
 
   .user-card-info {
-    height: 97px; // 75px + 2px + 20px
-    padding: 10px;
+    min-height: 97px; // 75px + 2px + 20px
+    padding: 10px 8px 0 10px;
     background-color: #fff;
     border-top-right-radius: 2px;
     border-top-left-radius: 2px;
 
-    font-size: 13px !important;
-    line-height: 17px;
+    font-size: 12px !important;
+    line-height: 15px;
     text-align: left;
 
     a {
-      font-size: 13px !important;
+      font-size: 12px !important;
     }
 
     .userpic {
       float: left;
-      margin-right: 1px + 10px;
     }
 
-    .names {
-      height: 60px;
+    .display-name {
+      color: #000088;
+      font-weight: bold;
+      margin-left: 87px;
+    }
 
-      .display-name {
-        color: #000088;
-        font-weight: bold;
-      }
-
-      .username {
-        color: #555;
-        font-size: 12px;
-      }
+    .username {
+      color: #999;
+      margin: 3px 0 0 87px;
     }
 
     .description {
-      font-size: 13px;
-      color: #888;
-      font-style: italic;
+      color: #666;
+      margin: 7px 0 0 87px;
+    }
+
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
     }
   }
 
