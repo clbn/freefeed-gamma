@@ -99,14 +99,13 @@ class UserCard extends React.Component {
 
           {props.blocked ? (
             <div className="user-card-actions">
-              <span>Blocked user - </span>
               <a onClick={()=>props.unban({username: props.user.username, id: props.user.id})}>Un-block</a>
             </div>
           ) : !props.isItMe ? (
             <div className="user-card-actions">
               {props.user.isPrivate === '1' && !props.subscribed ? (
                 props.hasRequestBeenSent ? (
-                  <span>Subscription request sent</span>
+                  <a onClick={()=>props.revokeSentRequest({username: props.user.username, id: props.user.id})}>Revoke sub request</a>
                 ) : (
                   <a onClick={()=>props.sendSubscriptionRequest({username: props.user.username, id: props.user.id})}>Request a subscription</a>
                 )
