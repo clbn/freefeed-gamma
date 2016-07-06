@@ -82,9 +82,13 @@ class UserCard extends React.Component {
                   <span><i className="fa fa-ban"></i> You've blocked the user</span>
                 ) : props.hasRequestBeenSent ? (
                   <span><i className="fa fa-clock-o"></i> You've sent sub request</span>
-                ) : props.subscribed ? (
+                ) : props.amISubscribedToUser ? (
                   props.user.type === 'user' ? (
-                    <span><i className="fa fa-check-square"></i> You are subscribed</span>
+                    props.isUserSubscribedToMe ? (
+                      <span><i className="fa fa-check-circle"></i> Mutually subscribed</span>
+                    ) : (
+                      <span><i className="fa fa-check-circle"></i> You are subscribed</span>
+                    )
                   ) : props.amIGroupAdmin ? (
                     <span><i className="fa fa-check-square"></i> You are an admin</span>
                   ) : (
@@ -103,14 +107,14 @@ class UserCard extends React.Component {
             </div>
           ) : !props.isItMe ? (
             <div className="user-card-actions">
-              {props.user.isPrivate === '1' && !props.subscribed ? (
+              {props.user.isPrivate === '1' && !props.amISubscribedToUser ? (
                 props.hasRequestBeenSent ? (
                   <a onClick={()=>props.revokeSentRequest({username: props.user.username, id: props.user.id})}>Revoke sub request</a>
                 ) : (
                   <a onClick={()=>props.sendSubscriptionRequest({username: props.user.username, id: props.user.id})}>Request a subscription</a>
                 )
               ) : (
-                props.subscribed ? (
+                props.amISubscribedToUser ? (
                   <a onClick={this.unsubscribe}>Unsubscribe</a>
                 ) : (
                   <a onClick={()=>props.subscribe({username: props.user.username, id: props.user.id})}>Subscribe</a>
@@ -123,7 +127,7 @@ class UserCard extends React.Component {
                 </span>
               ) : false}
 
-              {props.user.type !== 'group' && !props.subscribed ? (
+              {props.user.type !== 'group' && !props.amISubscribedToUser ? (
                 <span> - <a onClick={()=>props.ban({username: props.user.username, id: props.user.id})}>Block</a></span>
               ) : props.amIGroupAdmin ? (
                 <span> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></span>
@@ -157,7 +161,8 @@ const mapStateToProps = (state, ownProps) => {
     user,
     userView,
     isItMe: (me.username === user.username),
-    subscribed: ((me.subscriptions || []).indexOf(user.id) > -1),
+    amISubscribedToUser: ((me.subscriptions || []).indexOf(user.id) > -1),
+    isUserSubscribedToMe: (_.findIndex(me.subscribers, {id: user.id}) > -1),
     hasRequestBeenSent: ((me.pendingSubscriptionRequests || []).indexOf(user.id) > -1),
     blocked: ((me.banIds || []).indexOf(user.id) > -1),
     amIGroupAdmin: (user.type === 'group' && (user.administrators || []).indexOf(me.id) > -1)
