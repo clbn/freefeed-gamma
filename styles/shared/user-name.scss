@@ -43,18 +43,17 @@
     line-height: 15px;
     text-align: left;
 
-    a {
-      font-size: 12px !important;
-    }
-
     .userpic {
       float: left;
     }
 
     .display-name {
-      color: #000088;
       font-weight: bold;
       margin-left: 87px;
+
+      a {
+        color: #000088 !important;
+      }
     }
 
     .username {
