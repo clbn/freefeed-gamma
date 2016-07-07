@@ -60,6 +60,17 @@
     .username {
       color: #999;
       margin: 3px 0 0 87px;
+
+      .description-trigger {
+        color: #ccc;
+        padding: 1px 3px;
+        margin-left: 2px;
+
+        &:hover {
+          cursor: pointer;
+          background-color: #eee;
+        }
+      }
     }
 
     .description {

@@ -10,10 +10,18 @@ class UserCard extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isDescriptionOpen: false
+    };
+
     // Load this user's info if it's not in the store already
     if (!props.user.id && !props.user.errorMessage) {
       setTimeout(() => props.getUserInfo(props.username), 0);
     }
+  }
+
+  toggleDescription = () => {
+    this.setState({isDescriptionOpen: !this.state.isDescriptionOpen});
   }
 
   unsubscribe = () => {
@@ -58,13 +66,19 @@ class UserCard extends React.Component {
               <Link to={`/${props.user.username}`}>{props.user.screenName}</Link>
             </div>
 
-            {props.user.screenName !== props.user.username ? (
-              <div className="username">@{props.user.username}</div>
+            <div className="username">
+              @{props.user.username}
+              {props.user.description ? (
+                <i className={'description-trigger fa ' + (this.state.isDescriptionOpen ? 'fa-chevron-up' : 'fa-chevron-down')}
+                   onClick={this.toggleDescription}></i>
+              ) : false}
+            </div>
+
+            {this.state.isDescriptionOpen ? (
+              <div className="description">{props.user.description}</div>
             ) : false}
 
-            {props.isItMe ? (
-              <div className="description">It's you!</div>
-            ) : (
+            {!props.isItMe ? (
               <div className="description">
                 {props.user.isPrivate === '1' ? (
                   <span><i className="fa fa-lock"></i> Private</span>
@@ -74,9 +88,11 @@ class UserCard extends React.Component {
                 {props.user.isRestricted === '1' ? ' restricted' : false}
                 {props.user.type === 'user' ? ' feed' : ' group'}
               </div>
-            )}
+            ) : false}
 
-            {!props.isItMe ? (
+            {props.isItMe ? (
+              <div className="status">It's you!</div>
+            ) : (
               <div className="status">
                 {props.blocked ? (
                   <span><i className="fa fa-ban"></i> You've blocked the user</span>
@@ -98,7 +114,7 @@ class UserCard extends React.Component {
                   false
                 )}
               </div>
-            ) : false}
+            )}
           </div>
 
           {props.blocked ? (
