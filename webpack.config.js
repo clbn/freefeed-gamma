@@ -80,9 +80,11 @@ module.exports = [{
           loader: 'jade-html?' + JSON.stringify({ pretty: true, opts: opts })
         })
       },
+      // Font Awesome assets
       { test: /fontawesome\-webfont\.(eot|svg|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file'
+        loader: 'file?name=assets/fonts/font-awesome/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
       },
+      // Local assets
       { test: /[/]assets[/]/,
         loader: 'file?name=' + (opts.hash ? '[path][name]-[hash].[ext]' : '[path][name]-dev.[ext]')
       }
@@ -162,9 +164,11 @@ module.exports = [{
           loader: 'jade-html?' + JSON.stringify({ pretty: true, opts: opts })
         })
       },
+      // Font Awesome assets
       { test: /fontawesome\-webfont\.(eot|svg|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file'
+        loader: 'file?name=assets/fonts/font-awesome/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
       },
+      // Local assets
       { test: /[/]assets[/]/,
         loader: 'file?name=' + (opts.hash ? '[path][name]-[hash].[ext]' : '[path][name]-dev.[ext]')
       },
