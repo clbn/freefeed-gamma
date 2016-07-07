@@ -110,6 +110,8 @@ class UserCard extends React.Component {
                   ) : (
                     <span><i className="fa fa-check-square"></i> You are a member</span>
                   )
+                ) : props.isUserSubscribedToMe ? (
+                  <span><i className="fa fa-check-circle-o"></i> User subscribed to you</span>
                 ) : (
                   false
                 )}
