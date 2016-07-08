@@ -2,11 +2,8 @@ import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
-import UserCard from './user-card';
+import {updateUserCard} from '../redux/action-creators';
 import * as FrontendPrefsOptions from '../utils/frontend-preferences-options';
-
-const USERCARD_SHOW_DELAY = 1000;
-const USERCARD_HIDE_DELAY = 750;
 
 const DisplayOption = ({user, me, preferences}) => {
   if (user.username === me && preferences.useYou) {
@@ -33,53 +30,36 @@ const DisplayOption = ({user, me, preferences}) => {
 };
 
 class UserName extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isHovered: false,
-      isCardOpen: false
-    };
-
-    this.timeoutIds = [];
+  enterUserName = (event) => {
+    const rawRects = event.currentTarget.getClientRects();
+    const rects = [];
+    for (let i = 0; i < rawRects.length; i++) {
+      rects.push({
+        left: rawRects[i].left,
+        right: rawRects[i].right,
+        top: rawRects[i].top,
+        bottom: rawRects[i].bottom
+      });
+    }
+    this.props.updateUserCard({isHovered: true, username: this.props.user.username, rects, x: event.pageX, y: event.pageY});
   }
 
-  enterUserName() {
-    this.setState({isHovered: true});
-
-    const timeoutId = setTimeout(() => {
-      if (this.state.isHovered) {
-        this.setState({isCardOpen: true});
-      }
-      this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
-    }, USERCARD_SHOW_DELAY);
-
-    this.timeoutIds.push(timeoutId);
+  moveUserName = (event) => {
+    if (!this.props.userCardView.isOpen) {
+      this.props.updateUserCard({x: event.pageX, y: event.pageY});
+    }
   }
 
-  leaveUserName() {
-    this.setState({isHovered: false});
-
-    const timeoutId = setTimeout(() => {
-      if (!this.state.isHovered) {
-        this.setState({isCardOpen: false});
-      }
-      this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
-    }, USERCARD_HIDE_DELAY);
-
-    this.timeoutIds.push(timeoutId);
-  }
-
-  componentWillUnmount() {
-    this.timeoutIds.forEach(clearTimeout);
-    this.timeoutIds = [];
+  leaveUserName = () => {
+    this.props.updateUserCard({isHovered: false});
   }
 
   render() {
     return (
       <div className="user-name-wrapper"
-        onMouseEnter={this.enterUserName.bind(this)}
-        onMouseLeave={this.leaveUserName.bind(this)}>
+        onMouseEnter={this.enterUserName}
+        onMouseMove={this.moveUserName}
+        onMouseLeave={this.leaveUserName}>
 
         <Link to={`/${this.props.user.username}`} className={this.props.className}
               onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave}>
@@ -92,10 +72,6 @@ class UserName extends React.Component {
               preferences={this.props.frontendPreferences.displayNames}/>
           )}
         </Link>
-
-        {this.state.isCardOpen ? (
-          <UserCard username={this.props.user.username}/>
-        ) : false}
       </div>
     );
   }
@@ -104,8 +80,15 @@ class UserName extends React.Component {
 const mapStateToProps = (state) => {
   return {
     me: state.user.username,
-    frontendPreferences: state.user.frontendPreferences
+    frontendPreferences: state.user.frontendPreferences,
+    userCardView: state.userCardView
   };
 };
 
-export default connect(mapStateToProps)(UserName);
+function mapDispatchToProps(dispatch) {
+  return {
+    updateUserCard: (...args) => dispatch(updateUserCard(...args))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserName);

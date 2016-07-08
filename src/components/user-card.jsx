@@ -1,23 +1,114 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 
 import {userActions} from './select-utils';
-import {getUserInfo} from '../redux/action-creators';
+import {getUserInfo, updateUserCard} from '../redux/action-creators';
 import throbber16 from 'assets/images/throbber-16.gif';
+
+const USERCARD_SHOW_DELAY = 1000;
+const USERCARD_HIDE_DELAY = 750;
 
 class UserCard extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      position: {left: 0, top: 0},
       isDescriptionOpen: false
     };
 
-    // Load this user's info if it's not in the store already
-    if (!props.user.id && !props.user.errorMessage) {
-      setTimeout(() => props.getUserInfo(props.username), 0);
+    this.loadingUser = false;
+    this.triggerRect = {}; // clientRect that triggered UserCard
+    this.timeoutIds = [];
+  }
+
+  getTriggerRect = (nextProps) => {
+    const pageX = nextProps.userCardView.x;
+    const pageY = nextProps.userCardView.y;
+    const rects = nextProps.userCardView.rects;
+
+    for (let i = 0; i < rects.length; i++) {
+      if (pageX >= rects[i].left + window.scrollX - 2 &&
+          pageX <= rects[i].right + window.scrollX + 2 &&
+          pageY >= rects[i].top + window.scrollY - 2 &&
+          pageY <= rects[i].bottom + window.scrollY + 2) {
+        return rects[i];
+      }
     }
+
+    return false;
+  }
+
+  getPosition = (nextProps) => {
+    const pageX = nextProps.userCardView.x;
+    const rectLeft = this.triggerRect.left;
+    const rectRight = this.triggerRect.right;
+
+    const xOffset = 20; // offset in px
+
+    let x = 0;
+    if (rectRight - rectLeft < xOffset * 2) {
+      x = rectLeft + (rectRight - rectLeft) / 2;
+    } else {
+      x = Math.max(rectLeft + xOffset, Math.min(pageX - window.scrollX, rectRight - xOffset));
+    }
+    x += window.scrollX;
+
+    const y = this.triggerRect.bottom + window.scrollY;
+
+    return {left: x, top: y};
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.userCardView.username && !nextProps.user.id && !nextProps.user.errorMessage && !this.loadingUser) {
+      this.loadingUser = true;
+      setTimeout(() => this.props.getUserInfo(nextProps.userCardView.username), 0);
+    }
+
+    if (nextProps.user.id || nextProps.user.errorMessage) {
+      this.loadingUser = false;
+    }
+
+    if (nextProps.userCardView.rects && nextProps.userCardView.x && nextProps.userCardView.y) {
+      const nextTriggerRect = this.getTriggerRect(nextProps);
+      if (nextTriggerRect && !_.isEqual(this.triggerRect, nextTriggerRect)) {
+        this.triggerRect = nextTriggerRect;
+        this.setState({position: this.getPosition(nextProps)});
+      }
+
+      if (!this.props.userCardView.isHovered && nextProps.userCardView.isHovered) {
+        const timeoutId = setTimeout(() => {
+          if (this.props.userCardView.isHovered && !this.props.userCardView.isOpen) {
+            this.props.updateUserCard({isOpen: true});
+          }
+          this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
+        }, USERCARD_SHOW_DELAY);
+
+        this.timeoutIds.push(timeoutId);
+      }
+
+      if (this.props.userCardView.isHovered && !nextProps.userCardView.isHovered) {
+        const timeoutId = setTimeout(() => {
+          if (!this.props.userCardView.isHovered && this.props.userCardView.isOpen) {
+            this.props.updateUserCard({isOpen: false});
+          }
+          this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
+        }, USERCARD_HIDE_DELAY);
+
+        this.timeoutIds.push(timeoutId);
+      }
+
+    }
+  }
+
+  enterUserCard = () => {
+    this.props.updateUserCard({isHovered: true});
+  }
+
+  leaveUserCard = () => {
+    this.props.updateUserCard({isHovered: false});
   }
 
   toggleDescription = () => {
@@ -35,9 +126,13 @@ class UserCard extends React.Component {
   render() {
     const props = this.props;
 
+    if (!props.userCardView.isOpen) {
+      return <div/>;
+    }
+
     return (
       props.user.errorMessage ? (
-        <div className="user-card">
+        <div className="user-card" style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
           <div className="user-card-info">
             <div className="userpic userpic-large userpic-error">
               <i className="fa fa-exclamation"></i>
@@ -47,7 +142,7 @@ class UserCard extends React.Component {
           </div>
         </div>
       ) : !props.user.id ? (
-        <div className="user-card">
+        <div className="user-card" style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
           <div className="user-card-info">
             <div className="userpic userpic-large userpic-loading"></div>
             <div className="username">
@@ -56,7 +151,7 @@ class UserCard extends React.Component {
           </div>
         </div>
       ) : (
-        <div className="user-card">
+        <div className="user-card" style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
           <div className="user-card-info">
             <Link to={`/${props.user.username}`} className="userpic userpic-large">
               <img src={props.user.profilePictureLargeUrl} width="75" height="75"/>
@@ -164,18 +259,21 @@ class UserCard extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
+  const userCardView = state.userCardView;
+
   const me = state.user;
 
-  const user = (_.find(state.users, {username: ownProps.username}) || {});
+  const user = (_.find(state.users, {username: userCardView.username}) || {});
   if (!user.id) {
-    user.username = ownProps.username;
-    user.errorMessage = state.userErrors[ownProps.username];
+    user.username = userCardView.username;
+    user.errorMessage = state.userErrors[userCardView.username];
   }
 
   const userView = (state.userViews[user.id] || {});
 
   return {
+    userCardView,
     user,
     userView,
     isItMe: (me.username === user.username),
@@ -190,6 +288,7 @@ const mapStateToProps = (state, ownProps) => {
 function mapDispatchToProps(dispatch) {
   return {
     ...userActions(dispatch),
+    updateUserCard: (...args) => dispatch(updateUserCard(...args)),
     getUserInfo: (username) => dispatch(getUserInfo(username))
   };
 }

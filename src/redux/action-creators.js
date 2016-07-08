@@ -558,3 +558,10 @@ export function toggleSidebar(val = null) {
     payload: {val}
   };
 }
+
+export function updateUserCard(payload) {
+  return {
+    type: ActionTypes.UPDATE_USER_CARD,
+    payload
+  };
+}

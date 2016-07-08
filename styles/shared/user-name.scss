@@ -1,6 +1,5 @@
 .user-name-wrapper {
   display: inline;
-  position: relative;
 
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -9,8 +8,8 @@
 .user-card {
   position: absolute;
   z-index: 10000;
-  top: 30px;
-  left: 0;
+  margin-top: 10px;
+  margin-left: -20px;
   width: 250px;
   background-color: #fff;
   border-radius: 2px;

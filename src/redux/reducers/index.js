@@ -283,6 +283,7 @@ import subscribers from './subscribers';
 import subscriptions from './subscriptions';
 import title from './title';
 import user from './user';
+import userCardView from './user-card-view';
 import {userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm} from './user-forms';
 import users from './users';
 import userViews from './user-views';
@@ -306,6 +307,7 @@ export {
   subscriptions,
   title,
   user,
+  userCardView,
   userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm,
   users,
   userViews

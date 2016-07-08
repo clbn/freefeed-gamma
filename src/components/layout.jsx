@@ -5,8 +5,9 @@ import Helmet from 'react-helmet';
 import classnames from 'classnames';
 
 import {unauthenticated, home, toggleSidebar} from '../redux/action-creators';
-import Footer from './footer';
 import Sidebar from './sidebar';
+import Footer from './footer';
+import UserCard from './user-card';
 import {getCurrentRouteName} from '../utils';
 import throbber100 from 'assets/images/throbber.gif';
 
@@ -164,6 +165,8 @@ class Layout extends React.Component {
         )}
 
         <Footer/>
+
+        <UserCard/>
       </div>
     );
   }
