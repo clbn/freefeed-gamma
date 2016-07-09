@@ -126,6 +126,7 @@ class UserCard extends React.Component {
         const timeoutId = setTimeout(() => {
           if (!this.props.userCardView.isHovered && this.props.userCardView.isOpen) {
             this.props.updateUserCard({isOpen: false});
+            this.triggerRect = {};
           }
           this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
         }, USERCARD_HIDE_DELAY);
