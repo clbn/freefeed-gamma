@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import classnames from 'classnames';
-import _ from 'lodash';
 
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
