@@ -111,7 +111,7 @@ class UserCard extends React.Component {
       const nextTriggerRect = this.getTriggerRect(nextProps);
       if (nextTriggerRect && !_.isEqual(this.triggerRect, nextTriggerRect)) {
         this.triggerRect = nextTriggerRect;
-        this.setState({position: this.getPosition(nextProps)});
+        this.setState({position: this.getPosition(nextProps), isDescriptionOpen: false});
       }
 
       if (!this.props.userCardView.isHovered && nextProps.userCardView.isHovered) {
