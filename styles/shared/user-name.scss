@@ -42,6 +42,16 @@
     }
   }
 
+  &.right-to-left {
+    margin-left: 0;
+    margin-right: -20px;
+
+    &:before {
+      left: inherit;
+      right: 14px;
+    }
+  }
+
   .user-card-info {
     min-height: 97px; // 75px + 2px + 20px
     padding: 10px 8px 0 10px;

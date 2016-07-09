@@ -53,6 +53,13 @@ class UserCard extends React.Component {
     // Find X
 
     const xOffset = 20; // offset from the edge of the rect (in px)
+    const xThreshold = 235; // threshold from the right edge of the viewport (in px)
+
+    const pageWidth = Math.max(document.body.scrollWidth, document.body.offsetWidth,
+      document.documentElement.scrollWidth, document.documentElement.offsetWidth,
+      document.documentElement.clientWidth);
+
+    const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     let x = 0;
     if (rectRight - rectLeft < xOffset * 2) {
@@ -60,9 +67,12 @@ class UserCard extends React.Component {
     } else {
       x = Math.max(rectLeft + xOffset, Math.min(pageX - window.scrollX, rectRight - xOffset));
     }
-    x += window.scrollX;
 
-    position.left = x;
+    if (viewportWidth - x > xThreshold) {
+      position.left = x + window.scrollX;
+    } else {
+      position.right = pageWidth - x - window.scrollX;
+    }
 
 
     // Find Y
@@ -155,7 +165,8 @@ class UserCard extends React.Component {
 
     const cardClasses = classnames({
       'user-card': true,
-      'upside-down': !!this.state.position.bottom
+      'upside-down': !!this.state.position.bottom,
+      'right-to-left': !!this.state.position.right
     });
 
     return (
