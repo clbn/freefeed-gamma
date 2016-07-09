@@ -31,6 +31,17 @@
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
   }
 
+  &.upside-down {
+    margin-top: 0;
+    margin-bottom: 10px;
+
+    &:before {
+      top: inherit;
+      bottom: -5px;
+      background-color: #f4f4f4;
+    }
+  }
+
   .user-card-info {
     min-height: 97px; // 75px + 2px + 20px
     padding: 10px 8px 0 10px;

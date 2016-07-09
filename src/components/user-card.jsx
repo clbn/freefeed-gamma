@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
+import classnames from 'classnames';
 import _ from 'lodash';
 
 import {userActions} from './select-utils';
@@ -42,11 +43,16 @@ class UserCard extends React.Component {
   }
 
   getPosition = (nextProps) => {
+    const position = {};
+
     const pageX = nextProps.userCardView.x;
     const rectLeft = this.triggerRect.left;
     const rectRight = this.triggerRect.right;
 
-    const xOffset = 20; // offset in px
+
+    // Find X
+
+    const xOffset = 20; // offset from the edge of the rect (in px)
 
     let x = 0;
     if (rectRight - rectLeft < xOffset * 2) {
@@ -56,9 +62,26 @@ class UserCard extends React.Component {
     }
     x += window.scrollX;
 
-    const y = this.triggerRect.bottom + window.scrollY;
+    position.left = x;
 
-    return {left: x, top: y};
+
+    // Find Y
+
+    const yThreshold = 150; // threshold from the bottom of the viewport (in px)
+
+    const pageHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight,
+      document.documentElement.scrollHeight, document.documentElement.offsetHeight,
+      document.documentElement.clientHeight);
+
+    const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+    if (viewportHeight - this.triggerRect.bottom > yThreshold) {
+      position.top = this.triggerRect.bottom + window.scrollY;
+    } else {
+      position.bottom = pageHeight - this.triggerRect.top - window.scrollY;
+    }
+
+    return position;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -130,9 +153,14 @@ class UserCard extends React.Component {
       return <div/>;
     }
 
+    const cardClasses = classnames({
+      'user-card': true,
+      'upside-down': !!this.state.position.bottom
+    });
+
     return (
       props.user.errorMessage ? (
-        <div className="user-card" style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
+        <div className={cardClasses} style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
           <div className="user-card-info">
             <div className="userpic userpic-large userpic-error">
               <i className="fa fa-exclamation"></i>
@@ -142,7 +170,7 @@ class UserCard extends React.Component {
           </div>
         </div>
       ) : !props.user.id ? (
-        <div className="user-card" style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
+        <div className={cardClasses} style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
           <div className="user-card-info">
             <div className="userpic userpic-large userpic-loading"></div>
             <div className="username">
@@ -151,7 +179,7 @@ class UserCard extends React.Component {
           </div>
         </div>
       ) : (
-        <div className="user-card" style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
+        <div className={cardClasses} style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
           <div className="user-card-info">
             <Link to={`/${props.user.username}`} className="userpic userpic-large">
               <img src={props.user.profilePictureLargeUrl} width="75" height="75"/>

@@ -1,5 +1,7 @@
 body {
-  background: #FFF;
+  background: #fff;
+  position: relative;
+  min-height: 100%;
 }
 
 body.transition-active:before {
