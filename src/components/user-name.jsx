@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import {updateUserCard} from '../redux/action-creators';
 import * as FrontendPrefsOptions from '../utils/frontend-preferences-options';
+import {isMobile} from '../utils';
 
 const DisplayOption = ({user, me, preferences}) => {
   if (user.username === me && preferences.useYou) {
@@ -31,6 +32,8 @@ const DisplayOption = ({user, me, preferences}) => {
 
 class UserName extends React.Component {
   enterUserName = (event) => {
+    if (isMobile()) { return; }
+
     const rawRects = event.currentTarget.getClientRects();
     const rects = [];
     for (let i = 0; i < rawRects.length; i++) {
@@ -45,12 +48,16 @@ class UserName extends React.Component {
   }
 
   moveUserName = (event) => {
+    if (isMobile()) { return; }
+
     if (!this.props.userCardView.isOpen) {
       this.props.updateUserCard({x: event.pageX, y: event.pageY});
     }
   }
 
   leaveUserName = () => {
+    if (isMobile()) { return; }
+
     this.props.updateUserCard({isHovered: false});
   }
 

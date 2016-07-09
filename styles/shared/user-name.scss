@@ -15,9 +15,6 @@
   border-radius: 2px;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
 
-  // Do not show UserCard on mobile screens
-  @media (max-width: 767px) { display: none; }
-
   &:before {
     content: '';
     position: absolute;

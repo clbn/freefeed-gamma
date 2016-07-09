@@ -100,3 +100,8 @@ export function pluralForm(n, singular, plural = null, format = 'n w') {
 
   return format.replace('n', n).replace('w', w);
 }
+
+export function isMobile() {
+  const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  return (viewportWidth <= 767);
+}

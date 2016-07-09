@@ -6,6 +6,7 @@ import _ from 'lodash';
 
 import {userActions} from './select-utils';
 import {getUserInfo, updateUserCard} from '../redux/action-creators';
+import {isMobile} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 const USERCARD_SHOW_DELAY = 1000;
@@ -95,6 +96,8 @@ class UserCard extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (isMobile()) { return; }
+
     if (nextProps.userCardView.username && !nextProps.user.id && !nextProps.user.errorMessage && !this.loadingUser) {
       this.loadingUser = true;
       setTimeout(() => this.props.getUserInfo(nextProps.userCardView.username), 0);
