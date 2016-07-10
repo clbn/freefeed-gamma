@@ -25,6 +25,15 @@ export default (props) => {
     height: props.imageSizes.t && props.imageSizes.t.h || props.imageSizes.o && props.imageSizes.o.h || undefined
   };
 
+  // Make sure the image is not wider than viewport (it makes sense for mobile screens)
+  const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  const attachmentMargins = 15 + 2 + 2 + 15; // app margin + border+padding + padding+border + app margin
+  if (imageAttributes.width + attachmentMargins > viewportWidth) {
+    const newWidth = viewportWidth - attachmentMargins;
+    imageAttributes.height = Math.round(newWidth / imageAttributes.width * imageAttributes.height);
+    imageAttributes.width = newWidth;
+  }
+
   return (
     <div className="attachment">
       <a href={props.url} title={nameAndSize} onClick={preventDefault(props.handleClick)} target="_blank">
