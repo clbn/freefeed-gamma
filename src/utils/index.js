@@ -71,7 +71,7 @@ export function postParser(post) {
 export function preventDefault(realFunction) {
   return (event) => {
     event.preventDefault();
-    return realFunction && realFunction();
+    return realFunction && realFunction(event);
   };
 }
 
