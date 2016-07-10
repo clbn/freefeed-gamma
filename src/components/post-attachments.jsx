@@ -1,4 +1,6 @@
 import React from 'react';
+import {PhotoSwipe} from 'react-photoswipe';
+
 import ImageAttachment from './post-attachment-image';
 import AudioAttachment from './post-attachment-audio';
 import GeneralAttachment from './post-attachment-general';
@@ -9,13 +11,26 @@ export default class PostAttachments extends React.Component {
 
     this.state = {
       isExpanded: !!props.isExpanded,
-      containerWidth: 0
+      containerWidth: 0,
+      isLightboxOpen: false,
+      lightboxIndex: 0
     };
   }
 
   attachmentMinWidth = 32; // tiny image has container of the same size as image of 32×32
   attachmentMargins = 2 + 2 + 8; // border+padding + padding+border + margin
   toggleWidth = 24; // "chevron-circle" width
+
+  lightboxOptions = {
+    fullscreenEl: false,
+    shareEl: false,
+    zoomEl: false,
+    clickToCloseNonZoomable: false,
+    bgOpacity: 0.9,
+    barsSize: {top: 0, bottom: 0},
+    getThumbBoundsFn: this.getThumbBounds()
+  };
+  lightboxThumbnailElement = null;
 
   getImageAttachments(images) {
     let showToggle = false;
@@ -31,10 +46,11 @@ export default class PostAttachments extends React.Component {
     }
 
     images = images
-      .map(attachment => (
+      .map((attachment, i) => (
         <ImageAttachment
           key={attachment.id}
           isEditing={this.props.isEditing}
+          handleClick={this.handleClickThumbnail(i)}
           removeAttachment={this.props.removeAttachment}
           {...attachment}/>
       ));
@@ -98,6 +114,46 @@ export default class PostAttachments extends React.Component {
     this.setState({isExpanded: true});
   }
 
+  getImageLightboxItems(imageList) {
+    return imageList.map((attachment, i) => ({
+      src: attachment.url,
+      msrc: (i === this.state.lightboxIndex && this.lightboxThumbnailElement ? this.lightboxThumbnailElement.currentSrc : null),
+      w: attachment.imageSizes && attachment.imageSizes.o && attachment.imageSizes.o.w || 800,
+      h: attachment.imageSizes && attachment.imageSizes.o && attachment.imageSizes.o.h || 600
+    }));
+  }
+
+  getThumbBounds() {
+    return (index) => {
+      // If closing lightbox not on the same image we opened it
+      if (index !== this.state.lightboxIndex) {
+        return null;
+      }
+
+      const pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
+      const rect = this.lightboxThumbnailElement.getBoundingClientRect();
+      return {
+        x: rect.left,
+        y: rect.top + pageYScroll,
+        w: rect.width
+      };
+    };
+  }
+
+  handleClickThumbnail(index) {
+    return (e) => {
+      this.lightboxThumbnailElement = e.target;
+      this.setState({
+        isLightboxOpen: true,
+        lightboxIndex: index
+      });
+    };
+  }
+
+  handleCloseLightbox() {
+    this.setState({isLightboxOpen: false});
+  }
+
   componentDidMount() {
     this.setState({
       containerWidth: +(this.refs.attachmentsContainer && this.refs.attachmentsContainer.offsetWidth)
@@ -108,9 +164,9 @@ export default class PostAttachments extends React.Component {
     const props = this.props;
     const attachments = props.attachments || [];
 
-    const imageAttachments = this.getImageAttachments(
-      attachments.filter(attachment => attachment.mediaType === 'image')
-    );
+    const imageList = attachments.filter(attachment => attachment.mediaType === 'image');
+    const imageAttachments = this.getImageAttachments(imageList);
+    const imageLightboxItems = this.getImageLightboxItems(imageList);
 
     const audioAttachments = attachments
       .filter(attachment => attachment.mediaType === 'audio')
@@ -136,6 +192,11 @@ export default class PostAttachments extends React.Component {
       <div className="attachments" ref="attachmentsContainer">
         <div className="image-attachments">
           {imageAttachments}
+          <PhotoSwipe
+            items={imageLightboxItems}
+            options={{...this.lightboxOptions, index: this.state.lightboxIndex}}
+            isOpen={this.state.isLightboxOpen}
+            onClose={this.handleCloseLightbox.bind(this)}/>
         </div>
         <div className="audio-attachments">
           {audioAttachments}

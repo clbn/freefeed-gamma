@@ -1,6 +1,8 @@
 import React from 'react';
 import numeral from 'numeral';
 
+import {preventDefault} from '../utils';
+
 export default (props) => {
   const formattedFileSize = numeral(props.fileSize).format('0.[0] b');
   const formattedImageSize = (props.imageSizes.o ? `, ${props.imageSizes.o.w}×${props.imageSizes.o.h}px` : '');
@@ -25,7 +27,7 @@ export default (props) => {
 
   return (
     <div className="attachment">
-      <a href={props.url} title={nameAndSize} target="_blank">
+      <a href={props.url} title={nameAndSize} onClick={preventDefault(props.handleClick)} target="_blank">
         {props.thumbnailUrl ? (
           <img {...imageAttributes}/>
         ) : (

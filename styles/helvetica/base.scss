@@ -74,3 +74,26 @@ footer {
 .error-string {
   color: #FF5A5F;
 }
+
+// PhotoSwipe override
+.pswp__top-bar {
+  background-color: transparent !important;
+}
+.pswp__counter,
+.pswp__button--close {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.pswp__button--arrow--left:before,
+.pswp__button--arrow--right:before {
+  top: 28px;
+  height: 44px;
+  width: 44px;
+}
+.pswp__button--arrow--left:before {
+  left: 0;
+  background-position: -132px -37px;
+}
+.pswp__button--arrow--right:before {
+  right: 0;
+  background-position: -88px -37px;
+}
