@@ -77,6 +77,10 @@ export const joinPostData = state => postId => {
     comments = [ comments[0], comments[comments.length - 1] ];
   }
 
+  // API has a bug when banned users involved, so sometimes there are
+  // duplicates in likes that cause JS errors (duplicate keys in React)
+  post.likes = _.uniq(post.likes);
+
   let usersLikedPost = _.map(post.likes, userId => state.users[userId]);
 
   if (postView.omittedLikes !== 0) {
