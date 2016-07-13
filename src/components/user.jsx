@@ -52,7 +52,7 @@ function selectState(state, ownProps) {
   );
 
   const currentRouteName = getCurrentRouteName(ownProps);
-  const isItPostsPage = ['userComments', 'userLikes'].indexOf(currentRouteName) === -1;
+  const isInUserPostFeed = ['userComments', 'userLikes'].indexOf(currentRouteName) === -1;
 
   const statusExtension = {
     authenticated,
@@ -61,7 +61,7 @@ function selectState(state, ownProps) {
     isUserFound: !!foundUser,
     isItMe: (foundUser ? foundUser.username === user.username : false),
     userView: (foundUser && state.userViews[foundUser.id] || {}),
-    isItPostsPage,
+    isInUserPostFeed,
     amIGroupAdmin,
     subscribed: authenticated && foundUser && (user.subscriptions.indexOf(foundUser.id) > -1),
     blocked: authenticated && foundUser && (user.banIds.indexOf(foundUser.id) > -1),
@@ -74,12 +74,12 @@ function selectState(state, ownProps) {
   const canIPostToGroup = statusExtension.subscribed && (foundUser.isRestricted === '0' || amIGroupAdmin);
 
   statusExtension.canIPostHere = statusExtension.isUserFound &&
-    ((statusExtension.isItMe && isItPostsPage) || (foundUser.type === 'group' && canIPostToGroup));
+    ((statusExtension.isItMe && isInUserPostFeed) || (foundUser.type === 'group' && canIPostToGroup));
 
   const viewUser = {...(foundUser), ...statusExtension};
 
   const breadcrumbs = {
-    shouldShowBreadcrumbs: !isItPostsPage,
+    shouldShowBreadcrumbs: !isInUserPostFeed,
     user: viewUser,
     breadcrumb: currentRouteName.replace('user','')
   };
