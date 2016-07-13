@@ -25,7 +25,7 @@ export default props => (
       </div>
     ) : (
       <PaginatedView {...props}>
-        <Feed {...props} isInUserFeed={true}/>
+        <Feed {...props} isInUserPostFeed={true}/>
       </PaginatedView>
     )}
   </div>
