@@ -86,7 +86,7 @@ function selectState(state, ownProps) {
 
   const sendTo = {...state.sendTo, defaultFeed: (foundUser ? foundUser.username : null)};
 
-  return { user, visibleEntries, createPostForm, boxHeader, viewUser, breadcrumbs, sendTo };
+  return { user, visibleEntries, createPostForm, boxHeader, viewUser, breadcrumbs, sendTo, isInUserPostFeed };
 }
 
 function selectActions(dispatch) {
