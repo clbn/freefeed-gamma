@@ -19,10 +19,30 @@
     height: 0.35em;
   }
 
+  // Left part of post.
+  // Includes userpic(s).
   .post-userpic {
     float: left;
     margin-right: 10px;
     margin-bottom: 3px;
+
+    &.has-secondary {
+      position: relative;
+
+      .userpic-secondary {
+        position: absolute;
+        // `top` set in JS
+        left: 17%;
+
+        width: 33px;
+        height: 33px;
+
+        &.userpic-large {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    }
   }
 
   // Top part of post, it wraps around userpic on mobile.
@@ -34,10 +54,6 @@
 
     margin-left: 52px + 10px;
     @media (max-width: 767px) { margin-left: 0; min-height: 52px; }
-
-    &.post-has-secondary-userpic {
-      @media (max-width: 767px) { min-height: 52px + 16px; }
-    }
 
     .post-header {
       font-size: 15px;
@@ -205,10 +221,6 @@
   .post-top {
     margin-left: 77px + 10px;
     @media (max-width: 767px) { margin-left: 0; min-height: 77px; }
-
-    &.post-has-secondary-userpic {
-      @media (max-width: 767px) { min-height: 77px + 24px; }
-    }
 
     .post-header {
       font-size: 21px;

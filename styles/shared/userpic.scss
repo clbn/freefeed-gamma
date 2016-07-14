@@ -36,34 +36,4 @@
     box-shadow: 0 0 1px rgba(255, 0, 0, 0.4);
     background-color: #fff2f2;
   }
-
-  &.userpic-has-secondary {
-    position: relative;
-
-    margin-bottom: 1px + 16px; // 16px is half of secondary userpic that sticks out
-
-    &.userpic-large {
-      margin-bottom: 1px + 24px; // 24px is half of secondary userpic that sticks out
-    }
-
-    .userpic-secondary {
-      position: absolute;
-
-      bottom: -35%;
-      left: 17%;
-      margin-left: -2px;
-
-      border: 2px solid #fff;
-      border-radius: 2px;
-
-      img {
-        box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
-        background-color: #fff;
-      }
-    }
-
-    &.userpic-large .userpic-secondary {
-      border-radius: 3px;
-    }
-  }
 }

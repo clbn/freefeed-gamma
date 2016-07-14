@@ -73,26 +73,44 @@ export default class Post extends React.Component {
       'direct-post': props.isDirect
     });
 
-    // Primary recipient feed: used as main userpic and as part of canonical post URL.
-    // If all the recipients are groups (so it's not sent to author's feed,
-    // or to some user as a direct message), use the first group as primary recipient.
-    // Otherwise, use author's feed.
-    let primaryRecipient = props.createdBy;
-    if (props.recipients.every((recipient) => recipient.type === 'group')) {
-      primaryRecipient = props.recipients[0];
-    }
-
-    // Userpic(s)
-    const userpicHasSecondary = (primaryRecipient.id !== props.createdBy.id);
-    const userpicClass = classnames({
+    // Userpics(s)
+    // 1. Primary userpic
+    const primaryUserpicClasses = classnames({
       'userpic': true,
-      'userpic-large': props.isSinglePost,
-      'userpic-has-secondary': userpicHasSecondary
+      'userpic-large': props.isSinglePost
     });
-    const userpicImage = (props.isSinglePost ? primaryRecipient.profilePictureLargeUrl : primaryRecipient.profilePictureMediumUrl);
+    const userpicImage = (props.isSinglePost ? props.createdBy.profilePictureLargeUrl : props.createdBy.profilePictureMediumUrl);
     const userpicSize = (props.isSinglePost ? 75 : 50);
-    const userpicSecondaryImage = props.createdBy.profilePictureMediumUrl;
-    const userpicSecondarySize = (props.isSinglePost ? 50 : 33);
+    const primaryUserpic = (
+      <div className={primaryUserpicClasses}>
+        <Link to={`/${props.createdBy.username}`}>
+          <img src={userpicImage} width={userpicSize} height={userpicSize}/>
+        </Link>
+      </div>
+    );
+    // 2. Secondary userpics
+    const secondaryUserpicClasses = classnames({
+      'userpic': true,
+      'userpic-secondary': true,
+      'userpic-large': props.isSinglePost
+    });
+    const externalRecipients = props.recipients.filter((recipient) => (recipient.id !== props.createdBy.id));
+    const hasSecondaryUserpics = (externalRecipients.length > 0);
+    const secondaryUserpicSize = (props.isSinglePost ? 50 : 33);
+    const secondaryUserpicInterval = (props.isSinglePost ? 9 : 6);
+    const getSecondaryOffset = (index) => (userpicSize + secondaryUserpicInterval + index * (secondaryUserpicSize + secondaryUserpicInterval));
+    const secondaryUserpics = externalRecipients.map((recipient, index) => (
+      <div className={secondaryUserpicClasses} style={{top: getSecondaryOffset(index) + 'px'}} key={index}>
+        <Link to={`/${recipient.username}`}>
+          <img src={recipient.profilePictureMediumUrl} width={secondaryUserpicSize} height={secondaryUserpicSize}/>
+        </Link>
+      </div>
+    ));
+    // 3. Userpics container
+    const userpicClasses = classnames({
+      'post-userpic': true,
+      'has-secondary': hasSecondaryUserpics
+    });
 
     // Recipients
     const recipientCustomDisplay = function(recipient) {
@@ -167,6 +185,14 @@ export default class Post extends React.Component {
     const isReallyPrivate = (publicRecipients.length === 0);
 
     // Post URL
+    // Primary recipient feed: used as part of canonical post URL.
+    // If all the recipients are groups (so it's not sent to author's feed,
+    // or to some user as a direct message), use the first group as primary recipient.
+    // Otherwise, use author's feed.
+    let primaryRecipient = props.createdBy;
+    if (props.recipients.every((recipient) => recipient.type === 'group')) {
+      primaryRecipient = props.recipients[0];
+    }
     const postUrl = `/${primaryRecipient.username}/${props.id}`;
 
     // "Comment" / "Comments disabled"
@@ -253,23 +279,12 @@ export default class Post extends React.Component {
       </div>
     ) : (
       <div className={postClass}>
-        <div className="post-userpic">
-          <div className={userpicClass}>
-            <Link to={`/${primaryRecipient.username}`}>
-              <img src={userpicImage} width={userpicSize} height={userpicSize}/>
-            </Link>
-  
-            {userpicHasSecondary ? (
-              <div className="userpic-secondary">
-                <Link to={`/${props.createdBy.username}`}>
-                  <img src={userpicSecondaryImage} width={userpicSecondarySize} height={userpicSecondarySize}/>
-                </Link>
-              </div>
-            ) : false}
-          </div>
+        <div className={userpicClasses}>
+          {primaryUserpic}
+          {secondaryUserpics}
         </div>
 
-        <div className={'post-top' + (userpicHasSecondary ? ' post-has-secondary-userpic' : '')}>
+        <div className={'post-top' + (hasSecondaryUserpics ? ' post-has-secondary-userpics' : '')}>
           <div className="post-header">
             <UserName className="post-author" user={props.createdBy}/>
             {recipients.length > 0 ? ' to ' : false}
