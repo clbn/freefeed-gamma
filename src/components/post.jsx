@@ -66,7 +66,7 @@ export default class Post extends React.Component {
     };
 
     // Post class(es)
-    const postClass = classnames({
+    const postClasses = classnames({
       'post': true,
       'single-post': props.isSinglePost,
       'timeline-post': !props.isSinglePost,
@@ -278,7 +278,7 @@ export default class Post extends React.Component {
         ) : false}
       </div>
     ) : (
-      <div className={postClass}>
+      <div className={postClasses}>
         <div className={userpicClasses}>
           {primaryUserpic}
           {secondaryUserpics}
