@@ -33,18 +33,6 @@ const FeedHandler = (props) => {
 
   return (
     <div className="box">
-      <div className="box-header-timeline">
-        {props.boxHeader.title}
-
-        <div className="pull-right">
-          {props.areOnFirstHomePage && props.authenticated ? <RealtimeSwitch/> : false}
-
-          {props.boxHeader.page > 1 ? (
-            <span className="subheader">Page {props.boxHeader.page}</span>
-          ) : false}
-        </div>
-      </div>
-
       {props.authenticated && totalRequestsCount > 0 ? (
         <div className="box-message alert alert-info">
           <span className="message">
@@ -59,6 +47,18 @@ const FeedHandler = (props) => {
           </span>
         </div>
       ) : false}
+
+      <div className="box-header-timeline">
+        {props.boxHeader.title}
+
+        <div className="pull-right">
+          {props.areOnFirstHomePage && props.authenticated ? <RealtimeSwitch/> : false}
+
+          {props.boxHeader.page > 1 ? (
+            <span className="subheader">Page {props.boxHeader.page}</span>
+          ) : false}
+        </div>
+      </div>
 
       {props.authenticated ? (
         <PaginatedView firstPageHead={createPostComponent} {...props}>
