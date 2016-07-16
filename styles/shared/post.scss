@@ -4,6 +4,13 @@
   border-bottom: 1px solid #eee;
   line-height: 19px;
 
+  // Clearfix (http://www.cssmojo.com/latest_new_clearfix_so_far/)
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
   a {
     color: #555599;
   }
