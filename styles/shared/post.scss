@@ -24,10 +24,10 @@
   .post-userpic {
     float: left;
     margin-right: 10px;
-    margin-bottom: 3px;
 
     &.has-secondary {
       position: relative;
+      margin-bottom: 4px;
 
       .userpic-secondary {
         position: absolute;
@@ -94,7 +94,7 @@
     line-height: 19px;
 
     margin-left: 52px + 10px;
-    @media (max-width: 767px) { margin-left: 0; }
+    @media (max-width: 767px) { clear: both; margin-left: 0; }
 
     .post-footer {
       .post-lock-icon {

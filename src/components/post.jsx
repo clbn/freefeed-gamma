@@ -111,6 +111,7 @@ export default class Post extends React.Component {
       'post-userpic': true,
       'has-secondary': hasSecondaryUserpics
     });
+    const userpicStyle = {height: getSecondaryOffset(secondaryUserpics.length) - 3};
 
     // Recipients
     const recipientCustomDisplay = function(recipient) {
@@ -279,12 +280,12 @@ export default class Post extends React.Component {
       </div>
     ) : (
       <div className={postClasses}>
-        <div className={userpicClasses}>
+        <div className={userpicClasses} style={userpicStyle}>
           {primaryUserpic}
           {secondaryUserpics}
         </div>
 
-        <div className={'post-top' + (hasSecondaryUserpics ? ' post-has-secondary-userpics' : '')}>
+        <div className="post-top">
           <div className="post-header">
             <UserName className="post-author" user={props.createdBy}/>
             {recipients.length > 0 ? ' to ' : false}
