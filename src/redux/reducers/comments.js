@@ -35,6 +35,9 @@ export default function comments(state = {}, action) {
         [action.payload.comments.id] : action.payload.comments
       };
     }
+    case ActionTypes.REALTIME_POST_NEW: {
+      return mergeByIds(state, action.comments);
+    }
   }
   return state;
 }

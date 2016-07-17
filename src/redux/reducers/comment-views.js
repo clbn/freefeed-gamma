@@ -6,8 +6,7 @@ import * as ActionHelpers from '../action-helpers';
 const {request, response, fail} = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
 
-const updateCommentViews = (state, action) => {
-  const comments = action.payload.comments || [];
+const updateCommentViews = (state, comments) => {
   const commentViews = comments.map(comment => ({
     id: comment.id,
     isEditing: false
@@ -18,14 +17,14 @@ const updateCommentViews = (state, action) => {
 
 export default function commentViews(state={}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
-    return updateCommentViews(state, action);
+    return updateCommentViews(state, action.payload.comments || []);
   }
   switch (action.type) {
     case response(ActionTypes.SHOW_MORE_COMMENTS): {
-      return updateCommentViews(state, action);
+      return updateCommentViews(state, action.payload.comments || []);
     }
     case response(ActionTypes.GET_SINGLE_POST): {
-      return updateCommentViews(state, action);
+      return updateCommentViews(state, action.payload.comments || []);
     }
     case ActionTypes.TOGGLE_EDITING_COMMENT: {
       return {
@@ -70,6 +69,9 @@ export default function commentViews(state={}, action) {
       return {...state,
         [action.commentId]: undefined
       };
+    }
+    case ActionTypes.REALTIME_POST_NEW: {
+      return updateCommentViews(state, action.comments || []);
     }
     case ActionTypes.UNAUTHENTICATED: {
       return {};
