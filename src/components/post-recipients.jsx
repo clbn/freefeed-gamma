@@ -27,6 +27,21 @@ export default class PostRecipients extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    let options = nextProps.feeds.map((item) => ({
+      label: item.user.username,
+      value: item.user.username,
+      type: item.user.type
+    }));
+
+    let myFeedUsername = nextProps.user.username;
+    options.unshift({ label: MY_FEED_LABEL, value: myFeedUsername, type: 'group' });
+
+    this.setState({
+      options: options
+    });
+  }
+
   get values() {
     return this._values;
   }
