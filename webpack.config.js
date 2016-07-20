@@ -116,7 +116,25 @@ module.exports = [{
     opts.uglify && new webpack.optimize.UglifyJsPlugin()
   ])
 },
-//test build config
+
+// Bookmarklet config
+{
+  entry: {
+    'bookmarklet-popup': './assets/bookmarklet-popup.js'
+  },
+  output: {
+    path: opts.dstDir,
+    filename: 'assets/[name]-wrap.js'
+  },
+  module: {
+    loaders: [{
+      test: /bookmarklet\-popup\.js$/,
+      loader: 'file?name=assets/[name].[ext]'
+    }]
+  }
+},
+
+// Test build config
 {
   entry: {
     test: './test'

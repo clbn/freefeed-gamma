@@ -30,6 +30,7 @@ import GroupCreate from './components/group-create';
 import Groups from './components/groups';
 import Friends from './components/friends';
 import ManageSubscribers from './components/manage-subscribers';
+import Bookmarklet from './components/bookmarklet';
 
 const store = configureStore();
 
@@ -72,6 +73,8 @@ history.listen(_ => store.dispatch(ActionCreators.updateUserCard({isHovered: fal
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
+      <Route name='bookmarklet' path='/bookmarklet' component={Bookmarklet}/>
+
       <Route path='/' component={Layout}>
         <IndexRoute name='home' component={Home} onEnter={boundRouteActions('home')}/>
 

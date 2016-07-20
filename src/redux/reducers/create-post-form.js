@@ -11,7 +11,7 @@ export default function createPostForm(state = {}, action) {
       return {...state, status: 'loading'};
     }
     case response(ActionTypes.CREATE_POST): {
-      return {...state, status: 'success'};
+      return {...state, status: 'success', lastPost: action.payload.posts};
     }
     case fail(ActionTypes.CREATE_POST): {
       console.log('action', action);
