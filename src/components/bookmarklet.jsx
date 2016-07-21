@@ -98,7 +98,7 @@ class Layout extends React.Component {
             removeImage={this.removeImage}/>
         ) : (
           <div>
-            <div className="box-message alert alert-info">You need to sign in first.</div>
+            <div className="box-message alert alert-warning">You need to sign in first.</div>
             <SignIn/>
           </div>
         )}
