@@ -67,7 +67,10 @@ html(lang='en')
       ga('send', 'pageview');
     script(async src='https://www.google-analytics.com/analytics.js')
 
-    script(src='https://cdn.ravenjs.com/2.3.0/raven.min.js')
-    script Raven.config('#{require('./src/config').sentry.publicDSN}').install();
+    script(src='https://cdn.ravenjs.com/3.2.1/raven.min.js')
+    script.
+      try {
+        Raven.config('#{require('./src/config').sentry.publicDSN}').install();
+      } catch (e) {}
 
     script(src='[[ app-*.js ]]')
