@@ -37,9 +37,20 @@ export default class PostRecipients extends React.Component {
     let myFeedUsername = nextProps.user.username;
     options.unshift({ label: MY_FEED_LABEL, value: myFeedUsername, type: 'group' });
 
-    this.setState({
-      options: options
-    });
+    // If defaultFeed gets updated (it happens after sign-in), we have to
+    // set values, options and showFeedsOption. Otherwise, only update options.
+    if (this.props.defaultFeed !== nextProps.defaultFeed) {
+      this._values = (nextProps.defaultFeed ? [nextProps.defaultFeed] : []);
+      this.setState({
+        values: this._values,
+        options: options,
+        showFeedsOption: !nextProps.defaultFeed
+      });
+    } else {
+      this.setState({
+        options: options
+      });
+    }
   }
 
   get values() {
