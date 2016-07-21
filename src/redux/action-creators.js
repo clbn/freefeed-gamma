@@ -265,14 +265,6 @@ export function removeAttachment(postId, attachmentId) {
   };
 }
 
-export function signInChange(username, password) {
-  return {
-    type: ActionTypes.SIGN_IN_CHANGE,
-    username,
-    password,
-  };
-}
-
 export function signIn(username, password) {
   return {
     type: ActionTypes.SIGN_IN,
@@ -282,12 +274,6 @@ export function signIn(username, password) {
       username,
       password,
     },
-  };
-}
-
-export function signInEmpty() {
-  return {
-    type: ActionTypes.SIGN_IN_EMPTY
   };
 }
 
