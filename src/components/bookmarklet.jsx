@@ -40,6 +40,27 @@ class Layout extends React.Component {
 
   componentDidMount() {
     window.addEventListener('hashchange', this.handleHashChange);
+
+    // Auto-select thumbnails on popular services
+    const services = [{
+      // Instagram
+      from: /https?:\/\/www\.instagram\.com\/p\/([\w-]{5,20})\//i,
+      to: (id)=>('https://www.instagram.com/p/' + id + '/media/?size=l')
+    }, {
+      // YouTube
+      from: /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*[^\w\s-])([\w-]{11})(?=[^\w-]|$)[?=&+%\w.-]*/i,
+      to: (id)=>('https://i.ytimg.com/vi/' + id + '/hqdefault.jpg')
+    }];
+    const pageUrl = this.props.location.query.url;
+    const imageUrls = [];
+    services.forEach((service) => {
+      const m = pageUrl.match(service.from);
+      if (m && m[1]) {
+        const imageUrl = service.to(m[1]);
+        imageUrls.push(imageUrl);
+      }
+    });
+    this.setState({imageUrls});
   }
 
   componentWillUnmount() {
