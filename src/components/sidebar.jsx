@@ -68,7 +68,7 @@ export default ({user, signOut, recentGroups, toggleSidebar}) => (
         </div>
       </div>
 
-      <div className='box'>
+      <div className='box hidden-on-mobile'>
         <div className='box-header-groups'>
           Bookmarklet
         </div>
