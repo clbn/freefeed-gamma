@@ -93,6 +93,14 @@ class CreatePost extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
+    // If defaultFeed gets updated, it means the transition between Direct messages
+    // and Discussions pages happened (they share the top component, so CreatePost
+    // doesn't get unmounted/mounted in the process). That's one "hacky" way to check
+    // for this transition without passing another prop from discussions.jsx
+    if (newProps.sendTo.defaultFeed !== this.props.sendTo.defaultFeed) {
+      this.clearForm();
+    }
+
     // If recipientFromUrl gets updated, focus the form again
     // (this happens when the component is already rendered, but not expanded,
     // and then we got a new recipientFromUrl - e.g., when user clicks from
