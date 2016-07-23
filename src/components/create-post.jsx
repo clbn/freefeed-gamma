@@ -1,17 +1,20 @@
 import React from 'react';
-import {preventDefault} from '../utils';
+import {connect} from 'react-redux';
 import Textarea from 'react-textarea-autosize';
-import throbber16 from 'assets/images/throbber-16.gif';
+
 import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
 import PostAttachments from './post-attachments';
+import {preventDefault} from '../utils';
+import throbber16 from 'assets/images/throbber-16.gif';
 
-export default class CreatePost extends React.Component {
+class CreatePost extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isExpanded: false,
+      isExpanded: !!props.recipientFromUrl,
+      defaultFeed: props.recipientFromUrl || props.sendTo.defaultFeed,
       isFormEmpty: true,
       isMoreOpen: false,
       hasUploadFailed: false,
@@ -83,7 +86,24 @@ export default class CreatePost extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.recipientFromUrl) {
+      setTimeout(() => this.refs.postText.focus(), 0);
+    }
+  }
+
   componentWillReceiveProps(newProps) {
+    // If recipientFromUrl gets updated, focus the form again
+    // (this happens when the component is already rendered, but not expanded,
+    // and then we got a new recipientFromUrl - e.g., when user clicks from
+    // UserCard while on Direct messages or Discussions page)
+    if (newProps.recipientFromUrl && newProps.recipientFromUrl !== this.props.recipientFromUrl) {
+      this.setState({
+        isExpanded: true
+      });
+      setTimeout(() => this.refs.postText.focus(), 0);
+    }
+
     // If it was successful saving, clear the form
     if (this.props.createPostForm.status === 'loading' && newProps.createPostForm.status === 'success') {
       this.clearForm();
@@ -112,13 +132,15 @@ export default class CreatePost extends React.Component {
       this.setState({hasUploadFailed: true});
     };
 
+    const defaultFeed = this.props.recipientFromUrl || this.props.sendTo.defaultFeed;
+
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
         <div>
           {this.state.isExpanded ? (
             <PostRecipients ref="selectFeeds"
               feeds={this.props.sendTo.feeds}
-              defaultFeed={this.props.sendTo.defaultFeed}
+              defaultFeed={defaultFeed}
               user={this.props.user}
               onChange={this.checkCreatePostAvailability}/>
           ) : false}
@@ -198,3 +220,11 @@ export default class CreatePost extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    recipientFromUrl: state.routing.locationBeforeTransitions.query.to
+  };
+};
+
+export default connect(mapStateToProps)(CreatePost);
