@@ -19,7 +19,7 @@ export default props => (
           ) : false}
         </p>
       </div>
-    ) : props.viewUser.isPrivate === '1' && !props.viewUser.subscribed && !props.viewUser.isItMe ? (
+    ) : props.viewUser.isPrivate === '1' && !props.viewUser.amISubscribedToUser && !props.viewUser.isItMe ? (
       <div className="box-body feed-message">
         <p><b>{props.viewUser.screenName}</b> has a private feed.</p>
       </div>

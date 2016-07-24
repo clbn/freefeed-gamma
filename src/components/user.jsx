@@ -63,15 +63,15 @@ function selectState(state, ownProps) {
     userView: (foundUser && state.userViews[foundUser.id] || {}),
     isInUserPostFeed,
     amIGroupAdmin,
-    subscribed: authenticated && foundUser && (user.subscriptions.indexOf(foundUser.id) > -1),
+    amISubscribedToUser: authenticated && foundUser && (user.subscriptions.indexOf(foundUser.id) > -1),
     blocked: authenticated && foundUser && (user.banIds.indexOf(foundUser.id) > -1),
     hasRequestBeenSent: authenticated && foundUser && ((user.pendingSubscriptionRequests || []).indexOf(foundUser.id) > -1)
   };
 
   statusExtension.canISeeSubsList = statusExtension.isUserFound &&
-    (foundUser.isPrivate === '0' || statusExtension.subscribed || statusExtension.isItMe);
+    (foundUser.isPrivate === '0' || statusExtension.amISubscribedToUser || statusExtension.isItMe);
 
-  const canIPostToGroup = statusExtension.subscribed && (foundUser.isRestricted === '0' || amIGroupAdmin);
+  const canIPostToGroup = statusExtension.amISubscribedToUser && (foundUser.isRestricted === '0' || amIGroupAdmin);
 
   statusExtension.canIPostHere = statusExtension.isUserFound &&
     ((statusExtension.isItMe && isInUserPostFeed) || (foundUser.type === 'group' && canIPostToGroup));

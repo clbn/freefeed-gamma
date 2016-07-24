@@ -104,7 +104,7 @@ export default class UserProfile extends React.Component {
           <div className="profile-controls">
             <div className="row">
               <div className="col-xs-7 col-sm-9 subscribe-controls">
-                {props.isPrivate === '1' && !props.subscribed ? (
+                {props.isPrivate === '1' && !props.amISubscribedToUser ? (
                   props.hasRequestBeenSent ? (
                     <span>
                       <b>{props.screenName}</b> has been sent your subscription request.
@@ -115,7 +115,7 @@ export default class UserProfile extends React.Component {
                     <a onClick={()=>props.sendSubscriptionRequest({username: props.username, id: props.id})}>Request a subscription</a>
                   )
                 ) : (
-                  props.subscribed ? (
+                  props.amISubscribedToUser ? (
                     <a onClick={confirmFirst(unsubscribe)}>Unsubscribe</a>
                   ) : (
                     <a onClick={()=>props.subscribe({username: props.username, id: props.id})}>Subscribe</a>
@@ -135,7 +135,7 @@ export default class UserProfile extends React.Component {
                   </span>
                 ) : false}
 
-                {props.type !== 'group' && !props.subscribed ? (
+                {props.type !== 'group' && !props.amISubscribedToUser ? (
                   <a onClick={preventDefault(_=>props.ban({username: props.username, id: props.id}))}>Block this user</a>
                 ) : props.amIGroupAdmin ? (
                   <Link to={`/${props.username}/settings`}>Settings</Link>
