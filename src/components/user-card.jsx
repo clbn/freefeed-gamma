@@ -263,6 +263,10 @@ class UserCard extends React.Component {
             </div>
           ) : !props.isItMe ? (
             <div className="user-card-actions">
+              {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
+                <span><Link to={`/filter/direct?to=${props.user.username}`}>Direct message</Link> - </span>
+              ) : false}
+
               {props.user.isPrivate === '1' && !props.amISubscribedToUser ? (
                 props.hasRequestBeenSent ? (
                   <a onClick={()=>props.revokeSentRequest({username: props.user.username, id: props.user.id})}>Revoke sub request</a>
