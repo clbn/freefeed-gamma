@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import {userActions} from './select-utils';
 import {getUserInfo, updateUserCard} from '../redux/action-creators';
-import {isMobile} from '../utils';
+import {confirmFirst, isMobile} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 const USERCARD_SHOW_DELAY = 1000;
@@ -275,7 +275,7 @@ class UserCard extends React.Component {
                 )
               ) : (
                 props.amISubscribedToUser ? (
-                  <a onClick={this.unsubscribe}>Unsubscribe</a>
+                  <a onClick={confirmFirst(this.unsubscribe)}>Unsubscribe</a>
                 ) : (
                   <a onClick={()=>props.subscribe({username: props.user.username, id: props.user.id})}>Subscribe</a>
                 )

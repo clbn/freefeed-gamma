@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import {preventDefault, pluralForm} from '../utils';
+import {confirmFirst, preventDefault, pluralForm} from '../utils';
 import CreatePost from './create-post';
 import PieceOfText from './piece-of-text';
 import throbber16 from 'assets/images/throbber-16.gif';
@@ -116,7 +116,7 @@ export default class UserProfile extends React.Component {
                   )
                 ) : (
                   props.subscribed ? (
-                    <a onClick={unsubscribe}>Unsubscribe</a>
+                    <a onClick={confirmFirst(unsubscribe)}>Unsubscribe</a>
                   ) : (
                     <a onClick={()=>props.subscribe({username: props.username, id: props.id})}>Subscribe</a>
                   )
