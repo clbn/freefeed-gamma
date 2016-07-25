@@ -76,37 +76,6 @@ export function singlePostId(state = null, action) {
   return state;
 }
 
-const GROUPS_SIDEBAR_LIST_LENGTH = 4;
-
-export function recentGroups(state = [], action) {
-  switch (action.type) {
-    case response(ActionTypes.WHO_AM_I): {
-      const subscribers = (action.payload.subscribers || []);
-      return subscribers.filter(i => i.type == 'group')
-                        .sort((i, j) => parseInt(j.updatedAt) - parseInt(i.updatedAt))
-                        .slice(0, GROUPS_SIDEBAR_LIST_LENGTH);
-    }
-    case response(ActionTypes.CREATE_GROUP): {
-      const newGroup = action.payload.groups;
-      state.unshift(newGroup);
-      return [...state];
-    }
-    case response(ActionTypes.UPDATE_GROUP): {
-      const groupId = (action.payload.groups.id || null);
-      const groupIndex = _.findIndex(state, { 'id': groupId });
-      if (groupIndex > -1) {
-        const oldGroup = state[groupIndex];
-        const newGroup = (action.payload.groups || {});
-        state[groupIndex] = {...oldGroup, ...newGroup};
-        return [...state];
-      }
-      return state;
-    }
-  }
-
-  return state;
-}
-
 const handleUsers = (state, action, type, errorString) => {
   if (action.type == request(type)) {
     return {

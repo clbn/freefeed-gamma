@@ -5,7 +5,7 @@ import UserName from './user-name';
 import {preventDefault} from '../utils';
 import RecentGroups from './recent-groups';
 
-export default ({user, signOut, recentGroups, toggleSidebar}) => (
+export default ({user, signOut, toggleSidebar}) => (
   <div className="sidebar-wrapper" onClick={() => toggleSidebar()}>
     <div className="col-md-3 sidebar" onClick={(e) => e.stopPropagation()}>
       <div className='logged-in'>
@@ -46,7 +46,7 @@ export default ({user, signOut, recentGroups, toggleSidebar}) => (
           Groups
         </div>
         <div className='box-body'>
-          <RecentGroups recentGroups={recentGroups}/>
+          <RecentGroups/>
         </div>
         <div className='box-footer'>
           <Link to='/groups'>Browse/edit groups</Link>

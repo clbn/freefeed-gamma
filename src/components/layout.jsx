@@ -177,7 +177,6 @@ function select(state, ownProps) {
     user: state.user,
     authenticated: state.authenticated,
     isLoading: state.routeLoadingState,
-    recentGroups: state.recentGroups,
     routeName: getCurrentRouteName(ownProps),
     title: state.title,
     sidebarViewState: state.sidebarViewState
