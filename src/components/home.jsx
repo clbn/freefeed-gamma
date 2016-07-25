@@ -80,8 +80,8 @@ function selectState(state) {
   const createPostForm = joinCreatePostData(state);
   const boxHeader = state.boxHeader;
   const sendTo = {...state.sendTo, defaultFeed: user.username};
-  const userRequestsCount = state.userRequestsCount;
-  const groupRequestsCount = state.groupRequestsCount;
+  const userRequestsCount = state.userRequests.length;
+  const groupRequestsCount = state.groupRequests.length;
 
   return {
     isLoading,
