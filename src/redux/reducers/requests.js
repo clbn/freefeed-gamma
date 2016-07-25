@@ -20,6 +20,34 @@ const pendingSubscriptionRequests = (whoamiPayload) => {
   return findByIds(whoamiPayload.requests || [], pendingSubscriptionRequestsIds).map(userParser);
 };
 
+export function groupRequests(state = [], action) {
+  switch (action.type) {
+    case response(ActionTypes.MANAGED_GROUPS): {
+      const requests = [];
+      action.payload.forEach((g) => {
+        g.requests.forEach((u) => {
+          requests.push({...u, groupId: g.id, groupName: g.username});
+        });
+      });
+      return requests.map(userParser);
+    }
+    case response(ActionTypes.ACCEPT_GROUP_REQUEST):
+    case response(ActionTypes.REJECT_GROUP_REQUEST): {
+      const userName = action.request.userName;
+      const groupName = action.request.groupName;
+      return state.filter((r) => (r.username !== userName || r.groupName !== groupName));
+    }
+    case response(ActionTypes.DEMOTE_GROUP_ADMIN): {
+      if (action.request.isItMe) {
+        const groupName = action.request.groupName;
+        return state.filter((r) => r.groupName !== groupName);
+      }
+    }
+  }
+
+  return state;
+}
+
 export function userRequests(state = [], action) {
   switch (action.type) {
     case response(ActionTypes.WHO_AM_I): {

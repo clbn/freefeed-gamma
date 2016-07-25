@@ -275,7 +275,7 @@ import feedViewState from './feed-view';
 import {groupCreateForm, groupSettingsForm, groupPictureForm} from './group-forms';
 import posts from './posts';
 import postViews from './post-views';
-import {userRequests, sentRequests, groupRequestsCount, userRequestsCount, sentRequestsCount} from './requests';
+import {groupRequests, userRequests, sentRequests, groupRequestsCount, userRequestsCount, sentRequestsCount} from './requests';
 import sendTo from './send-to';
 import signInForm from './sign-in-form';
 import signUpForm from './sign-up-form';
@@ -299,7 +299,7 @@ export {
   groupCreateForm, groupSettingsForm, groupPictureForm,
   posts,
   postViews,
-  userRequests, sentRequests, groupRequestsCount, userRequestsCount, sentRequestsCount,
+  groupRequests, userRequests, sentRequests, groupRequestsCount, userRequestsCount, sentRequestsCount,
   sendTo,
   signInForm,
   signUpForm,
