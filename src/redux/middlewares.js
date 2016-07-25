@@ -52,7 +52,6 @@ export const authMiddleware = store => next => action => {
     setToken(action.payload.authToken);
     next(action);
     store.dispatch(ActionCreators.whoAmI());
-    store.dispatch(ActionCreators.managedGroups());
 
     // Do not redirect to Home page if signed in at Bookmarklet
     const pathname = (store.getState().routing.locationBeforeTransitions || {}).pathname;
