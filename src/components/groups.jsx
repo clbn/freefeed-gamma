@@ -33,7 +33,7 @@ const renderRequestsByGroup = (groupRequests, accept, reject) => {
   });
 };
 
-const GroupsHandler = (props) => {
+const Groups = (props) => {
   const groupRequests = renderRequestsByGroup(props.groupRequests, props.acceptGroupRequest, props.rejectGroupRequest);
 
   return (
@@ -66,7 +66,7 @@ const GroupsHandler = (props) => {
   );
 };
 
-function selectState(state) {
+function mapStateToProps(state) {
   const groupRequests = state.groupRequests;
 
   const me = state.user;
@@ -91,11 +91,11 @@ function selectState(state) {
   return { groupRequests, managedGroups, otherGroups };
 }
 
-function selectActions(dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     acceptGroupRequest: (...args) => dispatch(acceptGroupRequest(...args)),
     rejectGroupRequest: (...args) => dispatch(rejectGroupRequest(...args))
   };
 }
 
-export default connect(selectState, selectActions)(GroupsHandler);
+export default connect(mapStateToProps, mapDispatchToProps)(Groups);
