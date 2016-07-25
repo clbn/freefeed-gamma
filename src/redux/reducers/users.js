@@ -15,14 +15,19 @@ export default function users(state = {}, action) {
   switch (action.type) {
     case response(ActionTypes.WHO_AM_I):
     case response(ActionTypes.GET_USER_INFO): {
+      let newState = state;
+
+      // Add some users from "subscribers"
+      newState = mergeByIds(newState, (action.payload.subscribers || []).map(userParser));
+
       // Add some users from "admins"
-      const state2 = mergeByIds(state, (action.payload.admins || []).map(userParser));
+      newState = mergeByIds(newState, (action.payload.admins || []).map(userParser));
 
       // Add target user
       let userId = action.payload.users.id;
       let oldUser = state[userId] || {};
       let newUser = userParser(action.payload.users);
-      return {...state2,
+      return {...newState,
         [userId]: {...oldUser, ...newUser}
       };
     }
