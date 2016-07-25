@@ -69,20 +69,19 @@ const GroupsHandler = (props) => {
 function selectState(state) {
   const groupRequests = state.groupRequests;
 
-  const managedGroups = {
-    header: 'Groups I admin',
-    users: _.sortBy(state.managedGroups, 'username')
-  };
+  const me = state.user;
 
   const groups = state.user.subscriptions
     .map((id) => state.users[id] || {})
     .filter((u) => u.type === 'group');
 
-  const otherGroupsList = _.differenceWith(
-    _.toArray(groups),
-    state.managedGroups,
-    (a, b) => (a.id == b.id)
-  );
+  const managedGroupsList = groups.filter((g) => g.administrators.indexOf(me.id) > -1);
+  const otherGroupsList = groups.filter((g) => g.administrators.indexOf(me.id) === -1);
+
+  const managedGroups = {
+    header: 'Groups I admin',
+    users: _.sortBy(managedGroupsList, 'username')
+  };
 
   const otherGroups = {
     header: "Groups I'm in",

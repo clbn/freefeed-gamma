@@ -170,46 +170,6 @@ export function usernameBlockedByMe(state = {}, action) {
   );
 }
 
-const removeItemFromGroupRequests = (state, action) => {
-  const userName = action.request.userName;
-  const groupName = action.request.groupName;
-
-  const group = state.find(group => group.username === groupName);
-
-  if (group && group.requests.length !== 0) {
-    let newGroup = {
-      ...group,
-      requests: group.requests.filter(user => user.username !== userName)
-    };
-
-    return _(state).without(group).push(newGroup).value();
-  }
-
-  return state;
-};
-
-export function managedGroups(state = [], action) {
-  switch (action.type) {
-    case response(ActionTypes.MANAGED_GROUPS): {
-      return action.payload.map(userParser).map(group => {
-        group.requests = group.requests.map(userParser);
-        return {...group};
-      });
-    }
-    case response(ActionTypes.ACCEPT_GROUP_REQUEST):
-    case response(ActionTypes.REJECT_GROUP_REQUEST): {
-      return removeItemFromGroupRequests(state, action);
-    }
-    case response(ActionTypes.DEMOTE_GROUP_ADMIN): {
-      if (action.request.isItMe) {
-        return state.filter(group => group.username !== action.request.groupName);
-      }
-    }
-  }
-
-  return state;
-}
-
 export function commentsHighlights(state={}, action) {
   switch (action.type) {
     case ActionTypes.HIGHLIGHT_COMMENT: {
