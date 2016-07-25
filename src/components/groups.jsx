@@ -10,29 +10,31 @@ import {tileUserListFactory, WITH_REQUEST_HANDLES, PLAIN} from './tile-user-list
 const TileListWithAcceptAndReject = tileUserListFactory({type: WITH_REQUEST_HANDLES, displayQuantity: true});
 const TileList = tileUserListFactory({type: PLAIN, displayQuantity: true});
 
-const renderRequestsToGroup = (accept, reject) => (groupRequests) => {
-  const acceptGroupRequest = (userName) => accept(groupRequests.username, userName);
-  const rejectGroupRequest = (userName) => reject(groupRequests.username, userName);
+const renderRequestsByGroup = (groupRequests, accept, reject) => {
+  let groups = groupRequests.map((r) => ({id: r.groupId, username: r.groupName}));
+  groups = _.uniqBy(groups, 'id');
 
-  const count = groupRequests.requests.length;
-  const groupName = groupRequests.screenName;
-  const header = `${pluralForm(count, 'Request', null, 'w')} to join ${groupName}`;
+  return groups.map((g) => {
+    const users = groupRequests.filter((r) => r.groupName === g.username);
+    const header = `${pluralForm(users.length, 'Request', null, 'w')} to join @${g.username}`;
 
-  return (
-    <div key={groupRequests.id}>
-      <TileListWithAcceptAndReject
-        header={header}
-        users={groupRequests.requests}
-        acceptRequest={acceptGroupRequest}
-        rejectRequest={rejectGroupRequest}/>
-    </div>
-  );
+    const acceptGroupRequest = (username) => accept(g.username, username);
+    const rejectGroupRequest = (username) => reject(g.username, username);
+
+    return (
+      <div key={g.id}>
+        <TileListWithAcceptAndReject
+          header={header}
+          users={users}
+          acceptRequest={acceptGroupRequest}
+          rejectRequest={rejectGroupRequest}/>
+      </div>
+    );
+  });
 };
 
 const GroupsHandler = (props) => {
-  const groupRequests = props.groupRequests.map(
-    renderRequestsToGroup(props.acceptGroupRequest, props.rejectGroupRequest)
-  );
+  const groupRequests = renderRequestsByGroup(props.groupRequests, props.acceptGroupRequest, props.rejectGroupRequest);
 
   return (
     <div className="box">
@@ -65,7 +67,7 @@ const GroupsHandler = (props) => {
 };
 
 function selectState(state) {
-  const groupRequests = state.managedGroups.filter(group => group.requests.length) || [];
+  const groupRequests = state.groupRequests;
 
   const managedGroups = {
     header: 'Groups I admin',
