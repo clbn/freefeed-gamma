@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 
 import {Link} from 'react-router';
 import SubsList from './subs-list';
@@ -34,8 +35,11 @@ function selectState(state, ownProps) {
   const users = _.sortBy(state.usernameSubscribers.payload, 'username');
   const isPending = state.usernameSubscribers.isPending;
   const errorString = state.usernameSubscribers.errorString;
-  const amIGroupAdmin = (state.managedGroups.find(group => group.username == username) != null);
-  
+
+  const me = state.user;
+  const user = (_.find(state.users, {username}) || {});
+  const amIGroupAdmin = (user.type === 'group' && (user.administrators || []).indexOf(me.id) > -1);
+
   return { boxHeader, username, amIGroupAdmin, users, isPending, errorString };
 }
 
