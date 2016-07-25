@@ -74,8 +74,12 @@ function selectState(state) {
     users: _.sortBy(state.managedGroups, 'username')
   };
 
+  const groups = state.user.subscriptions
+    .map((id) => state.users[id] || {})
+    .filter((u) => u.type === 'group');
+
   const otherGroupsList = _.differenceWith(
-    _.toArray(state.groups),
+    _.toArray(groups),
     state.managedGroups,
     (a, b) => (a.id == b.id)
   );

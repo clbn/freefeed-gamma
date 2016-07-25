@@ -107,35 +107,6 @@ export function recentGroups(state = [], action) {
   return state;
 }
 
-export function groups(state = {}, action) {
-  switch (action.type) {
-    case response(ActionTypes.WHO_AM_I): {
-      const groups = (action.payload.subscribers || []).filter((u) => u.type == 'group');
-      return mergeByIds(state, groups.map(userParser));
-    }
-    case response(ActionTypes.CREATE_GROUP): {
-      let groupId = action.payload.groups.id;
-      let newGroup = userParser(action.payload.groups);
-      return {...state,
-        [groupId]: {...newGroup}
-      };
-    }
-    case response(ActionTypes.UPDATE_GROUP): {
-      let groupId = action.payload.groups.id;
-      let oldGroup = state[groupId] || {};
-      let newGroup = userParser(action.payload.groups);
-      return {...state,
-        [groupId]: {...oldGroup, ...newGroup}
-      };
-    }
-    case ActionTypes.UNAUTHENTICATED: {
-      return {};
-    }
-  }
-
-  return state;
-}
-
 const handleUsers = (state, action, type, errorString) => {
   if (action.type == request(type)) {
     return {
