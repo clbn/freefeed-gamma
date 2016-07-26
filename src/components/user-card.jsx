@@ -10,7 +10,7 @@ import {confirmFirst, isMobile} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 const USERCARD_SHOW_DELAY = 1000;
-const USERCARD_HIDE_DELAY = 750;
+const USERCARD_HIDE_DELAY = 500;
 
 class UserCard extends React.Component {
   constructor(props) {
