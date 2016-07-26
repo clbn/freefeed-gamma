@@ -2,14 +2,14 @@ ul.tile-list {
   margin: 0;
   padding: 20px 0 0 0;
 
-  li {
+  .user-tile {
+    display: inline-block;
+    position: relative;
     width: 110px;
     height: 110px;
-    display: block;
-    float: left;
     list-style-type: none;
-    padding-top: 10px;
     text-align: center;
+    vertical-align: top;
 
     .userpic {
       margin-bottom: 1px + 5px;
@@ -22,28 +22,50 @@ ul.tile-list {
       color: #4c4c4c;
     }
 
-    .user-actions {
-      color: #666;
+    .user-action {
+      position: absolute;
+      top: 13px;
 
-      a {
-        color: #555599;
+      min-width: 26px;
+      height: 26px;
+      border: 1px solid #fff;
+      border-radius: 2px;
+      padding: 5px 3px 0 3px;
+
+      line-height: 14px;
+      text-decoration: none;
+      white-space: nowrap;
+
+      &.user-action-good {
+        color: #3c763d;
+        background-color: #dff0d8;
+        right: 60%;
+      }
+
+      &.user-action-bad {
+        color: #a94442;
+        background-color: #f2dede;
+        left: 60%;
+      }
+
+      span {
+        display: none;
+        margin: 0 4px;
+      }
+
+      &:hover {
+        z-index: 100;
+
+        span {
+          display: inline;
+        }
       }
     }
   }
 
-  &.with-actions li {
-    height: 130px;
-  }
-
-  &.large-pics li {
+  &.large-pics .user-tile {
     height: 140px;
   }
-
-  &.with-actions.large-pics li {
-    height: 160px;
-  }
-
-  @include clearfix();
 }
 
 .list-controls {

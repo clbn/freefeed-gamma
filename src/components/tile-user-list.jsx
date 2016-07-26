@@ -8,22 +8,31 @@ import {confirmFirst} from '../utils';
 
 const renderUsers = (type) => (user) => {
   return (
-    <li key={user.id}>
+    <li key={user.id} className="user-tile">
+      {type == WITH_REQUEST_HANDLES ? (
+        <div>
+          <a className="user-action user-action-good" onClick={() => user.acceptRequest(user.username)}>
+            <span>Accept</span>
+            <i className="fa fa-thumbs-up fa-fw"></i>
+          </a>
+          <a className="user-action user-action-bad" onClick={() => user.rejectRequest(user.username)}>
+            <i className="fa fa-thumbs-down fa-fw fa-flip-horizontal"></i>
+            <span>Decline</span>
+          </a>
+        </div>
+      ) : false}
+
       <div className="userpic">
-        <Link to={`/${user.username}`}>
+        {type == PLAIN ? (
+          <Link to={`/${user.username}`}>
+            <img src={user.profilePictureUrl} width="50" height="50"/>
+          </Link>
+        ) : (
           <img src={user.profilePictureUrl} width="50" height="50"/>
-        </Link>
+        )}
       </div>
 
       <UserName user={user}/>
-
-      {type == WITH_REQUEST_HANDLES ? (
-        <div className="user-actions">
-          <a onClick={() => user.acceptRequest(user.username)}>Accept</a>
-          <span> - </span>
-          <a onClick={() => user.rejectRequest(user.username)}>Reject</a>
-        </div>
-      ) : false}
 
       {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
         <div className="user-actions">
@@ -92,8 +101,7 @@ export const tileUserListFactory = (config) => (props) => {
 
   const listClasses = classnames({
     'tile-list': true,
-    'large-pics': config.size === 'large',
-    'with-actions': config.type !== PLAIN
+    'large-pics': config.size === 'large'
   });
 
   const header = props.header && config.displayQuantity ?
