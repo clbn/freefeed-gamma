@@ -31,6 +31,28 @@ const renderUsers = (type) => (user) => {
         </div>
       ) : false}
 
+      {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
+        <div>
+          <a className="user-action user-action-good" onClick={() => user.makeAdmin(user)} title="Promote user to admin">
+            <span>Promote</span>
+            <i className="fa fa-level-up fa-fw"></i>
+          </a>
+          <a className="user-action user-action-bad" onClick={confirmFirst(() => user.remove(user.username))} title="Unsubscribe user from the group">
+            <i className="fa fa-times fa-fw"></i>
+            <span>Unsubscribe</span>
+          </a>
+        </div>
+      ) : false}
+
+      {type == WITH_REMOVE_ADMIN_RIGHTS ? (
+        <div>
+          <a className="user-action user-action-bad" onClick={confirmFirst(() => user.removeAdminRights(user))} title="Demote user from admin">
+            <i className="fa fa-level-down fa-fw"></i>
+            <span>Demote</span>
+          </a>
+        </div>
+      ) : false}
+
       <div className="userpic">
         {type == PLAIN ? (
           <Link to={`/${user.username}`}>
@@ -42,20 +64,6 @@ const renderUsers = (type) => (user) => {
       </div>
 
       <UserName user={user}/>
-
-      {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
-        <div className="user-actions">
-          <a onClick={() => user.makeAdmin(user)} title="Promote user to admin">Promote</a>
-          <span> - </span>
-          <a onClick={confirmFirst(() => user.remove(user.username))} title="Unsubscribe user from the group">Unsub</a>
-        </div>
-      ) : false}
-
-      {type == WITH_REMOVE_ADMIN_RIGHTS ? (
-        <div className="user-actions">
-          <a onClick={confirmFirst(() => user.removeAdminRights(user))} title="Demote user from admin">Demote</a>
-        </div>
-      ) : false}
     </li>
   );
 };
