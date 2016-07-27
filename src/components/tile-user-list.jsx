@@ -22,6 +22,15 @@ const renderUsers = (type) => (user) => {
         </div>
       ) : false}
 
+      {type == WITH_REVOKE_SENT_REQUEST ? (
+        <div>
+          <a className="user-action user-action-bad" onClick={() => user.revokeSentRequest({username: user.username, id: user.id})} title="Revoke sent request">
+            <i className="fa fa-times fa-fw"></i>
+            <span>Revoke</span>
+          </a>
+        </div>
+      ) : false}
+
       <div className="userpic">
         {type == PLAIN ? (
           <Link to={`/${user.username}`}>
@@ -47,13 +56,6 @@ const renderUsers = (type) => (user) => {
           <a onClick={confirmFirst(() => user.removeAdminRights(user))} title="Demote user from admin">Demote</a>
         </div>
       ) : false}
-
-      {type == WITH_REVOKE_SENT_REQUEST ? (
-        <div className="user-actions">
-          <a onClick={() => user.revokeSentRequest({username: user.username, id: user.id})} title="Revoke sent request">Revoke</a>
-        </div>
-      ) : false}
-
     </li>
   );
 };
