@@ -8,7 +8,7 @@ import {tileUserListFactory, WITH_REMOVE_AND_MAKE_ADMIN_HANDLES, WITH_REMOVE_ADM
 const SubsList = tileUserListFactory({type: WITH_REMOVE_AND_MAKE_ADMIN_HANDLES});
 const AdminsList = tileUserListFactory({type: WITH_REMOVE_ADMIN_RIGHTS});
 
-const ManageSubscribersHandler = (props) => {
+const ManageSubscribers = (props) => {
   const remove = (username) => props.unsubscribeFromGroup(props.groupName, username);
   const makeAdmin = (user) => props.promoteGroupAdmin(props.groupName, user);
   const removeAdminRights = (user) => {
@@ -30,41 +30,38 @@ const ManageSubscribersHandler = (props) => {
             <Link to={`/${props.groupName}/subscribers`}>Browse subscribers</Link>
           </div>       
         </div>
-        <div className="manage-subscribers-body">
-          {props.users ? (
-            <div>
-              <h3>Subscribers</h3>
 
-              {props.users.length == 0 ? (
-                <div>There's not a single one subscriber yet. You might invite some friends to change that.</div>
-              ) : (
-                <SubsList
-                  users={props.users}
-                  makeAdmin={makeAdmin}
-                  remove={remove}/>
-              )}
-            </div>
-          ) : false}
-
-          <div className="manage-subscribers-admins">
+        {props.amILastGroupAdmin ? (
+          <div>
             <h3>Admins</h3>
-
-            {props.amILastGroupAdmin ? (
-              <div>You are the only Admin for this group. Before you can drop administrative privileges
-                or leave this group, you have to promote another group member to Admin first.</div>
-            ) : (
-              <AdminsList
-                users={props.groupAdmins}
-                removeAdminRights={removeAdminRights}/>
-            )}
+            <div>You are the only Admin for this group. Before you can drop administrative privileges
+              or leave this group, you have to promote another group member to Admin first.</div>
           </div>
-        </div>
+        ) : (
+          <AdminsList
+            header="Admins"
+            users={props.groupAdmins}
+            removeAdminRights={removeAdminRights}/>
+        )}
+
+        {props.users.length == 0 ? (
+          <div>
+            <h3>Other subscribers</h3>
+            <div>There are none. You might want to invite a few friends.</div>
+          </div>
+        ) : (
+          <SubsList
+            header="Other subscribers"
+            users={props.users}
+            makeAdmin={makeAdmin}
+            remove={remove}/>
+        )}
       </div>
     </div>
   );
 };
 
-function selectState(state, ownProps) {
+function mapStateToProps(state, ownProps) {
   const boxHeader = state.boxHeader;
   const groupName = ownProps.params.userName;
   const user = state.user;
@@ -87,7 +84,7 @@ function selectState(state, ownProps) {
   return { boxHeader, groupName, user, groupAdmins, users, amILastGroupAdmin };
 }
 
-function selectActions(dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     unsubscribeFromGroup: (...args) => dispatch(unsubscribeFromGroup(...args)),
     promoteGroupAdmin: (...args) => dispatch(promoteGroupAdmin(...args)),
@@ -95,4 +92,4 @@ function selectActions(dispatch) {
   };
 }
 
-export default connect(selectState, selectActions)(ManageSubscribersHandler);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageSubscribers);
