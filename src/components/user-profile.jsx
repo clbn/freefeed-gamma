@@ -146,13 +146,14 @@ export default class UserProfile extends React.Component {
                 ) : false}
               </div>
             </div>
+
             {this.state.isUnsubWarningDisplayed ? (
               <div className="row">
                 <div className="col-xs-12">
-                  <p className="group-warning">
+                  <div className="alert alert-warning">
                     You are the Admin for this group. If you want to unsubscribe please drop administrative privileges first
                     at <Link to={`/${props.username}/manage-subscribers`}>manage subscribers</Link> page
-                  </p>
+                  </div>
                 </div>
               </div>
             ) : false} 
