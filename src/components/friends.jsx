@@ -11,31 +11,6 @@ const TileList = tileUserListFactory({type: PLAIN, displayQuantity: true});
 const TileListWithAcceptAndReject = tileUserListFactory({type: WITH_REQUEST_HANDLES, displayQuantity: true});
 const TileListWithRevoke = tileUserListFactory({type: WITH_REVOKE_SENT_REQUEST, displayQuantity: true});
 
-function calculateMutual(subscriptions, subscribers) {
-  if (!subscribers.isPending && !subscriptions.isPending &&
-      !subscribers.errorString && !subscriptions.errorString) {
-    return _.intersectionWith(
-      subscriptions.payload,
-      subscribers.payload,
-      (a, b) => a.id == b.id
-    );
-  } else {
-    return [];
-  }
-}
-
-function calculateNonMutual(allSubscriptions, mutualSubscriptions) {
-  if (!allSubscriptions.isPending && !allSubscriptions.errorString) {
-    return _.differenceWith(
-      allSubscriptions.payload,
-      mutualSubscriptions.users,
-      (a, b) => a.id == b.id
-    );
-  } else {
-    return [];
-  }
-}
-
 const Friends = (props) => {
   const feedRequestsHeader = `Subscription ${pluralForm(props.feedRequests.length, 'request', null, 'w')}`;
   const sentRequestsHeader = `Sent ${pluralForm(props.sentRequests.length, 'request', null, 'w')}`;
@@ -45,50 +20,52 @@ const Friends = (props) => {
       <div className="box-header-timeline">
         Friends
       </div>
+      <div className="box-body">
+        <TileListWithAcceptAndReject
+          header={feedRequestsHeader}
+          users={props.feedRequests}
+          acceptRequest={props.acceptUserRequest}
+          rejectRequest={props.rejectUserRequest}/>
 
-      {props.isLoading ? (
-        <div className="box-body">
-          <img width="100" height="100" src={throbber100}/>
-        </div>
-      ) : (
-        <div className="box-body">
-          <TileListWithAcceptAndReject
-            header={feedRequestsHeader}
-            users={props.feedRequests}
-            acceptRequest={props.acceptUserRequest}
-            rejectRequest={props.rejectUserRequest}/>
+        <TileListWithRevoke
+          header={sentRequestsHeader}
+          users={props.sentRequests}
+          revokeSentRequest={props.revokeSentRequest}/>
 
-          <TileListWithRevoke
-            header={sentRequestsHeader}
-            users={props.sentRequests}
-            revokeSentRequest={props.revokeSentRequest}/>
+        <TileList {...props.mutualSubscriptions}/>
 
-          <TileList {...props.mutualSubscriptions}/>
+        <TileList {...props.otherSubscriptions}/>
 
-          <TileList {...props.otherSubscriptions}/>
-
-          <TileList {...props.blockedByMe}/>
-        </div>
-      )}
+        <TileList {...props.blockedByMe}/>
+      </div>
     </div>
   );
 };
 
 function mapStateToProps(state) {
-  const isLoading = (state.usernameSubscriptions.isPending || state.usernameSubscribers.isPending);
-
   const feedRequests = state.userRequests;
 
   const sentRequests = state.sentRequests;
 
+  const subscriptionsList = (state.user.subscriptions || [])
+    .map((id) => state.users[id] || {})
+    .filter((u) => u.type === 'user');
+
+  const subscribersList = (state.user.subscribers || [])
+    .map((u) => state.users[u.id] || {})
+    .filter((u) => u.type === 'user');
+
+  const mutualSubscriptionsList = _.intersectionWith(subscriptionsList, subscribersList, (a, b) => (a.id === b.id));
+  const otherSubscriptionsList = _.differenceWith(subscriptionsList, mutualSubscriptionsList, (a, b) => (a.id === b.id));
+
   const mutualSubscriptions = {
     header: 'Mutual subscriptions',
-    users: _.sortBy(calculateMutual(state.usernameSubscriptions, state.usernameSubscribers), 'username')
+    users: _.sortBy(mutualSubscriptionsList, 'username')
   };
 
   const otherSubscriptions = {
     header: 'Subscriptions',
-    users: _.sortBy(calculateNonMutual(state.usernameSubscriptions, mutualSubscriptions), 'username')
+    users: _.sortBy(otherSubscriptionsList, 'username')
   };
 
   const blockedByMe = {
@@ -96,7 +73,7 @@ function mapStateToProps(state) {
     users: _.sortBy(state.usernameBlockedByMe.payload, 'username')
   };
 
-  return { isLoading, feedRequests, sentRequests, mutualSubscriptions, otherSubscriptions, blockedByMe };
+  return { feedRequests, sentRequests, mutualSubscriptions, otherSubscriptions, blockedByMe };
 }
 
 function mapDispatchToProps(dispatch) {
