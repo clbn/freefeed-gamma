@@ -11,7 +11,32 @@ const TileList = tileUserListFactory({type: PLAIN, displayQuantity: true});
 const TileListWithAcceptAndReject = tileUserListFactory({type: WITH_REQUEST_HANDLES, displayQuantity: true});
 const TileListWithRevoke = tileUserListFactory({type: WITH_REVOKE_SENT_REQUEST, displayQuantity: true});
 
-const FriendsHandler = (props) => {
+function calculateMutual(subscriptions, subscribers) {
+  if (!subscribers.isPending && !subscriptions.isPending &&
+      !subscribers.errorString && !subscriptions.errorString) {
+    return _.intersectionWith(
+      subscriptions.payload,
+      subscribers.payload,
+      (a, b) => a.id == b.id
+    );
+  } else {
+    return [];
+  }
+}
+
+function calculateNonMutual(allSubscriptions, mutualSubscriptions) {
+  if (!allSubscriptions.isPending && !allSubscriptions.errorString) {
+    return _.differenceWith(
+      allSubscriptions.payload,
+      mutualSubscriptions.users,
+      (a, b) => a.id == b.id
+    );
+  } else {
+    return [];
+  }
+}
+
+const Friends = (props) => {
   const feedRequestsHeader = `Subscription ${pluralForm(props.feedRequests.length, 'request', null, 'w')}`;
   const sentRequestsHeader = `Sent ${pluralForm(props.sentRequests.length, 'request', null, 'w')}`;
 
@@ -49,32 +74,7 @@ const FriendsHandler = (props) => {
   );
 };
 
-function calculateMutual(subscriptions, subscribers) {
-  if (!subscribers.isPending && !subscriptions.isPending &&
-      !subscribers.errorString && !subscriptions.errorString) {
-    return _.intersectionWith(
-      subscriptions.payload,
-      subscribers.payload,
-      (a, b) => a.id == b.id
-    );
-  } else {
-    return [];
-  }
-}
-
-function calculateNonMutual(allSubscriptions, mutualSubscriptions) {
-  if (!allSubscriptions.isPending && !allSubscriptions.errorString) {
-    return _.differenceWith(
-      allSubscriptions.payload,
-      mutualSubscriptions.users,
-      (a, b) => a.id == b.id
-    );
-  } else {
-    return [];
-  }
-}
-
-function selectState(state) {
+function mapStateToProps(state) {
   const isLoading = (state.usernameSubscriptions.isPending || state.usernameSubscribers.isPending);
 
   const feedRequests = state.userRequests;
@@ -99,7 +99,7 @@ function selectState(state) {
   return { isLoading, feedRequests, mutualSubscriptions, otherSubscriptions, blockedByMe, sentRequests };
 }
 
-function selectActions(dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     acceptUserRequest: (...args) => dispatch(acceptUserRequest(...args)),
     rejectUserRequest: (...args) => dispatch(rejectUserRequest(...args)),
@@ -107,4 +107,4 @@ function selectActions(dispatch) {
   };
 }
 
-export default connect(selectState, selectActions)(FriendsHandler);
+export default connect(mapStateToProps, mapDispatchToProps)(Friends);
