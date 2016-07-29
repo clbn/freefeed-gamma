@@ -58,16 +58,16 @@ const Friends = (props) => {
             acceptRequest={props.acceptUserRequest}
             rejectRequest={props.rejectUserRequest}/>
 
+          <TileListWithRevoke
+            header={sentRequestsHeader}
+            users={props.sentRequests}
+            revokeSentRequest={props.revokeSentRequest}/>
+
           <TileList {...props.mutualSubscriptions}/>
 
           <TileList {...props.otherSubscriptions}/>
 
           <TileList {...props.blockedByMe}/>
-
-          <TileListWithRevoke
-            header={sentRequestsHeader}
-            users={props.sentRequests}
-            revokeSentRequest={props.revokeSentRequest}/>
         </div>
       )}
     </div>
@@ -78,6 +78,8 @@ function mapStateToProps(state) {
   const isLoading = (state.usernameSubscriptions.isPending || state.usernameSubscribers.isPending);
 
   const feedRequests = state.userRequests;
+
+  const sentRequests = state.sentRequests;
 
   const mutualSubscriptions = {
     header: 'Mutual subscriptions',
@@ -94,9 +96,7 @@ function mapStateToProps(state) {
     users: _.sortBy(state.usernameBlockedByMe.payload, 'username')
   };
 
-  const sentRequests = state.sentRequests;
-
-  return { isLoading, feedRequests, mutualSubscriptions, otherSubscriptions, blockedByMe, sentRequests };
+  return { isLoading, feedRequests, sentRequests, mutualSubscriptions, otherSubscriptions, blockedByMe };
 }
 
 function mapDispatchToProps(dispatch) {
