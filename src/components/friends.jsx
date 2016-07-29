@@ -36,6 +36,8 @@ const Friends = (props) => {
 
         <TileList {...props.otherSubscriptions}/>
 
+        <TileList {...props.otherSubscribers}/>
+
         <TileList {...props.blockedByMe}/>
       </div>
     </div>
@@ -57,6 +59,7 @@ function mapStateToProps(state) {
 
   const mutualSubscriptionsList = _.intersectionWith(subscriptionsList, subscribersList, (a, b) => (a.id === b.id));
   const otherSubscriptionsList = _.differenceWith(subscriptionsList, mutualSubscriptionsList, (a, b) => (a.id === b.id));
+  const otherSubscribersList = _.differenceWith(subscribersList, mutualSubscriptionsList, (a, b) => (a.id === b.id));
 
   const mutualSubscriptions = {
     header: 'Mutual subscriptions',
@@ -68,12 +71,17 @@ function mapStateToProps(state) {
     users: _.sortBy(otherSubscriptionsList, 'username')
   };
 
+  const otherSubscribers = {
+    header: 'Subscribers',
+    users: _.sortBy(otherSubscribersList, 'username')
+  };
+
   const blockedByMe = {
     header: 'Blocked users',
     users: _.sortBy(state.usernameBlockedByMe.payload, 'username')
   };
 
-  return { feedRequests, sentRequests, mutualSubscriptions, otherSubscriptions, blockedByMe };
+  return { feedRequests, sentRequests, mutualSubscriptions, otherSubscriptions, otherSubscribers, blockedByMe };
 }
 
 function mapDispatchToProps(dispatch) {
