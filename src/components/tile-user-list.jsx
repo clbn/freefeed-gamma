@@ -5,53 +5,58 @@ import _ from 'lodash';
 
 import UserName from './user-name';
 import {confirmFirst} from '../utils';
+import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderUsers = (type) => (user) => {
   return (
     <li key={user.id} className="user-tile">
-      {type == WITH_REQUEST_HANDLES ? (
-        <div>
-          <a className="user-action user-action-good" onClick={() => user.acceptRequest(user.username)}>
-            <span>Accept</span>
-            <i className="fa fa-thumbs-up fa-fw"></i>
-          </a>
-          <a className="user-action user-action-bad" onClick={() => user.rejectRequest(user.username)}>
-            <i className="fa fa-thumbs-down fa-fw fa-flip-horizontal"></i>
-            <span>Decline</span>
-          </a>
+      {user.status === 'loading' ? (
+        <div className="user-action user-action-throbber">
+          <img width="16" height="16" src={throbber16}/>
         </div>
-      ) : false}
+      ) : (
+        <div>
+          {type === WITH_REQUEST_HANDLES ? (
+            <a className="user-action user-action-good" onClick={() => user.acceptRequest(user.username)}>
+              <span>Accept</span>
+              <i className="fa fa-thumbs-up fa-fw"></i>
+            </a>
+          ) : false}
+          {type === WITH_REQUEST_HANDLES ? (
+            <a className="user-action user-action-bad" onClick={() => user.rejectRequest(user.username)}>
+              <i className="fa fa-thumbs-down fa-fw fa-flip-horizontal"></i>
+              <span>Decline</span>
+            </a>
+          ) : false}
 
-      {type == WITH_REVOKE_SENT_REQUEST ? (
-        <div>
-          <a className="user-action user-action-bad" onClick={() => user.revokeSentRequest({username: user.username, id: user.id})} title="Revoke sent request">
-            <i className="fa fa-times fa-fw"></i>
-            <span>Revoke</span>
-          </a>
-        </div>
-      ) : false}
+          {type == WITH_REVOKE_SENT_REQUEST ? (
+            <a className="user-action user-action-bad" onClick={() => user.revokeSentRequest({username: user.username, id: user.id})} title="Revoke sent request">
+              <i className="fa fa-times fa-fw"></i>
+              <span>Revoke</span>
+            </a>
+          ) : false}
 
-      {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
-        <div>
-          <a className="user-action user-action-good" onClick={() => user.makeAdmin(user)} title="Promote user to admin">
-            <span>Promote</span>
-            <i className="fa fa-level-up fa-fw"></i>
-          </a>
-          <a className="user-action user-action-bad" onClick={confirmFirst(() => user.remove(user.username))} title="Unsubscribe user from the group">
-            <i className="fa fa-times fa-fw"></i>
-            <span>Unsubscribe</span>
-          </a>
-        </div>
-      ) : false}
+          {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
+            <a className="user-action user-action-good" onClick={() => user.makeAdmin(user)} title="Promote user to admin">
+              <span>Promote</span>
+              <i className="fa fa-level-up fa-fw"></i>
+            </a>
+          ) : false}
+          {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
+            <a className="user-action user-action-bad" onClick={confirmFirst(() => user.remove(user.username))} title="Unsubscribe user from the group">
+              <i className="fa fa-times fa-fw"></i>
+              <span>Unsubscribe</span>
+            </a>
+          ) : false}
 
-      {type == WITH_REMOVE_ADMIN_RIGHTS ? (
-        <div>
-          <a className="user-action user-action-bad" onClick={confirmFirst(() => user.removeAdminRights(user))} title="Demote user from admin">
-            <i className="fa fa-level-down fa-fw"></i>
-            <span>Demote</span>
-          </a>
+          {type == WITH_REMOVE_ADMIN_RIGHTS ? (
+            <a className="user-action user-action-bad" onClick={confirmFirst(() => user.removeAdminRights(user))} title="Demote user from admin">
+              <i className="fa fa-level-down fa-fw"></i>
+              <span>Demote</span>
+            </a>
+          ) : false}
         </div>
-      ) : false}
+      )}
 
       <div className="userpic">
         {type == PLAIN ? (
@@ -96,7 +101,7 @@ function pickActions(type, props) {
 export const tileUserListFactory = (config) => (props) => {
   const usersData = props.users.map(user => {
     return {
-      ..._.pick(user, ['id', 'screenName', 'username']),
+      ..._.pick(user, ['id', 'screenName', 'username', 'status']),
       profilePictureUrl:
         (user.profilePictureUrl
           ? user.profilePictureUrl

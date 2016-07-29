@@ -4,7 +4,7 @@ import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 import {userParser} from '../../utils';
 
-const {response} = ActionHelpers;
+const {request, response, fail} = ActionHelpers;
 
 const findByIds = (collection, ids) => {
   return _.filter(collection, (item) => _.includes(ids, item.id));
@@ -31,12 +31,26 @@ export function groupRequests(state = [], action) {
       });
       return requests.map(userParser);
     }
+
+    case request(ActionTypes.ACCEPT_GROUP_REQUEST):
+    case request(ActionTypes.REJECT_GROUP_REQUEST): {
+      const userName = action.payload.userName;
+      const groupName = action.payload.groupName;
+      return state.map((r) => (r.username === userName && r.groupName === groupName ? {...r, status: 'loading'} : r));
+    }
     case response(ActionTypes.ACCEPT_GROUP_REQUEST):
     case response(ActionTypes.REJECT_GROUP_REQUEST): {
       const userName = action.request.userName;
       const groupName = action.request.groupName;
       return state.filter((r) => (r.username !== userName || r.groupName !== groupName));
     }
+    case fail(ActionTypes.ACCEPT_GROUP_REQUEST):
+    case fail(ActionTypes.REJECT_GROUP_REQUEST): {
+      const userName = action.request.userName;
+      const groupName = action.request.groupName;
+      return state.map((r) => (r.username === userName && r.groupName === groupName ? {...r, status: 'fail'} : r));
+    }
+
     case response(ActionTypes.DEMOTE_GROUP_ADMIN): {
       if (action.request.isItMe) {
         const groupName = action.request.groupName;
