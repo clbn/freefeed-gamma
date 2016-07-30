@@ -98,41 +98,45 @@ function pickActions(type, props) {
   return {};
 }
 
-export const tileUserListFactory = (config) => (props) => {
-  const usersData = props.users.map(user => {
-    return {
-      ..._.pick(user, ['id', 'screenName', 'username', 'status']),
-      profilePictureUrl:
-        (user.profilePictureUrl
-          ? user.profilePictureUrl
-          : (config.size === 'large'
-            ? user.profilePictureLargeUrl
-            : user.profilePictureMediumUrl)),
-      ...pickActions(config.type, props)
-    };
-  });
+class TileUserList extends React.Component {
+  render() {
+    const props = this.props;
+    const config = props.config;
 
-  const users = usersData.map(renderUsers(config.type));
+    const usersData = props.users.map(user => {
+      return {
+        ..._.pick(user, ['id', 'screenName', 'username', 'status']),
+        profilePictureUrl:
+          (user.profilePictureUrl
+            ? user.profilePictureUrl
+            : (config.size === 'large'
+                ? user.profilePictureLargeUrl
+                : user.profilePictureMediumUrl)),
+        ...pickActions(config.type, props)
+      };
+    });
 
-  const listClasses = classnames({
-    'tile-list': true,
-    'large-pics': config.size === 'large'
-  });
+    const users = usersData.map(renderUsers(config.type));
 
-  const header = props.header && config.displayQuantity ?
-    props.header + ` (${props.users.length})` :
-    props.header;
+    const listClasses = classnames({
+      'tile-list': true,
+      'large-pics': config.size === 'large'
+    });
 
-  return (
-    <div>
-      {users.length ? (
-        <div>
-          <h3>{header}</h3>
-          <ul className={listClasses}>
-            {users}
-          </ul>
-        </div>
-      ) : false}
-    </div>
-  );
-};
+    const header = props.header && config.displayQuantity
+      ? props.header + ` (${props.users.length})`
+      : props.header;
+
+    return (users.length ? (
+      <div>
+        <h3>{header}</h3>
+
+        <ul className={listClasses}>
+          {users}
+        </ul>
+      </div>
+    ) : <div/>);
+  }
+}
+
+export const tileUserListFactory = (config) => (props) => <TileUserList config={config} {...props}/>;
