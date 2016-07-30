@@ -49,36 +49,42 @@ function mapStateToProps(state) {
 
   const sentRequests = state.sentRequests;
 
+  // Subscriptions are the list of IDs, not users.
+  // Subscriptions are in chronological order, so we need to reverse them.
   const subscriptionsList = (state.user.subscriptions || [])
     .map((id) => state.users[id] || {})
-    .filter((u) => u.type === 'user');
+    .filter((u) => u.type === 'user')
+    .reverse();
 
+  // Subscribers are the list of users, not IDs.
+  // Subscribers are in reverse chronological order, so we don't need to sort them.
   const subscribersList = (state.user.subscribers || [])
     .map((u) => state.users[u.id] || {})
     .filter((u) => u.type === 'user');
 
-  const mutualSubscriptionsList = _.intersectionWith(subscriptionsList, subscribersList, (a, b) => (a.id === b.id));
+  const mutualSubscriptionsList = _.intersectionWith(subscribersList, subscriptionsList, (a, b) => (a.id === b.id));
   const otherSubscriptionsList = _.differenceWith(subscriptionsList, mutualSubscriptionsList, (a, b) => (a.id === b.id));
   const otherSubscribersList = _.differenceWith(subscribersList, mutualSubscriptionsList, (a, b) => (a.id === b.id));
 
   const mutualSubscriptions = {
     header: 'Mutual subscriptions',
-    users: _.sortBy(mutualSubscriptionsList, 'username')
+    users: mutualSubscriptionsList
   };
 
   const otherSubscriptions = {
     header: 'Subscriptions',
-    users: _.sortBy(otherSubscriptionsList, 'username')
+    users: otherSubscriptionsList
   };
 
   const otherSubscribers = {
     header: 'Subscribers',
-    users: _.sortBy(otherSubscribersList, 'username')
+    users: otherSubscribersList
   };
 
+  // Blocked users are in reverse chronological order, so we don't need to sort them.
   const blockedByMe = {
     header: 'Blocked users',
-    users: _.sortBy(state.usernameBlockedByMe.payload, 'username')
+    users: state.usernameBlockedByMe.payload
   };
 
   return { feedRequests, sentRequests, mutualSubscriptions, otherSubscriptions, otherSubscribers, blockedByMe };
