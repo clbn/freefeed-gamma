@@ -25,7 +25,7 @@ const renderUsers = (type) => (user) => {
           {type === WITH_REQUEST_HANDLES ? (
             <a className="user-action user-action-bad" onClick={() => user.rejectRequest(user.username)}>
               <i className="fa fa-thumbs-down fa-fw fa-flip-horizontal"></i>
-              <span>Decline</span>
+              <span>Reject</span>
             </a>
           ) : false}
 
