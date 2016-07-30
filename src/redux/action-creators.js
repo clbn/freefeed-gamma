@@ -390,6 +390,7 @@ export function subscribers(username) {
   return {
     type: ActionTypes.SUBSCRIBERS,
     apiRequest: Api.getSubscribers,
+    nonAuthRequest: true,
     payload: {username},
   };
 }
@@ -398,6 +399,7 @@ export function subscriptions(username) {
   return {
     type: ActionTypes.SUBSCRIPTIONS,
     apiRequest: Api.getSubscriptions,
+    nonAuthRequest: true,
     payload: {username},
   };
 }
