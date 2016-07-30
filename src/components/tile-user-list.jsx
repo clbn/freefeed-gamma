@@ -99,11 +99,25 @@ function pickActions(type, props) {
 }
 
 class TileUserList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedOrder: null
+    };
+  }
+
+  switchOrder = (key) => () => {
+    this.setState({
+      selectedOrder: key
+    });
+  };
+
   render() {
     const props = this.props;
     const config = props.config;
 
-    const usersData = props.users.map(user => {
+    let usersData = props.users.map(user => {
       return {
         ..._.pick(user, ['id', 'screenName', 'username', 'status']),
         profilePictureUrl:
@@ -116,6 +130,10 @@ class TileUserList extends React.Component {
       };
     });
 
+    if (this.state.selectedOrder) {
+      usersData = _.sortBy(usersData, (user) => user[this.state.selectedOrder].toLowerCase());
+    }
+
     const users = usersData.map(renderUsers(config.type));
 
     const listClasses = classnames({
@@ -127,9 +145,27 @@ class TileUserList extends React.Component {
       ? props.header + ` (${props.users.length})`
       : props.header;
 
+    const sortingOptions = (props.sorting ? (
+      <p>
+        Ordered by:
+        {props.sorting.map((option, index) => (
+          <span key={index}>
+            {index > 0 ? ', ' : ' '}
+            {option.key === this.state.selectedOrder ? (
+              <b>{option.label}</b>
+            ) : (
+              <a onClick={this.switchOrder(option.key)}>{option.label}</a>
+            )}
+          </span>
+        ))}
+      </p>
+    ) : false);
+
     return (users.length ? (
       <div>
         <h3>{header}</h3>
+
+        {sortingOptions}
 
         <ul className={listClasses}>
           {users}
