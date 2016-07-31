@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/action-creators';
+import {Link} from 'react-router';
+
+import {home, createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/action-creators';
 import {joinPostData, joinCreatePostData, postActions} from './select-utils';
 import {getQuery, pluralForm} from '../utils';
-import {Link} from 'react-router';
 
 import CreatePost from './create-post';
 import Feed from './feed';
@@ -12,6 +13,12 @@ import RealtimeSwitch from './realtime-switch';
 import Welcome from './welcome';
 
 class Home extends React.Component {
+  componentWillReceiveProps(newProps) {
+    if (newProps.offset !== this.props.offset) {
+      this.props.home(newProps.offset);
+    }
+  }
+
   render() {
     const props = this.props;
 
@@ -55,7 +62,7 @@ class Home extends React.Component {
           {props.boxHeader.title}
 
           <div className="pull-right">
-            {props.areOnFirstHomePage && props.authenticated ? <RealtimeSwitch/> : false}
+            {!props.offset && props.authenticated ? <RealtimeSwitch/> : false}
 
             {props.boxHeader.page > 1 ? (
               <span className="subheader">Page {props.boxHeader.page}</span>
@@ -77,28 +84,34 @@ class Home extends React.Component {
 
 function mapStateToProps(state) {
   const isLoading = state.routeLoadingState;
+
   const user = state.user;
   const authenticated = state.authenticated;
+
   const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
   const hiddenEntries = state.feedViewState.hiddenEntries.map(joinPostData(state));
   const isHiddenRevealed = state.feedViewState.isHiddenRevealed;
+
   const createPostForm = joinCreatePostData(state);
   const boxHeader = state.boxHeader;
   const sendTo = {...state.sendTo, defaultFeed: user.username};
   const userRequestsCount = state.userRequests.length;
   const groupRequestsCount = state.groupRequests.length;
 
+  const offset = state.routing.locationBeforeTransitions.query.offset;
+
   return {
     isLoading,
     user, authenticated,
     visibleEntries, hiddenEntries, isHiddenRevealed,
     createPostForm, boxHeader, sendTo, userRequestsCount, groupRequestsCount,
-    areOnFirstHomePage: !state.routing.locationBeforeTransitions.query.offset,
+    offset
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    home: (...args) => dispatch(home(...args)),
     ...postActions(dispatch),
     createPost: (...args) => dispatch(createPost(...args)),
     resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),

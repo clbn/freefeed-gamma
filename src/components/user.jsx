@@ -51,8 +51,8 @@ function selectState(state, ownProps) {
     ((foundUser.administrators || []).indexOf(state.user.id) > -1)
   );
 
-  const currentRouteName = getCurrentRouteName(ownProps);
-  const isInUserPostFeed = ['userComments', 'userLikes'].indexOf(currentRouteName) === -1;
+  const currentRoute = getCurrentRouteName(ownProps);
+  const isInUserPostFeed = ['userComments', 'userLikes'].indexOf(currentRoute) === -1;
 
   const statusExtension = {
     authenticated,
@@ -82,12 +82,12 @@ function selectState(state, ownProps) {
   const breadcrumbs = {
     shouldShowBreadcrumbs: !isInUserPostFeed,
     user: viewUser,
-    breadcrumb: currentRouteName.replace('user','')
+    breadcrumb: currentRoute.replace('user','')
   };
 
   const sendTo = {...state.sendTo, defaultFeed: (foundUser ? foundUser.username : null)};
 
-  return { user, visibleEntries, createPostForm, boxHeader, viewUser, breadcrumbs, sendTo, isInUserPostFeed };
+  return { user, visibleEntries, createPostForm, boxHeader, viewUser, breadcrumbs, sendTo, currentRoute, isInUserPostFeed };
 }
 
 function selectActions(dispatch) {

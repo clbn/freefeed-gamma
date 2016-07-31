@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {createPost, resetPostCreateForm} from '../redux/action-creators';
+
+import {discussions, direct, createPost, resetPostCreateForm} from '../redux/action-creators';
 import {joinPostData, joinCreatePostData, postActions} from './select-utils';
 import {getQuery, getCurrentRouteName} from '../utils';
 
@@ -9,6 +10,16 @@ import Feed from './feed';
 import PaginatedView from './paginated-view';
 
 class Discussions extends React.Component {
+  componentWillReceiveProps(newProps) {
+    if (newProps.offset !== this.props.offset) {
+      if (this.props.currentRoute === 'discussions') {
+        this.props.discussions(newProps.offset);
+      } else if (this.props.currentRoute === 'direct') {
+        this.props.direct(newProps.offset);
+      }
+    }
+  }
+
   render() {
     const props = this.props;
 
@@ -51,14 +62,19 @@ function mapStateToProps(state, ownProps) {
   const createPostForm = joinCreatePostData(state);
   const boxHeader = state.boxHeader;
 
-  const defaultFeed = (getCurrentRouteName(ownProps) === 'discussions' ? user.username : null);
+  const currentRoute = getCurrentRouteName(ownProps);
+  const defaultFeed = (currentRoute === 'discussions' ? user.username : null);
   const sendTo = {...state.sendTo, defaultFeed};
 
-  return { isLoading, user, authenticated, visibleEntries, createPostForm, boxHeader, sendTo };
+  const offset = state.routing.locationBeforeTransitions.query.offset;
+
+  return { isLoading, user, authenticated, visibleEntries, createPostForm, boxHeader, sendTo, currentRoute, offset };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    discussions: (...args) => dispatch(discussions(...args)),
+    direct: (...args) => dispatch(direct(...args)),
     ...postActions(dispatch),
     createPost: (...args) => dispatch(createPost(...args)),
     resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args))
