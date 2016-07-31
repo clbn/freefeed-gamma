@@ -8,35 +8,40 @@ import CreatePost from './create-post';
 import Feed from './feed';
 import PaginatedView from './paginated-view';
 
-const Discussions = (props) => {
-  const createPostComponent = (
-    <CreatePost
-      sendTo={props.sendTo}
-      user={props.user}
-      createPost={props.createPost}
-      resetPostCreateForm={props.resetPostCreateForm}
-      createPostForm={props.createPostForm}
-      addAttachmentResponse={props.addAttachmentResponse}
-      removeAttachment={props.removeAttachment}/>
-  );
+class Discussions extends React.Component {
+  render() {
+    const props = this.props;
 
-  return (
-    <div className="box">
-      <div className="box-header-timeline">
-        {props.boxHeader.title}
+    const createPostComponent = (
+      <CreatePost
+        sendTo={props.sendTo}
+        user={props.user}
+        createPost={props.createPost}
+        resetPostCreateForm={props.resetPostCreateForm}
+        createPostForm={props.createPostForm}
+        addAttachmentResponse={props.addAttachmentResponse}
+        removeAttachment={props.removeAttachment}/>
+    );
 
-        {props.boxHeader.page > 1 ? (
-          <div className="pull-right">
-            <span className="subheader">Page {props.boxHeader.page}</span>
-          </div>
-        ) : false}
+    return (
+      <div className="box">
+        <div className="box-header-timeline">
+          {props.boxHeader.title}
+
+          {props.boxHeader.page > 1 ? (
+            <div className="pull-right">
+              <span className="subheader">Page {props.boxHeader.page}</span>
+            </div>
+          ) : false}
+        </div>
+
+        <PaginatedView firstPageHead={createPostComponent} {...props}>
+          <Feed {...props}/>
+        </PaginatedView>
       </div>
-
-      <PaginatedView firstPageHead={createPostComponent} {...props}>
-        <Feed {...props}/>
-      </PaginatedView>
-    </div>);
-};
+    );
+  }
+}
 
 function mapStateToProps(state, ownProps) {
   const isLoading = state.routeLoadingState;
