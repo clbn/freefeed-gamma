@@ -11,7 +11,7 @@ import PaginatedView from './paginated-view';
 import RealtimeSwitch from './realtime-switch';
 import Welcome from './welcome';
 
-const FeedHandler = (props) => {
+const Home = (props) => {
   const createPostComponent = (
     <CreatePost
       sendTo={props.sendTo}
@@ -70,7 +70,7 @@ const FeedHandler = (props) => {
     </div>);
 };
 
-function selectState(state) {
+function mapStateToProps(state) {
   const isLoading = state.routeLoadingState;
   const user = state.user;
   const authenticated = state.authenticated;
@@ -92,7 +92,7 @@ function selectState(state) {
   };
 }
 
-function selectActions(dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     ...postActions(dispatch),
     createPost: (...args) => dispatch(createPost(...args)),
@@ -101,4 +101,4 @@ function selectActions(dispatch) {
   };
 }
 
-export default connect(selectState, selectActions)(FeedHandler);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
