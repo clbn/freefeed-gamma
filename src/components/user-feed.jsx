@@ -8,7 +8,7 @@ import throbber16 from 'assets/images/throbber-16.gif';
 
 class UserFeed extends React.Component {
   componentWillReceiveProps(newProps) {
-    if (newProps.offset !== this.props.offset) {
+    if (newProps.pathname === this.props.pathname && newProps.offset !== this.props.offset) {
       if (this.props.currentRoute === 'userFeed') {
         this.props.getUserFeed(newProps.viewUser.username, newProps.offset);
       } else if (this.props.currentRoute === 'userComments') {
@@ -53,6 +53,7 @@ class UserFeed extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    pathname: state.routing.locationBeforeTransitions.pathname,
     offset: state.routing.locationBeforeTransitions.query.offset
   };
 }

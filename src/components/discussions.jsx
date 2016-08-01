@@ -11,7 +11,7 @@ import PaginatedView from './paginated-view';
 
 class Discussions extends React.Component {
   componentWillReceiveProps(newProps) {
-    if (newProps.offset !== this.props.offset) {
+    if (newProps.pathname === this.props.pathname && newProps.offset !== this.props.offset) {
       if (this.props.currentRoute === 'discussions') {
         this.props.discussions(newProps.offset);
       } else if (this.props.currentRoute === 'direct') {
@@ -66,9 +66,10 @@ function mapStateToProps(state, ownProps) {
   const defaultFeed = (currentRoute === 'discussions' ? user.username : null);
   const sendTo = {...state.sendTo, defaultFeed};
 
+  const pathname = state.routing.locationBeforeTransitions.pathname;
   const offset = state.routing.locationBeforeTransitions.query.offset;
 
-  return { isLoading, user, authenticated, visibleEntries, createPostForm, boxHeader, sendTo, currentRoute, offset };
+  return { isLoading, user, authenticated, visibleEntries, createPostForm, boxHeader, sendTo, currentRoute, pathname, offset };
 }
 
 function mapDispatchToProps(dispatch) {
