@@ -10,9 +10,17 @@ const maxOffset = offset => offset + PAGE_SIZE;
 export default (props) => (
   <ul className="pager">
     {props.offset > 0 ? (
-      <li><Link to={{pathname: props.location.pathname, query: offsetObject(minOffset(props.offset))}}>« Newer items</Link></li>
+      <li className="previous">
+        <Link to={{pathname: props.location.pathname, query: offsetObject(minOffset(props.offset))}}>
+          {'\u2190'} Newer entries
+        </Link>
+      </li>
     ) : false}
 
-    <li><Link to={{pathname: props.location.pathname, query: offsetObject(maxOffset(props.offset))}}>Older items »</Link></li>
+    <li className="next">
+      <Link to={{pathname: props.location.pathname, query: offsetObject(maxOffset(props.offset))}}>
+        Older entries {'\u2192'}
+      </Link>
+    </li>
   </ul>
 );
