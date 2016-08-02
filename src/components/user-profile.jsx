@@ -84,6 +84,12 @@ export default class UserProfile extends React.Component {
                     {' '}
                     {props.type !== 'group' ? (
                       <div className="profile-stats-item">
+                        <Link to={`/${props.username}`}>{pluralForm(props.statistics.posts, 'post')}</Link>
+                      </div>
+                    ) : false}
+                    {' '}
+                    {props.type !== 'group' ? (
+                      <div className="profile-stats-item">
                         <Link to={`/${props.username}/comments`}>{pluralForm(props.statistics.comments, 'comment')}</Link>
                       </div>
                     ) : false}
