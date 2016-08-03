@@ -4,27 +4,22 @@ import {connect} from 'react-redux';
 import {createPost, resetPostCreateForm} from '../redux/action-creators';
 import {joinPostData, joinCreatePostData, postActions, userActions} from './select-utils';
 import {getCurrentRouteName} from '../utils';
-import Breadcrumbs from './breadcrumbs';
 import UserProfile from './user-profile';
 import UserFeed from './user-feed';
 
 const UserHandler = (props) => {
   return (
     <div className="box">
-      <div className="box-body">
-        {props.breadcrumbs.shouldShowBreadcrumbs ? <Breadcrumbs {...props.breadcrumbs}/> : false}
-
-        <UserProfile
-          {...props.viewUser}
-          {...props.userActions}
-          user={props.user}
-          sendTo={props.sendTo}
-          createPost={props.createPost}
-          resetPostCreateForm={props.resetPostCreateForm}
-          createPostForm={props.createPostForm}
-          addAttachmentResponse={props.addAttachmentResponse}
-          removeAttachment={props.removeAttachment}/>
-      </div>
+      <UserProfile
+        {...props.viewUser}
+        {...props.userActions}
+        user={props.user}
+        sendTo={props.sendTo}
+        createPost={props.createPost}
+        resetPostCreateForm={props.resetPostCreateForm}
+        createPostForm={props.createPostForm}
+        addAttachmentResponse={props.addAttachmentResponse}
+        removeAttachment={props.removeAttachment}/>
 
       <UserFeed
         {...props}
@@ -53,6 +48,7 @@ function selectState(state, ownProps) {
 
   const currentRoute = getCurrentRouteName(ownProps);
   const isInUserPostFeed = ['userComments', 'userLikes'].indexOf(currentRoute) === -1;
+  const subHeader = currentRoute.replace('user','');
 
   const statusExtension = {
     authenticated,
@@ -62,6 +58,7 @@ function selectState(state, ownProps) {
     isItMe: (foundUser ? foundUser.username === user.username : false),
     userView: (foundUser && state.userViews[foundUser.id] || {}),
     isInUserPostFeed,
+    subHeader,
     amIGroupAdmin,
     amISubscribedToUser: authenticated && foundUser && (user.subscriptions.indexOf(foundUser.id) > -1),
     isUserSubscribedToMe: authenticated && foundUser && (_.findIndex(user.subscribers, {id: foundUser.id}) > -1),
@@ -79,15 +76,9 @@ function selectState(state, ownProps) {
 
   const viewUser = {...(foundUser), ...statusExtension};
 
-  const breadcrumbs = {
-    shouldShowBreadcrumbs: !isInUserPostFeed,
-    user: viewUser,
-    breadcrumb: currentRoute.replace('user','')
-  };
-
   const sendTo = {...state.sendTo, defaultFeed: (foundUser ? foundUser.username : null)};
 
-  return { user, visibleEntries, createPostForm, boxHeader, viewUser, breadcrumbs, sendTo, currentRoute, isInUserPostFeed };
+  return { user, visibleEntries, createPostForm, boxHeader, viewUser, sendTo, currentRoute, isInUserPostFeed };
 }
 
 function selectActions(dispatch) {
