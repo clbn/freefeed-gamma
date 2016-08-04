@@ -17,7 +17,13 @@ export default function boxHeader(state = "", action) {
       return {title: 'Direct messages', page: getPageByOffset(action.payload.offset)};
     }
     case request(ActionTypes.GET_USER_FEED): {
-      return {};
+      return {title: 'Posts', page: getPageByOffset(action.payload.offset)};
+    }
+    case request(ActionTypes.GET_USER_COMMENTS): {
+      return {title: 'Comments', page: getPageByOffset(action.payload.offset)};
+    }
+    case request(ActionTypes.GET_USER_LIKES): {
+      return {title: 'Likes', page: getPageByOffset(action.payload.offset)};
     }
     case request(ActionTypes.GET_SINGLE_POST): {
       return {};

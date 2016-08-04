@@ -48,7 +48,6 @@ function selectState(state, ownProps) {
 
   const currentRoute = getCurrentRouteName(ownProps);
   const isInUserPostFeed = ['userComments', 'userLikes'].indexOf(currentRoute) === -1;
-  const subHeader = currentRoute.replace('user','');
 
   const statusExtension = {
     authenticated,
@@ -58,7 +57,7 @@ function selectState(state, ownProps) {
     isItMe: (foundUser ? foundUser.username === user.username : false),
     userView: (foundUser && state.userViews[foundUser.id] || {}),
     isInUserPostFeed,
-    subHeader,
+    boxHeader,
     amIGroupAdmin,
     amISubscribedToUser: authenticated && foundUser && (user.subscriptions.indexOf(foundUser.id) > -1),
     isUserSubscribedToMe: authenticated && foundUser && (_.findIndex(user.subscribers, {id: foundUser.id}) > -1),
