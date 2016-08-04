@@ -66,12 +66,21 @@
 }
 
 .profile-controls {
+  color: #999;
   padding-top: 14px;
   padding-bottom: 14px;
   border-bottom: 1px solid #eee;
 
+  .text {
+    color: #333;
+  }
+
+  a {
+    white-space: nowrap;
+  }
+
   .profile-controls-throbber {
-    margin: 0 10px;
+    margin: 0 5px 0 8px;
   }
 
   .alert-warning {

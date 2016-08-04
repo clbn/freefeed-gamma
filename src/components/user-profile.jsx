@@ -108,61 +108,59 @@ export default class UserProfile extends React.Component {
 
         {props.showProfileControls ? (
           <div className="profile-controls">
-            <div className="row">
-              <div className="col-xs-7 col-sm-9 subscribe-controls">
-                {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
-                  <span><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </span>
-                ) : false}
+            {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
+              <span><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </span>
+            ) : false}
 
-                {props.isPrivate === '1' && !props.amISubscribedToUser ? (
-                  props.hasRequestBeenSent ? (
-                    <span>
-                      <b>{props.screenName}</b> has been sent your subscription request.
-                      {' '}
-                      <a onClick={()=>props.revokeSentRequest({username: props.username, id: props.id})}>Revoke</a>
-                    </span>
-                  ) : (
-                    <a onClick={()=>props.sendSubscriptionRequest({username: props.username, id: props.id})}>Request a subscription</a>
-                  )
-                ) : (
-                  props.amISubscribedToUser ? (
-                    <a onClick={confirmFirst(unsubscribe)}>Unsubscribe</a>
-                  ) : (
-                    <a onClick={()=>props.subscribe({username: props.username, id: props.id})}>Subscribe</a>
-                  )
-                )}
+            {props.isPrivate === '1' && !props.amISubscribedToUser ? (
+              props.hasRequestBeenSent ? (
+                <span>
+                  <span className="text"><b>{props.screenName}</b> has been sent your subscription request</span>
+                  {' - '}
+                  <a onClick={()=>props.revokeSentRequest({username: props.username, id: props.id})}>Revoke request</a>
+                </span>
+              ) : (
+                <a onClick={()=>props.sendSubscriptionRequest({username: props.username, id: props.id})}>Request a subscription</a>
+              )
+            ) : (
+              props.amISubscribedToUser ? (
+                <a onClick={confirmFirst(unsubscribe)}>Unsubscribe</a>
+              ) : (
+                <a onClick={()=>props.subscribe({username: props.username, id: props.id})}>Subscribe</a>
+              )
+            )}
 
-                {props.userView.isSubscribing ? (
-                  <span className="profile-controls-throbber">
-                    <img width="16" height="16" src={throbber16}/>
-                  </span>
-                ) : false}
-              </div>
-              <div className="col-xs-5 col-sm-3 text-right">
-                {props.userView.isBlocking ? (
-                  <span className="profile-controls-throbber">
-                    <img width="16" height="16" src={throbber16}/>
-                  </span>
-                ) : false}
+            {props.userView.isSubscribing ? (
+              <span className="profile-controls-throbber">
+                <img width="16" height="16" src={throbber16}/>
+              </span>
+            ) : false}
 
-                {props.type !== 'group' && !props.amISubscribedToUser ? (
-                  <a onClick={preventDefault(_=>props.ban({username: props.username, id: props.id}))}>Block this user</a>
-                ) : props.amIGroupAdmin ? (
-                  <Link to={`/${props.username}/settings`}>Settings</Link>
-                ) : false}
-              </div>
-            </div>
+            {props.type !== 'group' && !props.amISubscribedToUser ? (
+              <span> - <a onClick={preventDefault(_=>props.ban({username: props.username, id: props.id}))}>Block this user</a></span>
+            ) : false}
+
+            {props.userView.isBlocking ? (
+              <span className="profile-controls-throbber">
+                <img width="16" height="16" src={throbber16}/>
+              </span>
+            ) : false}
+
+            {props.type === 'group' && props.amIGroupAdmin ? (
+              <span>
+                {' - '}
+                <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link>
+                {' - '}
+                <Link to={`/${props.username}/settings`}>Settings</Link>
+              </span>
+            ) : false}
 
             {this.state.isUnsubWarningDisplayed ? (
-              <div className="row">
-                <div className="col-xs-12">
-                  <div className="alert alert-warning">
-                    You are the Admin for this group. If you want to unsubscribe please drop administrative privileges first
-                    at <Link to={`/${props.username}/manage-subscribers`}>manage subscribers</Link> page
-                  </div>
-                </div>
+              <div className="alert alert-warning">
+                You are the Admin for this group. If you want to unsubscribe please drop administrative privileges first
+                at <Link to={`/${props.username}/manage-subscribers`}>manage subscribers</Link> page
               </div>
-            ) : false} 
+            ) : false}
           </div>
         ) : false}
 
