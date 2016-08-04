@@ -106,15 +106,7 @@ export default class UserProfile extends React.Component {
           </div>
         )}
 
-        {!props.isInUserPostFeed || props.boxHeader.page > 1 ? (
-          <h4 className="profile-subheader">
-            {props.boxHeader.title}
-
-            {props.boxHeader.page > 1 ? (
-              <div className="profile-subheader-page">Page {props.boxHeader.page}</div>
-            ) : false}
-          </h4>
-        ) : props.authenticated && props.isUserFound && !props.isItMe && !props.blocked ? (
+        {props.showProfileControls ? (
           <div className="profile-controls">
             <div className="row">
               <div className="col-xs-7 col-sm-9 subscribe-controls">

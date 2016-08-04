@@ -56,8 +56,6 @@ function selectState(state, ownProps) {
     isUserFound: !!foundUser,
     isItMe: (foundUser ? foundUser.username === user.username : false),
     userView: (foundUser && state.userViews[foundUser.id] || {}),
-    isInUserPostFeed,
-    boxHeader,
     amIGroupAdmin,
     amISubscribedToUser: authenticated && foundUser && (user.subscriptions.indexOf(foundUser.id) > -1),
     isUserSubscribedToMe: authenticated && foundUser && (_.findIndex(user.subscribers, {id: foundUser.id}) > -1),
@@ -68,16 +66,22 @@ function selectState(state, ownProps) {
   statusExtension.canISeeSubsList = statusExtension.isUserFound &&
     (foundUser.isPrivate === '0' || statusExtension.amISubscribedToUser || statusExtension.isItMe);
 
+  statusExtension.showProfileControls = authenticated && statusExtension.isUserFound &&
+    !statusExtension.isItMe && !statusExtension.blocked &&
+    isInUserPostFeed && boxHeader.page < 2;
+
   const canIPostToGroup = statusExtension.amISubscribedToUser && (foundUser.isRestricted === '0' || amIGroupAdmin);
 
   statusExtension.canIPostHere = statusExtension.isUserFound &&
     ((statusExtension.isItMe && isInUserPostFeed) || (foundUser.type === 'group' && canIPostToGroup));
 
+  const showPaginationHeader = !isInUserPostFeed || boxHeader.page > 1;
+
   const viewUser = {...(foundUser), ...statusExtension};
 
   const sendTo = {...state.sendTo, defaultFeed: (foundUser ? foundUser.username : null)};
 
-  return { user, visibleEntries, createPostForm, boxHeader, viewUser, sendTo, currentRoute, isInUserPostFeed };
+  return { user, visibleEntries, createPostForm, boxHeader, viewUser, sendTo, currentRoute, isInUserPostFeed, showPaginationHeader };
 }
 
 function selectActions(dispatch) {

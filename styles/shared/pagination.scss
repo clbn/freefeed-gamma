@@ -1,3 +1,14 @@
+.pagination-header {
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+  margin: 0;
+
+  .pagination-header-page {
+    float: right;
+    color: #ddd;
+  }
+}
+
 // Bootstrap override
 .pager {
   padding: 14px 0;

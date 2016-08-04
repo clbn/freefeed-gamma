@@ -5,9 +5,21 @@ import PaginationLinks from './pagination-links';
 import {getCurrentRouteName} from '../utils';
 
 const PaginatedView = props => (
-  <div className='box-body'>
+  <div className="box-body">
+    {props.showPaginationHeader ? (
+      <h4 className="pagination-header">
+        {props.boxHeader.title}
+
+        {props.boxHeader.page > 1 ? (
+          <div className="pagination-header-page">Page {props.boxHeader.page}</div>
+        ) : false}
+      </h4>
+    ) : false}
+
     {props.offset > 0 ? props.children ? <PaginationLinks {...props}/> : false : props.firstPageHead}
+
     {props.children}
+
     <PaginationLinks {...props}/>
   </div>
 );
