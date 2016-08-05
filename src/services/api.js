@@ -325,7 +325,7 @@ export function getUserLikes({username, offset}) {
   return fetch(`${apiConfig.host}/v1/timelines/${username}/likes?offset=${offset}`, getRequestOptions());
 }
 
-export function getSubscribers({username}) {
+export function getUserSubscribers({username}) {
   return fetch(`${apiConfig.host}/v1/users/${username}/subscribers`, getRequestOptions());
 }
 

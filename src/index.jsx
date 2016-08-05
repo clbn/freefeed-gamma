@@ -23,7 +23,7 @@ import Signup from './components/signup';
 import Settings from './components/settings';
 import SinglePost from './components/single-post';
 import User from './components/user';
-import Subscribers from './components/subscribers';
+import UserSubscribers from './components/user-subscribers';
 import Subscriptions from './components/subscriptions';
 import GroupSettings from './components/group-settings';
 import GroupCreate from './components/group-create';
@@ -51,7 +51,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 const manageSubscribersActions = next => {
   const username = next.params.userName;
   store.dispatch(ActionCreators.getUserInfo(username));
-  store.dispatch(ActionCreators.subscribers(username));
+  store.dispatch(ActionCreators.getUserSubscribers(username));
 };
 
 const friendsActions = next => {
@@ -89,7 +89,7 @@ ReactDOM.render(
         <Route name='discussions' path='filter/discussions' component={Discussions} onEnter={boundRouteActions('discussions')}/>
 
         <Route name='userFeed' path='/:userName' component={User} onEnter={boundRouteActions('userFeed')}/>
-        <Route name='subscribers' path='/:userName/subscribers' component={Subscribers} onEnter={boundRouteActions('subscribers')}/>
+        <Route name='userSubscribers' path='/:userName/subscribers' component={UserSubscribers} onEnter={boundRouteActions('userSubscribers')}/>
         <Route name='subscriptions' path='/:userName/subscriptions' component={Subscriptions} onEnter={boundRouteActions('subscriptions')}/>
         <Route name='userComments' path='/:userName/comments' component={User} onEnter={boundRouteActions('userComments')}/>
         <Route name='userLikes' path='/:userName/likes' component={User} onEnter={boundRouteActions('userLikes')}/>

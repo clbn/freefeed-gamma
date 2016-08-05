@@ -116,7 +116,7 @@ export function usernameSubscribers(state = {}, action) {
   return handleUsers(
     state,
     action,
-    ActionTypes.SUBSCRIBERS,
+    ActionTypes.GET_USER_SUBSCRIBERS,
     'error occured while fetching subscribers'
   );
 }

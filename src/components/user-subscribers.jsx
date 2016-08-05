@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {Link} from 'react-router';
 import SubsList from './subs-list';
 
-const SubscribersHandler = (props) => {
+const UserSubscribers = (props) => {
   return (
     <div className='box'>
       <div className='box-header-timeline'>
@@ -29,7 +29,7 @@ const SubscribersHandler = (props) => {
   );
 };
 
-function selectState(state, ownProps) {
+function mapStateToProps(state, ownProps) {
   const boxHeader = state.boxHeader;
   const username = ownProps.params.userName;
   const users = _.sortBy(state.usernameSubscribers.payload, 'username');
@@ -43,4 +43,4 @@ function selectState(state, ownProps) {
   return { boxHeader, username, amIGroupAdmin, users, isPending, errorString };
 }
 
-export default connect(selectState)(SubscribersHandler);
+export default connect(mapStateToProps)(UserSubscribers);

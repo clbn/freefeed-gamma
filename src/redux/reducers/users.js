@@ -31,7 +31,7 @@ export default function users(state = {}, action) {
         [userId]: {...oldUser, ...newUser}
       };
     }
-    case response(ActionTypes.SUBSCRIBERS): {
+    case response(ActionTypes.GET_USER_SUBSCRIBERS): {
       return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
     }
     case response(ActionTypes.CREATE_GROUP): {

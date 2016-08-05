@@ -386,10 +386,10 @@ export function toggleHiddenPosts() {
   };
 }
 
-export function subscribers(username) {
+export function getUserSubscribers(username) {
   return {
-    type: ActionTypes.SUBSCRIBERS,
-    apiRequest: Api.getSubscribers,
+    type: ActionTypes.GET_USER_SUBSCRIBERS,
+    apiRequest: Api.getUserSubscribers,
     nonAuthRequest: true,
     payload: {username},
   };
