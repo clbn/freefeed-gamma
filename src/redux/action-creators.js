@@ -408,6 +408,7 @@ export function getUserInfo(username) {
   return {
     type: ActionTypes.GET_USER_INFO,
     apiRequest: Api.getUserInfo,
+    nonAuthRequest: true,
     payload: {username},
   };
 }

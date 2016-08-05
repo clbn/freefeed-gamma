@@ -23,7 +23,6 @@ import Signup from './components/signup';
 import Settings from './components/settings';
 import SinglePost from './components/single-post';
 import User from './components/user';
-import UserSubscribers from './components/user-subscribers';
 import Subscriptions from './components/subscriptions';
 import GroupSettings from './components/group-settings';
 import GroupCreate from './components/group-create';
@@ -48,7 +47,7 @@ const boundRouteActions = bindRouteActions(store.dispatch);
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-const manageSubscribersActions = next => {
+const userSubscribersActions = (next) => {
   const username = next.params.userName;
   store.dispatch(ActionCreators.getUserInfo(username));
   store.dispatch(ActionCreators.getUserSubscribers(username));
@@ -89,12 +88,12 @@ ReactDOM.render(
         <Route name='discussions' path='filter/discussions' component={Discussions} onEnter={boundRouteActions('discussions')}/>
 
         <Route name='userFeed' path='/:userName' component={User} onEnter={boundRouteActions('userFeed')}/>
-        <Route name='userSubscribers' path='/:userName/subscribers' component={UserSubscribers} onEnter={boundRouteActions('userSubscribers')}/>
+        <Route name='userSubscribers' path='/:userName/subscribers' component={User} onEnter={userSubscribersActions}/>
         <Route name='subscriptions' path='/:userName/subscriptions' component={Subscriptions} onEnter={boundRouteActions('subscriptions')}/>
         <Route name='userComments' path='/:userName/comments' component={User} onEnter={boundRouteActions('userComments')}/>
         <Route name='userLikes' path='/:userName/likes' component={User} onEnter={boundRouteActions('userLikes')}/>
         <Route name='groupSettings' path='/:userName/settings' component={GroupSettings} onEnter={boundRouteActions('getUserInfo')}/>
-        <Route name='manage-subscribers' path='/:userName/manage-subscribers' component={ManageSubscribers} onEnter={manageSubscribersActions}/>
+        <Route name='manage-subscribers' path='/:userName/manage-subscribers' component={ManageSubscribers} onEnter={userSubscribersActions}/>
 
         <Route name='post' path='/:userName/:postId' component={SinglePost} onEnter={boundRouteActions('post')}/>
       </Route>

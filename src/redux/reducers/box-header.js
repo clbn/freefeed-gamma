@@ -19,6 +19,9 @@ export default function boxHeader(state = "", action) {
     case request(ActionTypes.GET_USER_FEED): {
       return {title: 'Posts', page: getPageByOffset(action.payload.offset)};
     }
+    case request(ActionTypes.GET_USER_SUBSCRIBERS): {
+      return {title: 'Subscribers', page: 1};
+    }
     case request(ActionTypes.GET_USER_COMMENTS): {
       return {title: 'Comments', page: getPageByOffset(action.payload.offset)};
     }

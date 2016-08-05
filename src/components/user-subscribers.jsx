@@ -1,46 +1,48 @@
 import React from 'react';
+import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 
-import {Link} from 'react-router';
-import SubsList from './subs-list';
+import {tileUserListFactory, PLAIN} from './tile-user-list';
+import throbber100 from 'assets/images/throbber.gif';
+
+const TileList = tileUserListFactory({type: PLAIN});
 
 const UserSubscribers = (props) => {
+  if (props.viewUser.isPrivate === '1' && !props.viewUser.amISubscribedToUser && !props.viewUser.isItMe) {
+    return (
+      <div className="box-body feed-message">
+        <p><b>{props.viewUser.screenName}</b> has a private feed.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className='box'>
-      <div className='box-header-timeline'>
+    <div className="box-body">
+      <h4 className="pagination-header">
         {props.boxHeader.title}
-      </div>
-      <div className='box-body'>
-        <div className="row">
-          <div className="col-md-6">
-            <Link to={`/${props.username}`}>{props.username}</Link> › Subscribers
+
+        {props.viewUser.amIGroupAdmin ? (
+          <div className="pagination-header-sidelinks">
+            <Link to={`/${props.viewUser.username}/manage-subscribers`}>Manage subscribers</Link>
           </div>
-          {props.amIGroupAdmin
-          ? <div className="col-md-6 text-right">
-              <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link>
-            </div>
-          : false}          
-        </div>
-        <SubsList {...props} title='Subscribers' />
-      </div>
-      <div className='box-footer'></div>
+        ) : false}
+      </h4>
+
+      {props.isLoading ? (
+        <img width="100" height="100" src={throbber100}/>
+      ) : (
+        <TileList users={props.users}/>
+      )}
     </div>
   );
 };
 
-function mapStateToProps(state, ownProps) {
-  const boxHeader = state.boxHeader;
-  const username = ownProps.params.userName;
-  const users = _.sortBy(state.usernameSubscribers.payload, 'username');
-  const isPending = state.usernameSubscribers.isPending;
-  const errorString = state.usernameSubscribers.errorString;
-
-  const me = state.user;
-  const user = (_.find(state.users, {username}) || {});
-  const amIGroupAdmin = (user.type === 'group' && (user.administrators || []).indexOf(me.id) > -1);
-
-  return { boxHeader, username, amIGroupAdmin, users, isPending, errorString };
+function mapStateToProps(state) {
+  return {
+    users: _.sortBy(state.usernameSubscribers.payload, 'username'),
+    isLoading: state.usernameSubscribers.isPending
+  };
 }
 
 export default connect(mapStateToProps)(UserSubscribers);

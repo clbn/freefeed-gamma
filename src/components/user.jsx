@@ -5,6 +5,7 @@ import {createPost, resetPostCreateForm} from '../redux/action-creators';
 import {joinPostData, joinCreatePostData, postActions, userActions} from './select-utils';
 import {getCurrentRouteName} from '../utils';
 import UserProfile from './user-profile';
+import UserSubscribers from './user-subscribers';
 import UserFeed from './user-feed';
 
 const UserHandler = (props) => {
@@ -21,9 +22,13 @@ const UserHandler = (props) => {
         addAttachmentResponse={props.addAttachmentResponse}
         removeAttachment={props.removeAttachment}/>
 
-      <UserFeed
-        {...props}
-        isLoading={props.viewUser.isLoading}/>
+      {props.currentRoute === 'userSubscribers' ? (
+        <UserSubscribers {...props}/>
+      ) : (
+        <UserFeed
+          {...props}
+          isLoading={props.viewUser.isLoading}/>
+      )}
     </div>
   );
 };
@@ -47,7 +52,7 @@ function selectState(state, ownProps) {
   );
 
   const currentRoute = getCurrentRouteName(ownProps);
-  const isInUserPostFeed = ['userComments', 'userLikes'].indexOf(currentRoute) === -1;
+  const isInUserPostFeed = (currentRoute === 'userFeed');
 
   const statusExtension = {
     authenticated,
@@ -72,8 +77,8 @@ function selectState(state, ownProps) {
 
   const canIPostToGroup = statusExtension.amISubscribedToUser && (foundUser.isRestricted === '0' || amIGroupAdmin);
 
-  statusExtension.canIPostHere = statusExtension.isUserFound &&
-    ((statusExtension.isItMe && isInUserPostFeed) || (foundUser.type === 'group' && canIPostToGroup));
+  statusExtension.canIPostHere = statusExtension.isUserFound && isInUserPostFeed &&
+    (statusExtension.isItMe || (foundUser.type === 'group' && canIPostToGroup));
 
   const showPaginationHeader = !isInUserPostFeed || boxHeader.page > 1;
 
