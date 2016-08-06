@@ -24,17 +24,19 @@ const UserHandler = (props) => {
         addAttachmentResponse={props.addAttachmentResponse}
         removeAttachment={props.removeAttachment}/>
 
-      {props.currentRoute === 'userSubscribers' ? (
-        <UserSubscribers {...props}/>
-      ) : props.currentRoute === 'userSubscriptions' ? (
-        <UserSubscriptions {...props}/>
-      ) : props.currentRoute === 'userManageSubscribers' ? (
-        <UserManageSubscribers {...props}/>
-      ) : (
-        <UserFeed
-          {...props}
-          isLoading={props.viewUser.isLoading}/>
-      )}
+      {props.viewUser.isUserFound ? (
+        props.currentRoute === 'userSubscribers' ? (
+          <UserSubscribers {...props}/>
+        ) : props.currentRoute === 'userSubscriptions' ? (
+          <UserSubscriptions {...props}/>
+        ) : props.currentRoute === 'userManageSubscribers' ? (
+          <UserManageSubscribers {...props}/>
+        ) : (
+          <UserFeed
+            {...props}
+            isLoading={props.viewUser.isLoading}/>
+        )
+      ) : false}
     </div>
   );
 };
