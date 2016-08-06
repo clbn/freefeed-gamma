@@ -6,6 +6,7 @@ import {joinPostData, joinCreatePostData, postActions, userActions} from './sele
 import {getCurrentRouteName} from '../utils';
 import UserProfile from './user-profile';
 import UserSubscribers from './user-subscribers';
+import UserSubscriptions from './user-subscriptions';
 import UserFeed from './user-feed';
 
 const UserHandler = (props) => {
@@ -24,6 +25,8 @@ const UserHandler = (props) => {
 
       {props.currentRoute === 'userSubscribers' ? (
         <UserSubscribers {...props}/>
+      ) : props.currentRoute === 'userSubscriptions' ? (
+        <UserSubscriptions {...props}/>
       ) : (
         <UserFeed
           {...props}

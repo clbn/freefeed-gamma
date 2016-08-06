@@ -1,33 +1,41 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 
-import {Link} from 'react-router';
-import SubsList from './subs-list';
+import {tileUserListFactory, PLAIN} from './tile-user-list';
+import throbber100 from 'assets/images/throbber.gif';
 
+const TileList = tileUserListFactory({type: PLAIN});
 
 const UserSubscriptions = (props) => {
+  if (props.viewUser.isPrivate === '1' && !props.viewUser.amISubscribedToUser && !props.viewUser.isItMe) {
+    return (
+      <div className="box-body feed-message">
+        <p><b>{props.viewUser.screenName}</b> has a private feed.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className='box'>
-      <div className='box-header-timeline'>
+    <div className="box-body">
+      <h4 className="pagination-header">
         {props.boxHeader.title}
-      </div>
-      <div className='box-body'>
-        <div><Link to={`/${props.username}`}>{props.username}</Link> › Subscriptions</div>
-        <SubsList {...props} title='Subscriptions' />
-      </div>
-      <div className='box-footer'></div>
+      </h4>
+
+      {props.isLoading ? (
+        <img width="100" height="100" src={throbber100}/>
+      ) : (
+        <TileList users={props.users}/>
+      )}
     </div>
   );
 };
 
-function mapStateToProps(state, ownProps) {
-  const boxHeader = state.boxHeader;
-  const username = ownProps.params.userName;
-  const users = _.sortBy(state.usernameSubscriptions.payload, 'username');
-  const isPending = state.usernameSubscriptions.isPending;
-  const errorString = state.usernameSubscriptions.errorString;
-
-  return { boxHeader, username, users, isPending, errorString };
+function mapStateToProps(state) {
+  return {
+    users: _.sortBy(state.usernameSubscriptions.payload, 'username'),
+    isLoading: state.usernameSubscriptions.isPending
+  };
 }
 
 export default connect(mapStateToProps)(UserSubscriptions);
