@@ -329,7 +329,7 @@ export function getUserSubscribers({username}) {
   return fetch(`${apiConfig.host}/v1/users/${username}/subscribers`, getRequestOptions());
 }
 
-export function getSubscriptions({username}) {
+export function getUserSubscriptions({username}) {
   return fetch(`${apiConfig.host}/v1/users/${username}/subscriptions`, getRequestOptions());
 }
 

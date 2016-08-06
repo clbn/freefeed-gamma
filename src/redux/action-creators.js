@@ -395,10 +395,10 @@ export function getUserSubscribers(username) {
   };
 }
 
-export function subscriptions(username) {
+export function getUserSubscriptions(username) {
   return {
-    type: ActionTypes.SUBSCRIPTIONS,
-    apiRequest: Api.getSubscriptions,
+    type: ActionTypes.GET_USER_SUBSCRIPTIONS,
+    apiRequest: Api.getUserSubscriptions,
     nonAuthRequest: true,
     payload: {username},
   };

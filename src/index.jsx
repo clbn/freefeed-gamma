@@ -23,7 +23,7 @@ import Signup from './components/signup';
 import Settings from './components/settings';
 import SinglePost from './components/single-post';
 import User from './components/user';
-import Subscriptions from './components/subscriptions';
+import UserSubscriptions from './components/user-subscriptions';
 import GroupSettings from './components/group-settings';
 import GroupCreate from './components/group-create';
 import Groups from './components/groups';
@@ -89,7 +89,7 @@ ReactDOM.render(
 
         <Route name='userFeed' path='/:userName' component={User} onEnter={boundRouteActions('userFeed')}/>
         <Route name='userSubscribers' path='/:userName/subscribers' component={User} onEnter={userSubscribersActions}/>
-        <Route name='subscriptions' path='/:userName/subscriptions' component={Subscriptions} onEnter={boundRouteActions('subscriptions')}/>
+        <Route name='userSubscriptions' path='/:userName/subscriptions' component={UserSubscriptions} onEnter={boundRouteActions('userSubscriptions')}/>
         <Route name='userComments' path='/:userName/comments' component={User} onEnter={boundRouteActions('userComments')}/>
         <Route name='userLikes' path='/:userName/likes' component={User} onEnter={boundRouteActions('userLikes')}/>
         <Route name='groupSettings' path='/:userName/settings' component={GroupSettings} onEnter={boundRouteActions('getUserInfo')}/>

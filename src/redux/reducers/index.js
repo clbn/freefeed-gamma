@@ -125,7 +125,7 @@ export function usernameSubscriptions(state = {}, action) {
   return handleUsers(
     state,
     action,
-    ActionTypes.SUBSCRIPTIONS,
+    ActionTypes.GET_USER_SUBSCRIPTIONS,
     'error occured while fetching subscriptions'
   );
 }

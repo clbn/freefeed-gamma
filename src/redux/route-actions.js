@@ -10,7 +10,7 @@ import {
   getUserComments,
   getUserLikes,
   getUserSubscribers,
-  subscriptions,
+  getUserSubscriptions,
   getSinglePost
 } from './action-creators';
 
@@ -31,7 +31,7 @@ export const routeActions = {
   'userComments': next => getUserComments(next.params.userName, getOffset(next)),
   'userLikes': next => getUserLikes(next.params.userName, getOffset(next)),
   'userSubscribers': next => getUserSubscribers(getUserName(next)),
-  'subscriptions': next => subscriptions(getUserName(next)),
+  'userSubscriptions': next => getUserSubscriptions(getUserName(next)),
   'post': next => getSinglePost(next.params.postId)
 };
 
