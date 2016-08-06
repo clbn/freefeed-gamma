@@ -27,7 +27,6 @@ import GroupSettings from './components/group-settings';
 import GroupCreate from './components/group-create';
 import Groups from './components/groups';
 import Friends from './components/friends';
-import ManageSubscribers from './components/manage-subscribers';
 import Bookmarklet from './components/bookmarklet';
 
 const store = configureStore();
@@ -98,7 +97,7 @@ ReactDOM.render(
         <Route name='userComments' path='/:userName/comments' component={User} onEnter={boundRouteActions('userComments')}/>
         <Route name='userLikes' path='/:userName/likes' component={User} onEnter={boundRouteActions('userLikes')}/>
         <Route name='groupSettings' path='/:userName/settings' component={GroupSettings} onEnter={boundRouteActions('getUserInfo')}/>
-        <Route name='manage-subscribers' path='/:userName/manage-subscribers' component={ManageSubscribers} onEnter={userSubscribersActions}/>
+        <Route name='userManageSubscribers' path='/:userName/manage-subscribers' component={User} onEnter={userSubscribersActions}/>
 
         <Route name='post' path='/:userName/:postId' component={SinglePost} onEnter={boundRouteActions('post')}/>
       </Route>

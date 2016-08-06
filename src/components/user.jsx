@@ -7,6 +7,7 @@ import {getCurrentRouteName} from '../utils';
 import UserProfile from './user-profile';
 import UserSubscribers from './user-subscribers';
 import UserSubscriptions from './user-subscriptions';
+import UserManageSubscribers from './user-manage-subscribers';
 import UserFeed from './user-feed';
 
 const UserHandler = (props) => {
@@ -27,6 +28,8 @@ const UserHandler = (props) => {
         <UserSubscribers {...props}/>
       ) : props.currentRoute === 'userSubscriptions' ? (
         <UserSubscriptions {...props}/>
+      ) : props.currentRoute === 'userManageSubscribers' ? (
+        <UserManageSubscribers {...props}/>
       ) : (
         <UserFeed
           {...props}
