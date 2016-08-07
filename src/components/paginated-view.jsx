@@ -7,11 +7,11 @@ import {getCurrentRouteName} from '../utils';
 const PaginatedView = props => (
   <div className="box-body">
     {props.showPaginationHeader ? (
-      <h4 className="pagination-header">
+      <h4 className="user-subheader">
         {props.boxHeader.title}
 
         {props.boxHeader.page > 1 ? (
-          <div className="pagination-header-page">Page {props.boxHeader.page}</div>
+          <div className="user-subheader-page-number">Page {props.boxHeader.page}</div>
         ) : false}
       </h4>
     ) : false}

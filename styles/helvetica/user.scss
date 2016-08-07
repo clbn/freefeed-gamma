@@ -104,6 +104,24 @@
   }
 }
 
+.user-subheader {
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+  margin: 0;
+
+  .user-subheader-page-number {
+    float: right;
+    color: #ddd;
+  }
+
+  .user-subheader-sidelinks {
+    float: right;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 20px;
+  }
+}
+
 .feed-message {
   padding-top: 14px;
 

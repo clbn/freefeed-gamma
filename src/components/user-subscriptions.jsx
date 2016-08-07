@@ -18,7 +18,7 @@ const UserSubscriptions = (props) => {
 
   return (
     <div className="box-body">
-      <h4 className="pagination-header">
+      <h4 className="user-subheader">
         {props.boxHeader.title}
       </h4>
 

@@ -22,11 +22,11 @@ const UserManageSubscribers = (props) => {
 
   return (
     <div className="box-body">
-      <h4 className="pagination-header">
+      <h4 className="user-subheader">
         Manage subscribers
 
         {props.viewUser.amIGroupAdmin ? (
-          <div className="pagination-header-sidelinks">
+          <div className="user-subheader-sidelinks">
             <Link to={`/${props.viewUser.username}/subscribers`}>Browse subscribers</Link>
           </div>
         ) : false}
