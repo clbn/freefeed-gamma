@@ -16,6 +16,7 @@ const UserHandler = (props) => {
       <UserProfile
         {...props.viewUser}
         {...props.userActions}
+        isInUserPostFeed={props.isInUserPostFeed}
         user={props.user}
         sendTo={props.sendTo}
         createPost={props.createPost}

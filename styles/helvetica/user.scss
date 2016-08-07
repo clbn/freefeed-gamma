@@ -40,6 +40,22 @@
       display: block;
       height: 0.35em;
     }
+
+    &.profile-description-collapsed {
+      // Multiline text clamping with ellipsis.
+      // Works properly in Webkit, but doesn't show ellipsis in Firefox.
+      $font-size: 14px;
+      $line-height: 1.42;
+      $lines-to-show: 2;
+      display: -webkit-box;
+      height: $font-size * $line-height * $lines-to-show + 12;
+      font-size: $font-size;
+      line-height: $line-height;
+      -webkit-line-clamp: $lines-to-show;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
 

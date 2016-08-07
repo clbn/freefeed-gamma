@@ -54,8 +54,8 @@ export default class UserProfile extends React.Component {
                     ) : false}
 
                     {props.description ? (
-                      <div className="profile-description">
-                        <PieceOfText text={props.description} isExpanded={true}/>
+                      <div className={'profile-description ' + (!props.isInUserPostFeed ? 'profile-description-collapsed' : '')}>
+                        <PieceOfText text={props.description} isExpanded={props.isInUserPostFeed} key={props.isInUserPostFeed}/>
                       </div>
                     ) : false}
                   </div>
