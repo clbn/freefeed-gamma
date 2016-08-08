@@ -11,13 +11,12 @@ import UserCard from './user-card';
 import {getCurrentRouteName} from '../utils';
 import throbber100 from 'assets/images/throbber.gif';
 
-const logoHandler = (routeName, cb) => _ => {
-  if (routeName === 'home') {
+const logoHandler = (routeName, offset, cb) => () => {
+  if (routeName === 'home' && !offset) {
     return cb();
   }
   return false;
 };
-
 
 class Layout extends React.Component {
   // Here we have some handling of drag-n-drop, because standard dragenter
@@ -128,7 +127,7 @@ class Layout extends React.Component {
         <header className="row">
           <div className="col-xs-9">
             <h1>
-              <IndexLink to="/" onClick={logoHandler(props.routeName, props.home)}>FreeFeed</IndexLink>
+              <IndexLink to="/" onClick={logoHandler(props.routeName, props.offset, props.home)}>FreeFeed</IndexLink>
 
               {props.isLoading ? (
                 <span className="loading"><img src={throbber100} width="30" height="30"/></span>
@@ -178,6 +177,7 @@ function select(state, ownProps) {
     authenticated: state.authenticated,
     isLoading: state.routeLoadingState,
     routeName: getCurrentRouteName(ownProps),
+    offset: state.routing.locationBeforeTransitions.query.offset,
     title: state.title,
     sidebarViewState: state.sidebarViewState
   };
