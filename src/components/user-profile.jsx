@@ -47,7 +47,7 @@ export default class UserProfile extends React.Component {
                   <div className="profile-displayname profile-loading">@{props.requestedUsername}</div>
                 ) : (
                   <div>
-                    <div className="profile-displayname">{props.screenName}</div>
+                    <div className="profile-displayname"><Link to={`/${props.username}`}>{props.screenName}</Link></div>
 
                     {props.screenName !== props.username ? (
                       <div className="profile-username">@{props.username}</div>

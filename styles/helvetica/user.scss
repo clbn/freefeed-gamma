@@ -17,6 +17,16 @@
     &.profile-loading {
       color: #999;
     }
+
+    a {
+      color: #333;
+      text-decoration: none;
+
+      &:active, &:focus, &:hover, &:visited {
+        color: #333;
+        text-decoration: none;
+      }
+    }
   }
 
   .profile-username {
