@@ -32,16 +32,38 @@ const UserSubscribers = (props) => {
       {props.isLoading ? (
         <img width="100" height="100" src={throbber100}/>
       ) : (
-        <TileList users={props.users}/>
+        <TileList users={props.users} sorting={props.sorting}/>
       )}
     </div>
   );
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  const isItMe = (state.user.username === ownProps.params.userName);
+  let users = [];
+  let sorting = null;
+
+  if (isItMe) {
+    // Subscribers are the list of users, not IDs.
+    // Subscribers are in reverse chronological order, so we don't need to sort them.
+    users = (state.user.subscribers || [])
+      .map((u) => state.users[u.id] || {})
+      .filter((u) => u.type === 'user');
+
+    sorting = [
+      {'key': null, 'label': 'date they subscribed (most recent first)'},
+      {'key': 'username', 'label': 'username'},
+      {'key': 'screenName', 'label': 'display name'}
+    ];
+  } else {
+    users = _.sortBy(state.usernameSubscribers.payload, 'username');
+  }
+
   return {
-    users: _.sortBy(state.usernameSubscribers.payload, 'username'),
-    isLoading: state.usernameSubscribers.isPending
+    isItMe,
+    users,
+    sorting,
+    isLoading: !isItMe && state.usernameSubscribers.isPending
   };
 }
 
