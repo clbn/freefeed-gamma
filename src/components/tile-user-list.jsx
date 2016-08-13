@@ -103,13 +103,15 @@ class TileUserList extends React.Component {
     super(props);
 
     this.state = {
-      selectedOrder: null
+      selectedOrder: null,
+      isReverse: false
     };
   }
 
-  switchOrder = (key) => () => {
+  switchOrder = (key, isReverse) => () => {
     this.setState({
-      selectedOrder: key
+      selectedOrder: key,
+      isReverse: isReverse
     });
   };
 
@@ -132,6 +134,10 @@ class TileUserList extends React.Component {
 
     if (this.state.selectedOrder) {
       usersData = _.sortBy(usersData, (user) => user[this.state.selectedOrder].toLowerCase());
+
+      if (this.state.isReverse) {
+        usersData = usersData.reverse();
+      }
     }
 
     const users = usersData.map(renderUsers(config.type));
@@ -154,7 +160,7 @@ class TileUserList extends React.Component {
             {option.key === this.state.selectedOrder ? (
               <b>{option.label}</b>
             ) : (
-              <a onClick={this.switchOrder(option.key)}>{option.label}</a>
+              <a onClick={this.switchOrder(option.key, !!option.isReverse)}>{option.label}</a>
             )}
           </span>
         ))}
