@@ -103,8 +103,8 @@ class TileUserList extends React.Component {
     super(props);
 
     this.state = {
-      selectedOrder: null,
-      isReverse: false
+      selectedOrder: props.sorting && props.sorting[0].key || null,
+      isReverse: props.sorting && props.sorting[0].isReverse || false
     };
   }
 
