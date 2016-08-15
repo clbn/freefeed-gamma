@@ -121,7 +121,7 @@ class TileUserList extends React.Component {
 
     let usersData = props.users.map(user => {
       return {
-        ..._.pick(user, ['id', 'screenName', 'username', 'status']),
+        ..._.pick(user, ['id', 'screenName', 'username', 'status', 'updatedAt']),
         profilePictureUrl:
           (user.profilePictureUrl
             ? user.profilePictureUrl

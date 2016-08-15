@@ -80,12 +80,22 @@ function mapStateToProps(state) {
 
   const managedGroups = {
     header: 'Groups I admin',
-    users: _.sortBy(managedGroupsList, 'username')
+    sorting: [
+      {key: 'updatedAt', label: 'date they updated (most recent first)', isReverse: true},
+      {key: 'username', label: 'username'},
+      {key: 'screenName', label: 'display name'}
+    ],
+    users: managedGroupsList
   };
 
   const otherGroups = {
     header: "Groups I'm in",
-    users: _.sortBy(otherGroupsList, 'username')
+    sorting: [
+      {key: 'updatedAt', label: 'date they updated (most recent first)', isReverse: true},
+      {key: 'username', label: 'username'},
+      {key: 'screenName', label: 'display name'}
+    ],
+    users: otherGroupsList
   };
 
   return { groupRequests, managedGroups, otherGroups };
