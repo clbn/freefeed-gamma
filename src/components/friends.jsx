@@ -69,9 +69,9 @@ function mapStateToProps(state) {
   const mutualSubscriptions = {
     header: 'Mutual subscriptions',
     sorting: [
-      {'key': null, 'label': 'date they subscribed (most recent first)'},
-      {'key': 'username', 'label': 'username'},
-      {'key': 'screenName', 'label': 'display name'}
+      {key: null, label: 'date they subscribed (most recent first)'},
+      {key: 'username', label: 'username'},
+      {key: 'screenName', label: 'display name'}
     ],
     users: mutualSubscriptionsList
   };
@@ -79,9 +79,9 @@ function mapStateToProps(state) {
   const otherSubscriptions = {
     header: 'Subscriptions',
     sorting: [
-      {'key': null, 'label': 'date you subscribed (most recent first)'},
-      {'key': 'username', 'label': 'username'},
-      {'key': 'screenName', 'label': 'display name'}
+      {key: null, label: 'date you subscribed (most recent first)'},
+      {key: 'username', label: 'username'},
+      {key: 'screenName', label: 'display name'}
     ],
     users: otherSubscriptionsList
   };
@@ -89,9 +89,9 @@ function mapStateToProps(state) {
   const otherSubscribers = {
     header: 'Subscribers',
     sorting: [
-      {'key': null, 'label': 'date they subscribed (most recent first)'},
-      {'key': 'username', 'label': 'username'},
-      {'key': 'screenName', 'label': 'display name'}
+      {key: null, label: 'date they subscribed (most recent first)'},
+      {key: 'username', label: 'username'},
+      {key: 'screenName', label: 'display name'}
     ],
     users: otherSubscribersList
   };
