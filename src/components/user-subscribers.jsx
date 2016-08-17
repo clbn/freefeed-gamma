@@ -32,7 +32,22 @@ const UserSubscribers = (props) => {
       {props.isLoading ? (
         <img width="100" height="100" src={throbber100}/>
       ) : (
-        <TileList users={props.users} sorting={props.sorting}/>
+        props.groupAdmins.length > 0 ? (
+          <div>
+            <TileList header="Admins" users={props.groupAdmins} sorting={props.sorting}/>
+
+            {props.users.length === 0 ? (
+              <div>
+                <h3>Other subscribers</h3>
+                <div>There are none. Everyone is admin.</div>
+              </div>
+            ) : (
+              <TileList header="Other subscribers" users={props.users} sorting={props.sorting}/>
+            )}
+          </div>
+        ) : (
+          <TileList users={props.users} sorting={props.sorting}/>
+        )
       )}
     </div>
   );
@@ -40,6 +55,7 @@ const UserSubscribers = (props) => {
 
 function mapStateToProps(state, ownProps) {
   const isItMe = (state.user.username === ownProps.params.userName);
+  let groupAdmins = [];
   let users = [];
   let sorting = null;
 
@@ -57,10 +73,21 @@ function mapStateToProps(state, ownProps) {
     ];
   } else {
     users = _.sortBy(state.usernameSubscribers.payload, 'username');
+
+    const group = ownProps.viewUser;
+    if (group.type === 'group' && group.administrators) {
+      groupAdmins = group.administrators.map((userId) => state.users[userId]);
+      groupAdmins = _.sortBy(groupAdmins, 'username');
+
+      users = _.filter(users, (user) => {
+        return !groupAdmins.find(u => u.username === user.username);
+      });
+    }
   }
 
   return {
     isItMe,
+    groupAdmins,
     users,
     sorting,
     isLoading: !isItMe && state.usernameSubscribers.isPending
