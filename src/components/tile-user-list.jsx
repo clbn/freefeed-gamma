@@ -9,66 +9,64 @@ import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderUsers = (type) => (user) => {
   return (
-    <li key={user.id} className="user-tile">
+    <li key={user.id} className={'user-tile ' + (type === PLAIN ? 'col-xs-3 col-sm-2' : 'col-xs-6 col-sm-4')}>
+      <div className="userpic">
+        <Link to={`/${user.username}`}>
+          <img src={user.profilePictureUrl} width="50" height="50"/>
+        </Link>
+      </div>
+
+      <div className="user-tile-name">
+        <UserName user={user}/>
+      </div>
+
       {user.status === 'loading' ? (
-        <div className="user-action user-action-throbber">
+        <div className="user-actions user-actions-throbber">
           <img width="16" height="16" src={throbber16}/>
         </div>
       ) : (
-        <div>
+        <div className="user-actions">
           {type === WITH_REQUEST_HANDLES ? (
             <a className="user-action user-action-good" onClick={() => user.acceptRequest(user.username)}>
+              <i className="fa fa-thumbs-up"></i>
               <span>Accept</span>
-              <i className="fa fa-thumbs-up fa-fw"></i>
             </a>
           ) : false}
           {type === WITH_REQUEST_HANDLES ? (
             <a className="user-action user-action-bad" onClick={() => user.rejectRequest(user.username)}>
-              <i className="fa fa-thumbs-down fa-fw fa-flip-horizontal"></i>
+              <i className="fa fa-thumbs-down fa-flip-horizontal"></i>
               <span>Reject</span>
             </a>
           ) : false}
 
           {type == WITH_REVOKE_SENT_REQUEST ? (
             <a className="user-action user-action-bad" onClick={() => user.revokeSentRequest({username: user.username, id: user.id})} title="Revoke sent request">
-              <i className="fa fa-times fa-fw"></i>
+              <i className="fa fa-times"></i>
               <span>Revoke</span>
             </a>
           ) : false}
 
           {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
             <a className="user-action user-action-good" onClick={() => user.makeAdmin(user)} title="Promote user to admin">
+              <i className="fa fa-level-up fa-flip-horizontal"></i>
               <span>Promote</span>
-              <i className="fa fa-level-up fa-fw"></i>
             </a>
           ) : false}
           {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
             <a className="user-action user-action-bad" onClick={confirmFirst(() => user.remove(user.username))} title="Unsubscribe user from the group">
-              <i className="fa fa-times fa-fw"></i>
-              <span>Unsubscribe</span>
+              <i className="fa fa-times"></i>
+              <span>Unsub</span>
             </a>
           ) : false}
 
           {type == WITH_REMOVE_ADMIN_RIGHTS ? (
             <a className="user-action user-action-bad" onClick={confirmFirst(() => user.removeAdminRights(user))} title="Demote user from admin">
-              <i className="fa fa-level-down fa-fw"></i>
+              <i className="fa fa-level-down fa-flip-horizontal"></i>
               <span>Demote</span>
             </a>
           ) : false}
         </div>
       )}
-
-      <div className="userpic">
-        {type == PLAIN ? (
-          <Link to={`/${user.username}`}>
-            <img src={user.profilePictureUrl} width="50" height="50"/>
-          </Link>
-        ) : (
-          <img src={user.profilePictureUrl} width="50" height="50"/>
-        )}
-      </div>
-
-      <UserName user={user}/>
     </li>
   );
 };
@@ -143,7 +141,9 @@ class TileUserList extends React.Component {
     const users = usersData.map(renderUsers(config.type));
 
     const listClasses = classnames({
+      'row': true,
       'tile-list': true,
+      'with-actions': config.type !== 'PLAIN',
       'large-pics': config.size === 'large'
     });
 
