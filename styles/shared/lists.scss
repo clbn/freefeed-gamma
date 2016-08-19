@@ -4,7 +4,6 @@ ul.tile-list {
 
   .user-tile {
     list-style-type: none;
-    font-size: 12px;
 
     text-align: center;
     min-width: 110px;
@@ -17,8 +16,8 @@ ul.tile-list {
 
     .user-tile-name {
       display: block;
-      line-height: 135%;
-      min-height: 32px;
+      font-size: 12px;
+      line-height: 15px;
     }
   }
 
@@ -27,19 +26,27 @@ ul.tile-list {
 
     .user-tile {
       text-align: left;
-      min-width: 225px;
       height: 85px;
-      padding: 0 15px;
+      padding: 8px 15px 0 15px;
 
       .userpic {
         float: left;
-        margin-right: 1px + 5px;
+        margin-right: 1px + 10px;
+        margin-bottom: 1px;
+      }
+
+      .user-tile-name {
+        font-size: 14px;
+        line-height: 20px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
   }
 
   .user-actions {
-    margin-top: 4px;
+    margin-top: 13px;
 
     .user-action {
       margin-right: 10px;

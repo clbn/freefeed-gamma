@@ -8,8 +8,16 @@ import {confirmFirst} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderUsers = (type) => (user) => {
+  const tileClasses = classnames({
+    'user-tile': true,
+    'col-xs-3': type === PLAIN,
+    'col-sm-2': type === PLAIN,
+    'col-xs-12': type !== PLAIN,
+    'col-sm-6': type !== PLAIN
+  });
+
   return (
-    <li key={user.id} className={'user-tile ' + (type === PLAIN ? 'col-xs-3 col-sm-2' : 'col-xs-6 col-sm-4')}>
+    <li key={user.id} className={tileClasses}>
       <div className="userpic">
         <Link to={`/${user.username}`}>
           <img src={user.profilePictureUrl} width="50" height="50"/>
@@ -55,7 +63,7 @@ const renderUsers = (type) => (user) => {
           {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
             <a className="user-action user-action-bad" onClick={confirmFirst(() => user.remove(user.username))} title="Unsubscribe user from the group">
               <i className="fa fa-times"></i>
-              <span>Unsub</span>
+              <span>Unsubscribe</span>
             </a>
           ) : false}
 
@@ -143,7 +151,7 @@ class TileUserList extends React.Component {
     const listClasses = classnames({
       'row': true,
       'tile-list': true,
-      'with-actions': config.type !== 'PLAIN',
+      'with-actions': config.type !== PLAIN,
       'large-pics': config.size === 'large'
     });
 
