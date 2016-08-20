@@ -44,7 +44,7 @@ const Groups = (props) => {
       <div className="box-body">
         <div className="row">
           <div className="col-md-8">
-            All the groups you are subscribed to, sorted alphabetically
+            All the groups you are subscribed to
           </div>
           <div className="col-md-4 text-right">
             <Link to="/groups/create">Create a group</Link>
