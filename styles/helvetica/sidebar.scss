@@ -27,8 +27,13 @@
       margin-right: 1px + 10px;
     }
 
-    .user .author a {
-      font-weight: 600;
+    .user .author {
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 16px;
+      padding-top: 2px;
+      min-height: 25px;
+      margin-bottom: 8px;
     }
   }
 }
