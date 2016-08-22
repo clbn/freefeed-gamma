@@ -53,6 +53,12 @@ export default class CreateBookmarkletPost extends React.Component {
     }
   }
 
+  // Height of bookmarklet contents might change, in this case we should
+  // inform the script outside the iframe to update iframe size accordingly
+  componentDidUpdate() {
+    window.parent.postMessage(document.documentElement.offsetHeight, '*');
+  }
+
   componentWillUnmount() {
     this.props.resetPostCreateForm();
   }

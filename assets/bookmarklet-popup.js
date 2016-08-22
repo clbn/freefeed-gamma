@@ -33,7 +33,8 @@ function bookmarklet_popupInit(host) {
   jQuery('#bookmarklet_popup').css({
     position: 'fixed', 'z-index': 2000000000,
     top: 0, right: '15px',
-    height: '450px', width: '450px',
+    height: '435px', width: '450px',
+    overflow: 'hidden',
     'box-sizing': 'content-box',
     'box-shadow': '0 0 10px #000',
     'border-bottom-right-radius': '10px', 'border-bottom-left-radius': '10px',
@@ -48,9 +49,8 @@ function bookmarklet_popupInit(host) {
     .appendTo('#bookmarklet_popup')
     .css({
       position: 'absolute',
-      right: 0, top: 0, width: '450px', height: '440px',
-      border: 0, overlow: 'hidden',
-      'border-bottom-right-radius': '6px', 'border-bottom-left-radius': '6px'
+      right: 0, top: 0, width: '450px', height: '435px',
+      border: 0
     });
 
   // Close button for popup
@@ -91,11 +91,11 @@ function bookmarklet_popupInit(host) {
       bookmarklet_upload(url);
     });
 
-  // When the select2 inside iframe became multiline it change bookmarklet height, but we can't
-  // handle this via CSS rules, so use JS to increase iframe size accordingly
+  // When height of bookmarklet contents is changed, it sends
+  // a message from there to update iframe size accordingly
   jQuery(window).on('message', function(event) {
-    var iframeHeight = event.originalEvent.data;
-    if (iframeHeight) {
+    if (event.originalEvent.data) {
+      var iframeHeight = Math.max(event.originalEvent.data, 425) + 10;
       jQuery('#bookmarklet_popup').height(iframeHeight);
       jQuery('#bookmarklet_frame').height(iframeHeight);
     }
