@@ -6,18 +6,6 @@ import {captcha as captchaConfig} from '../config';
 import Recaptcha from 'react-google-recaptcha';
 import validator from 'validator';
 
-function mapStateToProps(state) {
-  return {...state.signUpForm};
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    signUpChange: (...args) => dispatch(signUpChange(...args)),
-    signUp: (...args) => dispatch(signUp(...args)),
-    signUpEmpty: (...args) => dispatch(signUpEmpty(...args)),
-  };
-}
-
 const USERNAME_STOP_LIST = [
   'anonymous', 'public', 'about', 'signin', 'logout',
   'signup', 'filter', 'settings', 'account', 'groups',
@@ -79,65 +67,66 @@ function signUpFunc(props) {
   }
 }
 
-function Signup(props) {
+function SignUp(props) {
   return (
-  <div className='box'>
-    <div className='box-header-timeline'>
-      Hello
-    </div>
-    <div className='box-body'>
-      <div className='col-md-12'>
-        <h2 className='p-signin-header'>Sign up</h2>
-        {props.error ? (<div className='alert alert-danger p-signin-error' role='alert'>
-                          <span id='error-message'>{props.error}</span>
-                        </div>) : false}
-        <div className='row'>
-          <div className='col-md-6'>
-              <form onSubmit={preventDefault(() => signUpFunc(props))} className='p-signin'>
-                <div className='form-group'>
-                  <label htmlFor='username'>Username</label>
-                  <input id='username'
-                         className='ember-view ember-text-field form-control'
-                         type='text'
-                         onChange={e => props.signUpChange({username: e.target.value})}/>
-                </div>
+    <div className="box">
+      <div className="row">
+        <div className="col-md-6">
+          <h2>Sign up</h2>
 
-                <div className='form-group'>
-                  <label htmlFor='email'>Email</label>
-                  <input id='email'
-                         className='ember-view ember-text-field form-control'
-                         type='text'
-                         onChange={e => props.signUpChange({email: e.target.value})}/>
-                </div>
+          {props.error ? (
+            <div className="alert alert-danger" role="alert">
+              {props.error}
+            </div>
+          ) : false}
 
-                <div className='form-group'>
-                  <label htmlFor='password'>Password</label>
-                  <input id='password'
-                         className='ember-view ember-text-field form-control'
-                         type='password'
-                         onChange={e => props.signUpChange({password: e.target.value})}/>
-                </div>
+          <form onSubmit={preventDefault(() => signUpFunc(props))}>
+            <div className="form-group">
+              <label htmlFor="username-input">Username</label>
+              <input id="username-input" className="form-control" type="text" onChange={e => props.signUpChange({username: e.target.value})}/>
+            </div>
 
-                {captchaConfig.siteKey !== '' ? (
-                  <div className='form-group'>
-                    <Recaptcha sitekey={captchaConfig.siteKey}
-                               theme='light' type='image'
-                               onChange={v => props.signUpChange({captcha: v})}
-                               onExpired={v => props.signUpChange({captcha: null})} />
-                  </div>
-                ) : false}
+            <div className="form-group">
+              <label htmlFor="email-input">Email</label>
+              <input id="email-input" className="form-control" type="text" onChange={e => props.signUpChange({email: e.target.value})}/>
+            </div>
 
-                <div className='form-group'>
-                  <button className='btn btn-default p-signin-action' type='submit'>Sign up</button>
-                </div>
-              </form>
-          </div>
+            <div className="form-group">
+              <label htmlFor="password-input">Password</label>
+              <input id="password-input" className="form-control" type="password" onChange={e => props.signUpChange({password: e.target.value})}/>
+            </div>
+
+            {captchaConfig.siteKey ? (
+              <div className="form-group">
+                <Recaptcha
+                  sitekey={captchaConfig.siteKey}
+                  theme="light"
+                  type="image"
+                  onChange={v => props.signUpChange({captcha: v})}
+                  onExpired={v => props.signUpChange({captcha: null})} />
+              </div>
+            ) : false}
+
+            <div className="form-group">
+              <button className="btn btn-default" type="submit">Sign up</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-    <div className='box-footer'>
-    </div>
-  </div>
-);}
+  );
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+function mapStateToProps(state) {
+  return {...state.signUpForm};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    signUpChange: (...args) => dispatch(signUpChange(...args)),
+    signUp: (...args) => dispatch(signUp(...args)),
+    signUpEmpty: (...args) => dispatch(signUpEmpty(...args)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
