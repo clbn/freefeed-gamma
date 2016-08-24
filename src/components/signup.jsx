@@ -88,7 +88,7 @@ function SignUp(props) {
 
             <div className="form-group">
               <label htmlFor="email-input">Email</label>
-              <input id="email-input" className="form-control" type="text" onChange={e => props.signUpChange({email: e.target.value})}/>
+              <input id="email-input" className="form-control" type="email" onChange={e => props.signUpChange({email: e.target.value})}/>
             </div>
 
             <div className="form-group">

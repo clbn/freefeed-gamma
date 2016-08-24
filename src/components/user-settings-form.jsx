@@ -25,7 +25,7 @@ export default class UserSettingsForm extends React.Component {
         </div>
         <div className="form-group">
           <label htmlFor="email-input">Email:</label>
-          <input id="email-input" className="form-control" name="email" type="text" defaultValue={this.props.user.email} onChange={this.updateSetting('email')}/>
+          <input id="email-input" className="form-control" name="email" type="email" defaultValue={this.props.user.email} onChange={this.updateSetting('email')}/>
         </div>
         <div className="form-group">
           <label htmlFor="description-textarea">Description:</label>
