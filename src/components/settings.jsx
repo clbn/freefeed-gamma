@@ -13,6 +13,8 @@ const Settings = (props) => (
         Settings
       </div>
       <div className="box-body">
+        <br/>
+
         <UserSettingsForm
           user={props.user}
           updateUser={props.updateUser}
@@ -39,8 +41,6 @@ const Settings = (props) => (
         <UserChangePasswordForm
           updatePassword={props.updatePassword}
           {...props.passwordForm}/>
-
-        <hr/>
       </div>
     </div>
   </div>
