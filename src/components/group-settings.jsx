@@ -24,6 +24,8 @@ const GroupSettings = (props) => (
         <Link to={`/${props.group.username}`}>{props.group.username}</Link>: group settings
       </div>
       <div className="box-body">
+        <br/>
+
         <GroupSettingsForm
           group={props.group}
           updateGroup={props.updateGroup}
