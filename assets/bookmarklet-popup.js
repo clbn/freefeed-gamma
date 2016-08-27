@@ -22,6 +22,7 @@ function bookmarklet_getSelectionText() {
   } else if (document.selection && document.selection.type != 'Control') {
     text = document.selection.createRange().text;
   }
+  text = text.substr(0, 1500);
   return text;
 }
 
