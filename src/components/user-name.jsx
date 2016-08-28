@@ -47,14 +47,6 @@ class UserName extends React.Component {
     this.props.updateUserCard({isHovered: true, username: this.props.user.username, rects, x: event.pageX, y: event.pageY});
   }
 
-  moveUserName = (event) => {
-    if (isMobile()) { return; }
-
-    if (!this.props.userCardView.isOpen) {
-      this.props.updateUserCard({x: event.pageX, y: event.pageY});
-    }
-  }
-
   leaveUserName = () => {
     if (isMobile()) { return; }
 
@@ -65,7 +57,6 @@ class UserName extends React.Component {
     return (
       <div className="user-name-wrapper"
         onMouseEnter={this.enterUserName}
-        onMouseMove={this.moveUserName}
         onMouseLeave={this.leaveUserName}>
 
         <Link to={`/${this.props.user.username}`} className={this.props.className}
