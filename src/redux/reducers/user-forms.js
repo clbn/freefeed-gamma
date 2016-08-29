@@ -11,19 +11,19 @@ const DEFAULT_PASSWORD_FORM_STATE = {
   errorText: ''
 };
 
-export function userSettingsForm(state={saved: false}, action) {
+export function userSettingsForm(state={}, action) {
   switch (action.type) {
-    case ActionTypes.USER_SETTINGS_CHANGE: {
-      return {...state, ...action.payload, success: false, error: false};
-    }
     case request(ActionTypes.UPDATE_USER): {
-      return {...state, isSaving: true, error: false};
+      return {...state, status: 'loading'};
     }
     case response(ActionTypes.UPDATE_USER): {
-      return {...state, isSaving: false, success: true, error: false};
+      return {...state, status: 'success'};
     }
     case fail(ActionTypes.UPDATE_USER): {
-      return {...state, isSaving: false, success: false, error: true};
+      return {...state, status: 'error', errorMessage: (action.payload || {}).err};
+    }
+    case ActionTypes.RESET_USER_SETTINGS_FORM: {
+      return {};
     }
   }
   return state;

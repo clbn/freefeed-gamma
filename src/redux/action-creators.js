@@ -308,13 +308,6 @@ export function updateUser(id, screenName, email, isPrivate, description) {
   };
 }
 
-export function userSettingsChange(payload) {
-  return {
-    type: ActionTypes.USER_SETTINGS_CHANGE,
-    payload,
-  };
-}
-
 export function updateFrontendPreferences(userId, prefs) {
   return {
     type: ActionTypes.UPDATE_FRONTEND_PREFERENCES,
@@ -491,6 +484,12 @@ export function resetGroupCreateForm() {
 export function resetGroupUpdateForm() {
   return {
     type: ActionTypes.RESET_GROUP_UPDATE_FORM
+  };
+}
+
+export function resetUserSettingsForm() {
+  return {
+    type: ActionTypes.RESET_USER_SETTINGS_FORM
   };
 }
 

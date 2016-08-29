@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {updateUser, userSettingsChange, updateUserPicture, updateFrontendPreferences, updatePassword} from '../redux/action-creators';
+import {updateUser, resetUserSettingsForm, updateUserPicture, updateFrontendPreferences, updatePassword} from '../redux/action-creators';
 import UserSettingsForm from './user-settings-form';
 import UserPictureForm from './user-picture-form';
 import UserFrontendPreferencesForm from './user-frontend-preferences-form';
@@ -18,7 +18,7 @@ const Settings = (props) => (
         <UserSettingsForm
           user={props.user}
           updateUser={props.updateUser}
-          userSettingsChange={props.userSettingsChange}
+          resetUserSettingsForm={props.resetUserSettingsForm}
           {...props.userSettingsForm}/>
 
         <hr/>
@@ -59,7 +59,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     updateUser: (...args) => dispatch(updateUser(...args)),
-    userSettingsChange: (...args) => dispatch(userSettingsChange(...args)),
+    resetUserSettingsForm: (...args) => dispatch(resetUserSettingsForm(...args)),
     updateUserPicture: (...args) => dispatch(updateUserPicture(...args)),
     updateFrontendPreferences: (...args) => dispatch(updateFrontendPreferences(...args)),
     updatePassword: (...args) => dispatch(updatePassword(...args))
