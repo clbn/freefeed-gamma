@@ -1,13 +1,27 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import {preventDefault} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 export default class UserSettingsForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      displayName: props.user.screenName
+    };
+  }
+
+  changeDisplayName = (event) => {
+    this.setState({
+      displayName: event.target.value
+    });
+  }
+
   updateUser = () => {
     if (this.props.status !== 'loading') {
       this.props.updateUser(
-        this.props.user.id, this.refs.displayName.value, this.refs.email.value,
+        this.props.user.id, this.state.displayName, this.refs.email.value,
         (this.refs.isPrivate.checked ? '1' : '0'), this.refs.description.value
       );
     }
@@ -18,11 +32,18 @@ export default class UserSettingsForm extends React.Component {
   }
 
   render() {
+    const displayNameClasses = classnames({
+      'form-group': true,
+      'has-feedback': true,
+      'has-error': (this.state.displayName.length < 3 || this.state.displayName.length > 25)
+    });
+
     return (
       <form onSubmit={preventDefault(this.updateUser)}>
-        <div className="form-group">
+        <div className={displayNameClasses}>
           <label htmlFor="displayName-input">Display name:</label>
-          <input id="displayName-input" className="form-control" name="screenName" ref="displayName" type="text" defaultValue={this.props.user.screenName}/>
+          <input id="displayName-input" className="form-control" name="screenName" type="text" value={this.state.displayName} onChange={this.changeDisplayName}/>
+          <span className="character-counter">{this.state.displayName.length} / 25</span>
         </div>
 
         <div className="form-group">

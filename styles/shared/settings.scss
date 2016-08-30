@@ -2,6 +2,27 @@
   margin-left: 10px;
 }
 
+.character-counter {
+  position: absolute;
+  display: block;
+
+  top: 25px;
+  right: 11px;
+  z-index: 2;
+
+  color: #999;
+  font-size: 13px;
+  line-height: 34px;
+  height: 34px;
+  margin: 0;
+
+  pointer-events: none;
+
+  .has-error & {
+    color: #d00;
+  }
+}
+
 .checkbox-displayNames-useYou {
   margin-top: 20px;
   margin-bottom: 15px;
