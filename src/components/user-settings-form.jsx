@@ -8,21 +8,43 @@ export default class UserSettingsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayName: props.user.screenName
+      notReady: props.user.screenName === undefined,
+      displayName: props.user.screenName || '',
+      email: props.user.email || '',
+      description: props.user.description,
+      isPrivate: props.user.isPrivate
     };
   }
 
-  changeDisplayName = (event) => {
+  componentWillReceiveProps(newProps) {
+    if (this.state.notReady) {
+      this.setState({
+        notReady: newProps.user.screenName === undefined,
+        displayName: newProps.user.screenName || '',
+        email: newProps.user.email || '',
+        description: newProps.user.description,
+        isPrivate: newProps.user.isPrivate
+      });
+    }
+  }
+
+  changeInput = (name) => (event) => {
     this.setState({
-      displayName: event.target.value
+      [name]: event.target.value
+    });
+  }
+
+  changeCheckbox = (event) => {
+    this.setState({
+      isPrivate: (event.target.checked ? '1' : '0')
     });
   }
 
   updateUser = () => {
     if (this.props.status !== 'loading') {
       this.props.updateUser(
-        this.props.user.id, this.state.displayName, this.refs.email.value,
-        (this.refs.isPrivate.checked ? '1' : '0'), this.refs.description.value
+        this.props.user.id, this.state.displayName, this.state.email,
+        this.state.isPrivate, this.state.description
       );
     }
   }
@@ -42,23 +64,23 @@ export default class UserSettingsForm extends React.Component {
       <form onSubmit={preventDefault(this.updateUser)}>
         <div className={displayNameClasses}>
           <label htmlFor="displayName-input">Display name:</label>
-          <input id="displayName-input" className="form-control" name="screenName" type="text" value={this.state.displayName} onChange={this.changeDisplayName}/>
+          <input id="displayName-input" className="form-control" name="screenName" type="text" value={this.state.displayName} onChange={this.changeInput('displayName')}/>
           <span className="character-counter">{this.state.displayName.length} / 25</span>
         </div>
 
         <div className="form-group">
           <label htmlFor="email-input">Email:</label>
-          <input id="email-input" className="form-control" name="email" ref="email" type="email" defaultValue={this.props.user.email}/>
+          <input id="email-input" className="form-control" name="email" ref="email" type="email" value={this.state.email} onChange={this.changeInput('email')}/>
         </div>
 
         <div className="form-group">
           <label htmlFor="description-textarea">Description:</label>
-          <textarea id="description-textarea" className="form-control" name="description" ref="description" defaultValue={this.props.user.description} maxLength="1500"/>
+          <textarea id="description-textarea" className="form-control" name="description" ref="description" value={this.state.description} onChange={this.changeInput('description')} maxLength="1500"/>
         </div>
 
         <div className="checkbox">
           <label>
-            <input type="checkbox" name="isPrivate" ref="isPrivate" defaultChecked={this.props.user.isPrivate === '1'}/>
+            <input type="checkbox" name="isPrivate" ref="isPrivate" checked={this.state.isPrivate === '1'} onChange={this.changeCheckbox}/>
             Private feed
             <small> (only let people I approve see my feed)</small>
           </label>
