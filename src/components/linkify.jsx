@@ -22,7 +22,10 @@ finder.withArrows = true;
 
 class Linkify extends React.Component {
   createLinkElement({type, username}, displayedLink, href) {
-    let props = { key: `match${++this.idx}` };
+    const props = {
+      key: `match${++this.idx}`,
+      dir: 'ltr'
+    };
 
     switch (type) {
       case AT_LINK: {
@@ -127,7 +130,7 @@ class Linkify extends React.Component {
     this.arrowHover = this.props.arrowHover;
     const parsedChildren = this.parse(this.props.children);
 
-    return <span className="Linkify">{parsedChildren}</span>;
+    return <span className="Linkify" dir="auto">{parsedChildren}</span>;
   }
 }
 
