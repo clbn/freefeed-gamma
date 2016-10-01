@@ -14,12 +14,9 @@ import {
   getSinglePost
 } from './action-creators';
 
-//query params are strings, so + hack to convert to number
-const getOffset = nextRoute => +nextRoute.location.query.offset || 0;
+const getOffset = nextRoute => +nextRoute.location.query.offset || 0; // "+" converts string to number
 
-const getUserName = nextRoute => {
-  return nextRoute.params.userName;
-};
+const getUserName = nextRoute => nextRoute.params.userName;
 
 export const routeActions = {
   'home': next => home(getOffset(next)),
