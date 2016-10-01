@@ -52,6 +52,11 @@ const userDefaults = {
 export function userParser(user) {
   const newUser = {...user};
 
+  // Missing display name
+  if (!user.screenName) {
+    newUser.screenName = user.username;
+  }
+
   // Profile pictures
   newUser.profilePictureMediumUrl = user.profilePictureMediumUrl || userDefaults.profilePictureMediumUrl;
   newUser.profilePictureLargeUrl = user.profilePictureLargeUrl || userDefaults.profilePictureLargeUrl;
