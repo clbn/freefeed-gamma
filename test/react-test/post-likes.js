@@ -20,7 +20,7 @@ const getRenderedOmmitedLikes = (likes, omittedLikes) => {
 
   const ommitedLikesNode = lastLike.props.children[0];
 
-  const ommitedLikesNumber = ommitedLikesNode.props.children[0];
+  const ommitedLikesNumber = ommitedLikesNode.props.children[0].props.children[0];
 
   return ommitedLikesNumber;
 };
