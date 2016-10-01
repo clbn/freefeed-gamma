@@ -34,14 +34,8 @@
       display: inline;
     }
 
-    .throbber {
-      position: absolute;
-
-      img {
-        position: relative;
-        top: -1px;
-        left: 4px;
-      }
+    .more-likes-throbber {
+      margin-left: 5px;
     }
   }
 }

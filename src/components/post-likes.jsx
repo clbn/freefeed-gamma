@@ -5,13 +5,22 @@ import _ from 'lodash';
 
 import UserName from './user-name';
 import {preventDefault} from '../utils';
+import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderLike = (item, i, items) => (
   <li key={item.id}>
     {item.id !== 'more-likes' ? (
       <UserName user={item}/>
     ) : (
-      <a onClick={preventDefault(item.showMoreLikes)}>{item.omittedLikes} other people</a>
+      <span>
+        <a onClick={preventDefault(item.showMoreLikes)}>{item.omittedLikes} other people</a>
+
+        {item.isLoadingLikes ? (
+          <span className="more-likes-throbber">
+            <img width="16" height="16" src={throbber16}/>
+          </span>
+        ) : false}
+      </span>
     )}
 
     {i < items.length - 2 ? (
@@ -41,6 +50,7 @@ export const PostLikes = (props) => {
   if (props.post.omittedLikes) {
     likeList.push({
       id: 'more-likes',
+      isLoadingLikes: props.post.isLoadingLikes,
       omittedLikes: props.post.omittedLikes,
       showMoreLikes: () => props.showMoreLikes(props.post.id)
     });

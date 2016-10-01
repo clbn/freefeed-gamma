@@ -24,11 +24,21 @@ export default function postViews(state = {}, action) {
     return mergeByIds(state, (action.payload.posts || []).map(initPostViewState));
   }
   switch (action.type) {
+    case request(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
+      const id = action.payload.postId;
+      const isLoadingLikes = true;
+      return { ...state, [id]: { ...state[id], isLoadingLikes } };
+    }
     case response(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
       const id = action.payload.posts.id;
+      const isLoadingLikes = false;
       const omittedLikes = 0;
-
-      return { ...state, [id]: { ...state[id], omittedLikes } };
+      return { ...state, [id]: { ...state[id], isLoadingLikes, omittedLikes } };
+    }
+    case fail(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
+      const id = action.request.postId;
+      const isLoadingLikes = false;
+      return { ...state, [id]: { ...state[id], isLoadingLikes } };
     }
     case request(ActionTypes.SHOW_MORE_COMMENTS): {
       const id = action.payload.postId;
