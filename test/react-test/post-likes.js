@@ -12,17 +12,17 @@ const renderLikes = (likes, omittedLikes = 0) => {
   return tree.getRenderOutput().props.children[1].props.children;
 };
 
-const getRenderedOmmitedLikes = (likes, omittedLikes) => {
+const getRenderedOmittedLikes = (likes, omittedLikes) => {
 
   const likeList = renderLikes(likes, omittedLikes);
 
   const lastLike = likeList[likeList.length - 1];
 
-  const ommitedLikesNode = lastLike.props.children[0];
+  const omittedLikesNode = lastLike.props.children[0];
 
-  const ommitedLikesNumber = ommitedLikesNode.props.children[0].props.children[0];
+  const omittedLikesNumber = omittedLikesNode.props.children[0].props.children[0];
 
-  return ommitedLikesNumber;
+  return omittedLikesNumber;
 };
 
 test('PostLikes renders all likes', t => {
@@ -42,11 +42,11 @@ test('PostLikes renders all likes', t => {
 
 test('PostLikes renders omitted likes number', t => {
 
-  const ommitLikes = 10;
+  const omitLikes = 10;
 
-  const ommitedLikes = getRenderedOmmitedLikes([{}], ommitLikes);
+  const omittedLikes = getRenderedOmittedLikes([{}], omitLikes);
 
-  t.equals(ommitedLikes, ommitLikes);
+  t.equals(omittedLikes, omitLikes);
 
   t.end();
 });
