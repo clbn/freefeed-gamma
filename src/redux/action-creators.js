@@ -566,6 +566,7 @@ export function getSearchResults(query) {
   return {
     type: ActionTypes.GET_SEARCH_RESULTS,
     apiRequest: Api.getSearchResults,
+    nonAuthRequest: true,
     payload: {query}
   };
 }
