@@ -561,3 +561,11 @@ export function updateUserCard(payload) {
     payload
   };
 }
+
+export function getSearchResults(query) {
+  return {
+    type: ActionTypes.GET_SEARCH_RESULTS,
+    apiRequest: Api.getSearchResults,
+    payload: {query}
+  };
+}

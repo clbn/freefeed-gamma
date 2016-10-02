@@ -5,6 +5,7 @@ import {
   direct,
 
   // Public (content depends on URL params)
+  getSearchResults,
   getUserInfo,
   getUserFeed,
   getUserComments,
@@ -16,6 +17,8 @@ import {
 
 const getOffset = nextRoute => +nextRoute.location.query.offset || 0; // "+" converts string to number
 
+const getSearchQuery = nextRoute => nextRoute.location.query.q;
+
 const getUserName = nextRoute => nextRoute.params.userName;
 
 export const routeActions = {
@@ -23,6 +26,7 @@ export const routeActions = {
   'discussions': next => discussions(getOffset(next)),
   'direct': next => direct(getOffset(next)),
 
+  'search': next => getSearchResults(getSearchQuery(next)),
   'getUserInfo': next => getUserInfo(getUserName(next)),
   'userFeed': next => getUserFeed(next.params.userName, getOffset(next)),
   'userComments': next => getUserComments(next.params.userName, getOffset(next)),

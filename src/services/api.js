@@ -469,3 +469,7 @@ export function revokeSentRequest({username}) {
 export function getBlockedByMe() {
   return fetch(`${apiConfig.host}/v2/users/blockedByMe`, getRequestOptions());
 }
+
+export function getSearchResults({query}) {
+  return fetch(`${apiConfig.host}/v2/search?qs=${query}`, getRequestOptions());
+}

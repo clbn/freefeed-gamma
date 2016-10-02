@@ -184,7 +184,7 @@ export const realtimeMiddleware = store => {
       }
     }
 
-    if (isFeedResponse(action)) {
+    if (isFeedResponse(action) && action.payload.timelines) {
       if (!realtimeConnection) {
         realtimeConnection = init(handlers);
       }
