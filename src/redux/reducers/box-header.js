@@ -16,6 +16,10 @@ export default function boxHeader(state = "", action) {
     case request(ActionTypes.DIRECT): {
       return {title: 'Direct messages', page: getPageByOffset(action.payload.offset)};
     }
+    case request(ActionTypes.GET_SEARCH_RESULTS): {
+      const query = (action.payload.query ? ': ' + action.payload.query : '');
+      return {title: 'Search' + query, page: getPageByOffset(action.payload.offset)};
+    }
     case request(ActionTypes.GET_USER_FEED): {
       return {title: 'Posts', page: getPageByOffset(action.payload.offset)};
     }
