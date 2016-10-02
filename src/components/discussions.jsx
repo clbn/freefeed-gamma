@@ -23,7 +23,7 @@ class Discussions extends React.Component {
   render() {
     const props = this.props;
 
-    const createPostComponent = (
+    const createPostComponent = (this.props.currentRoute !== 'search' ? (
       <CreatePost
         sendTo={props.sendTo}
         user={props.user}
@@ -32,7 +32,7 @@ class Discussions extends React.Component {
         createPostForm={props.createPostForm}
         addAttachmentResponse={props.addAttachmentResponse}
         removeAttachment={props.removeAttachment}/>
-    );
+    ) : false);
 
     return (
       <div className="box">
