@@ -471,5 +471,6 @@ export function getBlockedByMe() {
 }
 
 export function getSearchResults({query}) {
-  return fetch(`${apiConfig.host}/v2/search?qs=${query}`, getRequestOptions());
+  const encodedQuery = encodeURIComponent(query);
+  return fetch(`${apiConfig.host}/v2/search?qs=${encodedQuery}`, getRequestOptions());
 }
