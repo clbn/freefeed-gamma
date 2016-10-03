@@ -15,6 +15,7 @@ import * as ActionCreators from './redux/action-creators';
 import Layout from './components/layout';
 import Home from './components/home';
 import Discussions from './components/discussions';
+import Search from './components/search';
 import About from './components/about';
 import Dev from './components/dev';
 import NotFound from './components/not-found';
@@ -90,7 +91,7 @@ ReactDOM.render(
 
         <Route name='direct' path='filter/direct' component={Discussions} onEnter={boundRouteActions('direct')}/>
         <Route name='discussions' path='filter/discussions' component={Discussions} onEnter={boundRouteActions('discussions')}/>
-        <Route name='search' path='/search' component={Discussions} onEnter={boundRouteActions('search')}/>
+        <Route name='search' path='/search' component={Search} onEnter={boundRouteActions('search')}/>
 
         <Route name='userFeed' path='/:userName' component={User} onEnter={boundRouteActions('userFeed')}/>
         <Route name='userSubscribers' path='/:userName/subscribers' component={User} onEnter={userSubscribersActions}/>
