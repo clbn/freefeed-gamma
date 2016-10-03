@@ -471,6 +471,16 @@ export function getBlockedByMe() {
 }
 
 export function getSearchResults({query}) {
+  // For empty query, just mock the call to API without actual request/response
+  if (!query) {
+    return new Promise(function(resolve) {
+      resolve({
+        status: 200,
+        json: () => new Promise(function(resolve) { resolve({}); })
+      });
+    });
+  }
+
   const encodedQuery = encodeURIComponent(query);
   return fetch(`${apiConfig.host}/v2/search?qs=${encodedQuery}`, getRequestOptions());
 }
