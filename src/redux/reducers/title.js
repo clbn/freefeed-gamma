@@ -14,6 +14,13 @@ export default function title(state = '', action) {
     case response(ActionTypes.DISCUSSIONS): {
       return 'My discussions - FreeFeed';
     }
+    case response(ActionTypes.GET_SEARCH_RESULTS): {
+      if (action.request.query) {
+        const query = action.request.query.substr(0, 60);
+        return `${query} - Search - FreeFeed`;
+      }
+      return 'Search - FreeFeed';
+    }
     case response(ActionTypes.GET_USER_FEED): {
       const user = (action.payload.users || []).filter(user => user.username === action.request.username)[0];
       const author = user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
