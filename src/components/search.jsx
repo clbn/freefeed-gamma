@@ -28,9 +28,27 @@ class Search extends React.Component {
           ) : false}
         </div>
 
-        <PaginatedView {...props}>
-          <Feed {...props}/>
-        </PaginatedView>
+        {props.query ? (
+          props.isLoading || props.visibleEntries.length ? (
+            <PaginatedView {...props}>
+              <Feed {...props}/>
+            </PaginatedView>
+          ) : (
+            <div className="search-no-results">
+              <h4>No results</h4>
+              <p>Please make sure that all words are spelled correctly or try different keywords.</p>
+            </div>
+          )
+        ) : (
+          <div className="search-operators">
+            <h4>Advanced operators</h4>
+            <ul>
+              <li>Use <code>"quotes"</code> to search for exact words: <code>open-source "social network"</code></li>
+              <li>There's also <code>from</code> operator to get entries authored by a specific user: <code>borsch recipe from:clbn</code></li>
+              <li>And you can add <code>group</code> operator to search for posts in a specific group: <code>north korea group:travel</code></li>
+            </ul>
+          </div>
+        )}
       </div>
     );
   }
