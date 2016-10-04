@@ -10,6 +10,7 @@ const MAX_URL_LENGTH = 50;
 const LINK = 'link';
 const AT_LINK = 'atLink';
 const LOCAL_LINK = 'localLink';
+const HASHTAG = 'hashTag';
 const EMAIL = 'email';
 const ARROW = 'arrow';
 
@@ -18,6 +19,7 @@ const finder = new URLFinder(
   config.siteDomains
 );
 
+finder.withHashTags = true;
 finder.withArrows = true;
 
 class Linkify extends React.Component {
@@ -37,7 +39,8 @@ class Linkify extends React.Component {
         }
         return React.createElement(UserName, props);
       }
-      case LOCAL_LINK: {
+      case LOCAL_LINK:
+      case HASHTAG: {
         props['to'] = href;
         return React.createElement(Link, props, displayedLink);
       }
@@ -81,6 +84,9 @@ class Linkify extends React.Component {
         } else if (it.type === LOCAL_LINK) {
           displayedLink = URLFinder.shorten(it.text, MAX_URL_LENGTH);
           href = it.uri;
+        } else if (it.type === HASHTAG) {
+          displayedLink = it.text;
+          href = { pathname: '/search', query: { q: it.text } };
         } else if (it.type === EMAIL) {
           displayedLink = it.text;
           href = `mailto:${it.address}`;
