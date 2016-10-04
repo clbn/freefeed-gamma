@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import classnames from 'classnames';
 
 import {unauthenticated, home, toggleSidebar} from '../redux/action-creators';
+import SearchForm from './search-form';
 import Sidebar from './sidebar';
 import Footer from './footer';
 import UserCard from './user-card';
@@ -125,7 +126,7 @@ class Layout extends React.Component {
         <Helmet title={props.title} />
 
         <header className="row">
-          <div className="col-xs-9">
+          <div className="col-xs-9 col-md-4">
             <h1>
               <IndexLink to="/" onClick={logoHandler(props.routeName, props.offset, props.home)}>FreeFeed</IndexLink>
 
@@ -139,10 +140,16 @@ class Layout extends React.Component {
             </h1>
           </div>
 
-          <div className="col-xs-3 text-right">
+          <div className="col-xs-3 col-md-8 text-right">
             {props.authenticated ? (
-              <div className="mobile-sidebar-toggle" onClick={() => props.toggleSidebar()}>
-                <i className="fa fa-bars" aria-hidden="true"></i>
+              <div>
+                {props.routeName !== 'search' ? (
+                  <SearchForm />
+                ) : false}
+
+                <div className="mobile-sidebar-toggle" onClick={() => props.toggleSidebar()}>
+                  <i className="fa fa-bars" aria-hidden="true"></i>
+                </div>
               </div>
             ) : (
               <div className="signin-link">

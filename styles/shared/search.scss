@@ -1,3 +1,21 @@
+.search-form-in-header {
+  display: none;
+  @media (min-width: 992px) { display: block; }
+
+  text-align: left;
+  margin-top: 29px;
+  margin-left: -80px;
+  opacity: 0.5;
+
+  &.focused {
+    opacity: 1;
+  }
+
+  button {
+    margin-left: 5px;
+  }
+}
+
 .search-form {
   padding-top: 14px;
   padding-bottom: 14px;
