@@ -14,6 +14,26 @@
   button {
     margin-left: 5px;
   }
+
+  .sidebar & {
+    display: none;
+  }
+
+  .mobile-sidebar-open .sidebar & {
+    display: block;
+    margin: 0 0 15px 0;
+    opacity: 1;
+
+    input, button {
+      display: inline;
+      vertical-align: middle;
+      height: 34px;
+    }
+
+    input {
+      width: 75%;
+    }
+  }
 }
 
 .search-form {

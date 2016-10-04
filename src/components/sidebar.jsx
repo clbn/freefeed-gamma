@@ -1,11 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import UserName from './user-name';
 import {preventDefault} from '../utils';
+import UserName from './user-name';
+import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
 
-export default ({user, signOut, toggleSidebar}) => (
+export default ({user, signOut, toggleSidebar, routeName}) => (
   <div className="sidebar-wrapper" onClick={() => toggleSidebar()}>
     <div className="col-md-3 sidebar" onClick={(e) => e.stopPropagation()}>
       <div className='logged-in'>
@@ -24,6 +25,10 @@ export default ({user, signOut, toggleSidebar}) => (
           </div>
         </div>
       </div>
+
+      {routeName !== 'search' ? (
+        <SearchForm />
+      ) : false}
 
       <div className='box'>
         <div className='box-header-friends'>
