@@ -1,16 +1,24 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {browserHistory} from 'react-router';
 
 import {getSearchResults} from '../redux/action-creators';
 import {joinPostData, postActions} from './select-utils';
+import {preventDefault} from '../utils';
 import PaginatedView from './paginated-view';
 import Feed from './feed';
 
 class Search extends React.Component {
   componentWillReceiveProps(newProps) {
     if (newProps.query !== this.props.query || newProps.offset !== this.props.offset) {
+      this.refs.searchQuery.value = newProps.query;
       this.props.getSearchResults(newProps.query, newProps.offset);
     }
+  }
+
+  submitForm = () => {
+    const query = this.refs.searchQuery.value;
+    browserHistory.push(`/search?q=${encodeURIComponent(query)}`);
   }
 
   render() {
@@ -27,6 +35,17 @@ class Search extends React.Component {
             </div>
           ) : false}
         </div>
+
+        <form className="search-form" onSubmit={preventDefault(this.submitForm)}>
+          <div className="row">
+            <div className="col-xs-9">
+              <input className="form-control" type="text" name="q" ref="searchQuery" defaultValue={props.query}/>
+            </div>
+            <div className="col-xs-3">
+              <button className="btn btn-default" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
 
         {props.query ? (
           props.isLoading || props.visibleEntries.length ? (
