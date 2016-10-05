@@ -71,6 +71,37 @@ export const authMiddleware = store => next => action => {
   return next(action);
 };
 
+export const searchMiddleware = store => next => action => {
+  switch (action.type) {
+    case response(ActionTypes.GET_SEARCH_RESULTS): {
+      // Let's just remove irrelevant comments from the server payload
+      // (all except for the first ones and the last ones)
+
+      // 1. Remove pointers to those comments from payload.posts
+      // and set proper omittedComments for each post
+      let irrelevantCommentIds = [];
+      if (action.payload.posts) {
+        action.payload.posts.forEach((post) => {
+          if (post.comments && post.comments.length > 3) {
+            post.omittedComments = post.comments.length - 2;
+            for (let i = 1; i < post.comments.length - 1; i++) {
+              irrelevantCommentIds.push(post.comments[i]);
+            }
+            post.comments = [post.comments[0], post.comments[post.comments.length - 1]];
+          }
+        });
+      }
+
+      // 2. Remove the actual comments from payload.comments
+      if (action.payload.comments) {
+        action.payload.comments = action.payload.comments.filter(c => irrelevantCommentIds.indexOf(c.id) === -1);
+      }
+    }
+  }
+
+  return next(action);
+};
+
 export const likesLogicMiddleware = store => next => action => {
   switch (action.type) {
     case ActionTypes.SHOW_MORE_LIKES: {
