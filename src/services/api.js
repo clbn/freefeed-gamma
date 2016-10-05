@@ -470,7 +470,7 @@ export function getBlockedByMe() {
   return fetch(`${apiConfig.host}/v2/users/blockedByMe`, getRequestOptions());
 }
 
-export function getSearchResults({query}) {
+export function getSearchResults({query, offset}) {
   // For empty query, just mock the call to API without actual request/response
   if (!query) {
     return new Promise(function(resolve) {
@@ -482,5 +482,5 @@ export function getSearchResults({query}) {
   }
 
   const encodedQuery = encodeURIComponent(query);
-  return fetch(`${apiConfig.host}/v2/search?qs=${encodedQuery}`, getRequestOptions());
+  return fetch(`${apiConfig.host}/v2/search?qs=${encodedQuery}&offset=${offset}`, getRequestOptions());
 }

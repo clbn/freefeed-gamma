@@ -26,7 +26,7 @@ export const routeActions = {
   'discussions': next => discussions(getOffset(next)),
   'direct': next => direct(getOffset(next)),
 
-  'search': next => getSearchResults(getSearchQuery(next)),
+  'search': next => getSearchResults(getSearchQuery(next), getOffset(next)),
   'getUserInfo': next => getUserInfo(getUserName(next)),
   'userFeed': next => getUserFeed(next.params.userName, getOffset(next)),
   'userComments': next => getUserComments(next.params.userName, getOffset(next)),
