@@ -17,7 +17,7 @@ import {
 
 const getOffset = nextRoute => +nextRoute.location.query.offset || 0; // "+" converts string to number
 
-const getSearchQuery = nextRoute => nextRoute.location.query.q || '';
+const getSearchQuery = nextRoute => nextRoute.location.query.q || nextRoute.location.query.qs || '';
 
 const getUserName = nextRoute => nextRoute.params.userName;
 

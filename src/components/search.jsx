@@ -80,7 +80,7 @@ function mapStateToProps(state) {
   const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
   const boxHeader = state.boxHeader;
 
-  const query = state.routing.locationBeforeTransitions.query.q;
+  const query = state.routing.locationBeforeTransitions.query.q || state.routing.locationBeforeTransitions.query.qs || '';
   const offset = state.routing.locationBeforeTransitions.query.offset;
 
   return { isLoading, user, authenticated, visibleEntries, boxHeader, query, offset };
