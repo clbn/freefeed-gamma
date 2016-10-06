@@ -77,3 +77,8 @@ label.option-box {
     padding-bottom: 5px;
   }
 }
+
+input:focus,
+textarea:focus {
+  outline-style: none;
+}
