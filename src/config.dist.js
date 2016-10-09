@@ -1,11 +1,11 @@
 import * as FrontendPrefsOptions from './utils/frontend-preferences-options';
 
 const config = {
-  api:{
-    host: 'http://localhost:3000'
+  api: {
+    host: 'https://freefeed.net'
   },
   auth: {
-    getCookieDomain: () => 'localhost',
+    getCookieDomain: () => window.location.hostname,
     tokenPrefix: 'freefeed_',
     userStorageKey: 'USER_KEY'
   },
