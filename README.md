@@ -2,11 +2,22 @@
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-## Usage
+## Running locally
 
-1. Start [freefeed-server](https://github.com/FreeFeed/freefeed-server)
-1. `./dev-server`
+After cloning the repo, switch to the app folder and run the following commands:
 
-### To deploy run
+```
+$ cp src/config.dist.js src/config.js
+$ npm install
+$ ./dev-server
+```
 
-1. `make prod`
+## Building for production
+
+To build a production-ready app, run:
+
+```
+$ make prod
+```
+
+It will build the app to the `_dist` folder.
