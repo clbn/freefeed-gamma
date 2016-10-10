@@ -61,7 +61,7 @@ module.exports = [{
     loaders: [
       { test: /\.jsx?$/,
         exclude: /(node_modules[/]|test[/])/,
-        loader: 'babel?optional[]=runtime,optional[]=es7.asyncFunctions,optional[]=es7.decorators,optional[]=es7.classProperties,optional[]=es7.objectRestSpread'
+        loader: 'babel'
       },
       { test: /[/]styles[/]common[/].*[.]scss$/,
         loader: styleLoader('css?-mergeIdents&-mergeRules&-uniqueSelectors!sass', cssCommonExtractor)
@@ -167,7 +167,7 @@ module.exports = [{
     loaders: [
       { test: /\.jsx?$/,
         exclude: /node_modules[/]/,
-        loader: 'babel?optional[]=runtime,optional[]=es7.asyncFunctions,optional[]=es7.decorators,optional[]=es7.classProperties,optional[]=es7.objectRestSpread'
+        loader: 'babel'
       },
       { test: /[/]styles[/]common[/].*[.]scss$/,
         loader: styleLoader('css?-mergeIdents&-mergeRules&-uniqueSelectors!sass', cssCommonExtractor)
