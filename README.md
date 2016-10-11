@@ -9,7 +9,7 @@ After cloning the repo, switch to the app folder and run the following commands:
 ```
 $ cp src/config.dist.js src/config.js
 $ npm install
-$ ./dev-server
+$ npm start
 ```
 
 ## Building for production
