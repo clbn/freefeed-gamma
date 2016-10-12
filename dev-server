@@ -3,6 +3,13 @@ set -e
 
 : "${PORT:=8080}"
 
+if ! [ -f './src/config.js' ]; then
+  echo 'Copying config.js...'
+  cp ./src/config.dist.js ./src/config.js
+  echo 'Done!'
+  echo
+fi
+
 if ! [ -d './node_modules' ]; then
   echo 'Installing required NPM modules...'
   npm install
