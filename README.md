@@ -13,6 +13,10 @@ $ npm start
 It prepares default config file, installs dependencies from NPM and starts 
 a development server.
 
+By default, it uses production FreeFeed API (`https://freefeed.net/v1/...`), 
+so you can sign in with your FF credentials and socialize with your friends 
+right away.
+
 ## Building for production
 
 To build a production-ready app, run:
