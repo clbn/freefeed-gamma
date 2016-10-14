@@ -2,6 +2,11 @@
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
+Gamma is an unofficial [FreeFeed](https://freefeed.net) client.
+
+You can use the app at https://gamma.freefeed.net/, run it locally on your 
+computer, or even host it on your own server.
+
 ## Running locally
 
 After cloning the repo, switch to the app folder and run the following command:
