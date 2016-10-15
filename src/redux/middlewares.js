@@ -1,6 +1,11 @@
+import {browserHistory} from 'react-router';
+
 import * as ActionCreators from './action-creators';
 import * as ActionTypes from './action-types';
 import {request, response, fail, requiresAuth, isFeedRequest, isFeedResponse} from './action-helpers';
+import {setToken, persistUser} from '../services/auth';
+import {init} from '../services/realtime';
+import {userParser} from '../utils';
 
 //middleware for api requests
 export const apiMiddleware = store => next => async (action) => {
@@ -24,10 +29,6 @@ export const apiMiddleware = store => next => async (action) => {
     return store.dispatch(ActionCreators.serverError(e));
   }
 };
-
-import {setToken, persistUser} from '../services/auth';
-import {userParser, getCurrentRouteName} from '../utils';
-import {browserHistory} from 'react-router';
 
 export const authMiddleware = store => next => action => {
 
@@ -164,9 +165,6 @@ export const requestsMiddleware = store => next => action => {
 
   return next(action);
 };
-
-import {init} from '../services/realtime';
-import {frontendPreferences as frontendPrefsConfig} from '../config';
 
 const bindHandlers = store => ({
   'post:new': data => {
