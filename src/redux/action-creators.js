@@ -66,9 +66,9 @@ export function getUserFeed(username, offset = 0) {
 export function showMoreComments(postId) {
   return {
     type: ActionTypes.SHOW_MORE_COMMENTS,
-    apiRequest: Api.getPostWithAllComments,
+    apiRequest: Api.getPost,
     nonAuthRequest: true,
-    payload: {postId},
+    payload: {postId, maxComments: 'all'},
   };
 }
 
@@ -335,9 +335,9 @@ export function updateUserPicture(picture) {
 export function getSinglePost(postId) {
   return {
     type: ActionTypes.GET_SINGLE_POST,
-    apiRequest: Api.getPostWithAllComments,
+    apiRequest: Api.getPost,
     nonAuthRequest: true,
-    payload: {postId},
+    payload: {postId, maxComments: 'all'},
   };
 }
 
