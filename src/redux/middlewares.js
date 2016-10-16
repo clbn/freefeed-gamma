@@ -167,6 +167,51 @@ export const requestsMiddleware = store => next => action => {
   return next(action);
 };
 
+const isPostEligibleForBump = (post, action, state) => {
+  // FreeFeed server (API) bumps posts in timelines for every new comment...
+
+  if (action.type === ActionTypes.REALTIME_COMMENT_NEW) {
+    return true;
+  }
+
+  // ...however, for new likes it's a little more picky:
+  //
+  // "For the time being, like does not bump post if it is already present in timeline"
+  // See https://github.com/FreeFeed/freefeed-server/blob/bec135c9bd0cbac891048b50e5a603b6e64e4ab1/app/models/post.js#L329
+  //
+  // On the client side, the app tries to reproduce this behaviour, but it's hard
+  // to know for sure if the post was already somewhere in current user's ("my")
+  // timeline before this particular like, so the app tries to guess.
+  // - Is the post authored by me?
+  // - Has the post been commented by my subscriptions?
+  // - Has the post been liked (earlier) by my subscriptions?
+  // If one of these is true, then it's likely that the post is in my timeline
+  // already, and the app shouldn't bump it for this particular like.
+
+  // 1. Is the post authored by me?
+  if (post.posts.createdBy === state.user.id) {
+    return false;
+  }
+
+  const areFriendsInList = list => list.filter(item => state.user.subscriptions.indexOf(item) > -1).length > 0;
+
+  // 2. Has the post been commented by my subscriptions?
+  const commentAuthorIds = (post.comments || []).map(comment => comment.createdBy); // This check is lame if there are omitted comments :(
+  if (areFriendsInList(commentAuthorIds)) {
+    return false;
+  }
+
+  // 3. Has the post been liked (earlier) by my subscriptions?
+  const currentLike = action.users[0].id;
+  const likesExceptCurrent = post.posts.likes.filter(like => like !== currentLike);
+  if (areFriendsInList(likesExceptCurrent)) {
+    return false;
+  }
+
+  // OK then, let's bump it
+  return true;
+};
+
 const maybeGetRespectivePost = async (store, postId, action) => {
   const state = store.getState();
 
@@ -181,7 +226,7 @@ const maybeGetRespectivePost = async (store, postId, action) => {
   if (isHomeFeed && isFirstPage) {
     const postResponse = await getPost({postId});
     const data = await postResponse.json();
-    if (postResponse.status === 200) {
+    if (postResponse.status === 200 && isPostEligibleForBump(data, action, state)) {
       return store.dispatch({...data, type: ActionTypes.REALTIME_POST_NEW, post: data.posts});
     }
   }
