@@ -3,6 +3,7 @@ import {browserHistory} from 'react-router';
 import * as ActionCreators from './action-creators';
 import * as ActionTypes from './action-types';
 import {request, response, fail, requiresAuth, isFeedRequest, isFeedResponse} from './action-helpers';
+import {getPost} from '../services/api';
 import {setToken, persistUser} from '../services/auth';
 import {init} from '../services/realtime';
 import {userParser} from '../utils';
@@ -166,6 +167,28 @@ export const requestsMiddleware = store => next => action => {
   return next(action);
 };
 
+const maybeGetRespectivePost = async (store, postId, action) => {
+  const state = store.getState();
+
+  // If the post is in the store, just pass on the original action (comment:new or like:new)
+  if (state.posts[postId]) {
+    return store.dispatch(action);
+  }
+
+  // Otherwise, for the first page of home feed, try to retrieve the respective post
+  const isHomeFeed = state.routing.locationBeforeTransitions.pathname === '/';
+  const isFirstPage = !state.routing.locationBeforeTransitions.query.offset;
+  if (isHomeFeed && isFirstPage) {
+    const postResponse = await getPost({postId});
+    const data = await postResponse.json();
+    if (postResponse.status === 200) {
+      return store.dispatch({...data, type: ActionTypes.REALTIME_POST_NEW, post: data.posts});
+    }
+  }
+
+  return false;
+};
+
 const bindHandlers = store => ({
   'post:new': data => {
     const state = store.getState();
@@ -187,10 +210,10 @@ const bindHandlers = store => ({
   'post:destroy': data => store.dispatch({type: ActionTypes.REALTIME_POST_DESTROY, postId: data.meta.postId}),
   'post:hide': data => store.dispatch({type: ActionTypes.REALTIME_POST_HIDE, postId: data.meta.postId}),
   'post:unhide': data => store.dispatch({type: ActionTypes.REALTIME_POST_UNHIDE, postId: data.meta.postId}),
-  'comment:new': data => store.dispatch({type: ActionTypes.REALTIME_COMMENT_NEW, comment: data.comments, users: data.users}),
+  'comment:new': data => maybeGetRespectivePost(store, data.comments.postId, {type: ActionTypes.REALTIME_COMMENT_NEW, comment: data.comments, users: data.users}),
   'comment:update': data => store.dispatch({...data, type: ActionTypes.REALTIME_COMMENT_UPDATE, comment: data.comments}),
   'comment:destroy': data => store.dispatch({type: ActionTypes.REALTIME_COMMENT_DESTROY, commentId: data.commentId, postId: data.postId}),
-  'like:new': data => store.dispatch({type: ActionTypes.REALTIME_LIKE_NEW, postId: data.meta.postId, users:[data.users]}),
+  'like:new': data => maybeGetRespectivePost(store, data.meta.postId, {type: ActionTypes.REALTIME_LIKE_NEW, postId: data.meta.postId, users:[data.users]}),
   'like:remove': data => store.dispatch({type: ActionTypes.REALTIME_LIKE_REMOVE, postId: data.meta.postId, userId: data.meta.userId}),
 });
 
