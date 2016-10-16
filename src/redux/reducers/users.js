@@ -78,11 +78,11 @@ export default function users(state = {}, action) {
       if (!action.users || !action.users.length) {
         return state;
       }
-      const userAlreadyAdded = state[action.users[0].id];
-      if (userAlreadyAdded) {
+      const newUsers = action.users.filter(user => !state[user.id]);
+      if (!newUsers.length) {
         return state;
       }
-      return mergeByIds(state, action.users.map(userParser));
+      return mergeByIds(state, newUsers.map(userParser));
     }
     case ActionTypes.HIGHLIGHT_COMMENT: {
       return state;
