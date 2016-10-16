@@ -19,16 +19,17 @@ const scrollCompensator = dispatchAction => (...actionParams) => {
   const topBefore = nearestTop.getBoundingClientRect().top;
   const heightBefore = document.body.offsetHeight;
 
-  //here we're dispatching, so render is called internally and after call we have new page
+  // Dispatching event here, when it's done we can measure the page again
   const res = dispatchAction(...actionParams);
 
-  const topAfter = nearestTop.getBoundingClientRect().top;
-  const heightAfter = document.body.offsetHeight;
+  res.then(() => {
+    const topAfter = nearestTop.getBoundingClientRect().top;
+    const heightAfter = document.body.offsetHeight;
 
-  if (topAfter !== topBefore) {
-    scrollBy(0, heightAfter - heightBefore);
-  }
-  return res;
+    if (topAfter !== topBefore) {
+      scrollBy(0, heightAfter - heightBefore);
+    }
+  });
 };
 
 const bindSocketLog = socket => eventName => socket.on(eventName, data => console.log(`socket ${eventName}`, data));
