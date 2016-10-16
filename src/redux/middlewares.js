@@ -170,8 +170,8 @@ export const requestsMiddleware = store => next => action => {
 const maybeGetRespectivePost = async (store, postId, action) => {
   const state = store.getState();
 
-  // If the post is in the store, just pass on the original action (comment:new or like:new)
-  if (state.posts[postId]) {
+  // If the post is in the store and it's visible, just pass on the original action (comment:new or like:new)
+  if (state.posts[postId] && state.feedViewState.visibleEntries.indexOf(postId) > -1) {
     return store.dispatch(action);
   }
 
