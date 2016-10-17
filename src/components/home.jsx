@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
-import {home, createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/action-creators';
+import {createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/action-creators';
 import {joinPostData, joinCreatePostData, postActions} from './select-utils';
 import {getQuery, pluralForm} from '../utils';
 
@@ -12,75 +12,65 @@ import PaginatedView from './paginated-view';
 import RealtimeSwitch from './realtime-switch';
 import Welcome from './welcome';
 
-class Home extends React.Component {
-  componentWillReceiveProps(newProps) {
-    if (newProps.offset !== this.props.offset) {
-      this.props.home(newProps.offset);
-    }
-  }
+const Home = (props) => {
+  const createPostComponent = (
+    <CreatePost
+      sendTo={props.sendTo}
+      user={props.user}
+      createPost={props.createPost}
+      resetPostCreateForm={props.resetPostCreateForm}
+      createPostForm={props.createPostForm}
+      addAttachmentResponse={props.addAttachmentResponse}
+      removeAttachment={props.removeAttachment}/>
+  );
 
-  render() {
-    const props = this.props;
+  const userRequestsCount = props.userRequestsCount;
+  const groupRequestsCount = props.groupRequestsCount;
+  const totalRequestsCount = userRequestsCount + groupRequestsCount;
 
-    const createPostComponent = (
-      <CreatePost
-        sendTo={props.sendTo}
-        user={props.user}
-        createPost={props.createPost}
-        resetPostCreateForm={props.resetPostCreateForm}
-        createPostForm={props.createPostForm}
-        addAttachmentResponse={props.addAttachmentResponse}
-        removeAttachment={props.removeAttachment}/>
-    );
+  const userRequestsText = pluralForm(userRequestsCount, 'subscription request');
+  const groupRequestsText = pluralForm(groupRequestsCount, 'group subscription request');
+  const bothRequestsDisplayed = userRequestsCount > 0 && groupRequestsCount > 0;
 
-    const userRequestsCount = props.userRequestsCount;
-    const groupRequestsCount = props.groupRequestsCount;
-    const totalRequestsCount = userRequestsCount + groupRequestsCount;
-
-    const userRequestsText = pluralForm(userRequestsCount, 'subscription request');
-    const groupRequestsText = pluralForm(groupRequestsCount, 'group subscription request');
-    const bothRequestsDisplayed = userRequestsCount > 0 && groupRequestsCount > 0;
-
-    return (
-      <div className="box">
-        {props.authenticated && totalRequestsCount > 0 ? (
-          <div className="box-message alert alert-info">
-            <span className="message">
-              {totalRequestsCount > 0 ? (
-                <span>
-                  <span>You have </span>
-                  {userRequestsCount > 0 ? (<Link to="/friends">{userRequestsText}</Link>) : false}
-                  {bothRequestsDisplayed ? (<span> and </span>) : false}
-                  {groupRequestsCount > 0 ? (<Link to="/groups">{groupRequestsText}</Link>) : false}
-                </span>
-              ) : false}
-            </span>
-          </div>
-        ) : false}
-
-        <div className="box-header-timeline">
-          {props.boxHeader.title}
-
-          <div className="pull-right">
-            {!props.offset && props.authenticated ? <RealtimeSwitch/> : false}
-
-            {props.boxHeader.page > 1 ? (
-              <span className="subheader">Page {props.boxHeader.page}</span>
+  return (
+    <div className="box">
+      {props.authenticated && totalRequestsCount > 0 ? (
+        <div className="box-message alert alert-info">
+          <span className="message">
+            {totalRequestsCount > 0 ? (
+              <span>
+                <span>You have </span>
+                {userRequestsCount > 0 ? (<Link to="/friends">{userRequestsText}</Link>) : false}
+                {bothRequestsDisplayed ? (<span> and </span>) : false}
+                {groupRequestsCount > 0 ? (<Link to="/groups">{groupRequestsText}</Link>) : false}
+              </span>
             ) : false}
-          </div>
+          </span>
         </div>
+      ) : false}
 
-        {props.authenticated ? (
-          <PaginatedView firstPageHead={createPostComponent} {...props}>
-            <Feed {...props} isInHomeFeed={true}/>
-          </PaginatedView>
-        ) : (
-          <Welcome/>
-        )}
+      <div className="box-header-timeline">
+        {props.boxHeader.title}
+
+        <div className="pull-right">
+          {!props.offset && props.authenticated ? <RealtimeSwitch/> : false}
+
+          {props.boxHeader.page > 1 ? (
+            <span className="subheader">Page {props.boxHeader.page}</span>
+          ) : false}
+        </div>
       </div>
-    );
-  }
-}
+
+      {props.authenticated ? (
+        <PaginatedView firstPageHead={createPostComponent} {...props}>
+          <Feed {...props} isInHomeFeed={true}/>
+        </PaginatedView>
+      ) : (
+        <Welcome/>
+      )}
+    </div>
+  );
+};
 
 function mapStateToProps(state) {
   const isLoading = state.routeLoadingState;
@@ -111,7 +101,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    home: (...args) => dispatch(home(...args)),
     ...postActions(dispatch),
     createPost: (...args) => dispatch(createPost(...args)),
     resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),

@@ -67,6 +67,11 @@ const enterStaticPage = title => () => {
   store.dispatch(ActionCreators.staticPage(title));
 };
 
+const getRouteHooks = (route) => ({
+  onEnter: boundRouteActions(route),
+  onChange: (prev, next) => boundRouteActions(route)(next)
+});
+
 history.listen(_ => scrollTo(0, 0));
 history.listen(_ => store.dispatch(ActionCreators.toggleSidebar(false)));
 history.listen(_ => store.dispatch(ActionCreators.updateUserCard({isHovered: false, isOpen: false})));
@@ -77,7 +82,7 @@ ReactDOM.render(
       <Route name='bookmarklet' path='/bookmarklet' component={Bookmarklet}/>
 
       <Route path='/' component={Layout}>
-        <IndexRoute name='home' component={Home} onEnter={boundRouteActions('home')}/>
+        <IndexRoute name='home' component={Home} {...getRouteHooks('home')}/>
 
         <Route path='about' component={About} onEnter={enterStaticPage('About')}/>
         <Route path='dev' component={Dev} onEnter={enterStaticPage('Developers')}/>
