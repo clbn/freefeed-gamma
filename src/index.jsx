@@ -94,8 +94,8 @@ ReactDOM.render(
         <Route name='groups' path='/groups' component={Groups} onEnter={enterStaticPage('Groups')}/>
         <Route name='groupCreate' path='/groups/create' component={GroupCreate} onEnter={enterStaticPage('Create a group')}/>
 
-        <Route name='direct' path='filter/direct' component={Discussions} onEnter={boundRouteActions('direct')}/>
-        <Route name='discussions' path='filter/discussions' component={Discussions} onEnter={boundRouteActions('discussions')}/>
+        <Route name='direct' path='filter/direct' component={Discussions} {...getRouteHooks('direct')}/>
+        <Route name='discussions' path='filter/discussions' component={Discussions} {...getRouteHooks('discussions')}/>
         <Route name='search' path='/search' component={Search} onEnter={boundRouteActions('search')}/>
 
         <Route name='userFeed' path='/:userName' component={User} onEnter={boundRouteActions('userFeed')}/>
