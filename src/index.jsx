@@ -98,11 +98,11 @@ ReactDOM.render(
         <Route name='discussions' path='filter/discussions' component={Discussions} {...getRouteHooks('discussions')}/>
         <Route name='search' path='/search' component={Search} onEnter={boundRouteActions('search')}/>
 
-        <Route name='userFeed' path='/:userName' component={User} onEnter={boundRouteActions('userFeed')}/>
+        <Route name='userFeed' path='/:userName' component={User} {...getRouteHooks('userFeed')}/>
         <Route name='userSubscribers' path='/:userName/subscribers' component={User} onEnter={userSubscribersActions}/>
         <Route name='userSubscriptions' path='/:userName/subscriptions' component={User} onEnter={userSubscriptionsActions}/>
-        <Route name='userComments' path='/:userName/comments' component={User} onEnter={boundRouteActions('userComments')}/>
-        <Route name='userLikes' path='/:userName/likes' component={User} onEnter={boundRouteActions('userLikes')}/>
+        <Route name='userComments' path='/:userName/comments' component={User} {...getRouteHooks('userComments')}/>
+        <Route name='userLikes' path='/:userName/likes' component={User} {...getRouteHooks('userLikes')}/>
         <Route name='groupSettings' path='/:userName/settings' component={GroupSettings} onEnter={boundRouteActions('getUserInfo')}/>
         <Route name='userManageSubscribers' path='/:userName/manage-subscribers' component={User} onEnter={userSubscribersActions}/>
 
