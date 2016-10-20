@@ -96,7 +96,7 @@ ReactDOM.render(
 
         <Route name='direct' path='filter/direct' component={Discussions} {...getRouteHooks('direct')}/>
         <Route name='discussions' path='filter/discussions' component={Discussions} {...getRouteHooks('discussions')}/>
-        <Route name='search' path='/search' component={Search} onEnter={boundRouteActions('search')}/>
+        <Route name='search' path='/search' component={Search} {...getRouteHooks('search')}/>
 
         <Route name='userFeed' path='/:userName' component={User} {...getRouteHooks('userFeed')}/>
         <Route name='userSubscribers' path='/:userName/subscribers' component={User} onEnter={userSubscribersActions}/>

@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 
-import {getSearchResults} from '../redux/action-creators';
 import {joinPostData, postActions} from './select-utils';
 import {preventDefault} from '../utils';
 import PaginatedView from './paginated-view';
@@ -10,9 +9,8 @@ import Feed from './feed';
 
 class Search extends React.Component {
   componentWillReceiveProps(newProps) {
-    if (newProps.query !== this.props.query || newProps.offset !== this.props.offset) {
+    if (newProps.query !== this.props.query) {
       this.refs.searchQuery.value = newProps.query;
-      this.props.getSearchResults(newProps.query, newProps.offset);
     }
   }
 
@@ -81,14 +79,12 @@ function mapStateToProps(state) {
   const boxHeader = state.boxHeader;
 
   const query = state.routing.locationBeforeTransitions.query.q || state.routing.locationBeforeTransitions.query.qs || '';
-  const offset = state.routing.locationBeforeTransitions.query.offset;
 
-  return { isLoading, user, authenticated, visibleEntries, boxHeader, query, offset };
+  return { isLoading, user, authenticated, visibleEntries, boxHeader, query };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getSearchResults: (...args) => dispatch(getSearchResults(...args)),
     ...postActions(dispatch)
   };
 }
