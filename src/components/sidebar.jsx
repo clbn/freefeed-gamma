@@ -9,17 +9,17 @@ import RecentGroups from './recent-groups';
 export default ({user, signOut, toggleSidebar, routeName}) => (
   <div className="sidebar-wrapper" onClick={() => toggleSidebar()}>
     <div className="col-md-3 sidebar" onClick={(e) => e.stopPropagation()}>
-      <div className='logged-in'>
-        <div className='userpic'>
+      <div className="logged-in">
+        <div className="userpic">
           <Link to={`/${user.username}`} ><img src={user.profilePictureMediumUrl} width="50" height="50"/></Link>
         </div>
 
-        <div className='user'>
-          <div className='author'>
+        <div className="user">
+          <div className="author">
             <UserName user={user} display={user.screenName}/>
           </div>
           <div>
-            <Link to='/settings'>settings</Link>
+            <Link to="/settings">settings</Link>
             &nbsp;-&nbsp;
             <a onClick={preventDefault(signOut)}>sign out</a>
           </div>
@@ -30,58 +30,55 @@ export default ({user, signOut, toggleSidebar, routeName}) => (
         <SearchForm />
       ) : false}
 
-      <div className='box'>
-        <div className='box-header-friends'>
+      <div className="box">
+        <div className="box-header-friends">
           Friends
         </div>
-        <div className='box-body'>
+        <div className="box-body">
           <ul>
-            <li className='p-home'><Link to='/'>Home</Link></li>
-            <li className='p-direct-messages'><Link to='/filter/direct'>Direct messages</Link></li>
-            <li className='p-my-discussions'><Link to='/filter/discussions'>My discussions</Link></li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/filter/direct">Direct messages</Link></li>
+            <li><Link to="/filter/discussions">My discussions</Link></li>
           </ul>
         </div>
-        <div className='box-footer'>
-          <Link to={`/friends`}>Browse/edit friends</Link>
+        <div className="box-footer">
+          <Link to="/friends">Browse/edit friends</Link>
         </div>
       </div>
 
-      <div className='box'>
-        <div className='box-header-groups'>
+      <div className="box">
+        <div className="box-header-groups">
           Groups
         </div>
-        <div className='box-body'>
+        <div className="box-body">
           <RecentGroups/>
         </div>
-        <div className='box-footer'>
-          <Link to='/groups'>Browse/edit groups</Link>
+        <div className="box-footer">
+          <Link to="/groups">Browse/edit groups</Link>
         </div>
       </div>
 
-      <div className='box'>
-        <div className='box-header-groups'>
+      <div className="box">
+        <div className="box-header-groups">
           Info
         </div>
-        <div className='box-body'>
+        <div className="box-body">
           <ul>
-            <li><Link to='/freefeed'>News</Link></li>
-            <li><Link to='/support'>Support</Link></li>
+            <li><Link to="/freefeed">News</Link></li>
+            <li><Link to="/support">Support</Link></li>
           </ul>
-        </div>
-        <div className='box-footer'>
-
         </div>
       </div>
 
-      <div className='box hidden-on-mobile'>
-        <div className='box-header-groups'>
+      <div className="box hidden-on-mobile">
+        <div className="box-header-groups">
           Bookmarklet
         </div>
-        <div className='box-footer'>
+        <div className="box-footer">
           Once added to your toolbar, this button will let you share web pages on your FreeFeed.
           You can even attach thumbnails of images from the page you share!
         </div>
-        <div className='box-footer'>
+        <div className="box-footer">
           Click and drag
           {' '}
           <a className="bookmarklet-button"
