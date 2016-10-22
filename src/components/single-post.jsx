@@ -5,7 +5,7 @@ import {joinPostData, postActions} from './select-utils';
 import DummyPost from './dummy-post';
 import Post from './post';
 
-const SinglePostHandler = (props) => {
+const SinglePost = (props) => {
   let post = props.post;
 
   let postBody = <div></div>;
@@ -49,11 +49,9 @@ const SinglePostHandler = (props) => {
   }
 
   return (
-    <div className='box'>
-      <div className='box-body'>
+    <div className="box">
+      <div className="box-body">
        {postBody}
-      </div>
-      <div className='box-footer'>
       </div>
     </div>
   );
@@ -76,4 +74,4 @@ function selectActions(dispatch) {
   return { ...postActions(dispatch) };
 }
 
-export default connect(selectState, selectActions)(SinglePostHandler);
+export default connect(selectState, selectActions)(SinglePost);
