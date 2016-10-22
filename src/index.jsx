@@ -79,34 +79,34 @@ history.listen(_ => store.dispatch(ActionCreators.updateUserCard({isHovered: fal
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route name='bookmarklet' path='/bookmarklet' component={Bookmarklet}/>
+      <Route name="bookmarklet" path="/bookmarklet" component={Bookmarklet}/>
 
-      <Route path='/' component={Layout}>
-        <IndexRoute name='home' component={Home} {...getRouteHooks('home')}/>
+      <Route path="/" component={Layout}>
+        <IndexRoute name="home" component={Home} {...getRouteHooks('home')}/>
 
-        <Route path='about' component={About} onEnter={enterStaticPage('About')}/>
-        <Route path='dev' component={Dev} onEnter={enterStaticPage('Developers')}/>
-        <Route path='signin' component={Signin} onEnter={enterStaticPage('Sign in')}/>
-        <Route path='signup' component={Signup} onEnter={enterStaticPage('Sign up')}/>
+        <Route path="about" component={About} onEnter={enterStaticPage('About')}/>
+        <Route path="dev" component={Dev} onEnter={enterStaticPage('Developers')}/>
+        <Route path="signin" component={Signin} onEnter={enterStaticPage('Sign in')}/>
+        <Route path="signup" component={Signup} onEnter={enterStaticPage('Sign up')}/>
 
-        <Route path='settings' component={Settings} onEnter={enterStaticPage('Settings')}/>
-        <Route name='friends' path='/friends' component={Friends} onEnter={friendsActions}/>
-        <Route name='groups' path='/groups' component={Groups} onEnter={enterStaticPage('Groups')}/>
-        <Route name='groupCreate' path='/groups/create' component={GroupCreate} onEnter={enterStaticPage('Create a group')}/>
+        <Route path="settings" component={Settings} onEnter={enterStaticPage('Settings')}/>
+        <Route name="friends" path="/friends" component={Friends} onEnter={friendsActions}/>
+        <Route name="groups" path="/groups" component={Groups} onEnter={enterStaticPage('Groups')}/>
+        <Route name="groupCreate" path="/groups/create" component={GroupCreate} onEnter={enterStaticPage('Create a group')}/>
 
-        <Route name='direct' path='filter/direct' component={Discussions} {...getRouteHooks('direct')}/>
-        <Route name='discussions' path='filter/discussions' component={Discussions} {...getRouteHooks('discussions')}/>
-        <Route name='search' path='/search' component={Search} {...getRouteHooks('search')}/>
+        <Route name="direct" path="filter/direct" component={Discussions} {...getRouteHooks('direct')}/>
+        <Route name="discussions" path="filter/discussions" component={Discussions} {...getRouteHooks('discussions')}/>
+        <Route name="search" path="/search" component={Search} {...getRouteHooks('search')}/>
 
-        <Route name='userFeed' path='/:userName' component={User} {...getRouteHooks('userFeed')}/>
-        <Route name='userSubscribers' path='/:userName/subscribers' component={User} onEnter={userSubscribersActions}/>
-        <Route name='userSubscriptions' path='/:userName/subscriptions' component={User} onEnter={userSubscriptionsActions}/>
-        <Route name='userComments' path='/:userName/comments' component={User} {...getRouteHooks('userComments')}/>
-        <Route name='userLikes' path='/:userName/likes' component={User} {...getRouteHooks('userLikes')}/>
-        <Route name='groupSettings' path='/:userName/settings' component={GroupSettings} onEnter={boundRouteActions('getUserInfo')}/>
-        <Route name='userManageSubscribers' path='/:userName/manage-subscribers' component={User} onEnter={userSubscribersActions}/>
+        <Route name="userFeed" path="/:userName" component={User} {...getRouteHooks('userFeed')}/>
+        <Route name="userSubscribers" path="/:userName/subscribers" component={User} onEnter={userSubscribersActions}/>
+        <Route name="userSubscriptions" path="/:userName/subscriptions" component={User} onEnter={userSubscriptionsActions}/>
+        <Route name="userComments" path="/:userName/comments" component={User} {...getRouteHooks('userComments')}/>
+        <Route name="userLikes" path="/:userName/likes" component={User} {...getRouteHooks('userLikes')}/>
+        <Route name="groupSettings" path="/:userName/settings" component={GroupSettings} onEnter={boundRouteActions('getUserInfo')}/>
+        <Route name="userManageSubscribers" path="/:userName/manage-subscribers" component={User} onEnter={userSubscribersActions}/>
 
-        <Route name='post' path='/:userName/:postId' component={SinglePost} onEnter={boundRouteActions('post')}/>
+        <Route name="post" path="/:userName/:postId" component={SinglePost} onEnter={boundRouteActions('post')}/>
       </Route>
     </Router>
   </Provider>,
