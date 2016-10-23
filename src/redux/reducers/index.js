@@ -2,7 +2,6 @@ import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 const {request, response, fail} = ActionHelpers;
 
-import _ from 'lodash';
 import {userParser} from '../../utils';
 
 export function serverError(state = false, action) {
@@ -13,9 +12,6 @@ export function serverError(state = false, action) {
   }
   return state;
 }
-
-const indexById = list => _.keyBy(list || [], 'id');
-const mergeByIds = (state, array) => ({...state, ...indexById(array)});
 
 export function userErrors(state = {}, action) {
   switch (action.type) {
