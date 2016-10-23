@@ -5,12 +5,10 @@ import _ from 'lodash';
 
 import {joinCreatePostData} from './select-utils';
 import {createBookmarkletPost, resetPostCreateForm, addAttachmentResponse, removeAttachment} from '../redux/action-creators';
-
 import CreateBookmarkletPost from './create-bookmarklet-post';
 import SignIn from './signin';
 
-
-class Layout extends React.Component {
+class Bookmarklet extends React.Component {
   constructor(props) {
     super(props);
 
@@ -107,7 +105,7 @@ class Layout extends React.Component {
   }
 }
 
-function select(state) {
+function mapStateToProps(state) {
   return {
     authenticated: state.authenticated,
     user: state.user,
@@ -125,4 +123,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(select, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Bookmarklet);
