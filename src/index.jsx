@@ -18,7 +18,6 @@ import Discussions from './components/discussions';
 import Search from './components/search';
 import About from './components/about';
 import Dev from './components/dev';
-import NotFound from './components/not-found';
 import Signin from './components/signin';
 import Signup from './components/signup';
 import Settings from './components/settings';
