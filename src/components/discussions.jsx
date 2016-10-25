@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {createPost, resetPostCreateForm} from '../redux/action-creators';
-import {joinPostData, joinCreatePostData, postActions} from './select-utils';
+import {joinPostData, joinCreatePostData, postActions} from '../redux/select-utils';
 import {getQuery, getCurrentRouteName} from '../utils';
 
 import CreatePost from './create-post';

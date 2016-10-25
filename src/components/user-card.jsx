@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import classnames from 'classnames';
 import _ from 'lodash';
 
-import {userActions} from './select-utils';
+import {userActions} from '../redux/select-utils';
 import {getUserInfo, updateUserCard} from '../redux/action-creators';
 import {confirmFirst, isMobile} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';

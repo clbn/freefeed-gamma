@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 
-import {joinPostData, postActions} from './select-utils';
+import {joinPostData, postActions} from '../redux/select-utils';
 import {preventDefault} from '../utils';
 import PaginatedView from './paginated-view';
 import Feed from './feed';

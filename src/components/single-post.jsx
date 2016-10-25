@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {joinPostData, postActions} from './select-utils';
+import {joinPostData, postActions} from '../redux/select-utils';
 import DummyPost from './dummy-post';
 import Post from './post';
 

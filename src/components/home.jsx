@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
 import {createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/action-creators';
-import {joinPostData, joinCreatePostData, postActions} from './select-utils';
+import {joinPostData, joinCreatePostData, postActions} from '../redux/select-utils';
 import {getQuery, pluralForm} from '../utils';
 
 import CreatePost from './create-post';
