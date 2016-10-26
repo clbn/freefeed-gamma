@@ -6,7 +6,7 @@ import {createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/actio
 import {joinPostData, joinCreatePostData, postActions} from '../redux/select-utils';
 import {getQuery, pluralForm} from '../utils';
 
-import CreatePost from './create-post';
+import PostCreateForm from './post-create-form';
 import Feed from './feed';
 import PaginatedView from './paginated-view';
 import RealtimeSwitch from './realtime-switch';
@@ -14,7 +14,7 @@ import Welcome from './welcome';
 
 const Home = (props) => {
   const createPostComponent = (
-    <CreatePost
+    <PostCreateForm
       sendTo={props.sendTo}
       user={props.user}
       createPost={props.createPost}

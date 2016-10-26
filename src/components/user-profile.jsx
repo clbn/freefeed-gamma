@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 
 import {confirmFirst, preventDefault, pluralForm} from '../utils';
-import CreatePost from './create-post';
+import PostCreateForm from './post-create-form';
 import PieceOfText from './piece-of-text';
 import throbber16 from 'assets/images/throbber-16.gif';
 
@@ -165,7 +165,7 @@ export default class UserProfile extends React.Component {
         ) : false}
 
         {props.canIPostHere ? (
-          <CreatePost
+          <PostCreateForm
             sendTo={props.sendTo}
             user={props.user}
             createPost={props.createPost}

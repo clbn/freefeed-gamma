@@ -8,7 +8,7 @@ import PostAttachments from './post-attachments';
 import {preventDefault} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
-class CreatePost extends React.Component {
+class PostCreateForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -94,7 +94,7 @@ class CreatePost extends React.Component {
 
   componentWillReceiveProps(newProps) {
     // If defaultFeed gets updated, it means the transition between Direct messages
-    // and Discussions pages happened (they share the top component, so CreatePost
+    // and Discussions pages happened (they share the top component, so PostCreateForm
     // doesn't get unmounted/mounted in the process). That's one "hacky" way to check
     // for this transition without passing another prop from discussions.jsx
     if (newProps.sendTo.defaultFeed !== this.props.sendTo.defaultFeed) {
@@ -235,4 +235,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(CreatePost);
+export default connect(mapStateToProps)(PostCreateForm);
