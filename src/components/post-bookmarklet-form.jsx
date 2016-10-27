@@ -3,7 +3,7 @@ import {preventDefault} from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 import PostRecipients from './post-recipients';
 
-export default class CreateBookmarkletPost extends React.Component {
+export default class PostBookmarkletForm extends React.Component {
   constructor(props) {
     super(props);
 

@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import {joinCreatePostData} from '../redux/select-utils';
 import {createBookmarkletPost, resetPostCreateForm, addAttachmentResponse, removeAttachment} from '../redux/action-creators';
-import CreateBookmarkletPost from './create-bookmarklet-post';
+import PostBookmarkletForm from './post-bookmarklet-form';
 import SignIn from './signin';
 
 class Bookmarklet extends React.Component {
@@ -84,7 +84,7 @@ class Bookmarklet extends React.Component {
         </header>
 
         {props.authenticated ? (
-          <CreateBookmarkletPost
+          <PostBookmarkletForm
             sendTo={props.sendTo}
             user={props.user}
             postText={props.location.query.title + ' - ' + props.location.query.url}
