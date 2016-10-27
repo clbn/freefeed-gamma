@@ -1,7 +1,7 @@
 import test from 'tape';
 import React from 'react';
 import PostComments from 'src/components/post-comments';
-import CreateComment from 'src/components/create-comment';
+import PostCommentCreateForm from 'src/components/post-comment-create-form';
 import sd from 'skin-deep';
 
 const renderComments = (comments, omittedComments = 0, isCommenting = false) => {
@@ -73,9 +73,9 @@ test('PostComments renders last comment if there\'s more than one comment' , t =
 
 });
 
-test('PostComments renders CreateComment', t => {
+test('PostComments renders PostCommentCreateForm', t => {
   const createComment = createCommentRendered(renderComments([], 0));
-  t.equals(createComment.type, CreateComment);
+  t.equals(createComment.type, PostCommentCreateForm);
 
   t.end();
 });

@@ -2,7 +2,7 @@ import React from 'react';
 
 import PostComment from './post-comment';
 import MoreCommentsWrapper from './more-comments-wrapper';
-import CreateComment from './create-comment';
+import PostCommentCreateForm from './post-comment-create-form';
 
 const renderComment = (postUrl, openAnsweringComment, isModeratingComments, commentEdit, postId) => comment => (
   <PostComment
@@ -76,7 +76,7 @@ export default class PostComments extends React.Component {
         {last ? commentMapper(last) : false}
 
         {canAddComment ? (
-          <CreateComment
+          <PostCommentCreateForm
             post={props.post}
             otherCommentsNumber={props.comments.length}
             saveEditingComment={props.addComment}

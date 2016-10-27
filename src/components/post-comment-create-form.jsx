@@ -3,7 +3,7 @@ import Textarea from 'react-textarea-autosize';
 
 import throbber16 from 'assets/images/throbber-16.gif';
 
-export default class CreateComment extends React.Component {
+export default class PostCommentCreateForm extends React.Component {
   bindTextarea = (textarea) => {
     this._textarea = textarea;
     this.props.bindTextarea(this._textarea);
