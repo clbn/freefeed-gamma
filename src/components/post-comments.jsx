@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PostComment from './post-comment';
-import MoreCommentsWrapper from './more-comments-wrapper';
+import PostCommentsMore from './post-comments-more';
 import PostCommentCreateForm from './post-comment-create-form';
 
 const renderComment = (postUrl, openAnsweringComment, isModeratingComments, commentEdit, postId) => comment => (
@@ -66,7 +66,7 @@ export default class PostComments extends React.Component {
         {middle}
 
         {showOmittedNumber ? (
-          <MoreCommentsWrapper
+          <PostCommentsMore
             omittedComments={props.post.omittedComments}
             showMoreComments={showMoreComments}
             postUrl={props.postUrl}
