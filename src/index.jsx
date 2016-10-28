@@ -57,12 +57,12 @@ const userSubscriptionsActions = (next) => {
   store.dispatch(ActionCreators.getUserSubscriptions(username));
 };
 
-const friendsActions = next => {
+const friendsActions = () => {
   const username = store.getState().user.username;
   store.dispatch(ActionCreators.blockedByMe(username));
 };
 
-const enterStaticPage = title => () => {
+const enterStaticPage = (title) => () => {
   store.dispatch(ActionCreators.staticPage(title));
 };
 
@@ -71,9 +71,9 @@ const getRouteHooks = (route) => ({
   onChange: (prev, next) => boundRouteActions(route)(next)
 });
 
-history.listen(_ => scrollTo(0, 0));
-history.listen(_ => store.dispatch(ActionCreators.toggleSidebar(false)));
-history.listen(_ => store.dispatch(ActionCreators.updateUserCard({isHovered: false, isOpen: false})));
+history.listen(() => scrollTo(0, 0));
+history.listen(() => store.dispatch(ActionCreators.toggleSidebar(false)));
+history.listen(() => store.dispatch(ActionCreators.updateUserCard({isHovered: false, isOpen: false})));
 
 ReactDOM.render(
   <Provider store={store}>
