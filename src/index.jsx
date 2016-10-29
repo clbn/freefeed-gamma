@@ -12,7 +12,7 @@ import Autotrack from 'autotrack';
 import configureStore from './redux/configure-store';
 import * as ActionCreators from './redux/action-creators';
 
-import Layout from './components/layout';
+import App from './components/app';
 import Home from './components/home';
 import Discussions from './components/discussions';
 import Search from './components/search';
@@ -80,7 +80,7 @@ ReactDOM.render(
     <Router history={history}>
       <Route name="bookmarklet" path="/bookmarklet" component={Bookmarklet}/>
 
-      <Route path="/" component={Layout}>
+      <Route path="/" component={App}>
         <IndexRoute name="home" component={Home} {...getRouteHooks('home')}/>
 
         <Route path="about" component={About} onEnter={enterStaticPage('About')}/>

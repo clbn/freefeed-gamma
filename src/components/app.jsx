@@ -19,7 +19,7 @@ const logoHandler = (routeName, offset, cb) => () => {
   return false;
 };
 
-class Layout extends React.Component {
+class App extends React.Component {
   // Here we have some handling of drag-n-drop, because standard dragenter
   // and dragleave events suck. Current implementation is using ideas from
   // Ben Smithett, see http://bensmithett.github.io/dragster/ for details
@@ -178,7 +178,7 @@ class Layout extends React.Component {
   }
 }
 
-function select(state, ownProps) {
+function mapStateToProps(state, ownProps) {
   return {
     user: state.user,
     authenticated: state.authenticated,
@@ -198,4 +198,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(select, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
