@@ -6,11 +6,11 @@ import {createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/actio
 import {joinPostData, joinCreatePostData, postActions} from '../redux/select-utils';
 import {getQuery, pluralForm} from '../utils';
 
-import PostCreateForm from './post-create-form';
-import Feed from './feed';
-import PaginatedView from './paginated-view';
-import RealtimeSwitch from './realtime-switch';
-import Welcome from './welcome';
+import PostCreateForm from './elements/post-create-form';
+import Feed from './elements/feed';
+import PaginatedView from './elements/paginated-view';
+import RealtimeSwitch from './elements/realtime-switch';
+import Welcome from './elements/welcome';
 
 const Home = (props) => {
   const createPostComponent = (

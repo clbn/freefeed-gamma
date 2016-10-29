@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import moment from 'moment';
 import classnames from 'classnames';
 
-import {fromNowOrNow, getFullDate} from '../utils';
+import {fromNowOrNow, getFullDate} from '../../utils';
 import PostAttachments from './post-attachments';
 import PostComments from './post-comments';
 import PostLikes from './post-likes';

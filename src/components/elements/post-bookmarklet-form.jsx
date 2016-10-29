@@ -1,5 +1,5 @@
 import React from 'react';
-import {preventDefault} from '../utils';
+import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 import PostRecipients from './post-recipients';
 

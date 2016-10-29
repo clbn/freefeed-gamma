@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import {joinCreatePostData} from '../redux/select-utils';
 import {createBookmarkletPost, resetPostCreateForm, addAttachmentResponse, removeAttachment} from '../redux/action-creators';
-import PostBookmarkletForm from './post-bookmarklet-form';
+import PostBookmarkletForm from './elements/post-bookmarklet-form';
 import SignIn from './signin';
 
 class Bookmarklet extends React.Component {

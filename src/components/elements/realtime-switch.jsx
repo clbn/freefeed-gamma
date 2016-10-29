@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {updateFrontendPreferences, home} from '../redux/action-creators';
+import {updateFrontendPreferences, home} from '../../redux/action-creators';
 
 const RealtimeSwitch = (props) => (
   <div className={'realtime-switch' + (props.frontendPreferences.realtimeActive ? ' on' : ' off')}>

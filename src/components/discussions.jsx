@@ -5,9 +5,9 @@ import {createPost, resetPostCreateForm} from '../redux/action-creators';
 import {joinPostData, joinCreatePostData, postActions} from '../redux/select-utils';
 import {getQuery, getCurrentRouteName} from '../utils';
 
-import PostCreateForm from './post-create-form';
-import Feed from './feed';
-import PaginatedView from './paginated-view';
+import PostCreateForm from './elements/post-create-form';
+import Feed from './elements/feed';
+import PaginatedView from './elements/paginated-view';
 
 const Discussions = (props) => {
   const createPostComponent = (

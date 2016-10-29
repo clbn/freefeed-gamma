@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {joinPostData, postActions} from '../redux/select-utils';
-import DummyPost from './dummy-post';
-import Post from './post';
+import DummyPost from './elements/dummy-post';
+import Post from './elements/post';
 
 const SinglePost = (props) => {
   let post = props.post;

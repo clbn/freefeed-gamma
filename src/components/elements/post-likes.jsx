@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import _ from 'lodash';
 
 import UserName from './user-name';
-import {preventDefault} from '../utils';
+import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderLike = (item, i, items) => (

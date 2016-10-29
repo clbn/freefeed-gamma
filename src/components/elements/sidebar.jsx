@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import {preventDefault} from '../utils';
+import {preventDefault} from '../../utils';
 import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';

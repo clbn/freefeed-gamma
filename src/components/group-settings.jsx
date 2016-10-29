@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 
 import {updateGroup, updateGroupPicture, resetGroupUpdateForm} from '../redux/action-creators';
-import GroupSettingsForm from './group-settings-form';
-import GroupPictureForm from './group-picture-form';
+import GroupSettingsForm from './elements/group-settings-form';
+import GroupPictureForm from './elements/group-picture-form';
 import throbber100 from 'assets/images/throbber.gif';
 
 const GroupSettings = (props) => (

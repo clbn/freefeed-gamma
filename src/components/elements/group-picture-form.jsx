@@ -1,14 +1,18 @@
 import React from 'react';
 
-import {preventDefault} from '../utils';
+import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
-export default class UserPictureForm extends React.Component {
+export default class GroupPictureForm extends React.Component {
   savePicture = () => {
     const newFile = this.refs.pictureFile.files[0];
     if (newFile && this.props.status !== 'loading') {
-      this.props.updateUserPicture(newFile);
+      this.props.updateGroupPicture(this.props.group.username, newFile);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetGroupUpdateForm();
   }
 
   render() {
@@ -18,7 +22,7 @@ export default class UserPictureForm extends React.Component {
 
         <div className="form-group">
           <div className="userpic userpic-large">
-            <img src={this.props.user.profilePictureLargeUrl} width="75" height="75"/>
+            <img src={this.props.group.profilePictureLargeUrl} width="75" height="75"/>
           </div>
         </div>
 

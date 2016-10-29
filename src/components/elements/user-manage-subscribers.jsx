@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 
-import {unsubscribeFromGroup, promoteGroupAdmin, demoteGroupAdmin} from '../redux/action-creators';
+import {unsubscribeFromGroup, promoteGroupAdmin, demoteGroupAdmin} from '../../redux/action-creators';
 import {tileUserListFactory, WITH_REMOVE_AND_MAKE_ADMIN_HANDLES, WITH_REMOVE_ADMIN_RIGHTS} from './tile-user-list';
 import throbber100 from 'assets/images/throbber.gif';
 

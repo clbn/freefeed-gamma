@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {preventDefault} from '../utils';
-import * as FrontendPrefsOptions from '../utils/frontend-preferences-options';
+import {preventDefault} from '../../utils';
+import * as FrontendPrefsOptions from '../../utils/frontend-preferences-options';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 export default class UserFrontendPreferencesForm extends React.Component {

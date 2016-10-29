@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import {preventDefault} from '../utils';
+import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 export default class UserSettingsForm extends React.Component {

@@ -5,7 +5,7 @@ import Textarea from 'react-textarea-autosize';
 import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
 import PostAttachments from './post-attachments';
-import {preventDefault} from '../utils';
+import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostCreateForm extends React.Component {

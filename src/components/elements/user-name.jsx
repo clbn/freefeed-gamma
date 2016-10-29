@@ -2,9 +2,9 @@ import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
-import {updateUserCard} from '../redux/action-creators';
-import * as FrontendPrefsOptions from '../utils/frontend-preferences-options';
-import {isMobile} from '../utils';
+import {updateUserCard} from '../../redux/action-creators';
+import * as FrontendPrefsOptions from '../../utils/frontend-preferences-options';
+import {isMobile} from '../../utils';
 
 const DisplayOption = ({user, me, preferences}) => {
   if (user.username === me && preferences.useYou) {

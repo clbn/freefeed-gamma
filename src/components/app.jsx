@@ -5,10 +5,10 @@ import Helmet from 'react-helmet';
 import classnames from 'classnames';
 
 import {unauthenticated, home, toggleSidebar} from '../redux/action-creators';
-import SearchForm from './search-form';
-import Sidebar from './sidebar';
-import Footer from './footer';
-import UserCard from './user-card';
+import SearchForm from './elements/search-form';
+import Sidebar from './elements/sidebar';
+import Footer from './elements/footer';
+import UserCard from './elements/user-card';
 import {getCurrentRouteName} from '../utils';
 import throbber100 from 'assets/images/throbber.gif';
 

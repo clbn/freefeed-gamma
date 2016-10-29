@@ -1,7 +1,7 @@
 import React from 'react';
 import numeral from 'numeral';
 
-import {preventDefault} from '../utils';
+import {preventDefault} from '../../utils';
 
 export default (props) => {
   const formattedFileSize = numeral(props.fileSize).format('0.[0] b');

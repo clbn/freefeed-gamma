@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {updateUser, resetUserSettingsForm, updateUserPicture, updateFrontendPreferences, updatePassword} from '../redux/action-creators';
-import UserSettingsForm from './user-settings-form';
-import UserPictureForm from './user-picture-form';
-import UserFrontendPreferencesForm from './user-frontend-preferences-form';
-import UserChangePasswordForm from './user-change-password-form';
+import UserSettingsForm from './elements/user-settings-form';
+import UserPictureForm from './elements/user-picture-form';
+import UserFrontendPreferencesForm from './elements/user-frontend-preferences-form';
+import UserChangePasswordForm from './elements/user-change-password-form';
 
 const Settings = (props) => (
   <div className="content">

@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
-import {fromNowOrNow} from '../utils';
+import {fromNowOrNow} from '../../utils';
 
 const GROUPS_SIDEBAR_LIST_LENGTH = 4;
 

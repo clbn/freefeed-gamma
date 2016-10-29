@@ -1,8 +1,9 @@
 import test from 'tape';
 import React from 'react';
-import PostComments from 'src/components/post-comments';
-import PostCommentCreateForm from 'src/components/post-comment-create-form';
 import sd from 'skin-deep';
+
+import PostComments from 'src/components/elements/post-comments';
+import PostCommentCreateForm from 'src/components/elements/post-comment-create-form';
 
 const renderComments = (comments, omittedComments = 0, isCommenting = false) => {
   const post = {omittedComments, isCommenting, createdBy: {username:''}};

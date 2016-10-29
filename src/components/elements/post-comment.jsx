@@ -5,7 +5,7 @@ import classnames from 'classnames';
 
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
-import {preventDefault, confirmFirst, fromNowOrNow, getFullDate} from '../utils';
+import {preventDefault, confirmFirst, fromNowOrNow, getFullDate} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostComment extends React.Component {

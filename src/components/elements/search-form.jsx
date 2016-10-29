@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 import classnames from 'classnames';
 
-import {preventDefault} from '../utils';
+import {preventDefault} from '../../utils';
 
 export default class SearchForm extends React.Component {
   constructor(props) {

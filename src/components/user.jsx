@@ -4,11 +4,11 @@ import {connect} from 'react-redux';
 import {createPost, resetPostCreateForm} from '../redux/action-creators';
 import {joinPostData, joinCreatePostData, postActions, userActions} from '../redux/select-utils';
 import {getCurrentRouteName} from '../utils';
-import UserProfile from './user-profile';
-import UserSubscribers from './user-subscribers';
-import UserSubscriptions from './user-subscriptions';
-import UserManageSubscribers from './user-manage-subscribers';
-import UserFeed from './user-feed';
+import UserProfile from './elements/user-profile';
+import UserSubscribers from './elements/user-subscribers';
+import UserSubscriptions from './elements/user-subscriptions';
+import UserManageSubscribers from './elements/user-manage-subscribers';
+import UserFeed from './elements/user-feed';
 
 const UserHandler = (props) => {
   return (

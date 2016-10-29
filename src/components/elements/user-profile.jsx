@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import {confirmFirst, preventDefault, pluralForm} from '../utils';
+import {confirmFirst, preventDefault, pluralForm} from '../../utils';
 import PostCreateForm from './post-create-form';
 import PieceOfText from './piece-of-text';
 import throbber16 from 'assets/images/throbber-16.gif';

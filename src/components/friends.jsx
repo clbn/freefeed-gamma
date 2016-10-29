@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import {pluralForm} from '../utils';
 import {acceptUserRequest, rejectUserRequest, revokeSentRequest} from '../redux/action-creators';
-import {tileUserListFactory, PLAIN, WITH_REQUEST_HANDLES, WITH_REVOKE_SENT_REQUEST} from './tile-user-list';
+import {tileUserListFactory, PLAIN, WITH_REQUEST_HANDLES, WITH_REVOKE_SENT_REQUEST} from './elements/tile-user-list';
 import throbber100 from 'assets/images/throbber.gif';
 
 const TileList = tileUserListFactory({type: PLAIN, displayQuantity: true});

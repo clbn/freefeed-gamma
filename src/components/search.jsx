@@ -4,8 +4,8 @@ import {browserHistory} from 'react-router';
 
 import {joinPostData, postActions} from '../redux/select-utils';
 import {preventDefault} from '../utils';
-import PaginatedView from './paginated-view';
-import Feed from './feed';
+import PaginatedView from './elements/paginated-view';
+import Feed from './elements/feed';
 
 class Search extends React.Component {
   componentWillReceiveProps(newProps) {
