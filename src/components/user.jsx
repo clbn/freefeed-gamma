@@ -10,7 +10,7 @@ import UserSubscriptions from './elements/user-subscriptions';
 import UserManageSubscribers from './elements/user-manage-subscribers';
 import UserFeed from './elements/user-feed';
 
-const UserHandler = (props) => {
+const User = (props) => {
   return (
     <div className="box">
       <UserProfile
@@ -42,7 +42,7 @@ const UserHandler = (props) => {
   );
 };
 
-function selectState(state, ownProps) {
+function mapStateToProps(state, ownProps) {
   const user = state.user;
   const authenticated = state.authenticated;
   const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
@@ -98,7 +98,7 @@ function selectState(state, ownProps) {
   return { user, visibleEntries, createPostForm, boxHeader, viewUser, sendTo, currentRoute, isInUserPostFeed, showPaginationHeader };
 }
 
-function selectActions(dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     ...postActions(dispatch),
     createPost: (...args) => dispatch(createPost(...args)),
@@ -107,4 +107,4 @@ function selectActions(dispatch) {
   };
 }
 
-export default connect(selectState, selectActions)(UserHandler);
+export default connect(mapStateToProps, mapDispatchToProps)(User);
