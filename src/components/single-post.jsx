@@ -57,7 +57,7 @@ const SinglePost = (props) => {
   );
 };
 
-function selectState(state) {
+function mapStateToProps(state) {
   const isLoading = state.routeLoadingState;
   const boxHeader = state.boxHeader;
   const user = state.user;
@@ -70,8 +70,8 @@ function selectState(state) {
   return { isLoading, post, user, boxHeader, errorStatus, errorMessage };
 }
 
-function selectActions(dispatch) {
+function mapDispatchToProps(dispatch) {
   return { ...postActions(dispatch) };
 }
 
-export default connect(selectState, selectActions)(SinglePost);
+export default connect(mapStateToProps, mapDispatchToProps)(SinglePost);
