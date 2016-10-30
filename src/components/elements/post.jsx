@@ -46,8 +46,8 @@ class Post extends React.Component {
     const deletePost = () => props.deletePost(props.id);
 
     const toggleCommenting = () => props.toggleCommenting(props.id);
-    const likePost = () => props.likePost(props.id, props.user.id);
-    const unlikePost = () => props.unlikePost(props.id, props.user.id);
+    const likePost = () => props.likePost(props.id, props.me.id);
+    const unlikePost = () => props.unlikePost(props.id, props.me.id);
 
     const hidePost = () => props.hidePost(props.id);
     const unhidePost = () => props.unhidePost(props.id);
@@ -228,8 +228,8 @@ class Post extends React.Component {
     }
 
     // "Like" / "Un-like"
-    const amIAuthenticated = !!props.user.id;
-    const didILikePost = _.find(props.usersLikedPost, {id: props.user.id});
+    const amIAuthenticated = !!props.me.id;
+    const didILikePost = _.find(props.usersLikedPost, {id: props.me.id});
     const likeLink = (amIAuthenticated && !props.isEditable ? (
       <span>
         {' - '}
@@ -396,9 +396,9 @@ class Post extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const post = joinPostData(state)(ownProps.id);
-  const user = state.user;
+  const me = state.user;
 
-  return {...post, user};
+  return {...post, me};
 }
 
 function mapDispatchToProps(dispatch) {
