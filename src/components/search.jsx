@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 
-import {joinPostData} from '../redux/select-utils';
+import {getVisibleEntriesWithHidden} from '../redux/selectors';
 import {preventDefault} from '../utils';
 import PaginatedView from './elements/paginated-view';
 import Feed from './elements/feed';
@@ -75,7 +75,7 @@ function mapStateToProps(state) {
   const isLoading = state.routeLoadingState;
   const user = state.user;
   const authenticated = state.authenticated;
-  const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
+  const visibleEntries = getVisibleEntriesWithHidden(state);
   const boxHeader = state.boxHeader;
 
   const query = state.routing.locationBeforeTransitions.query.q || state.routing.locationBeforeTransitions.query.qs || '';

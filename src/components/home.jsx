@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
 import {createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/action-creators';
-import {joinPostData, joinCreatePostData} from '../redux/select-utils';
+import {getVisibleEntriesWithHidden, getHiddenEntriesWithHidden} from '../redux/selectors';
+import {joinCreatePostData} from '../redux/select-utils';
 import {getQuery, pluralForm} from '../utils';
 
 import PostCreateForm from './elements/post-create-form';
@@ -78,8 +79,8 @@ function mapStateToProps(state) {
   const user = state.user;
   const authenticated = state.authenticated;
 
-  const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
-  const hiddenEntries = state.feedViewState.hiddenEntries.map(joinPostData(state));
+  const visibleEntries = getVisibleEntriesWithHidden(state);
+  const hiddenEntries = getHiddenEntriesWithHidden(state);
   const isHiddenRevealed = state.feedViewState.isHiddenRevealed;
 
   const createPostForm = joinCreatePostData(state);

@@ -1,16 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {joinPostData} from '../redux/select-utils';
 import DummyPost from './elements/dummy-post';
 import Post from './elements/post';
 
 const SinglePost = (props) => {
-  let post = props.post;
-
   let postBody = <div></div>;
 
-  if (props.isLoading && !post) {
+  if (props.isLoading && !props.isPostInStore) {
     postBody = <DummyPost isSinglePost={true}/>;
   }
 
@@ -23,12 +20,9 @@ const SinglePost = (props) => {
     );
   }
 
-  if (post) {
+  if (props.isPostInStore) {
     postBody = (
-      <Post {...post}
-        key={post.id}
-        isSinglePost={true}
-        user={props.user} />
+      <Post id={props.postId} isSinglePost={true} />
     );
   }
 
@@ -43,14 +37,14 @@ const SinglePost = (props) => {
 
 function mapStateToProps(state) {
   const isLoading = state.routeLoadingState;
-  const user = state.user;
 
-  const post = joinPostData(state)(state.singlePostId);
+  const postId = state.singlePostId;
+  const isPostInStore = !!state.posts[postId];
   const viewState = state.postViews[state.singlePostId];
   const errorStatus = viewState && viewState.errorStatus || null;
   const errorMessage = viewState && viewState.errorMessage || null;
 
-  return { isLoading, post, user, errorStatus, errorMessage };
+  return { isLoading, postId, isPostInStore, errorStatus, errorMessage };
 }
 
 export default connect(mapStateToProps)(SinglePost);

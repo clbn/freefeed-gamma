@@ -2,7 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {createPost, resetPostCreateForm} from '../redux/action-creators';
-import {joinPostData, joinCreatePostData} from '../redux/select-utils';
+import {getVisibleEntriesWithHidden} from '../redux/selectors';
+import {joinCreatePostData} from '../redux/select-utils';
 import {getQuery, getCurrentRouteName} from '../utils';
 
 import PostCreateForm from './elements/post-create-form';
@@ -44,7 +45,7 @@ function mapStateToProps(state, ownProps) {
   const isLoading = state.routeLoadingState;
   const user = state.user;
   const authenticated = state.authenticated;
-  const visibleEntries = state.feedViewState.visibleEntries.map(joinPostData(state));
+  const visibleEntries = getVisibleEntriesWithHidden(state);
   const createPostForm = joinCreatePostData(state);
   const boxHeader = state.boxHeader;
 

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import classnames from 'classnames';
 
-import {postActions} from '../../redux/select-utils';
+import {joinPostData, postActions} from '../../redux/select-utils';
 import {fromNowOrNow, getFullDate} from '../../utils';
 import PostAttachments from './post-attachments';
 import PostComments from './post-comments';
@@ -394,10 +394,17 @@ class Post extends React.Component {
   }
 }
 
+function mapStateToProps(state, ownProps) {
+  const post = joinPostData(state)(ownProps.id);
+  const user = state.user;
+
+  return {...post, user};
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     ...postActions(dispatch)
   };
 }
 
-export default connect(()=>({}), mapDispatchToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Post);
