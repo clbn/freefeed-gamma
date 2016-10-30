@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {joinPostData, postActions} from '../redux/select-utils';
+import {joinPostData} from '../redux/select-utils';
 import DummyPost from './elements/dummy-post';
 import Post from './elements/post';
 
@@ -28,23 +28,7 @@ const SinglePost = (props) => {
       <Post {...post}
         key={post.id}
         isSinglePost={true}
-        user={props.user}
-        showMoreComments={props.showMoreComments}
-        showMoreLikes={props.showMoreLikes}
-        toggleEditingPost={props.toggleEditingPost}
-        cancelEditingPost={props.cancelEditingPost}
-        saveEditingPost={props.saveEditingPost}
-        deletePost={props.deletePost}
-        addAttachmentResponse={props.addAttachmentResponse}
-        removeAttachment={props.removeAttachment}
-        toggleCommenting={props.toggleCommenting}
-        addComment={props.addComment}
-        likePost={props.likePost}
-        unlikePost={props.unlikePost}
-        toggleModeratingComments={props.toggleModeratingComments}
-        disableComments={props.disableComments}
-        enableComments={props.enableComments}
-        commentEdit={props.commentEdit} />
+        user={props.user} />
     );
   }
 
@@ -69,8 +53,4 @@ function mapStateToProps(state) {
   return { isLoading, post, user, errorStatus, errorMessage };
 }
 
-function mapDispatchToProps(dispatch) {
-  return { ...postActions(dispatch) };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SinglePost);
+export default connect(mapStateToProps)(SinglePost);

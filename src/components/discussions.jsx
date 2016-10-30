@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {createPost, resetPostCreateForm} from '../redux/action-creators';
-import {joinPostData, joinCreatePostData, postActions} from '../redux/select-utils';
+import {joinPostData, joinCreatePostData} from '../redux/select-utils';
 import {getQuery, getCurrentRouteName} from '../utils';
 
 import PostCreateForm from './elements/post-create-form';
@@ -57,9 +57,10 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    ...postActions(dispatch),
     createPost: (...args) => dispatch(createPost(...args)),
-    resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args))
+    resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),
+    addAttachmentResponse: (...args) => dispatch(addAttachmentResponse(...args)),
+    removeAttachment: (...args) => dispatch(removeAttachment(...args))
   };
 }
 

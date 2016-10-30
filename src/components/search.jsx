@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 
-import {joinPostData, postActions} from '../redux/select-utils';
+import {joinPostData} from '../redux/select-utils';
 import {preventDefault} from '../utils';
 import PaginatedView from './elements/paginated-view';
 import Feed from './elements/feed';
@@ -83,10 +83,4 @@ function mapStateToProps(state) {
   return { isLoading, user, authenticated, visibleEntries, boxHeader, query };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    ...postActions(dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps)(Search);

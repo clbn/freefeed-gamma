@@ -32,25 +32,7 @@ export default (props) => {
         user={props.user}
         isInHomeFeed={props.isInHomeFeed}
         isInUserPostFeed={props.isInUserPostFeed}
-        isRecentlyHidden={isRecentlyHidden}
-        showMoreComments={props.showMoreComments}
-        showMoreLikes={props.showMoreLikes}
-        toggleEditingPost={props.toggleEditingPost}
-        cancelEditingPost={props.cancelEditingPost}
-        saveEditingPost={props.saveEditingPost}
-        deletePost={props.deletePost}
-        addAttachmentResponse={props.addAttachmentResponse}
-        removeAttachment={props.removeAttachment}
-        toggleCommenting={props.toggleCommenting}
-        addComment={props.addComment}
-        likePost={props.likePost}
-        unlikePost={props.unlikePost}
-        hidePost={props.hidePost}
-        unhidePost={props.unhidePost}
-        toggleModeratingComments={props.toggleModeratingComments}
-        disableComments={props.disableComments}
-        enableComments={props.enableComments}
-        commentEdit={props.commentEdit}/>
+        isRecentlyHidden={isRecentlyHidden}/>
     );
   };
 

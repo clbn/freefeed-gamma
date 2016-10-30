@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
 import {createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/action-creators';
-import {joinPostData, joinCreatePostData, postActions} from '../redux/select-utils';
+import {joinPostData, joinCreatePostData} from '../redux/select-utils';
 import {getQuery, pluralForm} from '../utils';
 
 import PostCreateForm from './elements/post-create-form';
@@ -101,9 +101,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    ...postActions(dispatch),
     createPost: (...args) => dispatch(createPost(...args)),
     resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),
+    addAttachmentResponse: (...args) => dispatch(addAttachmentResponse(...args)),
+    removeAttachment: (...args) => dispatch(removeAttachment(...args)),
     toggleHiddenPosts: () => dispatch(toggleHiddenPosts())
   };
 }

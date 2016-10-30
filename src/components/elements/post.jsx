@@ -1,8 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router';
+import {connect} from 'react-redux';
 import moment from 'moment';
 import classnames from 'classnames';
 
+import {postActions} from '../../redux/select-utils';
 import {fromNowOrNow, getFullDate} from '../../utils';
 import PostAttachments from './post-attachments';
 import PostComments from './post-comments';
@@ -14,7 +16,7 @@ import throbber16 from 'assets/images/throbber-16.gif';
 import PostDropzone from './post-dropzone';
 import PostMoreMenu from './post-more-menu';
 
-export default class Post extends React.Component {
+class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -391,3 +393,11 @@ export default class Post extends React.Component {
     ));
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    ...postActions(dispatch)
+  };
+}
+
+export default connect(()=>({}), mapDispatchToProps)(Post);

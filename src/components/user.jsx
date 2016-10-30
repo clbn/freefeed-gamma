@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {createPost, resetPostCreateForm} from '../redux/action-creators';
-import {joinPostData, joinCreatePostData, postActions, userActions} from '../redux/select-utils';
+import {joinPostData, joinCreatePostData, userActions} from '../redux/select-utils';
 import {getCurrentRouteName} from '../utils';
 import UserProfile from './elements/user-profile';
 import UserSubscribers from './elements/user-subscribers';
@@ -100,10 +100,11 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    ...postActions(dispatch),
+    userActions: userActions(dispatch),
     createPost: (...args) => dispatch(createPost(...args)),
     resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),
-    userActions: userActions(dispatch),
+    addAttachmentResponse: (...args) => dispatch(addAttachmentResponse(...args)),
+    removeAttachment: (...args) => dispatch(removeAttachment(...args))
   };
 }
 
