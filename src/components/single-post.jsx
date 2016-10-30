@@ -59,7 +59,6 @@ const SinglePost = (props) => {
 
 function mapStateToProps(state) {
   const isLoading = state.routeLoadingState;
-  const boxHeader = state.boxHeader;
   const user = state.user;
 
   const post = joinPostData(state)(state.singlePostId);
@@ -67,7 +66,7 @@ function mapStateToProps(state) {
   const errorStatus = viewState && viewState.errorStatus || null;
   const errorMessage = viewState && viewState.errorMessage || null;
 
-  return { isLoading, post, user, boxHeader, errorStatus, errorMessage };
+  return { isLoading, post, user, errorStatus, errorMessage };
 }
 
 function mapDispatchToProps(dispatch) {
