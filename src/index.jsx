@@ -17,6 +17,7 @@ import Home from './components/home';
 import Discussions from './components/discussions';
 import Search from './components/search';
 import About from './components/about';
+import Terms from './components/terms';
 import Dev from './components/dev';
 import Signin from './components/signin';
 import Signup from './components/signup';
@@ -83,7 +84,11 @@ ReactDOM.render(
       <Route path="/" component={App}>
         <IndexRoute name="home" component={Home} {...getRouteHooks('home')}/>
 
-        <Route path="about" component={About} onEnter={enterStaticPage('About')}/>
+        <Route path="about">
+          <IndexRoute name="about" component={About} onEnter={enterStaticPage('About')}/>
+          <Route path="terms" component={Terms} onEnter={enterStaticPage('Terms')}/>
+        </Route>
+
         <Route path="dev" component={Dev} onEnter={enterStaticPage('Developers')}/>
         <Route path="signin" component={Signin} onEnter={enterStaticPage('Sign in')}/>
         <Route path="signup" component={Signup} onEnter={enterStaticPage('Sign up')}/>

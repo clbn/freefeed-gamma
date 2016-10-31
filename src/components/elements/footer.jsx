@@ -13,6 +13,8 @@ export default (props) => (
         {' \u00b7 '}
         <Link to="/freefeed">News</Link>
         {' \u00b7 '}
+        <Link to="/about/terms">Terms</Link>
+        {' \u00b7 '}
         <a href="https://status.freefeed.net/" target="_blank">Status</a>
         {' \u00b7 '}
         <a href="https://dev.freefeed.net/" target="_blank">Development</a>
