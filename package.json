@@ -47,6 +47,7 @@
     "react-select": "^1.0.0-beta13",
     "react-textarea-autosize": "^4.0.1",
     "redux": "^3.5.2",
+    "reselect": "^2.5.4",
     "sass-loader": "^2.0.1",
     "skin-deep": "^0.16.0",
     "socket.io-client": "^1.4.4",

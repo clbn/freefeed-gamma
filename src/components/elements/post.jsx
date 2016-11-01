@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import classnames from 'classnames';
 
-import {joinPostData, postActions} from '../../redux/select-utils';
+import {makeGetPost} from '../../redux/selectors';
+import {postActions} from '../../redux/select-utils';
 import {fromNowOrNow, getFullDate} from '../../utils';
 import PostAttachments from './post-attachments';
 import PostComments from './post-comments';
@@ -200,8 +201,9 @@ class Post extends React.Component {
 
     // "Comment" / "Comments disabled"
     let commentLink;
+    const isEditable = (props.createdBy.id === props.me.id);
     if (props.commentsDisabled) {
-      if (props.isEditable) {
+      if (isEditable) {
         commentLink = (
           <span>
             {' - '}
@@ -229,8 +231,8 @@ class Post extends React.Component {
 
     // "Like" / "Un-like"
     const amIAuthenticated = !!props.me.id;
-    const didILikePost = _.find(props.usersLikedPost, {id: props.me.id});
-    const likeLink = (amIAuthenticated && !props.isEditable ? (
+    const didILikePost = ((props.likes || []).indexOf(props.me.id) > -1);
+    const likeLink = (amIAuthenticated && !isEditable ? (
       <span>
         {' - '}
         <a onClick={didILikePost ? unlikePost : likePost}>{didILikePost ? 'Un-like' : 'Like'}</a>
@@ -256,7 +258,7 @@ class Post extends React.Component {
     ) : false);
 
     // "More" menu
-    const moreLink = (props.isEditable ? (
+    const moreLink = (isEditable ? (
       <span>
         {' - '}
         <PostMoreMenu
@@ -394,11 +396,23 @@ class Post extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  const post = joinPostData(state)(ownProps.id);
-  const me = state.user;
+function makeMapStateToProps() {
+  // To share a selector across multiple Post components while passing in props
+  // and retaining memoization, each instance of the component needs its own
+  // private copy of the selector. If the mapStateToProps argument supplied to
+  // connect returns a function instead of an object, it will be used to create
+  // an individual mapStateToProps function for each instance of the container
+  // (this works in React Redux v4.3 or higher).
+  // See https://github.com/reactjs/reselect#sharing-selectors-with-props-across-multiple-components
 
-  return {...post, me};
+  const getPost = makeGetPost();
+
+  return (state, ownProps) => {
+    const post = getPost(state, ownProps);
+    const me = state.user;
+
+    return {...post, me};
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -407,4 +421,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(makeMapStateToProps, mapDispatchToProps)(Post);

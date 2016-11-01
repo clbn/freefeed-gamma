@@ -1,7 +1,11 @@
 import {getVisibleEntriesWithHidden, getHiddenEntriesWithHidden} from './feed';
+import {makeGetPost} from './post';
 
 export {
   // Feed
   getVisibleEntriesWithHidden,
-  getHiddenEntriesWithHidden
+  getHiddenEntriesWithHidden,
+
+  // Post
+  makeGetPost
 };
