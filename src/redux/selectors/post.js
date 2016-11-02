@@ -1,6 +1,31 @@
 import {createSelector} from 'reselect';
+import _ from 'lodash';
 
 const emptyArray = [];
+
+const _getMemoizedPostAttachments = _.memoize(
+  // The function to have its output memoized
+  (postAttachmentIds, stateAttachments) => postAttachmentIds.map(attachmentId => stateAttachments[attachmentId]),
+
+  // The function to resolve the cache key
+  (postAttachmentIds, stateAttachments) => postAttachmentIds
+
+  // ^ So here we make the cache only rely on the list of attachment IDs. It's
+  // safe to do, since any particular attachment is immutable. And it's important
+  // to keep this cache independent from state.attachments, because this way
+  // adding an attachment to some post doesn't cause re-rendering of other cached
+  // posts.
+);
+
+const getPostAttachments = createSelector(
+  [
+    (state, props) => (state.posts[props.id] && state.posts[props.id].attachments) || emptyArray,
+    (state) => state.attachments || emptyArray
+  ],
+  (postAttachments, attachments) => {
+    return _getMemoizedPostAttachments(postAttachments, attachments);
+  }
+);
 
 export const makeGetPost = () => createSelector(
   [
@@ -11,9 +36,10 @@ export const makeGetPost = () => createSelector(
       return state.users[authorId] || {id: authorId};
     },
     (state) => state.subscriptions,
-    (state) => state.subscribers
+    (state) => state.subscribers,
+    getPostAttachments
   ],
-  (post, postView, createdBy, subscriptions, subscribers) => {
+  (post, postView, createdBy, subscriptions, subscribers, attachments) => {
     if (!post) {
       return {};
     }
@@ -41,7 +67,7 @@ export const makeGetPost = () => createSelector(
       createdBy,
       recipients,
       isDirect,
-      attachments: emptyArray,
+      attachments,
       usersLikedPost: emptyArray,
       comments: emptyArray,
       omittedComments: 0
