@@ -22,8 +22,8 @@ const getPostAttachments = createSelector(
     (state, props) => (state.posts[props.id] && state.posts[props.id].attachments) || emptyArray,
     (state) => state.attachments || emptyArray
   ],
-  (postAttachments, attachments) => {
-    return _getMemoizedPostAttachments(postAttachments, attachments);
+  (postAttachmentIds, stateAttachments) => {
+    return _getMemoizedPostAttachments(postAttachmentIds, stateAttachments);
   }
 );
 
