@@ -47,8 +47,8 @@ class Post extends React.Component {
     const deletePost = () => props.deletePost(props.id);
 
     const toggleCommenting = () => props.toggleCommenting(props.id);
-    const likePost = () => props.likePost(props.id, props.me.id);
-    const unlikePost = () => props.unlikePost(props.id, props.me.id);
+    const likePost = () => props.likePost(props.id, props.myId);
+    const unlikePost = () => props.unlikePost(props.id, props.myId);
 
     const hidePost = () => props.hidePost(props.id);
     const unhidePost = () => props.unhidePost(props.id);
@@ -201,7 +201,7 @@ class Post extends React.Component {
 
     // "Comment" / "Comments disabled"
     let commentLink;
-    const isEditable = (props.createdBy.id === props.me.id);
+    const isEditable = (props.createdBy.id === props.myId);
     if (props.commentsDisabled) {
       if (isEditable) {
         commentLink = (
@@ -230,8 +230,8 @@ class Post extends React.Component {
     }
 
     // "Like" / "Un-like"
-    const amIAuthenticated = !!props.me.id;
-    const didILikePost = ((props.likes || []).indexOf(props.me.id) > -1);
+    const amIAuthenticated = !!props.myId;
+    const didILikePost = ((props.likes || []).indexOf(props.myId) > -1);
     const likeLink = (amIAuthenticated && !isEditable ? (
       <span>
         {' - '}
@@ -409,9 +409,9 @@ function makeMapStateToProps() {
 
   return (state, ownProps) => {
     const post = getPost(state, ownProps);
-    const me = state.user;
+    const myId = state.user.id;
 
-    return {...post, me};
+    return {...post, myId};
   };
 }
 
