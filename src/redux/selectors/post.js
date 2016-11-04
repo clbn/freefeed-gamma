@@ -27,6 +27,36 @@ const getPostAttachments = createSelector(
   }
 );
 
+const _getMemoizedPostLikes = _.memoize(
+  // The function to have its output memoized
+  (postLikeIds, stateUsers) => {
+    // API has a bug when banned users involved, so sometimes there are
+    // duplicates in likes that cause JS errors (duplicate keys in React)
+    postLikeIds = _.uniq(postLikeIds);
+
+    return _.uniq(postLikeIds).map(userId => stateUsers[userId]);
+  },
+
+  // The function to resolve the cache key
+  (postLikeIds, stateUsers) => postLikeIds
+
+  // ^ So here we make the cache only rely on the list of user IDs. It's not
+  // really safe to do, since any particular user might be changed. However,
+  // it's important to keep this cache independent from state.users, because
+  // this way updating global user pool doesn't cause re-rendering of cached
+  // posts. Let's test it for some time in the hope this trade-off is worth it.
+);
+
+const getPostLikes = createSelector(
+  [
+    (state, props) => (state.posts[props.id] && state.posts[props.id].likes) || emptyArray,
+    (state) => state.users || emptyArray
+  ],
+  (postLikeIds, stateUsers) => {
+    return _getMemoizedPostLikes(postLikeIds, stateUsers);
+  }
+);
+
 export const makeGetPost = () => createSelector(
   [
     (state, props) => state.posts[props.id],
@@ -37,9 +67,10 @@ export const makeGetPost = () => createSelector(
     },
     (state) => state.subscriptions,
     (state) => state.subscribers,
-    getPostAttachments
+    getPostAttachments,
+    getPostLikes
   ],
-  (post, postView, createdBy, subscriptions, subscribers, attachments) => {
+  (post, postView, createdBy, subscriptions, subscribers, attachments, usersLikedPost) => {
     if (!post) {
       return {};
     }
@@ -68,7 +99,7 @@ export const makeGetPost = () => createSelector(
       recipients,
       isDirect,
       attachments,
-      usersLikedPost: emptyArray,
+      usersLikedPost,
       comments: emptyArray,
       omittedComments: 0
     };
