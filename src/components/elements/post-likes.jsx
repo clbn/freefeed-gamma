@@ -34,7 +34,7 @@ const renderLike = (item, i, items) => (
   </li>
 );
 
-export const PostLikes = (props) => {
+const PostLikes = (props) => {
   if (!props.users.length) {
     return <div/>;
   }
