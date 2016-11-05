@@ -29,7 +29,6 @@ class Post extends React.Component {
   removeAttachment = (attachmentId) => this.props.removeAttachment(this.props.id, attachmentId)
 
   render() {
-    let _this = this;
     let props = this.props;
 
     const createdAtISO = moment(+props.createdAt).format();
