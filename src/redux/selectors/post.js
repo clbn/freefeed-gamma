@@ -67,9 +67,7 @@ const makeGetPost = () => createSelector(
       createdBy,
       recipients,
       isDirect,
-      attachments,
-      comments: emptyArray,
-      omittedComments: 0
+      attachments
     };
   }
 );

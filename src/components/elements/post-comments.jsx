@@ -1,22 +1,24 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
+import {makeGetPostComments} from '../../redux/selectors';
+import {showMoreComments, toggleCommenting, addComment} from '../../redux/action-creators';
 import PostComment from './post-comment';
 import PostCommentsMore from './post-comments-more';
 import PostCommentCreateForm from './post-comment-create-form';
 
-const renderComment = (postUrl, openAnsweringComment, isModeratingComments, commentEdit, postId) => comment => (
+const renderComment = (postUrl, openAnsweringComment, isModeratingComments, postId) => comment => (
   <PostComment
     key={comment.id}
     {...comment}
     postUrl={postUrl}
     openAnsweringComment={openAnsweringComment}
     isModeratingComments={isModeratingComments}
-    {...commentEdit}
     highlightComment={authorUserName => commentEdit.highlightComment(postId, authorUserName)}
     highlightArrowComment={arrows => commentEdit.highlightComment(postId, undefined, arrows, comment.id)}/>
 );
 
-export default class PostComments extends React.Component {
+class PostComments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,12 +53,13 @@ export default class PostComments extends React.Component {
   render() {
     const props = this.props;
 
-    const commentMapper = renderComment(props.postUrl, this.openAnsweringComment, props.post.isModeratingComments, props.commentEdit, props.post.id);
+    const commentMapper = renderComment(props.postUrl, this.openAnsweringComment, props.post.isModeratingComments, props.post.id);
     const first = props.comments[0];
     const last = props.comments.length > 1 && props.comments[props.comments.length - 1];
     const middle = props.comments.slice(1, props.comments.length - 1).map(commentMapper);
     const showOmittedNumber = props.post.omittedComments > 0;
     const showMoreComments = () => props.showMoreComments(props.post.id);
+    const toggleCommenting = () => props.toggleCommenting(props.post.id);
     const canAddComment = (!props.post.commentsDisabled || props.post.isEditable);
 
     return (
@@ -78,12 +81,33 @@ export default class PostComments extends React.Component {
         {canAddComment ? (
           <PostCommentCreateForm
             post={props.post}
+            isSinglePost={props.isSinglePost}
             otherCommentsNumber={props.comments.length}
             saveEditingComment={props.addComment}
-            toggleCommenting={props.toggleCommenting}
+            toggleCommenting={toggleCommenting}
             bindTextarea={this.bindNewCommentTextarea}/>
         ) : false}
       </div>
     );
   }
-};
+}
+
+function makeMapStateToProps() {
+  const getPostComments = makeGetPostComments();
+
+  return (state, ownProps) => {
+    return {
+      ...getPostComments(state, ownProps)
+    };
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    showMoreComments: (...args) => dispatch(showMoreComments(...args)),
+    toggleCommenting: (...args) => dispatch(toggleCommenting(...args)),
+    addComment: (...args) => dispatch(addComment(...args))
+  };
+}
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(PostComments);

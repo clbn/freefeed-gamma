@@ -379,13 +379,9 @@ class Post extends React.Component {
           <PostLikes postId={props.id}/>
 
           <PostComments
-            post={props}
+            postId={props.id}
             postUrl={postUrl}
-            comments={props.comments}
-            addComment={props.addComment}
-            toggleCommenting={toggleCommenting}
-            showMoreComments={props.showMoreComments}
-            commentEdit={props.commentEdit}/>
+            isSinglePost={props.isSinglePost}/>
         </div>
       </div>
     ));

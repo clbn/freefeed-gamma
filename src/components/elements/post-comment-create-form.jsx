@@ -36,7 +36,7 @@ export default class PostCommentCreateForm extends React.Component {
 
   render() {
     const writingComment = this.props.post.isCommenting;
-    const singlePost = this.props.post.isSinglePost;
+    const singlePost = this.props.isSinglePost;
     const manyComments = this.props.otherCommentsNumber > 2 && !this.props.post.omittedComments /* TODO: && user_is_signed_in */;
 
     if (!writingComment && !singlePost && !manyComments) {
