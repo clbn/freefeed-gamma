@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import classnames from 'classnames';
-import _ from 'lodash';
 
+import {makeGetPostLikes} from '../../redux/selectors';
+import {showMoreLikes} from '../../redux/action-creators';
 import UserName from './user-name';
 import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
@@ -34,33 +35,26 @@ const renderLike = (item, i, items) => (
 );
 
 export const PostLikes = (props) => {
-  if (!props.likes.length) {
+  if (!props.users.length) {
     return <div/>;
   }
 
-  const didILikePost = _.find(props.likes, {id: props.me.id});
+  const userList = [...props.users];
 
-  const likeList = [...props.likes];
-
-  likeList.sort((a, b) => {
-    if (a.id == props.me.id) { return -1; }
-    if (b.id == props.me.id) { return 1; }
-  });
-
-  if (props.post.omittedLikes) {
-    likeList.push({
+  if (props.omittedLikes) {
+    userList.push({
       id: 'more-likes',
-      isLoadingLikes: props.post.isLoadingLikes,
-      omittedLikes: props.post.omittedLikes,
-      showMoreLikes: () => props.showMoreLikes(props.post.id)
+      isLoadingLikes: props.isLoadingLikes,
+      omittedLikes: props.omittedLikes,
+      showMoreLikes: () => props.showMoreLikes(props.postId)
     });
   }
 
-  const renderedLikes = likeList.map(renderLike);
+  const renderedLikes = userList.map(renderLike);
 
   const iconClasses = classnames({
     'likes-icon': true,
-    'likes-icon-liked': didILikePost,
+    'likes-icon-liked': props.didILikePost,
     'fa-stack': true
   });
 
@@ -75,10 +69,20 @@ export const PostLikes = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    me: state.user
-  };
-};
+function makeMapStateToProps() {
+  const getPostLikes = makeGetPostLikes();
 
-export default connect(mapStateToProps)(PostLikes);
+  return (state, ownProps) => {
+    return {
+      ...getPostLikes(state, ownProps)
+    };
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    showMoreLikes: (...args) => dispatch(showMoreLikes(...args))
+  };
+}
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(PostLikes);

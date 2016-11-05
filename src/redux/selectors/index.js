@@ -1,5 +1,6 @@
 import {getVisibleEntriesWithHidden, getHiddenEntriesWithHidden} from './feed';
-import {makeGetPost} from './post';
+import makeGetPost from './post';
+import makeGetPostLikes from './post-likes';
 
 export {
   // Feed
@@ -7,5 +8,6 @@ export {
   getHiddenEntriesWithHidden,
 
   // Post
-  makeGetPost
+  makeGetPost,
+  makeGetPostLikes
 };

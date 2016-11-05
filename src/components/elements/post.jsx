@@ -377,10 +377,7 @@ class Post extends React.Component {
             {moreLink}
           </div>
 
-          <PostLikes
-            post={props}
-            likes={props.usersLikedPost}
-            showMoreLikes={props.showMoreLikes}/>
+          <PostLikes postId={props.id}/>
 
           <PostComments
             post={props}
