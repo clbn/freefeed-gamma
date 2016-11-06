@@ -137,12 +137,12 @@ export function usernameBlockedByMe(state = {}, action) {
 
 export function commentsHighlights(state={}, action) {
   switch (action.type) {
-    case ActionTypes.HIGHLIGHT_COMMENT: {
+    case ActionTypes.HIGHLIGHT_COMMENTS: {
       return {
         ...action
       };
     }
-    case ActionTypes.CLEAR_HIGHLIGHT_COMMENT: {
+    case ActionTypes.CLEAR_HIGHLIGHT_COMMENTS: {
       return {};
     }
   }

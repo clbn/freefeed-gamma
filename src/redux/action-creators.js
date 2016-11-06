@@ -527,7 +527,7 @@ export function revokeSentRequest(payload) {
 
 export function highlightComment(postId, author, arrows, baseCommentId) {
   return {
-    type: ActionTypes.HIGHLIGHT_COMMENT,
+    type: ActionTypes.HIGHLIGHT_COMMENTS,
     postId,
     author,
     arrows,
@@ -537,7 +537,7 @@ export function highlightComment(postId, author, arrows, baseCommentId) {
 
 export function clearHighlightComment() {
   return {
-    type: ActionTypes.CLEAR_HIGHLIGHT_COMMENT,
+    type: ActionTypes.CLEAR_HIGHLIGHT_COMMENTS,
   };
 }
 
