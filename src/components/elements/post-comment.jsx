@@ -44,7 +44,7 @@ class PostComment extends React.Component {
     const createdAgo = fromNowOrNow(+this.props.createdAt) + '\n' + getFullDate(+this.props.createdAt);
 
     return (
-      <div className={`comment ${this.props.highlighted ? 'highlighted' : ''}`}>
+      <div className={`comment ${this.props.isHighlighted ? 'highlighted' : ''}`}>
         <a className={iconClasses}
            title={createdAgo}
            id={`comment-${this.props.id}`}

@@ -48,9 +48,9 @@ const makeGetPostComments = () => createSelector(
       }
       const isEditable = (comment.createdBy === myId);
       const isDeletable = post.createdBy === myId;
-      const highlighted = isCommentHighlighted(commentId, author);
+      const isHighlighted = isCommentHighlighted(commentId, author);
 
-      return {...comment, ...commentView, user: author, isEditable, isDeletable, highlighted};
+      return {...comment, ...commentView, user: author, isEditable, isDeletable, isHighlighted};
     });
 
     return {
