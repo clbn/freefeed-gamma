@@ -84,9 +84,6 @@ export default function users(state = {}, action) {
       }
       return mergeByIds(state, newUsers.map(userParser));
     }
-    case ActionTypes.HIGHLIGHT_COMMENT: {
-      return state;
-    }
     case ActionTypes.UNAUTHENTICATED:
       return {};
   }
