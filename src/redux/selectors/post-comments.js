@@ -1,6 +1,21 @@
 import {createSelector} from 'reselect';
 
 const emptyArray = [];
+const falseFn = () => false;
+
+const commentHighlighter = (frontendPreferences, commentsHighlights, omittedComments, currentPostId, commentList) => {
+  const {postId, baseCommentId, author, arrows} = commentsHighlights;
+
+  if (currentPostId !== postId || !frontendPreferences.comments.highlightComments) {
+    return falseFn;
+  }
+
+  const baseCommentIndex = commentList.indexOf(baseCommentId);
+  const targetedCommentIndex = (baseCommentIndex + omittedComments) - arrows;
+  const targetedCommentId = commentList[targetedCommentIndex < baseCommentIndex ? targetedCommentIndex : -1];
+
+  return (commentId, commentAuthor) => (commentAuthor.username === author || commentId === targetedCommentId);
+};
 
 const makeGetPostComments = () => createSelector(
   [
@@ -10,14 +25,18 @@ const makeGetPostComments = () => createSelector(
     (state) => state.comments,
     (state) => state.commentViews,
     (state) => state.users,
-    (state) => state.user.id
+    (state) => state.user.id,
+    (state) => state.user.frontendPreferences,
+    (state) => state.commentsHighlights
   ],
-  (post, postView, commentIds, stateComments, stateCommentViews, stateUsers, myId) => {
+  (post, postView, commentIds, stateComments, stateCommentViews, stateUsers, myId, frontendPreferences, stateCommentsHighlights) => {
     const postCombined = {
       ...post,
       ...postView,
       isEditable: (post.createdBy === myId)
     };
+
+    const isCommentHighlighted = commentHighlighter(frontendPreferences, stateCommentsHighlights, post.omittedComments, post.id, post.comments);
 
     const comments = commentIds.map(commentId => {
       const comment = stateComments[commentId];
@@ -29,7 +48,7 @@ const makeGetPostComments = () => createSelector(
       }
       const isEditable = (comment.createdBy === myId);
       const isDeletable = post.createdBy === myId;
-      const highlighted = false;
+      const highlighted = isCommentHighlighted(commentId, author);
 
       return {...comment, ...commentView, user: author, isEditable, isDeletable, highlighted};
     });

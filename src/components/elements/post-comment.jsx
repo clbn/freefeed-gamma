@@ -85,8 +85,8 @@ class PostComment extends React.Component {
           <div className="comment-body">
             <PieceOfText
               text={this.props.body}
-              userHover={{hover: username => this.props.highlightComment(username), leave: this.props.clearHighlightComment}}
-              arrowHover={{hover: arrows => this.props.highlightArrowComment(arrows), leave: this.props.clearHighlightComment}}/>
+              userHover={{hover: username => this.props.highlightComment(this.props.postId, username), leave: this.props.clearHighlightComment}}
+              arrowHover={{hover: arrows => this.props.highlightComment(this.props.postId, undefined, arrows, this.props.id), leave: this.props.clearHighlightComment}}/>
             {' -'}&nbsp;
             <UserName user={this.props.user}/>
             {this.props.isEditable ? (

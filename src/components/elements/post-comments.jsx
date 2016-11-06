@@ -11,11 +11,10 @@ const renderComment = (postUrl, openAnsweringComment, isModeratingComments, post
   <PostComment
     key={comment.id}
     {...comment}
+    postId={postId}
     postUrl={postUrl}
     openAnsweringComment={openAnsweringComment}
-    isModeratingComments={isModeratingComments}
-    highlightComment={authorUserName => commentEdit.highlightComment(postId, authorUserName)}
-    highlightArrowComment={arrows => commentEdit.highlightComment(postId, undefined, arrows, comment.id)}/>
+    isModeratingComments={isModeratingComments}/>
 );
 
 class PostComments extends React.Component {
