@@ -31,6 +31,16 @@ class PostComment extends React.Component {
     }
   }
 
+  userHoverHandlers = {
+    hover: (username) => this.props.updateHighlightedComments({postId: this.props.postId, username}),
+    leave: () => this.props.updateHighlightedComments({postId: this.props.postId})
+  };
+
+  arrowHoverHandlers = {
+    hover: (arrows) => this.props.updateHighlightedComments({postId: this.props.postId, baseCommentId: this.props.id, arrows}),
+    leave: () => this.props.updateHighlightedComments({postId: this.props.postId})
+  };
+
   render() {
     const amISubscribed = ((this.props.subscriptions || []).indexOf(this.props.user.id) > -1);
     const isCommentSpecial = this.props.isEditable || amISubscribed;
@@ -85,8 +95,8 @@ class PostComment extends React.Component {
           <div className="comment-body">
             <PieceOfText
               text={this.props.body}
-              userHover={{hover: username => this.props.highlightComment(this.props.postId, username), leave: this.props.clearHighlightComment}}
-              arrowHover={{hover: arrows => this.props.highlightComment(this.props.postId, undefined, arrows, this.props.id), leave: this.props.clearHighlightComment}}/>
+              userHover={this.userHoverHandlers}
+              arrowHover={this.arrowHoverHandlers}/>
             {' -'}&nbsp;
             <UserName user={this.props.user}/>
             {this.props.isEditable ? (

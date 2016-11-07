@@ -402,6 +402,16 @@ export default function postViews(state = {}, action) {
         [post.id]: initPostViewState(post)
       };
     }
+
+    case ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS: {
+      const post = state[action.payload.postId];
+      return {...state,
+        [post.id]: {...post,
+          highlightedComments: action.payload
+        }
+      };
+    }
+
     case ActionTypes.UNAUTHENTICATED: {
       return {};
     }

@@ -525,19 +525,10 @@ export function revokeSentRequest(payload) {
   };
 }
 
-export function highlightComment(postId, author, arrows, baseCommentId) {
+export function updateHighlightedComments(payload) {
   return {
-    type: ActionTypes.HIGHLIGHT_COMMENTS,
-    postId,
-    author,
-    arrows,
-    baseCommentId
-  };
-}
-
-export function clearHighlightComment() {
-  return {
-    type: ActionTypes.CLEAR_HIGHLIGHT_COMMENTS,
+    type: ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS,
+    payload
   };
 }
 

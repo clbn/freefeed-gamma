@@ -3,8 +3,8 @@ import {createSelector} from 'reselect';
 const emptyArray = [];
 const falseFn = () => false;
 
-const commentHighlighter = (frontendPreferences, commentsHighlights, omittedComments, currentPostId, commentList) => {
-  const {postId, baseCommentId, author, arrows} = commentsHighlights;
+const makeIsCommentHighlighted = (frontendPreferences, highlightedComments, omittedComments, currentPostId, commentList) => {
+  const {postId, baseCommentId, username, arrows} = highlightedComments;
 
   if (currentPostId !== postId || !frontendPreferences.comments.highlightComments) {
     return falseFn;
@@ -14,7 +14,7 @@ const commentHighlighter = (frontendPreferences, commentsHighlights, omittedComm
   const targetedCommentIndex = (baseCommentIndex + omittedComments) - arrows;
   const targetedCommentId = commentList[targetedCommentIndex < baseCommentIndex ? targetedCommentIndex : -1];
 
-  return (commentId, commentAuthor) => (commentAuthor.username === author || commentId === targetedCommentId);
+  return (commentId, commentAuthor) => (commentAuthor.username === username || commentId === targetedCommentId);
 };
 
 const makeGetPostComments = () => createSelector(
@@ -26,17 +26,16 @@ const makeGetPostComments = () => createSelector(
     (state) => state.commentViews,
     (state) => state.users,
     (state) => state.user.id,
-    (state) => state.user.frontendPreferences,
-    (state) => state.commentsHighlights
+    (state) => state.user.frontendPreferences
   ],
-  (post, postView, commentIds, stateComments, stateCommentViews, stateUsers, myId, frontendPreferences, stateCommentsHighlights) => {
+  (post, postView, commentIds, stateComments, stateCommentViews, stateUsers, myId, frontendPreferences) => {
     const postCombined = {
       ...post,
       ...postView,
       isEditable: (post.createdBy === myId)
     };
 
-    const isCommentHighlighted = commentHighlighter(frontendPreferences, stateCommentsHighlights, post.omittedComments, post.id, post.comments);
+    const isCommentHighlighted = makeIsCommentHighlighted(frontendPreferences, postView.highlightedComments || {}, post.omittedComments, post.id, post.comments);
 
     const comments = commentIds.map(commentId => {
       const comment = stateComments[commentId];

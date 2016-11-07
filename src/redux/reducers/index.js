@@ -135,20 +135,6 @@ export function usernameBlockedByMe(state = {}, action) {
   );
 }
 
-export function commentsHighlights(state={}, action) {
-  switch (action.type) {
-    case ActionTypes.HIGHLIGHT_COMMENTS: {
-      return {
-        ...action
-      };
-    }
-    case ActionTypes.CLEAR_HIGHLIGHT_COMMENTS: {
-      return {};
-    }
-  }
-  return state;
-}
-
 export function sidebarViewState(state={}, action) {
   switch (action.type) {
     case ActionTypes.TOGGLE_SIDEBAR: {
