@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import classnames from 'classnames';
 
+import {makeGetPostComment} from '../../redux/selectors';
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
 import {preventDefault, confirmFirst, fromNowOrNow, getFullDate} from '../../utils';
@@ -12,7 +13,7 @@ import throbber16 from 'assets/images/throbber-16.gif';
 class PostComment extends React.Component {
   openAnsweringComment = () => {
     if (this.props.openAnsweringComment) {
-      this.props.openAnsweringComment(this.props.user.username);
+      this.props.openAnsweringComment(this.props.createdBy.username);
     }
   }
 
@@ -42,8 +43,7 @@ class PostComment extends React.Component {
   };
 
   render() {
-    const amISubscribed = ((this.props.subscriptions || []).indexOf(this.props.user.id) > -1);
-    const isCommentSpecial = this.props.isEditable || amISubscribed;
+    const isCommentSpecial = this.props.isEditable || this.props.amISubscribedToAuthor;
 
     const iconClasses = classnames({
       'comment-icon': true,
@@ -98,7 +98,7 @@ class PostComment extends React.Component {
               userHover={this.userHoverHandlers}
               arrowHover={this.arrowHoverHandlers}/>
             {' -'}&nbsp;
-            <UserName user={this.props.user}/>
+            <UserName user={this.props.createdBy}/>
             {this.props.isEditable ? (
               <span>
                 {' '}(<a onClick={preventDefault(_=>this.props.toggleEditingComment(this.props.id))}>edit</a>
@@ -117,11 +117,15 @@ class PostComment extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    subscriptions: state.user.subscriptions
+function makeMapStateToProps() {
+  const getPostComment = makeGetPostComment();
+
+  return (state, ownProps) => {
+    return {
+      ...getPostComment(state, ownProps)
+    };
   };
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -129,4 +133,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostComment);
+export default connect(makeMapStateToProps, mapDispatchToProps)(PostComment);

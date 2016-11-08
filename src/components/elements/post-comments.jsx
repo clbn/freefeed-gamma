@@ -7,14 +7,15 @@ import PostComment from './post-comment';
 import PostCommentsMore from './post-comments-more';
 import PostCommentCreateForm from './post-comment-create-form';
 
-const renderComment = (postUrl, openAnsweringComment, isModeratingComments, postId) => comment => (
+const renderComment = (postId, postUrl, isModeratingComments, openAnsweringComment, checkIfCommentHighlighted) => commentId => (
   <PostComment
-    key={comment.id}
-    {...comment}
+    id={commentId}
+    key={commentId}
     postId={postId}
     postUrl={postUrl}
+    isModeratingComments={isModeratingComments}
     openAnsweringComment={openAnsweringComment}
-    isModeratingComments={isModeratingComments}/>
+    checkIfCommentHighlighted={checkIfCommentHighlighted}/>
 );
 
 class PostComments extends React.Component {
@@ -52,10 +53,10 @@ class PostComments extends React.Component {
   render() {
     const props = this.props;
 
-    const commentMapper = renderComment(props.postUrl, this.openAnsweringComment, props.post.isModeratingComments, props.post.id);
-    const first = props.comments[0];
-    const last = props.comments.length > 1 && props.comments[props.comments.length - 1];
-    const middle = props.comments.slice(1, props.comments.length - 1).map(commentMapper);
+    const commentMapper = renderComment(props.post.id, props.postUrl, props.post.isModeratingComments, this.openAnsweringComment, props.checkIfCommentHighlighted);
+    const first = props.post.comments[0];
+    const last = props.post.comments.length > 1 && props.post.comments[props.post.comments.length - 1];
+    const middle = props.post.comments.slice(1, props.post.comments.length - 1).map(commentMapper);
     const showOmittedNumber = props.post.omittedComments > 0;
     const showMoreComments = () => props.showMoreComments(props.post.id);
     const toggleCommenting = () => props.toggleCommenting(props.post.id);
@@ -81,7 +82,7 @@ class PostComments extends React.Component {
           <PostCommentCreateForm
             post={props.post}
             isSinglePost={props.isSinglePost}
-            otherCommentsNumber={props.comments.length}
+            otherCommentsNumber={props.post.comments.length}
             saveEditingComment={props.addComment}
             toggleCommenting={toggleCommenting}
             bindTextarea={this.bindNewCommentTextarea}/>
