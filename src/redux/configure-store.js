@@ -1,5 +1,4 @@
 import {compose, createStore, applyMiddleware, combineReducers} from 'redux';
-import {createHistory, createHashHistory} from 'history';
 
 import {apiMiddleware, authMiddleware, likesLogicMiddleware, userPhotoLogicMiddleware, groupPictureLogicMiddleware, redirectionMiddleware, requestsMiddleware, realtimeMiddleware, searchMiddleware} from './middlewares';
 import {routerReducer} from 'react-router-redux';
