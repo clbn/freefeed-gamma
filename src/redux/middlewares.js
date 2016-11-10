@@ -104,6 +104,51 @@ export const searchMiddleware = store => next => action => {
   return next(action);
 };
 
+export const highlightedCommentsMiddleware = store => next => action => {
+
+  // When we got raw HIGHLIGHT_COMMENTS with payload like {postId, baseCommentId, username, arrows},
+  // we replace it with payload like [commentId, commentId, commentId, ...]
+  if (action.type === ActionTypes.START_HIGHLIGHTING_COMMENTS && action.payload.postId) {
+    const state = store.getState();
+
+    if (!state.user.frontendPreferences.comments.highlightComments) {
+      return;
+    }
+
+    const {postId, baseCommentId, username, arrows} = action.payload;
+    const post = state.posts[postId];
+
+    const baseCommentIndex = post.comments.indexOf(baseCommentId);
+    const targetedCommentIndex = (baseCommentIndex + post.omittedComments) - arrows;
+    const targetedCommentId = post.comments[targetedCommentIndex < baseCommentIndex ? targetedCommentIndex : -1];
+
+    const isCommentHighlighted = (commentId, authorUsername) => (authorUsername === username || commentId === targetedCommentId);
+
+    const highlightedCommentIds = post.comments.filter(commentId => {
+      const comment = state.comments[commentId];
+      const authorUsername = state.users[comment.createdBy].username;
+      return isCommentHighlighted(commentId, authorUsername);
+    });
+
+    return store.dispatch({type: ActionTypes.START_HIGHLIGHTING_COMMENTS, payload: highlightedCommentIds});
+  }
+
+  // When we got raw STOP_HIGHLIGHTING_COMMENTS with empty payload,
+  // we replace it with payload like [commentId, commentId, commentId, ...]
+  if (action.type === ActionTypes.STOP_HIGHLIGHTING_COMMENTS && !action.payload) {
+    const state = store.getState();
+
+    if (!state.user.frontendPreferences.comments.highlightComments) {
+      return;
+    }
+
+    const highlightedCommentIds = state.highlightedComments;
+    return store.dispatch({type: ActionTypes.STOP_HIGHLIGHTING_COMMENTS, payload: highlightedCommentIds});
+  }
+
+  return next(action);
+};
+
 export const likesLogicMiddleware = store => next => action => {
   switch (action.type) {
     case ActionTypes.SHOW_MORE_LIKES: {

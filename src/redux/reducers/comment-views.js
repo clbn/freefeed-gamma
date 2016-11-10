@@ -73,6 +73,23 @@ export default function commentViews(state={}, action) {
     case ActionTypes.REALTIME_POST_NEW: {
       return updateCommentViews(state, action.comments || []);
     }
+
+    case ActionTypes.START_HIGHLIGHTING_COMMENTS: {
+      const newState = {...state};
+      action.payload.forEach(commentId => {
+        newState[commentId] = {...newState[commentId], isHighlighted: true};
+      });
+      return newState;
+    }
+
+    case ActionTypes.STOP_HIGHLIGHTING_COMMENTS: {
+      const newState = {...state};
+      action.payload.forEach(commentId => {
+        newState[commentId] = {...newState[commentId], isHighlighted: false};
+      });
+      return newState;
+    }
+
     case ActionTypes.UNAUTHENTICATED: {
       return {};
     }

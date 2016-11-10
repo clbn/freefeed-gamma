@@ -525,9 +525,16 @@ export function revokeSentRequest(payload) {
   };
 }
 
-export function updateHighlightedComments(payload) {
+export function startHighlightingComments(payload) {
   return {
-    type: ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS,
+    type: ActionTypes.START_HIGHLIGHTING_COMMENTS,
+    payload
+  };
+}
+
+export function stopHighlightingComments(payload) {
+  return {
+    type: ActionTypes.STOP_HIGHLIGHTING_COMMENTS,
     payload
   };
 }

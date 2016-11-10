@@ -33,13 +33,13 @@ class PostComment extends React.Component {
   }
 
   userHoverHandlers = {
-    hover: (username) => this.props.updateHighlightedComments({postId: this.props.postId, username}),
-    leave: () => this.props.updateHighlightedComments({postId: this.props.postId})
+    hover: (username) => this.props.startHighlightingComments({postId: this.props.postId, username}),
+    leave: () => this.props.stopHighlightingComments()
   };
 
   arrowHoverHandlers = {
-    hover: (arrows) => this.props.updateHighlightedComments({postId: this.props.postId, baseCommentId: this.props.id, arrows}),
-    leave: () => this.props.updateHighlightedComments({postId: this.props.postId})
+    hover: (arrows) => this.props.startHighlightingComments({postId: this.props.postId, baseCommentId: this.props.id, arrows}),
+    leave: () => this.props.stopHighlightingComments()
   };
 
   render() {

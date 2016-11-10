@@ -7,15 +7,14 @@ import PostComment from './post-comment';
 import PostCommentsMore from './post-comments-more';
 import PostCommentCreateForm from './post-comment-create-form';
 
-const renderComment = (postId, postUrl, isModeratingComments, openAnsweringComment, checkIfCommentHighlighted) => commentId => (
+const renderComment = (postId, postUrl, isModeratingComments, openAnsweringComment) => commentId => (
   <PostComment
     id={commentId}
     key={commentId}
     postId={postId}
     postUrl={postUrl}
     isModeratingComments={isModeratingComments}
-    openAnsweringComment={openAnsweringComment}
-    checkIfCommentHighlighted={checkIfCommentHighlighted}/>
+    openAnsweringComment={openAnsweringComment}/>
 );
 
 class PostComments extends React.Component {
@@ -53,7 +52,7 @@ class PostComments extends React.Component {
   render() {
     const props = this.props;
 
-    const commentMapper = renderComment(props.post.id, props.postUrl, props.post.isModeratingComments, this.openAnsweringComment, props.checkIfCommentHighlighted);
+    const commentMapper = renderComment(props.post.id, props.postUrl, props.post.isModeratingComments, this.openAnsweringComment);
     const first = props.post.comments[0];
     const last = props.post.comments.length > 1 && props.post.comments[props.post.comments.length - 1];
     const middle = props.post.comments.slice(1, props.post.comments.length - 1).map(commentMapper);
