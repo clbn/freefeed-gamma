@@ -4,7 +4,7 @@ import * as ActionCreators from './action-creators';
 import * as ActionTypes from './action-types';
 import {request, response, fail, requiresAuth, isFeedRequest, isFeedResponse} from './action-helpers';
 import {getPost} from '../services/api';
-import {setToken, persistUser} from '../services/auth';
+import {setToken, getPersistedUser, persistUser} from '../services/auth';
 import {init} from '../services/realtime';
 import {userParser} from '../utils';
 
@@ -219,6 +219,10 @@ export const directsMiddleware = store => next => action => {
 
   if (action.type === response(ActionTypes.DIRECT)) {
     store.dispatch(ActionCreators.markDirectsAsRead());
+  }
+
+  if (action.type === response(ActionTypes.MARK_DIRECTS_AS_READ)) {
+    persistUser({...getPersistedUser(), unreadDirectsNumber: 0});
   }
 
   return next(action);
