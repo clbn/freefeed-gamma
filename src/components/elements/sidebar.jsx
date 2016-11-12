@@ -37,7 +37,12 @@ export default ({user, signOut, toggleSidebar, routeName}) => (
         <div className="box-body">
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/filter/direct">Direct messages</Link></li>
+
+            <li><Link to="/filter/direct" style={user.unreadDirectsNumber > 0 ? {fontWeight: 'bold'} : {}}>
+              Direct messages
+              {user.unreadDirectsNumber > 0 ? ` (${user.unreadDirectsNumber})` : false}
+            </Link></li>
+
             <li><Link to="/filter/discussions">My discussions</Link></li>
           </ul>
         </div>
