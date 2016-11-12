@@ -484,3 +484,7 @@ export function getSearchResults({query, offset}) {
   const encodedQuery = encodeURIComponent(query);
   return fetch(`${apiConfig.host}/v2/search?qs=${encodedQuery}&offset=${offset}`, getRequestOptions());
 }
+
+export function markDirectsAsRead() {
+  return fetch(`${apiConfig.host}/v2/users/markAllDirectsAsRead`, getRequestOptions());
+}

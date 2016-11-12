@@ -568,3 +568,10 @@ export function getSearchResults(query, offset) {
     payload: {query, offset}
   };
 }
+
+export function markDirectsAsRead() {
+  return {
+    type: ActionTypes.MARK_DIRECTS_AS_READ,
+    apiRequest: Api.markDirectsAsRead
+  };
+}

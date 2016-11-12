@@ -40,6 +40,9 @@ export default function user(state = initUser(), action) {
     case response(ActionTypes.CREATE_GROUP): {
       return {...state, subscriptions: [...state.subscriptions, action.payload.groups.id]};
     }
+    case response(ActionTypes.MARK_DIRECTS_AS_READ): {
+      return {...state, unreadDirectsNumber: 0};
+    }
     // Update the state of realtime switch immediately
     case request(ActionTypes.UPDATE_FRONTEND_PREFERENCES): {
       return {...state,

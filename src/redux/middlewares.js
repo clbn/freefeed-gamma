@@ -212,6 +212,14 @@ export const requestsMiddleware = store => next => action => {
   return next(action);
 };
 
+export const directsMiddleware = store => next => action => {
+  if (action.type === response(ActionTypes.DIRECT)) {
+    store.dispatch(ActionCreators.markDirectsAsRead());
+  }
+
+  return next(action);
+};
+
 const isPostEligibleForBump = (post, action, state) => {
   // FreeFeed server (API) bumps posts in timelines for every new comment...
 
