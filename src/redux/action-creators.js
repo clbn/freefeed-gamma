@@ -569,6 +569,13 @@ export function getSearchResults(query, offset) {
   };
 }
 
+export function getUnreadDirects() {
+  return {
+    type: ActionTypes.GET_UNREAD_DIRECTS,
+    apiRequest: Api.getUnreadDirects
+  };
+}
+
 export function markDirectsAsRead() {
   return {
     type: ActionTypes.MARK_DIRECTS_AS_READ,

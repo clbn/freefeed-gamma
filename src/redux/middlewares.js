@@ -213,6 +213,10 @@ export const requestsMiddleware = store => next => action => {
 };
 
 export const directsMiddleware = store => next => action => {
+  if (action.type === response(ActionTypes.HOME)) {
+    store.dispatch(ActionCreators.getUnreadDirects());
+  }
+
   if (action.type === response(ActionTypes.DIRECT)) {
     store.dispatch(ActionCreators.markDirectsAsRead());
   }

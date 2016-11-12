@@ -485,6 +485,10 @@ export function getSearchResults({query, offset}) {
   return fetch(`${apiConfig.host}/v2/search?qs=${encodedQuery}&offset=${offset}`, getRequestOptions());
 }
 
+export function getUnreadDirects() {
+  return fetch(`${apiConfig.host}/v2/users/getUnreadDirectsNumber`, getRequestOptions());
+}
+
 export function markDirectsAsRead() {
   return fetch(`${apiConfig.host}/v2/users/markAllDirectsAsRead`, getRequestOptions());
 }

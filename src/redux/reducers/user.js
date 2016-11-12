@@ -40,6 +40,9 @@ export default function user(state = initUser(), action) {
     case response(ActionTypes.CREATE_GROUP): {
       return {...state, subscriptions: [...state.subscriptions, action.payload.groups.id]};
     }
+    case response(ActionTypes.GET_UNREAD_DIRECTS): {
+      return {...state, unreadDirectsNumber: action.payload.unread};
+    }
     case response(ActionTypes.MARK_DIRECTS_AS_READ): {
       return {...state, unreadDirectsNumber: 0};
     }
