@@ -22,14 +22,16 @@ const scrollCompensator = dispatchAction => (...actionParams) => {
   // Dispatching event here, when it's done we can measure the page again
   const res = dispatchAction(...actionParams);
 
-  res.then(() => {
-    const topAfter = nearestTop.getBoundingClientRect().top;
-    const heightAfter = document.body.offsetHeight;
+  if (res.then) {
+    res.then(() => {
+      const topAfter = nearestTop.getBoundingClientRect().top;
+      const heightAfter = document.body.offsetHeight;
 
-    if (topAfter !== topBefore) {
-      scrollBy(0, heightAfter - heightBefore);
-    }
-  });
+      if (topAfter !== topBefore) {
+        scrollBy(0, heightAfter - heightBefore);
+      }
+    });
+  }
 };
 
 const bindSocketLog = socket => eventName => socket.on(eventName, data => console.log(`socket ${eventName}`, data));
