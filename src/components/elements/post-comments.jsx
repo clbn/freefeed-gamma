@@ -65,8 +65,6 @@ class PostComments extends React.Component {
       <div className="comments">
         {first ? commentMapper(first): false}
 
-        {middle}
-
         {showOmittedNumber ? (
           <PostCommentsMore
             omittedComments={props.post.omittedComments}
@@ -74,6 +72,8 @@ class PostComments extends React.Component {
             postUrl={props.postUrl}
             isLoading={props.post.isLoadingComments}/>
         ) : false}
+
+        {middle}
 
         {last ? commentMapper(last) : false}
 
