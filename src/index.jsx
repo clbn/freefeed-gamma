@@ -110,7 +110,7 @@ ReactDOM.render(
         <Route name="groupSettings" path="/:userName/settings" component={GroupSettings} onEnter={boundRouteActions('getUserInfo')}/>
         <Route name="userManageSubscribers" path="/:userName/manage-subscribers" component={User} onEnter={userSubscribersActions}/>
 
-        <Route name="post" path="/:userName/:postId" component={SinglePost} onEnter={boundRouteActions('post')}/>
+        <Route name="post" path="/:userName/:postId" component={SinglePost} {...getRouteHooks('post')}/>
       </Route>
     </Router>
   </Provider>,
