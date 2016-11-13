@@ -13,6 +13,43 @@ const updatePostData = (state, action) => {
   return { ...state, [postId]: postParser(action.payload.posts) };
 };
 
+const addCommentAndTrim = (state, postId, commentId) => {
+  const post = state[postId];
+  if (!post) {
+    return state;
+  }
+
+  const commentAlreadyAdded = ((post.comments || []).indexOf(commentId) > -1);
+  if (commentAlreadyAdded) {
+    return state;
+  }
+
+  // Add a new comment to the end of the list
+  let comments = [...(post.comments || []), commentId];
+  let omittedComments = post.omittedComments || 0;
+  const extraComments = comments.length - 3;
+
+  // "Move" the extra comment under omitted to only keep three comments visible:
+  // the first one and two last ones
+  if (omittedComments > 0 && extraComments > 0) {
+    comments = [
+      comments[0],
+      comments[comments.length - 2],
+      comments[comments.length - 1]
+    ];
+
+    omittedComments = post.omittedComments + extraComments;
+  }
+
+  return {...state,
+    [post.id]: {
+      ...post,
+      comments,
+      omittedComments
+    }
+  };
+};
+
 export default function posts(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
     return mergeByIds(state, (action.payload.posts || []).map(postParser));
@@ -104,18 +141,7 @@ export default function posts(state = {}, action) {
       }};
     }
     case response(ActionTypes.ADD_COMMENT): {
-      const post = state[action.request.postId];
-      const commentAlreadyAdded = post.comments && post.comments.indexOf(action.payload.comments.id)!==-1;
-      if (commentAlreadyAdded) {
-        return state;
-      }
-      return {...state,
-        [post.id] : {
-          ...post,
-          comments: [...(post.comments || []), action.payload.comments.id],
-          omittedComments: (post.omittedComments > 0 ? post.omittedComments + 1 : 0)
-        }
-      };
+      return addCommentAndTrim(state, action.request.postId, action.payload.comments.id);
     }
     case response(ActionTypes.LIKE_POST): {
       const post = state[action.request.postId];
@@ -235,21 +261,7 @@ export default function posts(state = {}, action) {
       };
     }
     case ActionTypes.REALTIME_COMMENT_NEW: {
-      const post = state[action.comment.postId];
-      if (!post) {
-        return state;
-      }
-      const commentAlreadyAdded = post.comments && post.comments.indexOf(action.comment.id)!==-1;
-      if (commentAlreadyAdded) {
-        return state;
-      }
-      return {
-        ...state,
-        [post.id]: {
-          ...post,
-          comments: [...(post.comments || []), action.comment.id]
-        }
-      };
+      return addCommentAndTrim(state, action.comment.postId, action.comment.id);
     }
     case ActionTypes.UNAUTHENTICATED: {
       return {};
