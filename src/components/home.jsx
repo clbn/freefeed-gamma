@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
-import {createPost, resetPostCreateForm, toggleHiddenPosts} from '../redux/action-creators';
+import {createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment, toggleHiddenPosts} from '../redux/action-creators';
 import {getVisibleEntriesWithHidden, getHiddenEntriesWithHidden} from '../redux/selectors';
 import {joinCreatePostData} from '../redux/select-utils';
 import {getQuery, pluralForm} from '../utils';
