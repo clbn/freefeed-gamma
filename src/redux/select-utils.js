@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {
   // User actions
   subscribe, unsubscribe,
@@ -22,29 +20,6 @@ import {
   startHighlightingComments, stopHighlightingComments,
   deleteComment
 } from '../redux/action-creators';
-
-const MAX_LIKES = 4;
-
-const allFalse = _ => false;
-
-const commentHighlighter = ({commentsHighlights, user, postViews}, commentsPostId, commentList) => {
-  const {postId, author, arrows, baseCommentId} = commentsHighlights;
-  const {comments} = user.frontendPreferences;
-  const {omittedComments} = postViews[commentsPostId];
-  if (!comments.highlightComments) {
-    return allFalse;
-  }
-
-  if (commentsPostId !== postId) {
-    return allFalse;
-  }
-
-  const baseIndex = commentList.indexOf(baseCommentId);
-  const highlightIndex = (baseIndex + omittedComments) - arrows;
-  const highlightCommentId = commentList[highlightIndex < baseIndex ? highlightIndex : -1];
-
-  return (commentId, commentAuthor) => author === commentAuthor.username || highlightCommentId === commentId;
-};
 
 export function joinCreatePostData(state) {
   const createPostForm = state.createPostForm;
