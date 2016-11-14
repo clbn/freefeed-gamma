@@ -16,7 +16,7 @@ import {
 
   // Comment actions
   toggleCommenting, addComment,
-  toggleEditingComment, cancelEditingComment, saveEditingComment,
+  toggleEditingComment, saveEditingComment,
   startHighlightingComments, stopHighlightingComments,
   deleteComment
 } from '../redux/action-creators';
