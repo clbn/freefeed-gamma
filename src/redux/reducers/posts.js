@@ -122,8 +122,7 @@ export default function posts(state = {}, action) {
       const comments = _.without(post.comments, commentId);
       return {...state,
         [post.id]: {...post,
-          comments,
-          omittedComments: (post.omittedComments > 0 ? post.omittedComments - 1 : 0)
+          comments
         }
       };
     }

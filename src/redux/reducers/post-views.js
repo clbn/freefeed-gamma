@@ -9,14 +9,13 @@ const mergeByIds = (state, array) => ({...state, ...indexById(array)});
 
 const initPostViewState = (post) => {
   const id = post.id;
-  const omittedComments = post.omittedComments;
   const omittedLikes = post.omittedLikes;
   const isEditing = false;
   const errorStatus = '';
   const errorMessage = '';
   const commentError = '';
 
-  return {id, omittedComments, omittedLikes, isEditing, errorStatus, errorMessage, commentError};
+  return {id, omittedLikes, isEditing, errorStatus, errorMessage, commentError};
 };
 
 export default function postViews(state = {}, action) {
@@ -49,9 +48,8 @@ export default function postViews(state = {}, action) {
     case response(ActionTypes.SHOW_MORE_COMMENTS): {
       const id = action.payload.posts.id;
       const isLoadingComments = false;
-      const omittedComments = 0;
 
-      return { ...state, [id]: { ...state[id], isLoadingComments, omittedComments } };
+      return { ...state, [id]: { ...state[id], isLoadingComments } };
     }
     case response(ActionTypes.GET_SINGLE_POST): {
       const id = action.payload.posts.id;
@@ -132,8 +130,7 @@ export default function postViews(state = {}, action) {
         [post.id] : {
           ...post,
           isCommenting: false,
-          isSavingComment: false,
-          omittedComments: (post.omittedComments ? post.omittedComments + 1 : 0)
+          isSavingComment: false
         }
       };
     }
@@ -147,49 +144,6 @@ export default function postViews(state = {}, action) {
         }
       };
     }
-    case ActionTypes.REALTIME_COMMENT_NEW: {
-      const post = state[action.comment.postId];
-      if (!post) {
-        return state;
-      }
-      return {...state,
-        [post.id] : {
-          ...post,
-          omittedComments: (post.omittedComments ? post.omittedComments + 1 : 0)
-        }
-      };
-    }
-    case ActionTypes.REALTIME_COMMENT_DESTROY: {
-      if (!action.postId) {
-        return state;
-      }
-      const post = state[action.postId];
-      if (!post) {
-        return state;
-      }
-      return {
-        ...state,
-        [action.postId] : {
-          ...post,
-          omittedComments: (post.omittedComments ? post.omittedComments - 1 : 0)
-        }
-      };
-    }
-    // This doesn't work currently, since there's no information in the server
-    // response, and just with request.commentId it's currently impossible to
-    // find the post in postViews's state.
-    // TODO: Fix this.
-    /*
-     case response(ActionTypes.DELETE_COMMENT): {
-     const commentId = action.request.commentId
-     const post = _(state).find(post => (post.comments||[]).indexOf(commentId) !== -1)
-     return {...state,
-     [post.id]: {...post,
-     omittedComments: (post.omittedComments ? post.omittedComments - 1 : 0)
-     }
-     }
-     }
-     */
     case request(ActionTypes.LIKE_POST): {
       const post = state[action.payload.postId];
       return {...state,
