@@ -43,6 +43,10 @@ class PostComment extends React.Component {
   };
 
   render() {
+    if (this.props.notFound) {
+      return false;
+    }
+
     const isCommentSpecial = this.props.isEditable || this.props.amISubscribedToAuthor;
 
     const iconClasses = classnames({
