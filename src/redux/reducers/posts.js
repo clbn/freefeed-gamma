@@ -151,8 +151,7 @@ export default function posts(state = {}, action) {
       return {...state,
         [post.id] : {
           ...post,
-          likes: [action.request.userId, ...(post.likes || [])],
-          omittedLikes: (post.omittedLikes > 0 ? post.omittedLikes + 1 : 0)
+          likes: [action.request.userId, ...(post.likes || [])]
         }
       };
     }
@@ -164,8 +163,7 @@ export default function posts(state = {}, action) {
       return {...state,
         [post.id] : {
           ...post,
-          likes: [action.users[0].id, ...(post.likes || [])],
-          omittedLikes: (post.omittedLikes > 0 ? post.omittedLikes + 1 : 0)
+          likes: [action.users[0].id, ...(post.likes || [])]
         }
       };
     }
@@ -174,8 +172,7 @@ export default function posts(state = {}, action) {
       return {...state,
         [post.id] : {
           ...post,
-          likes: _.without(post.likes, action.request.userId),
-          omittedLikes: (post.omittedLikes > 0 ? post.omittedLikes - 1 : 0)
+          likes: _.without(post.likes, action.request.userId)
         }
       };
     }
@@ -187,8 +184,7 @@ export default function posts(state = {}, action) {
       return {...state,
         [post.id] : {
           ...post,
-          likes: _.without(post.likes, action.userId),
-          omittedLikes: (post.omittedLikes > 0 ? post.omittedLikes - 1 : 0)
+          likes: _.without(post.likes, action.userId)
         }
       };
     }

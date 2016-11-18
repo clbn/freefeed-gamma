@@ -9,13 +9,12 @@ const mergeByIds = (state, array) => ({...state, ...indexById(array)});
 
 const initPostViewState = (post) => {
   const id = post.id;
-  const omittedLikes = post.omittedLikes;
   const isEditing = false;
   const errorStatus = '';
   const errorMessage = '';
   const commentError = '';
 
-  return {id, omittedLikes, isEditing, errorStatus, errorMessage, commentError};
+  return {id, isEditing, errorStatus, errorMessage, commentError};
 };
 
 export default function postViews(state = {}, action) {
@@ -31,8 +30,7 @@ export default function postViews(state = {}, action) {
     case response(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
       const id = action.payload.posts.id;
       const isLoadingLikes = false;
-      const omittedLikes = 0;
-      return { ...state, [id]: { ...state[id], isLoadingLikes, omittedLikes } };
+      return { ...state, [id]: { ...state[id], isLoadingLikes } };
     }
     case fail(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
       const id = action.request.postId;
@@ -70,11 +68,6 @@ export default function postViews(state = {}, action) {
       const errorStatus = action.response.status + ' ' + action.response.statusText;
       const errorMessage = (action.payload || {}).err;
       return { ...state, [id]: { id, isEditing, errorStatus, errorMessage } };
-    }
-    case ActionTypes.SHOW_MORE_LIKES_SYNC: {
-      const id = action.payload.postId;
-      const omittedLikes = 0;
-      return { ...state, [id]: { ...state[id], omittedLikes } };
     }
     case ActionTypes.TOGGLE_EDITING_POST: {
       const id = action.payload.postId;
@@ -157,8 +150,7 @@ export default function postViews(state = {}, action) {
       return {...state,
         [post.id] : {
           ...post,
-          isLiking: false,
-          omittedLikes: (post.omittedLikes > 0 ? post.omittedLikes + 1 : 0)
+          isLiking: false
         }
       };
     }
@@ -186,21 +178,7 @@ export default function postViews(state = {}, action) {
       return {...state,
         [post.id] : {
           ...post,
-          isLiking: false,
-          omittedLikes: (post.omittedLikes > 0 ? post.omittedLikes - 1 : 0)
-        }
-      };
-    }
-    case ActionTypes.REALTIME_LIKE_REMOVE: {
-      const post = state[action.postId];
-      if (!post) {
-        return state;
-      }
-      return {...state,
-        [post.id] : {
-          ...post,
-          isLiking: false,
-          omittedLikes: (post.omittedLikes > 0 ? post.omittedLikes - 1 : 0)
+          isLiking: false
         }
       };
     }
