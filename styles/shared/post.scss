@@ -1,8 +1,28 @@
+// Post: header (author and recipients)
+$font-size-post-header: 15px;
+$line-height-post-header: 20px;
+
+// Post: body
+$font-size-post-body: 16px;
+$line-height-post-body: 21px;
+
+// Post: footer (timestamp and actions)
+$font-size-post-footer: 14px;
+$line-height-post-footer: 19px;
+
+// Single post: header (author and recipients)
+$font-size-post-header-single: 21px;
+$line-height-post-header-single: 26px;
+
+// Single post: body
+$font-size-post-body-single: 21px;
+$line-height-post-body-single: 26px;
+
+
 .post {
   padding-top: 14px;
   padding-bottom: 14px;
   border-bottom: 1px solid #eee;
-  line-height: 19px;
 
   // Clearfix (http://www.cssmojo.com/latest_new_clearfix_so_far/)
   &:after {
@@ -56,15 +76,13 @@
   // Includes post-header and post-text/post-editor.
   .post-top {
     color: #666;
-    font-size: 14px;
-    line-height: 19px;
 
     margin-left: 52px + 10px;
     @media (max-width: 767px) { margin-left: 0; min-height: 52px; }
 
     .post-header {
-      font-size: 15px;
-      line-height: 20px;
+      font-size: $font-size-post-header;
+      line-height: $line-height-post-header;
       margin-bottom: 2px;
 
       a {
@@ -79,8 +97,8 @@
 
     .post-text {
       color: #000;
-      font-size: 16px;
-      line-height: 21px;
+      font-size: $font-size-post-body;
+      line-height: $line-height-post-body;
 
       overflow-wrap: break-word;
       word-wrap: break-word;
@@ -97,8 +115,8 @@
   // Includes attachments, post-footer, likes and comments.
   .post-bottom {
     color: #666;
-    font-size: 14px;
-    line-height: 19px;
+    font-size: $font-size-post-footer;
+    line-height: $line-height-post-footer;
 
     margin-left: 52px + 10px;
     @media (max-width: 767px) { clear: both; margin-left: 0; }
@@ -162,8 +180,8 @@
     @include editarea;
 
     color: #000;
-    font-size: 16px;
-    line-height: 21px;
+    font-size: $font-size-post-body;
+    line-height: $line-height-post-body;
   }
 
   .post-edit-options {
@@ -231,13 +249,13 @@
     @media (max-width: 767px) { margin-left: 0; min-height: 77px; }
 
     .post-header {
-      font-size: 21px;
-      line-height: 26px;
+      font-size: $font-size-post-header-single;
+      line-height: $line-height-post-header-single;
     }
 
     .post-text {
-      font-size: 21px;
-      line-height: 26px;
+      font-size: $font-size-post-body-single;
+      line-height: $line-height-post-body-single;
     }
   }
 
@@ -248,8 +266,8 @@
 
   .post-editor {
     .post-textarea {
-      font-size: 21px;
-      line-height: 26px;
+      font-size: $font-size-post-body-single;
+      line-height: $line-height-post-body-single;
     }
   }
 }
