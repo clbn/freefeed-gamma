@@ -53,14 +53,10 @@
 
 // textarea for add|edit posts and comments
 @mixin editarea {
-  border: 1px solid #b4b4b4;
-  border-top-color: #888;
-  border-bottom-color: #ddd;
-  background: #fff linear-gradient(to bottom, #b4b4b4 0px, #fff 2px);
-  padding: 3px;
+  padding: 3px 5px;
   width: 100%;
   max-width: 100%;
-  margin-bottom: 3px;
+  margin-bottom: 6px;
 }
 
 label.option-box {
@@ -76,9 +72,4 @@ label.option-box {
     padding-left: 10px;
     padding-bottom: 5px;
   }
-}
-
-input:focus,
-textarea:focus {
-  outline-style: none;
 }

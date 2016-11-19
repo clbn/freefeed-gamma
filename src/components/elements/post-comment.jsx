@@ -72,7 +72,7 @@ class PostComment extends React.Component {
             <div>
               <Textarea
                 ref="commentText"
-                className="comment-textarea"
+                className="form-control comment-textarea"
                 defaultValue={this.props.body}
                 autoFocus={true}
                 onKeyDown={this.checkSave}

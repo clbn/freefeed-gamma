@@ -160,7 +160,7 @@ class PostCreateForm extends React.Component {
             onUploadFailure={handleUploadFailure}/>
 
           <Textarea
-            className="post-textarea"
+            className="form-control post-textarea"
             ref="postText"
             onFocus={this.expand}
             onKeyDown={this.checkSave}

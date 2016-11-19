@@ -95,7 +95,7 @@ export default class PostBookmarkletForm extends React.Component {
           onChange={this.checkCreatePostAvailability}/>
 
         <textarea
-          className="post-textarea"
+          className="form-control post-textarea"
           ref="postText"
           defaultValue={this.props.postText}
           onKeyDown={this.checkSave}
@@ -117,7 +117,7 @@ export default class PostBookmarkletForm extends React.Component {
 
           <div className="comment-body">
             <textarea
-              className="comment-textarea"
+              className="form-control comment-textarea"
               ref="commentText"
               defaultValue={this.props.commentText}
               onKeyDown={this.checkSave}

@@ -56,7 +56,7 @@ export default class PostCommentCreateForm extends React.Component {
             <div>
               <Textarea
                 ref={this.bindTextarea}
-                className="comment-textarea"
+                className="form-control comment-textarea"
                 defaultValue=""
                 autoFocus={true}
                 onKeyDown={this.checkSave}
@@ -84,7 +84,7 @@ export default class PostCommentCreateForm extends React.Component {
         ) : singlePost ? (
           <div className="comment-body">
             <Textarea
-              className="comment-textarea"
+              className="form-control comment-textarea"
               rows={2}
               defaultValue=""
               onFocus={this.props.toggleCommenting}/>

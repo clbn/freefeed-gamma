@@ -306,7 +306,7 @@ class Post extends React.Component {
               <div>
                 <Textarea
                   ref="postText"
-                  className="post-textarea"
+                  className="form-control post-textarea"
                   defaultValue={props.body}
                   autoFocus={true}
                   onKeyDown={checkSave}
