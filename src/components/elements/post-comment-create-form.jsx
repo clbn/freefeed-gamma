@@ -60,7 +60,6 @@ export default class PostCommentCreateForm extends React.Component {
                 defaultValue=""
                 autoFocus={true}
                 onKeyDown={this.checkSave}
-                style={{ overflow: 'hidden', wordWrap: 'break-word' }}
                 minRows={2}
                 maxRows={10}
                 maxLength="1500"/>
