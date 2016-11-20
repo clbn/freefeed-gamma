@@ -63,6 +63,10 @@ const friendsActions = () => {
   store.dispatch(ActionCreators.blockedByMe(username));
 };
 
+const redirectFriendsToPeople = (nextState, replaceState) => {
+  replaceState(null, '/people');
+};
+
 const enterStaticPage = (title) => () => {
   store.dispatch(ActionCreators.staticPage(title));
 };
@@ -95,6 +99,7 @@ ReactDOM.render(
 
         <Route path="settings" component={Settings} onEnter={enterStaticPage('Settings')}/>
         <Route name="people" path="/people" component={Friends} onEnter={friendsActions}/>
+        <Route name="friends" path="/friends" onEnter={redirectFriendsToPeople}/>
         <Route name="groups" path="/groups" component={Groups} onEnter={enterStaticPage('Groups')}/>
         <Route name="groupCreate" path="/groups/create" component={GroupCreate} onEnter={enterStaticPage('Create a group')}/>
 
