@@ -32,7 +32,7 @@ export default ({user, signOut, toggleSidebar, routeName}) => (
 
       <div className="box">
         <div className="box-header-friends">
-          Friends
+          People
         </div>
         <div className="box-body">
           <ul>
@@ -47,7 +47,7 @@ export default ({user, signOut, toggleSidebar, routeName}) => (
           </ul>
         </div>
         <div className="box-footer">
-          <Link to="/friends">Browse/edit friends</Link>
+          <Link to="/friends">Browse/edit people</Link>
         </div>
       </div>
 

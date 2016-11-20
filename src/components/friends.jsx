@@ -18,7 +18,7 @@ const Friends = (props) => {
   return (
     <div className="box">
       <div className="box-header-timeline">
-        Friends
+        People
       </div>
       <div className="box-body">
         <TileListWithAcceptAndReject
