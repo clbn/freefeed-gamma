@@ -27,7 +27,7 @@ import User from './components/user';
 import GroupSettings from './components/group-settings';
 import GroupCreate from './components/group-create';
 import Groups from './components/groups';
-import Friends from './components/friends';
+import People from './components/people';
 import Bookmarklet from './components/bookmarklet';
 
 const store = configureStore();
@@ -98,7 +98,7 @@ ReactDOM.render(
         <Route path="signup" component={Signup} onEnter={enterStaticPage('Sign up')}/>
 
         <Route path="settings" component={Settings} onEnter={enterStaticPage('Settings')}/>
-        <Route name="people" path="/people" component={Friends} onEnter={friendsActions}/>
+        <Route name="people" path="/people" component={People} onEnter={friendsActions}/>
         <Route name="friends" path="/friends" onEnter={redirectFriendsToPeople}/>
         <Route name="groups" path="/groups" component={Groups} onEnter={enterStaticPage('Groups')}/>
         <Route name="groupCreate" path="/groups/create" component={GroupCreate} onEnter={enterStaticPage('Create a group')}/>

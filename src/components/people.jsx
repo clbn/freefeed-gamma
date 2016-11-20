@@ -11,7 +11,7 @@ const TileList = tileUserListFactory({type: PLAIN, displayQuantity: true});
 const TileListWithAcceptAndReject = tileUserListFactory({type: WITH_REQUEST_HANDLES, displayQuantity: true});
 const TileListWithRevoke = tileUserListFactory({type: WITH_REVOKE_SENT_REQUEST, displayQuantity: true});
 
-const Friends = (props) => {
+const People = (props) => {
   const feedRequestsHeader = `Subscription ${pluralForm(props.feedRequests.length, 'request', null, 'w')}`;
   const sentRequestsHeader = `Sent ${pluralForm(props.sentRequests.length, 'request', null, 'w')}`;
 
@@ -113,4 +113,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Friends);
+export default connect(mapStateToProps, mapDispatchToProps)(People);
