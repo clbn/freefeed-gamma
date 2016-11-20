@@ -94,7 +94,7 @@ ReactDOM.render(
         <Route path="signup" component={Signup} onEnter={enterStaticPage('Sign up')}/>
 
         <Route path="settings" component={Settings} onEnter={enterStaticPage('Settings')}/>
-        <Route name="friends" path="/friends" component={Friends} onEnter={friendsActions}/>
+        <Route name="people" path="/people" component={Friends} onEnter={friendsActions}/>
         <Route name="groups" path="/groups" component={Groups} onEnter={enterStaticPage('Groups')}/>
         <Route name="groupCreate" path="/groups/create" component={GroupCreate} onEnter={enterStaticPage('Create a group')}/>
 

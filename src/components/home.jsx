@@ -41,7 +41,7 @@ const Home = (props) => {
             {totalRequestsCount > 0 ? (
               <span>
                 <span>You have </span>
-                {userRequestsCount > 0 ? (<Link to="/friends">{userRequestsText}</Link>) : false}
+                {userRequestsCount > 0 ? (<Link to="/people">{userRequestsText}</Link>) : false}
                 {bothRequestsDisplayed ? (<span> and </span>) : false}
                 {groupRequestsCount > 0 ? (<Link to="/groups">{groupRequestsText}</Link>) : false}
               </span>

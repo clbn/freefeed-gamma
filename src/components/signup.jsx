@@ -10,7 +10,7 @@ const USERNAME_STOP_LIST = [
   'anonymous', 'public', 'about', 'signin', 'logout',
   'signup', 'filter', 'settings', 'account', 'groups',
   'friends', 'list', 'search', 'summary', 'share', '404',
-  'iphone', 'attachments', 'files', 'profilepics'
+  'iphone', 'attachments', 'files', 'profilepics', 'people'
 ];
 
 function isValidUsername(username) {

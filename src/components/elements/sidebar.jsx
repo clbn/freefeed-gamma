@@ -47,7 +47,7 @@ export default ({user, signOut, toggleSidebar, routeName}) => (
           </ul>
         </div>
         <div className="box-footer">
-          <Link to="/friends">Browse/edit people</Link>
+          <Link to="/people">Browse/edit people</Link>
         </div>
       </div>
 
