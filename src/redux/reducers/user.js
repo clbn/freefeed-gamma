@@ -46,6 +46,10 @@ export default function user(state = initUser(), action) {
     case response(ActionTypes.MARK_DIRECTS_AS_READ): {
       return {...state, unreadDirectsNumber: 0};
     }
+    case ActionTypes.REALTIME_USER_UPDATE: {
+      return {...state, ...action.user};
+    }
+
     // Update the state of realtime switch immediately
     case request(ActionTypes.UPDATE_FRONTEND_PREFERENCES): {
       return {...state,

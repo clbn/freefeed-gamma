@@ -265,6 +265,7 @@ const maybeGetRespectivePost = async (store, postId, action) => {
 };
 
 const bindHandlers = store => ({
+  'user:update': data => store.dispatch({...data, type: ActionTypes.REALTIME_USER_UPDATE}),
   'post:new': data => {
     const state = store.getState();
 
@@ -294,6 +295,7 @@ const bindHandlers = store => ({
 
 export const realtimeMiddleware = store => {
   const handlers = bindHandlers(store);
+  const state = store.getState();
   let realtimeConnection;
   return next => action => {
 
@@ -315,14 +317,20 @@ export const realtimeMiddleware = store => {
       if (!realtimeConnection) {
         realtimeConnection = init(handlers);
       }
-      realtimeConnection.subscribe({timeline:[action.payload.timelines.id]});
+      realtimeConnection.subscribe({
+        user: [state.user.id],
+        timeline: [action.payload.timelines.id]
+      });
     }
 
     if (action.type === response(ActionTypes.GET_SINGLE_POST)) {
       if (!realtimeConnection) {
         realtimeConnection = init(handlers);
       }
-      realtimeConnection.subscribe({post:[action.payload.posts.id]});
+      realtimeConnection.subscribe({
+        user: [state.user.id],
+        post: [action.payload.posts.id]
+      });
     }
 
     return next(action);
