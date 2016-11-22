@@ -121,9 +121,12 @@ class App extends React.Component {
       'mobile-sidebar-open': props.sidebarViewState.isOpen
     });
 
+    const titlePrefix = (props.user.unreadDirectsNumber > 0 ? '(' + props.user.unreadDirectsNumber + ') ' : '');
+    const title = titlePrefix + props.title;
+
     return (
       <div className={layoutClassNames}>
-        <Helmet title={props.title} />
+        <Helmet title={title} />
 
         <header className="row">
           <div className="col-xs-9 col-md-4">
