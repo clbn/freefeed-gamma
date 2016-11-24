@@ -53,15 +53,19 @@ header {
     background-color: #eee;
     border-radius: 5px;
 
-    .direct-messages-indication {
+    .direct-messages-badge {
       position: absolute;
       top: -5px;
       right: -5px;
 
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       background-color: #e44;
+
+      color: #fff;
+      font-size: 12px;
+      line-height: 18px;
     }
   }
 

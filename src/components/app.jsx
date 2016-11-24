@@ -153,7 +153,7 @@ class App extends React.Component {
                 <div className="mobile-sidebar-toggle" onClick={() => props.toggleSidebar()}>
                   <i className="fa fa-bars" aria-hidden="true"></i>
                   {props.user.unreadDirectsNumber > 0 ? (
-                    <span className="direct-messages-indication"></span>
+                    <span className="direct-messages-badge">{props.user.unreadDirectsNumber}</span>
                   ) : false}
                 </div>
               </div>
