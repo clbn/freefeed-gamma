@@ -68,14 +68,14 @@ class Bookmarklet extends React.Component {
   render() {
     let props = this.props;
 
-    let layoutClassNames = classnames({
+    let bookmarkletClasses = classnames({
       'container': true,
       'bookmarklet': true,
       'unauthenticated': !props.authenticated
     });
 
     return (
-      <div className={layoutClassNames}>
+      <div className={bookmarkletClasses}>
         <header>
           <h1>
             Share on <a href="/" target="_blank">FreeFeed</a>
