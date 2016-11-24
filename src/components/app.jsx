@@ -114,7 +114,7 @@ class App extends React.Component {
   render() {
     let props = this.props;
 
-    let layoutClassNames = classnames({
+    let appClasses = classnames({
       'container': true,
       'unauthenticated': !props.authenticated,
       'dragover': this.state.isDragOver,
@@ -125,7 +125,7 @@ class App extends React.Component {
     const title = titlePrefix + props.title;
 
     return (
-      <div className={layoutClassNames}>
+      <div className={appClasses}>
         <Helmet title={title} />
 
         <header className="row">
