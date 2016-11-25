@@ -16,6 +16,7 @@ import Textarea from 'react-textarea-autosize';
 import throbber16 from 'assets/images/throbber-16.gif';
 import PostDropzone from './post-dropzone';
 import PostMoreMenu from './post-more-menu';
+import PostVisibilityIcon from './post-visibility-icon';
 
 class Post extends React.Component {
   constructor(props) {
@@ -170,22 +171,6 @@ class Post extends React.Component {
     const handleUploadFailure = () => {
       this.setState({hasUploadFailed: true});
     };
-
-    // "Lock icon": check if the post is truly private, "partly private" or public.
-    // Truly private:
-    // - posted to author's own private feed and/or
-    // - sent to users as a direct message and/or
-    // - posted into private groups
-    // Public:
-    // - posted to author's own public feed and/or
-    // - posted into public groups
-    // "Partly private":
-    // - has mix of private and public recipients
-    const publicRecipients = props.recipients.filter((recipient) => (
-      recipient.isPrivate === '0' &&
-      (recipient.id === props.createdBy.id || recipient.type === 'group')
-    ));
-    const isReallyPrivate = (publicRecipients.length === 0);
 
     // Post URL
     // Primary recipient feed: used as part of canonical post URL.
@@ -363,13 +348,14 @@ class Post extends React.Component {
           <div className="dropzone-previews"></div>
 
           <div className="post-footer">
-            {isReallyPrivate ? (
-              <i className="post-lock-icon fa fa-lock" title="This entry is private"></i>
-            ) : false}
+            <PostVisibilityIcon recipients={props.recipients} authorId={props.createdBy.id}/>
+
             {props.isDirect ? (<span>»&nbsp;</span>) : false}
+
             <Link to={postUrl} className="post-timestamp">
               <time dateTime={createdAtISO} title={createdAtHuman}>{createdAgo}</time>
             </Link>
+
             {commentLink}
             {likeLink}
             {hideLink}
