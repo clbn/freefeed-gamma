@@ -122,11 +122,11 @@ $line-height-post-body-single: 28px;
     @media (max-width: 767px) { clear: both; margin-left: 0; }
 
     .post-footer {
-      .post-lock-icon {
+      .post-visibility-icon {
         display: inline-block;
         margin: 0 6px 0 1px;
 
-        &.post-visibility-protected {
+        &.protected {
           width: 14px;
           margin-right: 4px;
 
