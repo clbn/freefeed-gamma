@@ -28,6 +28,9 @@ const PostVisibilityIcon = (props) => {
 
   // Render icon
   switch (postLevel) {
+    case levels.DIRECT: {
+      return <i className="post-visibility-icon fa fa-envelope" title="This is direct message"></i>;
+    }
     case levels.PRIVATE: {
       return <i className="post-visibility-icon fa fa-lock" title="This entry is private"></i>;
     }

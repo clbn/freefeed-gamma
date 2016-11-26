@@ -126,6 +126,12 @@ $line-height-post-body-single: 28px;
         display: inline-block;
         margin: 0 6px 0 1px;
 
+        &.fa-envelope {
+          position: relative;
+          top: -1px;
+          font-size: $font-size-post-footer - 1px;
+        }
+
         &.protected {
           width: 14px;
           margin-right: 4px;
