@@ -1,28 +1,37 @@
 import React from 'react';
 
 const PostVisibilityIcon = (props) => {
-  // "Lock icon": check if the post is truly private, "partly private" or public.
-  // Truly private:
-  // - posted to author's own private feed and/or
-  // - sent to users as a direct message and/or
-  // - posted into private groups
-  // Public:
-  // - posted to author's own public feed and/or
-  // - posted into public groups
-  // "Partly private":
-  // - has mix of private and public recipients
+  // Visibility levels
+  const levels = {
+    DIRECT: 3,    // Direct message: recipient is a user (not a group), but not the same user as the author
+    PRIVATE: 2,   // Private post: recipient is a private user or group
+    PROTECTED: 1, // Protected post: recipient is a protected user or group
+    PUBLIC: 0     // Public post
+  };
 
-  const publicRecipients = props.recipients.filter((recipient) => (
-    recipient.isPrivate === '0' &&
-    (recipient.id === props.authorId || recipient.type === 'group')
-  ));
+  // Calculate individual levels for recipients
+  const recipientLevels = props.recipients.map((recipient) => {
+    if (recipient.type === 'user' && recipient.id !== props.authorId) {
+      return levels.DIRECT;
+    }
+    if (recipient.isPrivate === '1') {
+      return levels.PRIVATE;
+    }
+    if (recipient.isProtected === '1') {
+      return levels.PROTECTED;
+    }
+    return levels.PUBLIC;
+  });
 
-  const isReallyPrivate = (publicRecipients.length === 0);
+  // Calculate combined level for post
+  const postLevel = Math.min(...recipientLevels);
 
-  if (isReallyPrivate) {
-    return <i className="post-lock-icon fa fa-lock" title="This entry is private"></i>;
+  // Render icon
+  switch (postLevel) {
+    case levels.PRIVATE: {
+      return <i className="post-lock-icon fa fa-lock" title="This entry is private"></i>;
+    }
   }
-
   return false;
 };
 
