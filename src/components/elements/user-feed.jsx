@@ -23,6 +23,10 @@ export default (props) => (
       <div className="box-body feed-message">
         <p><b>{props.viewUser.screenName}</b> has a private feed.</p>
       </div>
+    ) : props.viewUser.isProtected === '1' && !props.viewUser.authenticated ? (
+      <div className="box-body feed-message">
+        <p><b>{props.viewUser.screenName}</b> has a protected feed. It is only visible to FreeFeed users.</p>
+      </div>
     ) : (
       <PaginatedView {...props}>
         <Feed {...props}/>
