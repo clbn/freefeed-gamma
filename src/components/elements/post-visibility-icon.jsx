@@ -35,7 +35,7 @@ const PostVisibilityIcon = (props) => {
       return <i className="post-visibility-icon fa fa-lock" title="This entry is private"></i>;
     }
     case levels.PROTECTED: {
-      return <i className="post-visibility-icon protected" title="This entry is only visible to FreeFeed users">&nbsp;</i>;
+      return <i className="post-visibility-icon icon-protected" title="This entry is only visible to FreeFeed users"></i>;
     }
   }
   return false;
