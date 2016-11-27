@@ -350,8 +350,6 @@ class Post extends React.Component {
           <div className="post-footer">
             <PostVisibilityIcon recipients={props.recipients} authorId={props.createdBy.id}/>
 
-            {props.isDirect ? (<span>»&nbsp;</span>) : false}
-
             <Link to={postUrl} className="post-timestamp">
               <time dateTime={createdAtISO} title={createdAtHuman}>{createdAgo}</time>
             </Link>
