@@ -10,7 +10,7 @@
   z-index: 10000;
   margin-top: 10px;
   margin-left: -20px;
-  width: 250px;
+  width: 263px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
@@ -93,6 +93,11 @@
       color: #666;
       margin: 7px 0 0 87px;
       overflow: hidden;
+
+      .icon-protected {
+        width: 12px;
+        margin-right: -1px;
+      }
     }
 
     .status {

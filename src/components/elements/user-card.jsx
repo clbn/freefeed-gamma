@@ -220,6 +220,8 @@ class UserCard extends React.Component {
               <div className="description">
                 {props.user.isPrivate === '1' ? (
                   <span><i className="fa fa-lock"></i> Private</span>
+                ) : props.user.isProtected === '1' ? (
+                  <span><i className="icon-protected"></i> Protected</span>
                 ) : (
                   <span><i className="fa fa-globe"></i> Public</span>
                 )}
