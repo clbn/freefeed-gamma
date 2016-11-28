@@ -84,19 +84,31 @@ export default class UserProfile extends React.Component {
                     {' '}
                     {props.type !== 'group' ? (
                       <div className="profile-stats-item">
-                        <Link to={`/${props.username}`}>{pluralForm(props.statistics.posts, 'post')}</Link>
+                        {props.canISeeSubsList ? (
+                          <Link to={`/${props.username}`}>{pluralForm(props.statistics.posts, 'post')}</Link>
+                        ) : (
+                          pluralForm(props.statistics.posts, 'post')
+                        )}
                       </div>
                     ) : false}
                     {' '}
                     {props.type !== 'group' ? (
                       <div className="profile-stats-item">
-                        <Link to={`/${props.username}/comments`}>{pluralForm(props.statistics.comments, 'comment')}</Link>
+                        {props.canISeeSubsList ? (
+                          <Link to={`/${props.username}/comments`}>{pluralForm(props.statistics.comments, 'comment')}</Link>
+                        ) : (
+                          pluralForm(props.statistics.comments, 'comment')
+                        )}
                       </div>
                     ) : false}
                     {' '}
                     {props.type !== 'group' ? (
                       <div className="profile-stats-item">
-                        <Link to={`/${props.username}/likes`}>{pluralForm(props.statistics.likes, 'like')}</Link>
+                        {props.canISeeSubsList ? (
+                          <Link to={`/${props.username}/likes`}>{pluralForm(props.statistics.likes, 'like')}</Link>
+                        ) : (
+                          pluralForm(props.statistics.likes, 'like')
+                        )}
                       </div>
                     ) : false}
                   </div>
