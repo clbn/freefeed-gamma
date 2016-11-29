@@ -16,6 +16,20 @@ export default class UserProfile extends React.Component {
     this.setState({ isUnsubWarningDisplayed: false });
   }
 
+  getProfileStatsItem = (name) => {
+    // Subscribers are displayed for both groups and users, everything else is user-exclusive
+    if (name === 'subscriber' || this.props.type === 'user') {
+      const number = this.props.statistics[name + 's'];
+      const text = pluralForm(number, name);
+      const url = (name === 'post' ? `/${this.props.username}` : `/${this.props.username}/${name}s`);
+      const link = (this.props.canISeeSubsList ? <Link to={url}>{text}</Link> : text);
+
+      return <div className="profile-stats-item">{link}</div>;
+    }
+
+    return false;
+  };
+
   render() {
     const props = this.props;
 
@@ -64,53 +78,15 @@ export default class UserProfile extends React.Component {
               {props.statistics && !props.blocked ? (
                 <div className="col-sm-3 col-xs-12">
                   <div className="profile-stats">
-                    <div className="profile-stats-item">
-                      {props.canISeeSubsList ? (
-                        <Link to={`/${props.username}/subscribers`}>{pluralForm(props.statistics.subscribers, 'subscriber')}</Link>
-                      ) : (
-                        pluralForm(props.statistics.subscribers, 'subscriber')
-                      )}
-                    </div>
+                    {this.getProfileStatsItem('subscriber')}
                     {' '}
-                    {props.type !== 'group' ? (
-                      <div className="profile-stats-item">
-                        {props.canISeeSubsList ? (
-                          <Link to={`/${props.username}/subscriptions`}>{pluralForm(props.statistics.subscriptions, 'subscription')}</Link>
-                        ) : (
-                          pluralForm(props.statistics.subscriptions, 'subscription')
-                        )}
-                      </div>
-                    ) : false}
+                    {this.getProfileStatsItem('subscription')}
                     {' '}
-                    {props.type !== 'group' ? (
-                      <div className="profile-stats-item">
-                        {props.canISeeSubsList ? (
-                          <Link to={`/${props.username}`}>{pluralForm(props.statistics.posts, 'post')}</Link>
-                        ) : (
-                          pluralForm(props.statistics.posts, 'post')
-                        )}
-                      </div>
-                    ) : false}
+                    {this.getProfileStatsItem('post')}
                     {' '}
-                    {props.type !== 'group' ? (
-                      <div className="profile-stats-item">
-                        {props.canISeeSubsList ? (
-                          <Link to={`/${props.username}/comments`}>{pluralForm(props.statistics.comments, 'comment')}</Link>
-                        ) : (
-                          pluralForm(props.statistics.comments, 'comment')
-                        )}
-                      </div>
-                    ) : false}
+                    {this.getProfileStatsItem('comment')}
                     {' '}
-                    {props.type !== 'group' ? (
-                      <div className="profile-stats-item">
-                        {props.canISeeSubsList ? (
-                          <Link to={`/${props.username}/likes`}>{pluralForm(props.statistics.likes, 'like')}</Link>
-                        ) : (
-                          pluralForm(props.statistics.likes, 'like')
-                        )}
-                      </div>
-                    ) : false}
+                    {this.getProfileStatsItem('like')}
                   </div>
                 </div>
               ) : false}
