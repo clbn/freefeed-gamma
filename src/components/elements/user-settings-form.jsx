@@ -4,6 +4,60 @@ import classnames from 'classnames';
 import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
+class FeedVisibilityOptions extends React.Component {
+  levels = {
+    PUBLIC: 'PUBLIC',
+    PROTECTED: 'PROTECTED',
+    PRIVATE: 'PRIVATE'
+  };
+
+  descriptions = {
+    PUBLIC: 'Public \u2014 anyone can see the posts in my feed',
+    PROTECTED: 'Protected \u2014 anonymous visitors and search engines cannot see the posts in my feed',
+    PRIVATE: 'Private \u2014 only people I approve can see the posts in my feed'
+  };
+
+  changeLevel = (event) => {
+    if (event.target.value === this.levels.PUBLIC) {
+      this.props.changeVisibility({isPrivate: '0', isProtected: '0'});
+    } else if (event.target.value === this.levels.PROTECTED) {
+      this.props.changeVisibility({isPrivate: '0', isProtected: '1'});
+    } else if (event.target.value === this.levels.PRIVATE) {
+      this.props.changeVisibility({isPrivate: '1', isProtected: '0'});
+    }
+  };
+
+  render() {
+    let feedLevel;
+    if (this.props.isPrivate === '1') {
+      feedLevel = this.levels.PRIVATE;
+    } else if (this.props.isProtected === '1') {
+      feedLevel = this.levels.PROTECTED;
+    } else {
+      feedLevel = this.levels.PUBLIC;
+    }
+
+    return (
+      <div className="form-group">
+        <label>Feed visibility:</label>
+
+        {Object.keys(this.levels).map((level) => (
+          <div className="radio radio-feedVisibility" key={level}>
+            <label>
+              <input
+                type="radio"
+                value={level}
+                checked={feedLevel === level}
+                onChange={this.changeLevel}/>
+              {this.descriptions[level]}
+            </label>
+          </div>
+        ))}
+      </div>
+    );
+  };
+};
+
 export default class UserSettingsForm extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +66,8 @@ export default class UserSettingsForm extends React.Component {
       displayName: props.user.screenName || '',
       email: props.user.email || '',
       description: props.user.description,
-      isPrivate: props.user.isPrivate
+      isPrivate: props.user.isPrivate,
+      isProtected: props.user.isProtected
     };
   }
 
@@ -23,7 +78,8 @@ export default class UserSettingsForm extends React.Component {
         displayName: newProps.user.screenName || '',
         email: newProps.user.email || '',
         description: newProps.user.description,
-        isPrivate: newProps.user.isPrivate
+        isPrivate: newProps.user.isPrivate,
+        isProtected: newProps.user.isProtected
       });
     }
   }
@@ -34,17 +90,15 @@ export default class UserSettingsForm extends React.Component {
     });
   }
 
-  changeCheckbox = (event) => {
-    this.setState({
-      isPrivate: (event.target.checked ? '1' : '0')
-    });
-  }
+  changeVisibility = (newState) => {
+    this.setState(newState);
+  };
 
   updateUser = () => {
     if (this.props.status !== 'loading') {
       this.props.updateUser(
         this.props.user.id, this.state.displayName, this.state.email,
-        this.state.isPrivate, this.state.description
+        this.state.description, this.state.isPrivate, this.state.isProtected
       );
     }
   }
@@ -78,13 +132,10 @@ export default class UserSettingsForm extends React.Component {
           <textarea id="description-textarea" className="form-control" name="description" ref="description" value={this.state.description} onChange={this.changeInput('description')} maxLength="1500"/>
         </div>
 
-        <div className="checkbox">
-          <label>
-            <input type="checkbox" name="isPrivate" ref="isPrivate" checked={this.state.isPrivate === '1'} onChange={this.changeCheckbox}/>
-            Private feed
-            <small> (only let people I approve see my feed)</small>
-          </label>
-        </div>
+        <FeedVisibilityOptions
+          isPrivate={this.state.isPrivate}
+          isProtected={this.state.isProtected}
+          changeVisibility={this.changeVisibility}/>
 
         <div className="form-group">
           <button className="btn btn-default" type="submit">Update</button>

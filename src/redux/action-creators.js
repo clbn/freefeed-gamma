@@ -300,11 +300,11 @@ export function signUpEmpty(errorMessage) {
   };
 }
 
-export function updateUser(id, screenName, email, isPrivate, description) {
+export function updateUser(id, screenName, email, description, isPrivate, isProtected) {
   return {
     type: ActionTypes.UPDATE_USER,
     apiRequest: Api.updateUser,
-    payload: {id, screenName, email, isPrivate, description},
+    payload: {id, screenName, email, description, isPrivate, isProtected},
   };
 }
 

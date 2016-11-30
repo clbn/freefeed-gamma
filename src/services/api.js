@@ -244,7 +244,7 @@ export function signUp({username, password, email, captcha}) {
   });
 }
 
-export function updateUser({id, screenName, email, isPrivate, description}) {
+export function updateUser({id, screenName, email, description, isPrivate, isProtected}) {
   return fetch(`${apiConfig.host}/v1/users/${id}`, {
     'method': 'PUT',
     'headers': {
@@ -252,7 +252,7 @@ export function updateUser({id, screenName, email, isPrivate, description}) {
       'Content-Type': 'application/json',
       'X-Authentication-Token': getToken()
     },
-    'body': JSON.stringify({user: {screenName, email, isPrivate, description}})
+    'body': JSON.stringify({user: {screenName, email, description, isPrivate, isProtected}})
   });
 }
 
