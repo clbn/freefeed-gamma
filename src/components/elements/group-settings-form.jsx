@@ -1,7 +1,7 @@
 import React from 'react';
+
 import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
-
 import GroupFeedTypePicker from './group-feed-type-picker';
 
 export default class GroupSettingsForm extends React.Component {
@@ -69,9 +69,10 @@ export default class GroupSettingsForm extends React.Component {
           <label htmlFor="description">Description:</label>
           <textarea id="description" className="form-control" name="description" value={this.state.description} onChange={this.handleChange('description')} maxLength="1500"/>
         </div>
-        <GroupFeedTypePicker isPrivate={this.state.isPrivate}
-                             isRestricted={this.state.isRestricted}
-                             updateGroupPrivacySettings={this.handlePrivacyTypeChange} />
+        <GroupFeedTypePicker
+          isPrivate={this.state.isPrivate}
+          isRestricted={this.state.isRestricted}
+          updateGroupPrivacySettings={this.handlePrivacyTypeChange}/>
         <p>
           <button className="btn btn-default" type="submit">Update</button>
           {this.props.status === 'loading' ? (
