@@ -1,46 +1,85 @@
 import React from 'react';
 
 export default class GroupFeedTypePicker extends React.Component {
-  handleChange = (property) => (event) => {
-    this.props.updateGroupPrivacySettings({ [property]: event.target.value });
-  }
+  levels = {
+    PUBLIC: 'PUBLIC',
+    PROTECTED: 'PROTECTED',
+    PRIVATE: 'PRIVATE'
+  };
+
+  descriptions = {
+    PUBLIC: 'Anyone (public group)',
+    PROTECTED: 'FreeFeed users (protected group)',
+    PRIVATE: 'Group members (private group)'
+  };
+
+  changeVisibility = (event) => {
+    if (event.target.value === this.levels.PUBLIC) {
+      this.props.changeGroupType({isPrivate: '0', isProtected: '0'});
+    } else if (event.target.value === this.levels.PROTECTED) {
+      this.props.changeGroupType({isPrivate: '0', isProtected: '1'});
+    } else if (event.target.value === this.levels.PRIVATE) {
+      this.props.changeGroupType({isPrivate: '1', isProtected: '0'});
+    }
+  };
+
+  changeRestricted = (event) => {
+    this.props.changeGroupType({ isRestricted: event.target.value });
+  };
 
   render() {
+    const originalState = this.props.originalState;
+    const currentState = this.props.currentState;
+    let groupLevel;
+    let visibilityWarning;
+
+    if (currentState.isPrivate === '1') {
+      groupLevel = this.levels.PRIVATE;
+    } else if (currentState.isProtected === '1') {
+      groupLevel = this.levels.PROTECTED;
+    } else {
+      groupLevel = this.levels.PUBLIC;
+    }
+
+    if (originalState.isPrivate === '1' && currentState.isPrivate === '0' && currentState.isProtected === '0') {
+      visibilityWarning = {
+        from: { level: 'private', audience: 'group members' },
+        to: { level: 'public', audience: 'anyone' }
+      };
+    } else if (originalState.isPrivate === '1' && currentState.isPrivate === '0' && currentState.isProtected === '1') {
+      visibilityWarning = {
+        from: { level: 'private', audience: 'group members' },
+        to: { level: 'protected', audience: 'any FreeFeed user' }
+      };
+    } else if (originalState.isProtected === '1' && currentState.isPrivate === '0' && currentState.isProtected === '0') {
+      visibilityWarning = {
+        from: { level: 'protected', audience: 'group members' },
+        to: { level: 'public', audience: 'anyone' }
+      };
+    } else {
+      visibilityWarning = null;
+    }
+
     return (
       <div>
         <div className="row form-group">
           <div className="col-sm-3">
-            <label>Who can view posts:</label>
+            <label>Who can see posts:</label>
           </div>
 
           <div className="col-sm-9">
-            <label className="option-box">
-              <div className="input">
-                <input
-                  type="radio"
-                  name="isPrivate"
-                  value="0"
-                  checked={this.props.isPrivate === '0'}
-                  onChange={this.handleChange('isPrivate')}/>
+            {Object.keys(this.levels).map((level) => (
+              <div className="radio radio-groupVisibility" key={level}>
+                <label>
+                  <input
+                    type="radio"
+                    value={level}
+                    checked={groupLevel === level}
+                    onChange={this.changeVisibility}/>
+                  {this.descriptions[level]}
+                </label>
               </div>
-              <div className="option">
-                Everyone (public group)
-              </div>
-            </label>
-
-            <label className="option-box">
-              <div className="input">
-                <input
-                  type="radio"
-                  name="isPrivate"
-                  value="1"
-                  checked={this.props.isPrivate === '1'}
-                  onChange={this.handleChange('isPrivate')}/>
-              </div>
-              <div className="option">
-                Group members (private group)
-              </div>
-            </label>
+            ))}
           </div>
         </div>
 
@@ -50,35 +89,39 @@ export default class GroupFeedTypePicker extends React.Component {
           </div>
 
           <div className="col-sm-9">
-            <label className="option-box">
-              <div className="input">
+            <div className="radio radio-groupVisibility">
+              <label>
                 <input
                   type="radio"
-                  name="isRestricted"
                   value="0"
-                  checked={this.props.isRestricted === '0'}
-                  onChange={this.handleChange('isRestricted')}/>
-              </div>
-              <div className="option">
+                  checked={currentState.isRestricted === '0'}
+                  onChange={this.changeRestricted}/>
                 Every group member
-              </div>
-            </label>
+              </label>
+            </div>
 
-            <label className="option-box">
-              <div className="input">
+            <div className="radio radio-groupVisibility">
+              <label>
                 <input
                   type="radio"
-                  name="isRestricted"
                   value="1"
-                  checked={this.props.isRestricted === '1'}
-                  onChange={this.handleChange('isRestricted')}/>
-              </div>
-              <div className="option">
+                  checked={currentState.isRestricted === '1'}
+                  onChange={this.changeRestricted}/>
                 Group administrators only
-              </div>
-            </label>
+              </label>
+            </div>
           </div>
         </div>
+
+        {visibilityWarning ? (
+          <div className="alert alert-danger" role="alert">
+            You are about to change the group type
+            from <b>{visibilityWarning.from.level}</b> to <b>{visibilityWarning.to.level}</b>.
+
+            It means <b>{visibilityWarning.to.audience}</b> will be able to see its posts and comments,
+            which are only available to <b>{visibilityWarning.from.audience}</b> now.
+          </div>
+        ) : false}
       </div>
     );
   }
