@@ -2,7 +2,7 @@ import React from 'react';
 
 import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
-import GroupFeedTypePicker from './group-feed-type-picker';
+import GroupTypeSelector from './group-type-selector';
 
 export default class GroupSettingsForm extends React.Component {
   constructor(props) {
@@ -62,7 +62,7 @@ export default class GroupSettingsForm extends React.Component {
           <textarea id="description" className="form-control" name="description" value={this.state.description} onChange={this.handleChange('description')} maxLength="1500"/>
         </div>
 
-        <GroupFeedTypePicker
+        <GroupTypeSelector
           originalState={this.props.group}
           currentState={this.state}
           changeGroupType={this.changeGroupType}/>

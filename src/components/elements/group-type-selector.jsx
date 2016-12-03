@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class GroupFeedTypePicker extends React.Component {
+export default class GroupTypeSelector extends React.Component {
   levels = {
     PUBLIC: 'PUBLIC',
     PROTECTED: 'PROTECTED',
