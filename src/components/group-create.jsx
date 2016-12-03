@@ -10,6 +10,8 @@ const GroupCreate = (props) => (
       Create a group
     </div>
     <div className="box-body">
+      <br/>
+
       <GroupCreateForm
         createGroup={props.createGroup}
         resetGroupCreateForm={props.resetGroupCreateForm}
