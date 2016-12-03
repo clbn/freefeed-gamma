@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
-class FeedVisibilityOptions extends React.Component {
+class FeedVisibilitySelector extends React.Component {
   levels = {
     PUBLIC: 'PUBLIC',
     PROTECTED: 'PROTECTED',
@@ -132,7 +132,7 @@ export default class UserSettingsForm extends React.Component {
           <textarea id="description-textarea" className="form-control" name="description" ref="description" value={this.state.description} onChange={this.changeInput('description')} maxLength="1500"/>
         </div>
 
-        <FeedVisibilityOptions
+        <FeedVisibilitySelector
           isPrivate={this.state.isPrivate}
           isProtected={this.state.isProtected}
           changeVisibility={this.changeVisibility}/>
