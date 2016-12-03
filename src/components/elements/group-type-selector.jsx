@@ -55,7 +55,7 @@ export default class GroupTypeSelector extends React.Component {
       };
     } else if (originalState.isProtected === '1' && currentState.isPrivate === '0' && currentState.isProtected === '0') {
       visibilityWarning = {
-        from: { level: 'protected', audience: 'group members' },
+        from: { level: 'protected', audience: 'FreeFeed users' },
         to: { level: 'public', audience: 'anyone' }
       };
     } else {
