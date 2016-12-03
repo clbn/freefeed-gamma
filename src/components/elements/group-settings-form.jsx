@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {preventDefault} from '../../utils';
-import throbber16 from 'assets/images/throbber-16.gif';
 import GroupTypeSelector from './group-type-selector';
 
 export default class GroupSettingsForm extends React.Component {
@@ -65,17 +64,8 @@ export default class GroupSettingsForm extends React.Component {
         <GroupTypeSelector
           originalState={this.props.group}
           currentState={this.state}
-          changeGroupType={this.changeGroupType}/>
-
-        <p>
-          <button className="btn btn-default" type="submit">Update</button>
-
-          {this.props.status === 'loading' ? (
-            <span className="settings-throbber">
-              <img width="16" height="16" src={throbber16}/>
-            </span>
-          ) : false}
-        </p>
+          changeGroupType={this.changeGroupType}
+          submitButton={{text: 'Update', status: this.props.status}}/>
 
         {this.props.status === 'success' ? (
           <div className="alert alert-info" role="alert">Updated!</div>

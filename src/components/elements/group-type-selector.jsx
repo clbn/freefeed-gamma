@@ -1,5 +1,7 @@
 import React from 'react';
 
+import throbber16 from 'assets/images/throbber-16.gif';
+
 export default class GroupTypeSelector extends React.Component {
   levels = {
     PUBLIC: 'PUBLIC',
@@ -121,6 +123,18 @@ export default class GroupTypeSelector extends React.Component {
             It means <b>{visibilityWarning.to.audience}</b> will be able to see its posts and comments,
             which are only available to <b>{visibilityWarning.from.audience}</b> now.
           </div>
+        ) : false}
+
+        {this.props.submitButton ? (
+          <p>
+            <button className="btn btn-default" type="submit">{this.props.submitButton.text + (visibilityWarning ? ' anyway' : '')}</button>
+
+            {this.props.submitButton.status === 'loading' ? (
+              <span className="settings-throbber">
+                <img width="16" height="16" src={throbber16}/>
+              </span>
+            ) : false}
+          </p>
         ) : false}
       </div>
     );
