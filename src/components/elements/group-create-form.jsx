@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 import {preventDefault} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
-import GroupFeedTypePicker from './group-feed-type-picker';
+import GroupTypeSelector from './group-type-selector';
 
 export default class GroupCreateForm extends React.Component {
   constructor(props) {
@@ -25,9 +25,9 @@ export default class GroupCreateForm extends React.Component {
     this.setState(newState);
   }
 
-  handlePrivacyTypeChange = (privacySettings) => {
-    this.setState(privacySettings);
-  }
+  changeGroupType = (newType) => {
+    this.setState(newType);
+  };
 
   saveSettings = () => {
     if (this.props.status !== 'loading') {
@@ -48,19 +48,25 @@ export default class GroupCreateForm extends React.Component {
               <label htmlFor="username">Username:</label>
               <input id="username" className="form-control" name="username" type="text" value={this.state.username} onChange={this.handleChange('username')}/>
             </div>
+
             <div className="form-group">
               <label htmlFor="screenName">Display name:</label>
               <input id="screenName" className="form-control" name="screenName" type="text" value={this.state.screenName} onChange={this.handleChange('screenName')}/>
             </div>
+
             <div className="form-group">
               <label htmlFor="description">Description:</label>
               <textarea id="description" className="form-control" name="description" value={this.state.description} onChange={this.handleChange('description')} maxLength="1500"/>
             </div>
-            <GroupFeedTypePicker isPrivate={this.state.isPrivate}
-                                 isRestricted={this.state.isRestricted}
-                                 updateGroupPrivacySettings={this.handlePrivacyTypeChange} />
+
+            <GroupTypeSelector
+              originalState={{}}
+              currentState={this.state}
+              changeGroupType={this.changeGroupType}/>
+
             <p>
               <button className="btn btn-default" type="submit">Create</button>
+
               {this.props.status === 'loading' ? (
                 <span className="settings-throbber">
                   <img width="16" height="16" src={throbber16}/>
