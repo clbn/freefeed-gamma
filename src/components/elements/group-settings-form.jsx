@@ -18,7 +18,7 @@ export default class GroupSettingsForm extends React.Component {
   }
 
   componentWillReceiveProps = (newProps) => {
-    if (newProps.status !== "loading") {
+    if (newProps.status !== 'loading') {
       this.setState({
         screenName: newProps.group.screenName,
         description: newProps.group.description,
@@ -27,13 +27,13 @@ export default class GroupSettingsForm extends React.Component {
         isRestricted: newProps.group.isRestricted
       });
     }
-  }
+  };
 
-  handleChange = (property) => (event) => {
+  changeProperty = (property) => (event) => {
     const newState = {};
     newState[property] = event.target.value;
     this.setState(newState);
-  }
+  };
 
   changeGroupType = (newType) => {
     this.setState(newType);
@@ -43,7 +43,7 @@ export default class GroupSettingsForm extends React.Component {
     if (this.props.status !== 'loading') {
       this.props.updateGroup(this.props.group.id, this.state);
     }
-  }
+  };
 
   componentWillUnmount() {
     this.props.resetGroupUpdateForm();
@@ -54,12 +54,12 @@ export default class GroupSettingsForm extends React.Component {
       <form onSubmit={preventDefault(this.saveSettings)}>
         <div className="form-group">
           <label htmlFor="screenName">Display name:</label>
-          <input id="screenName" className="form-control" name="screenName" type="text" value={this.state.screenName} onChange={this.handleChange('screenName')}/>
+          <input id="screenName" className="form-control" name="screenName" type="text" value={this.state.screenName} onChange={this.changeProperty('screenName')}/>
         </div>
 
         <div className="form-group">
           <label htmlFor="description">Description:</label>
-          <textarea id="description" className="form-control" name="description" value={this.state.description} onChange={this.handleChange('description')} maxLength="1500"/>
+          <textarea id="description" className="form-control" name="description" value={this.state.description} onChange={this.changeProperty('description')} maxLength="1500"/>
         </div>
 
         <GroupTypeSelector
