@@ -227,7 +227,7 @@ class UserCard extends React.Component {
               <div className="status">It's you!</div>
             ) : (
               <div className="status">
-                {props.blocked ? (
+                {props.isBlocked ? (
                   <span><i className="fa fa-ban"></i> You've blocked the user</span>
                 ) : props.hasRequestBeenSent ? (
                   <span><i className="fa fa-clock-o"></i> You've sent sub request</span>
@@ -252,7 +252,7 @@ class UserCard extends React.Component {
             )}
           </div>
 
-          {props.blocked ? (
+          {props.isBlocked ? (
             <div className="user-card-actions">
               <a onClick={()=>props.unban({username: props.user.username, id: props.user.id})}>Un-block</a>
             </div>
@@ -322,7 +322,7 @@ const mapStateToProps = (state) => {
     amISubscribedToUser: ((me.subscriptions || []).indexOf(user.id) > -1),
     isUserSubscribedToMe: (_.findIndex(me.subscribers, {id: user.id}) > -1),
     hasRequestBeenSent: ((me.pendingSubscriptionRequests || []).indexOf(user.id) > -1),
-    blocked: ((me.banIds || []).indexOf(user.id) > -1),
+    isBlocked: ((me.banIds || []).indexOf(user.id) > -1),
     amIGroupAdmin: (user.type === 'group' && (user.administrators || []).indexOf(me.id) > -1)
   };
 };
