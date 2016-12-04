@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 
 import {confirmFirst, preventDefault, pluralForm} from '../../utils';
 import UserFeedStatus from './user-feed-status';
+import UserRelationshipStatus from './user-relationship-status';
 import PostCreateForm from './post-create-form';
 import PieceOfText from './piece-of-text';
 import throbber16 from 'assets/images/throbber-16.gif';
@@ -99,6 +100,10 @@ export default class UserProfile extends React.Component {
           <div className="profile-controls">
             <span className="profile-status">
               <UserFeedStatus {...props}/>
+            </span>
+
+            <span className="profile-status">
+              <UserRelationshipStatus {...props}/>
             </span>
 
             {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
