@@ -9,6 +9,7 @@ import {getUserInfo, updateUserCard} from '../../redux/action-creators';
 import {confirmFirst, isMobile} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 import UserFeedStatus from './user-feed-status';
+import UserRelationshipStatus from './user-relationship-status';
 
 const USERCARD_SHOW_DELAY = 1000;
 const USERCARD_HIDE_DELAY = 500;
@@ -227,27 +228,7 @@ class UserCard extends React.Component {
               <div className="status">It's you!</div>
             ) : (
               <div className="status">
-                {props.isBlocked ? (
-                  <span><i className="fa fa-ban"></i> You've blocked the user</span>
-                ) : props.hasRequestBeenSent ? (
-                  <span><i className="fa fa-clock-o"></i> You've sent sub request</span>
-                ) : props.amISubscribedToUser ? (
-                  props.user.type === 'user' ? (
-                    props.isUserSubscribedToMe ? (
-                      <span><i className="fa fa-check-circle"></i> Mutually subscribed</span>
-                    ) : (
-                      <span><i className="fa fa-check-circle"></i> You are subscribed</span>
-                    )
-                  ) : props.amIGroupAdmin ? (
-                    <span><i className="fa fa-check-square"></i> You are an admin</span>
-                  ) : (
-                    <span><i className="fa fa-check-square"></i> You are a member</span>
-                  )
-                ) : props.isUserSubscribedToMe ? (
-                  <span><i className="fa fa-check-circle-o"></i> User subscribed to you</span>
-                ) : (
-                  false
-                )}
+                <UserRelationshipStatus type={props.user.type} {...props}/>
               </div>
             )}
           </div>
