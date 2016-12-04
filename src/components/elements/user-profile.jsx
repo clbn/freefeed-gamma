@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 
 import {confirmFirst, preventDefault, pluralForm} from '../../utils';
+import UserFeedStatus from './user-feed-status';
 import PostCreateForm from './post-create-form';
 import PieceOfText from './piece-of-text';
 import throbber16 from 'assets/images/throbber-16.gif';
@@ -96,6 +97,10 @@ export default class UserProfile extends React.Component {
 
         {props.showProfileControls ? (
           <div className="profile-controls">
+            <span className="profile-status">
+              <UserFeedStatus {...props}/>
+            </span>
+
             {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
               <span><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </span>
             ) : false}
