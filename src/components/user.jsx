@@ -82,8 +82,7 @@ function mapStateToProps(state, ownProps) {
     (foundUser.isPrivate === '0' || statusExtension.amISubscribedToUser || statusExtension.isItMe);
 
   statusExtension.showProfileControls = authenticated && statusExtension.isUserFound &&
-    !statusExtension.isItMe && !statusExtension.isBlocked &&
-    isInUserPostFeed && boxHeader.page < 2;
+    !statusExtension.isItMe && isInUserPostFeed && boxHeader.page < 2;
 
   const canIPostToGroup = statusExtension.amISubscribedToUser && (foundUser.isRestricted === '0' || amIGroupAdmin);
 

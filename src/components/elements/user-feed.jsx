@@ -9,15 +9,6 @@ export default (props) => (
     {props.viewUser.isBlocked ? (
       <div className="box-body feed-message">
         <p>You have blocked <b>{props.viewUser.screenName}</b>, so all of their posts and comments are invisible to you.</p>
-        <p>
-          {props.viewUser.userView.isBlocking ? 'Unblocking...' : <a onClick={()=>props.userActions.unban({username: props.viewUser.username, id: props.viewUser.id})}>Un-block</a>}
-
-          {props.viewUser.userView.isBlocking ? (
-            <span className="feed-message-throbber">
-              <img width="16" height="16" src={throbber16}/>
-            </span>
-          ) : false}
-        </p>
       </div>
     ) : props.viewUser.isPrivate === '1' && !props.viewUser.amISubscribedToUser && !props.viewUser.isItMe ? (
       <div className="box-body feed-message">

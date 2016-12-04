@@ -110,54 +110,66 @@ export default class UserProfile extends React.Component {
               </div>
 
               <div className="col-sm-6 col-xs-12">
-                <div className="profile-controls">
-                  {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
-                    <span><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </span>
-                  ) : false}
+                {props.isBlocked ? (
+                  <div className="profile-controls">
+                    {props.userView.isBlocking ? 'Unblocking...' : <a onClick={()=>props.unban({username: props.username, id: props.id})}>Un-block</a>}
 
-                  {props.isPrivate === '1' && !props.amISubscribedToUser ? (
-                    props.hasRequestBeenSent ? (
-                      <span>
-                        <span className="text"><b>{props.screenName}</b> has been sent your subscription request</span>
-                        {' - '}
-                        {props.userView.isSubscribing ? 'Revoking...' : <a onClick={()=>props.revokeSentRequest({username: props.username, id: props.id})}>Revoke request</a>}
+                    {props.userView.isBlocking ? (
+                      <span className="profile-controls-throbber">
+                        <img width="16" height="16" src={throbber16}/>
                       </span>
+                    ) : false}
+                  </div>
+                ) : (
+                  <div className="profile-controls">
+                    {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
+                      <span><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </span>
+                    ) : false}
+
+                    {props.isPrivate === '1' && !props.amISubscribedToUser ? (
+                      props.hasRequestBeenSent ? (
+                        <span>
+                          <span className="text"><b>{props.screenName}</b> has been sent your subscription request</span>
+                          {' - '}
+                          {props.userView.isSubscribing ? 'Revoking...' : <a onClick={()=>props.revokeSentRequest({username: props.username, id: props.id})}>Revoke request</a>}
+                        </span>
+                      ) : (
+                        props.userView.isSubscribing ? 'Requesting...' : <a onClick={()=>props.sendSubscriptionRequest({username: props.username, id: props.id})}>Request a subscription</a>
+                      )
                     ) : (
-                      props.userView.isSubscribing ? 'Requesting...' : <a onClick={()=>props.sendSubscriptionRequest({username: props.username, id: props.id})}>Request a subscription</a>
-                    )
-                  ) : (
-                    props.amISubscribedToUser ? (
-                      props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={confirmFirst(unsubscribe)}>Unsubscribe</a>
-                    ) : (
-                      props.userView.isSubscribing ? 'Subscribing...' : <a onClick={()=>props.subscribe({username: props.username, id: props.id})}>Subscribe</a>
-                    )
-                  )}
+                      props.amISubscribedToUser ? (
+                        props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={confirmFirst(unsubscribe)}>Unsubscribe</a>
+                      ) : (
+                        props.userView.isSubscribing ? 'Subscribing...' : <a onClick={()=>props.subscribe({username: props.username, id: props.id})}>Subscribe</a>
+                      )
+                    )}
 
-                  {props.userView.isSubscribing ? (
-                    <span className="profile-controls-throbber">
-                      <img width="16" height="16" src={throbber16}/>
-                    </span>
-                  ) : false}
+                    {props.userView.isSubscribing ? (
+                      <span className="profile-controls-throbber">
+                        <img width="16" height="16" src={throbber16}/>
+                      </span>
+                    ) : false}
 
-                  {props.type !== 'group' && !props.amISubscribedToUser ? (
-                    props.userView.isBlocking ? ' - Blocking...' : <span> - <a onClick={preventDefault(_=>props.ban({username: props.username, id: props.id}))}>Block this user</a></span>
-                  ) : false}
+                    {props.type !== 'group' && !props.amISubscribedToUser ? (
+                      props.userView.isBlocking ? ' - Blocking...' : <span> - <a onClick={preventDefault(_=>props.ban({username: props.username, id: props.id}))}>Block this user</a></span>
+                    ) : false}
 
-                  {props.userView.isBlocking ? (
-                    <span className="profile-controls-throbber">
-                      <img width="16" height="16" src={throbber16}/>
-                    </span>
-                  ) : false}
+                    {props.userView.isBlocking ? (
+                      <span className="profile-controls-throbber">
+                        <img width="16" height="16" src={throbber16}/>
+                      </span>
+                    ) : false}
 
-                  {props.type === 'group' && props.amIGroupAdmin ? (
-                    <span>
-                      {' - '}
-                      <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link>
-                      {' - '}
-                      <Link to={`/${props.username}/settings`}>Settings</Link>
-                    </span>
-                  ) : false}
-                </div>
+                    {props.type === 'group' && props.amIGroupAdmin ? (
+                      <span>
+                        {' - '}
+                        <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link>
+                        {' - '}
+                        <Link to={`/${props.username}/settings`}>Settings</Link>
+                      </span>
+                    ) : false}
+                  </div>
+                )}
               </div>
 
               {this.state.isUnsubWarningDisplayed ? (
