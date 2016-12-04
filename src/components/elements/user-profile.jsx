@@ -75,7 +75,7 @@ export default class UserProfile extends React.Component {
                   </div>
                 )}
               </div>
-              {props.statistics && !props.blocked ? (
+              {props.statistics && !props.isBlocked ? (
                 <div className="col-sm-3 col-xs-12">
                   <div className="profile-stats">
                     {this.getProfileStatsItem('subscriber')}

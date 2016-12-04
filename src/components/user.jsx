@@ -74,7 +74,7 @@ function mapStateToProps(state, ownProps) {
     amIGroupAdmin,
     amISubscribedToUser: authenticated && foundUser && (user.subscriptions.indexOf(foundUser.id) > -1),
     isUserSubscribedToMe: authenticated && foundUser && (_.findIndex(user.subscribers, {id: foundUser.id}) > -1),
-    blocked: authenticated && foundUser && (user.banIds.indexOf(foundUser.id) > -1),
+    isBlocked: authenticated && foundUser && (user.banIds.indexOf(foundUser.id) > -1),
     hasRequestBeenSent: authenticated && foundUser && ((user.pendingSubscriptionRequests || []).indexOf(foundUser.id) > -1)
   };
 
@@ -82,7 +82,7 @@ function mapStateToProps(state, ownProps) {
     (foundUser.isPrivate === '0' || statusExtension.amISubscribedToUser || statusExtension.isItMe);
 
   statusExtension.showProfileControls = authenticated && statusExtension.isUserFound &&
-    !statusExtension.isItMe && !statusExtension.blocked &&
+    !statusExtension.isItMe && !statusExtension.isBlocked &&
     isInUserPostFeed && boxHeader.page < 2;
 
   const canIPostToGroup = statusExtension.amISubscribedToUser && (foundUser.isRestricted === '0' || amIGroupAdmin);

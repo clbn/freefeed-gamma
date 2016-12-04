@@ -6,7 +6,7 @@ import throbber16 from 'assets/images/throbber-16.gif';
 
 export default (props) => (
   <div>
-    {props.viewUser.blocked ? (
+    {props.viewUser.isBlocked ? (
       <div className="box-body feed-message">
         <p>You have blocked <b>{props.viewUser.screenName}</b>, so all of their posts and comments are invisible to you.</p>
         <p>
