@@ -128,11 +128,7 @@ export default class UserProfile extends React.Component {
 
                     {props.isPrivate === '1' && !props.amISubscribedToUser ? (
                       props.hasRequestBeenSent ? (
-                        <span>
-                          <span className="text"><b>{props.screenName}</b> has been sent your subscription request</span>
-                          {' - '}
-                          {props.userView.isSubscribing ? 'Revoking...' : <a onClick={()=>props.revokeSentRequest({username: props.username, id: props.id})}>Revoke request</a>}
-                        </span>
+                        props.userView.isSubscribing ? 'Revoking...' : <a onClick={()=>props.revokeSentRequest({username: props.username, id: props.id})}>Revoke request</a>
                       ) : (
                         props.userView.isSubscribing ? 'Requesting...' : <a onClick={()=>props.sendSubscriptionRequest({username: props.username, id: props.id})}>Request a subscription</a>
                       )
