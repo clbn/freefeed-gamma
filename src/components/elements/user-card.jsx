@@ -8,6 +8,7 @@ import {userActions} from '../../redux/select-utils';
 import {getUserInfo, updateUserCard} from '../../redux/action-creators';
 import {confirmFirst, isMobile} from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
+import UserFeedStatus from './user-feed-status';
 
 const USERCARD_SHOW_DELAY = 1000;
 const USERCARD_HIDE_DELAY = 500;
@@ -218,15 +219,7 @@ class UserCard extends React.Component {
 
             {!props.isItMe ? (
               <div className="description">
-                {props.user.isPrivate === '1' ? (
-                  <span><i className="fa fa-lock"></i> Private</span>
-                ) : props.user.isProtected === '1' ? (
-                  <span><i className="icon-protected"></i> Protected</span>
-                ) : (
-                  <span><i className="fa fa-globe"></i> Public</span>
-                )}
-                {props.user.isRestricted === '1' ? ' restricted' : false}
-                {props.user.type === 'user' ? ' feed' : ' group'}
+                <UserFeedStatus {...props.user}/>
               </div>
             ) : false}
 
