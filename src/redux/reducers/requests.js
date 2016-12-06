@@ -22,9 +22,9 @@ const pendingSubscriptionRequests = (whoamiPayload) => {
 
 export function groupRequests(state = [], action) {
   switch (action.type) {
-    case response(ActionTypes.MANAGED_GROUPS): {
+    case response(ActionTypes.WHO_AM_I): {
       const requests = [];
-      action.payload.forEach((g) => {
+      action.payload.managedGroups.forEach((g) => {
         g.requests.forEach((u) => {
           requests.push({...u, groupId: g.id, groupName: g.username});
         });

@@ -167,20 +167,6 @@ export const redirectionMiddleware = store => next => action => {
   return next(action);
 };
 
-export const requestsMiddleware = store => next => action => {
-  if (action.type === response(ActionTypes.WHO_AM_I)) {
-    next(action);
-
-    if (store.getState().user.pendingGroupRequests) {
-      store.dispatch(ActionCreators.managedGroups());
-    }
-
-    return;
-  }
-
-  return next(action);
-};
-
 export const directsMiddleware = store => next => action => {
   if (action.type === response(ActionTypes.HOME)) {
     store.dispatch(ActionCreators.getUnreadDirects());
