@@ -17,7 +17,7 @@ export const apiMiddleware = store => next => async (action) => {
 
   //dispatch request begin action
   //clean apiRequest to not get caught by this middleware
-  var t = store.dispatch({...action, type: request(action.type), apiRequest: null});
+  store.dispatch({...action, type: request(action.type), apiRequest: null});
   try {
     const apiResponse = await action.apiRequest(action.payload);
     const obj = await apiResponse.json();
