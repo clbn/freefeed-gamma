@@ -115,12 +115,31 @@ export default class PostAttachments extends React.Component {
   }
 
   getImageLightboxItems(imageList) {
-    return imageList.map((attachment, i) => ({
-      src: attachment.url,
-      msrc: (i === this.state.lightboxIndex && this.lightboxThumbnailElement ? this.lightboxThumbnailElement.currentSrc : null),
-      w: attachment.imageSizes && attachment.imageSizes.o && attachment.imageSizes.o.w || 800,
-      h: attachment.imageSizes && attachment.imageSizes.o && attachment.imageSizes.o.h || 600
-    }));
+    return imageList.map((attachment, i) => {
+      // Check if that's the same image that triggered initial lightbox opening
+      const isTrigger = (i === this.state.lightboxIndex && this.lightboxThumbnailElement);
+
+      const thumbnailSrc = (isTrigger ? this.lightboxThumbnailElement.currentSrc : null);
+      const thumbnailWidth = (isTrigger ? this.lightboxThumbnailElement.naturalWidth : null);
+      const thumbnailHeight = (isTrigger ? this.lightboxThumbnailElement.naturalHeight : null);
+
+      const originalWidth = attachment.imageSizes && attachment.imageSizes.o && attachment.imageSizes.o.w;
+      const originalHeight = attachment.imageSizes && attachment.imageSizes.o && attachment.imageSizes.o.h;
+
+      return {
+        src: attachment.url,
+
+        // Use the trigger thumbnail as a loading placeholder during "lightbox opening" process
+        msrc: thumbnailSrc,
+
+        // If no original size, use thumbnail size temporarily (until original image is loaded)...
+        w: originalWidth || thumbnailWidth,
+        h: originalHeight || thumbnailHeight,
+
+        // ...and set a reminder to check that original image for actual w and h
+        needsSizeUpdate: (!originalWidth || !originalHeight)
+      };
+    });
   }
 
   getThumbBounds() {
@@ -138,6 +157,19 @@ export default class PostAttachments extends React.Component {
         w: rect.width
       };
     };
+  }
+
+  handleLightboxImageLoaded(gallery, index, item) {
+    if (item.needsSizeUpdate) {
+      const img = new Image();
+      img.onload = function() {
+        item.needsSizeUpdate = false;
+        item.w = this.width;
+        item.h = this.height;
+        gallery.updateSize(true);
+      };
+      img.src = item.src;
+    }
   }
 
   handleClickThumbnail(index) {
@@ -195,6 +227,7 @@ export default class PostAttachments extends React.Component {
           <PhotoSwipe
             items={imageLightboxItems}
             options={{...this.lightboxOptions, index: this.state.lightboxIndex}}
+            imageLoadComplete={this.handleLightboxImageLoaded}
             isOpen={this.state.isLightboxOpen}
             onClose={this.handleCloseLightbox.bind(this)}/>
         </div>
