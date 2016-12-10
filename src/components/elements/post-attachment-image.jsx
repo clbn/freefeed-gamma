@@ -28,11 +28,11 @@ export default (props) => {
   // Make sure the image is not wider than viewport (it makes sense for mobile screens)
   const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   const attachmentMargins = 15 + 2 + 2 + 15; // app margin + border+padding + padding+border + app margin
-  if (imageAttributes.width + attachmentMargins > viewportWidth) {
-    const newWidth = viewportWidth - attachmentMargins;
-    imageAttributes.height = Math.round(newWidth / imageAttributes.width * imageAttributes.height);
-    imageAttributes.width = newWidth;
-  }
+  const maxWidth = viewportWidth - attachmentMargins;
+  imageAttributes.style = {
+    maxWidth: maxWidth,
+    maxHeight: imageAttributes.width && imageAttributes.height && Math.round(maxWidth / imageAttributes.width * imageAttributes.height)
+  };
 
   return (
     <div className="attachment">
