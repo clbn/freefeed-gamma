@@ -29,6 +29,10 @@ class PostComments extends React.Component {
     this.setState({newCommentTextarea: textarea});
   };
 
+  showMoreComments = () => this.props.showMoreComments(this.props.post.id);
+
+  toggleCommenting = () => this.props.toggleCommenting(this.props.post.id);
+
   openAnsweringComment = (username) => {
     if (!this.props.post.isCommenting) {
       this.props.toggleCommenting(this.props.post.id);
@@ -57,8 +61,6 @@ class PostComments extends React.Component {
     const last = props.post.comments.length > 1 && props.post.comments[props.post.comments.length - 1];
     const middle = props.post.comments.slice(1, props.post.comments.length - 1).map(commentMapper);
     const showOmittedNumber = props.post.omittedComments > 0;
-    const showMoreComments = () => props.showMoreComments(props.post.id);
-    const toggleCommenting = () => props.toggleCommenting(props.post.id);
     const canAddComment = (!props.post.commentsDisabled || props.post.isEditable);
 
     return (
@@ -68,7 +70,7 @@ class PostComments extends React.Component {
         {showOmittedNumber ? (
           <PostCommentsMore
             omittedComments={props.post.omittedComments}
-            showMoreComments={showMoreComments}
+            showMoreComments={this.showMoreComments}
             postUrl={props.postUrl}
             isLoading={props.post.isLoadingComments}/>
         ) : false}
@@ -83,7 +85,7 @@ class PostComments extends React.Component {
             isSinglePost={props.isSinglePost}
             otherCommentsNumber={props.post.comments.length}
             saveEditingComment={props.addComment}
-            toggleCommenting={toggleCommenting}
+            toggleCommenting={this.toggleCommenting}
             bindTextarea={this.bindNewCommentTextarea}/>
         ) : false}
       </div>
