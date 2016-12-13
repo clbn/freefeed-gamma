@@ -7,16 +7,6 @@ import PostComment from './post-comment';
 import PostCommentsMore from './post-comments-more';
 import PostCommentCreateForm from './post-comment-create-form';
 
-const renderComment = (postId, postUrl, isModeratingComments, openAnsweringComment) => commentId => (
-  <PostComment
-    id={commentId}
-    key={commentId}
-    postId={postId}
-    postUrl={postUrl}
-    isModeratingComments={isModeratingComments}
-    openAnsweringComment={openAnsweringComment}/>
-);
-
 class PostComments extends React.Component {
   constructor(props) {
     super(props);
@@ -53,19 +43,29 @@ class PostComments extends React.Component {
     }, 0);
   };
 
+  getCommentById = (commentId) => (
+    <PostComment
+      id={commentId}
+      key={commentId}
+      postId={this.props.post.id}
+      postUrl={this.props.postUrl}
+      isModeratingComments={this.props.post.isModeratingComments}
+      openAnsweringComment={this.openAnsweringComment}/>
+  );
+
   render() {
     const props = this.props;
 
-    const commentMapper = renderComment(props.post.id, props.postUrl, props.post.isModeratingComments, this.openAnsweringComment);
     const first = props.post.comments[0];
+    const middle = props.post.comments.slice(1, props.post.comments.length - 1).map(this.getCommentById);
     const last = props.post.comments.length > 1 && props.post.comments[props.post.comments.length - 1];
-    const middle = props.post.comments.slice(1, props.post.comments.length - 1).map(commentMapper);
+
     const showOmittedNumber = props.post.omittedComments > 0;
     const canAddComment = (!props.post.commentsDisabled || props.post.isEditable);
 
     return (
       <div className="comments">
-        {first ? commentMapper(first): false}
+        {first ? this.getCommentById(first): false}
 
         {showOmittedNumber ? (
           <PostCommentsMore
@@ -77,7 +77,7 @@ class PostComments extends React.Component {
 
         {middle}
 
-        {last ? commentMapper(last) : false}
+        {last ? this.getCommentById(last) : false}
 
         {canAddComment ? (
           <PostCommentCreateForm
