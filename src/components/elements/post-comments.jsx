@@ -56,16 +56,15 @@ class PostComments extends React.Component {
   render() {
     const props = this.props;
 
-    const first = props.post.comments[0];
-    const middle = props.post.comments.slice(1, props.post.comments.length - 1).map(this.getCommentById);
-    const last = props.post.comments.length > 1 && props.post.comments[props.post.comments.length - 1];
+    const firstComment = props.post.comments[0] ? this.getCommentById(props.post.comments[0]) : false;
+    const lastComments = props.post.comments.slice(1).map(this.getCommentById);
 
     const showOmittedNumber = props.post.omittedComments > 0;
     const canAddComment = (!props.post.commentsDisabled || props.post.isEditable);
 
     return (
       <div className="comments">
-        {first ? this.getCommentById(first): false}
+        {firstComment}
 
         {showOmittedNumber ? (
           <PostCommentsMore
@@ -75,9 +74,7 @@ class PostComments extends React.Component {
             isLoading={props.post.isLoadingComments}/>
         ) : false}
 
-        {middle}
-
-        {last ? this.getCommentById(last) : false}
+        {lastComments}
 
         {canAddComment ? (
           <PostCommentCreateForm
