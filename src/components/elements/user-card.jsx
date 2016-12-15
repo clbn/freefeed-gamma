@@ -237,7 +237,7 @@ class UserCard extends React.Component {
             <div className="user-card-actions">
               <a onClick={()=>props.unban({username: props.user.username, id: props.user.id})}>Un-block</a>
             </div>
-          ) : !props.isItMe ? (
+          ) : props.authenticated && !props.isItMe ? (
             <div className="user-card-actions">
               {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
                 <span><Link to={`/filter/direct?to=${props.user.username}`}>Direct message</Link> - </span>
@@ -295,10 +295,13 @@ const mapStateToProps = (state) => {
 
   const userView = (state.userViews[user.id] || {});
 
+  const authenticated = state.authenticated;
+
   return {
     userCardView,
     user,
     userView,
+    authenticated,
     isItMe: (me.username === user.username),
     amISubscribedToUser: ((me.subscriptions || []).indexOf(user.id) > -1),
     isUserSubscribedToMe: (_.findIndex(me.subscribers, {id: user.id}) > -1),
