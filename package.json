@@ -40,7 +40,7 @@
     "react-google-recaptcha": "^0.5.2",
     "react-helmet": "^3.1.0",
     "react-photoswipe": "^1.1.0",
-    "react-redux": "^4.4.5",
+    "react-redux": "^5.0.0",
     "react-router": "^2.4.0",
     "react-router-redux": "^4.0.4",
     "react-select": "^1.0.0-beta13",
