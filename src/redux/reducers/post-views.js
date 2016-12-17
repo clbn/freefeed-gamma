@@ -112,7 +112,7 @@ export default function postViews(state = {}, action) {
     case request(ActionTypes.ADD_COMMENT): {
       const post = state[action.payload.postId];
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           isSavingComment: true
         }};
@@ -120,7 +120,7 @@ export default function postViews(state = {}, action) {
     case response(ActionTypes.ADD_COMMENT): {
       const post = state[action.request.postId];
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           isCommenting: false,
           isSavingComment: false
@@ -130,7 +130,7 @@ export default function postViews(state = {}, action) {
     case fail(ActionTypes.ADD_COMMENT): {
       const post = state[action.request.postId];
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           isSavingComment: false,
           commentError: (action.payload || {}).err
@@ -140,7 +140,7 @@ export default function postViews(state = {}, action) {
     case request(ActionTypes.LIKE_POST): {
       const post = state[action.payload.postId];
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           isLiking: true
         }};
@@ -148,7 +148,7 @@ export default function postViews(state = {}, action) {
     case response(ActionTypes.LIKE_POST): {
       const post = state[action.request.postId];
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           isLiking: false
         }
@@ -158,7 +158,7 @@ export default function postViews(state = {}, action) {
       const post = state[action.request.postId];
       const errorString = 'Something went wrong while liking the post...';
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           isLiking: false,
           likeError: errorString
@@ -168,7 +168,7 @@ export default function postViews(state = {}, action) {
     case request(ActionTypes.UNLIKE_POST): {
       const post = state[action.payload.postId];
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           isLiking: true
         }};
@@ -176,7 +176,7 @@ export default function postViews(state = {}, action) {
     case response(ActionTypes.UNLIKE_POST): {
       const post = state[action.request.postId];
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           isLiking: false
         }
@@ -186,7 +186,7 @@ export default function postViews(state = {}, action) {
       const post = state[action.request.postId];
       const errorString = 'Something went wrong while un-liking the post...';
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           isLiking: false,
           likeError: errorString

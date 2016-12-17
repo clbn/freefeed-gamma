@@ -12,7 +12,7 @@ export default class GroupSettingsForm extends React.Component {
       description: this.props.group.description,
       isPrivate: this.props.group.isPrivate,
       isProtected: this.props.group.isProtected,
-      isRestricted:  this.props.group.isRestricted
+      isRestricted: this.props.group.isRestricted
     };
   }
 

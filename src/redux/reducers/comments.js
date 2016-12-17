@@ -28,11 +28,11 @@ export default function comments(state = {}, action) {
       return mergeByIds(state, [action.comment]);
     }
     case ActionTypes.REALTIME_COMMENT_DESTROY: {
-      return {...state, [action.commentId] : undefined};
+      return {...state, [action.commentId]: undefined};
     }
     case response(ActionTypes.ADD_COMMENT): {
       return {...state,
-        [action.payload.comments.id] : action.payload.comments
+        [action.payload.comments.id]: action.payload.comments
       };
     }
     case ActionTypes.REALTIME_POST_NEW: {

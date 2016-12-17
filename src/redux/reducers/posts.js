@@ -134,7 +134,7 @@ export default function posts(state = {}, action) {
       if (!post) {
         return state;
       }
-      return {...state, [action.postId] : {
+      return {...state, [action.postId]: {
         ...post,
         comments: _.without(post.comments, action.commentId)
       }};
@@ -149,7 +149,7 @@ export default function posts(state = {}, action) {
         return state;
       }
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           likes: [action.request.userId, ...(post.likes || [])]
         }
@@ -161,7 +161,7 @@ export default function posts(state = {}, action) {
         return state;
       }
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           likes: [action.users[0].id, ...(post.likes || [])]
         }
@@ -170,7 +170,7 @@ export default function posts(state = {}, action) {
     case response(ActionTypes.UNLIKE_POST): {
       const post = state[action.request.postId];
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           likes: _.without(post.likes, action.request.userId)
         }
@@ -182,7 +182,7 @@ export default function posts(state = {}, action) {
         return state;
       }
       return {...state,
-        [post.id] : {
+        [post.id]: {
           ...post,
           likes: _.without(post.likes, action.userId)
         }

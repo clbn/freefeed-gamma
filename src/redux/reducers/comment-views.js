@@ -46,11 +46,11 @@ export default function commentViews(state={}, action) {
       return {...state, [action.request.commentId]: {...state[action.request.commentId], isEditing: true, isSaving: false, errorMessage: (action.payload || {}).err}};
     }
     case response(ActionTypes.DELETE_COMMENT): {
-      return {...state, [action.request.commentId] : undefined};
+      return {...state, [action.request.commentId]: undefined};
     }
     case response(ActionTypes.ADD_COMMENT): {
       return {...state,
-        [action.payload.comments.id] : {
+        [action.payload.comments.id]: {
           id: action.payload.comments.id,
           isEditing: false
         }

@@ -37,7 +37,7 @@ export function postActions(dispatch) {
     saveEditingPost: (postId, newPost) => dispatch(saveEditingPost(postId, newPost)),
     deletePost: (postId) => dispatch(deletePost(postId)),
     toggleCommenting: (postId) => dispatch(toggleCommenting(postId)),
-    addComment:(postId, commentText) => dispatch(addComment(postId, commentText)),
+    addComment: (postId, commentText) => dispatch(addComment(postId, commentText)),
     likePost: (postId, userId) => dispatch(likePost(postId, userId)),
     unlikePost: (postId, userId) => dispatch(unlikePost(postId, userId)),
     hidePost: (postId) => dispatch(hidePost(postId)),

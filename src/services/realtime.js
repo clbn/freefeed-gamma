@@ -3,7 +3,7 @@ import {getToken} from './auth';
 import io from 'socket.io-client';
 
 const dummyPost = {
-  getBoundingClientRect: _ => ({top:0})
+  getBoundingClientRect: _ => ({top: 0})
 };
 
 const scrollCompensator = dispatchAction => (...actionParams) => {

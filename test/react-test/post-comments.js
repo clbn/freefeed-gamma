@@ -6,7 +6,7 @@ import PostComments from 'src/components/elements/post-comments';
 import PostCommentCreateForm from 'src/components/elements/post-comment-create-form';
 
 const renderComments = (comments, omittedComments = 0, isCommenting = false) => {
-  const post = {omittedComments, isCommenting, createdBy: {username:''}};
+  const post = {omittedComments, isCommenting, createdBy: {username: ''}};
 
   const tree = sd.shallowRender(React.createElement(PostComments, {comments, post}));
 

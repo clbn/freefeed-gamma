@@ -275,7 +275,7 @@ const bindHandlers = store => ({
   'comment:new': data => maybeGetRespectivePost(store, data.comments.postId, {type: ActionTypes.REALTIME_COMMENT_NEW, comment: data.comments, users: data.users}),
   'comment:update': data => store.dispatch({...data, type: ActionTypes.REALTIME_COMMENT_UPDATE, comment: data.comments}),
   'comment:destroy': data => store.dispatch({type: ActionTypes.REALTIME_COMMENT_DESTROY, commentId: data.commentId, postId: data.postId}),
-  'like:new': data => maybeGetRespectivePost(store, data.meta.postId, {type: ActionTypes.REALTIME_LIKE_NEW, postId: data.meta.postId, users:[data.users]}),
+  'like:new': data => maybeGetRespectivePost(store, data.meta.postId, {type: ActionTypes.REALTIME_LIKE_NEW, postId: data.meta.postId, users: [data.users]}),
   'like:remove': data => store.dispatch({type: ActionTypes.REALTIME_LIKE_REMOVE, postId: data.meta.postId, userId: data.meta.userId}),
 });
 
