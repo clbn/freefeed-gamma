@@ -1,7 +1,7 @@
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 
-const {response, fail} = ActionHelpers;
+const { response, fail } = ActionHelpers;
 
 export default function title(state = '', action) {
   switch (action.type) {

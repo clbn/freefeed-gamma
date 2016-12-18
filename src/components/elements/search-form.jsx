@@ -1,9 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import classnames from 'classnames';
 
-import {preventDefault} from '../../utils';
+import { preventDefault } from '../../utils';
 
 export default class SearchForm extends React.Component {
   constructor(props) {
@@ -15,11 +15,11 @@ export default class SearchForm extends React.Component {
   }
 
   focusForm = () => {
-    this.setState({isFocused: true});
+    this.setState({ isFocused: true });
   };
 
   blurForm = () => {
-    this.setState({isFocused: false});
+    this.setState({ isFocused: false });
   };
 
   submitForm = () => {

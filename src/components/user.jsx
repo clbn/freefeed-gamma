@@ -1,10 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment} from '../redux/action-creators';
-import {getVisibleEntriesWithHidden} from '../redux/selectors';
-import {joinCreatePostData, userActions} from '../redux/select-utils';
-import {getCurrentRouteName} from '../utils';
+import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../redux/action-creators';
+import { getVisibleEntriesWithHidden } from '../redux/selectors';
+import { joinCreatePostData, userActions } from '../redux/select-utils';
+import { getCurrentRouteName } from '../utils';
 import UserProfile from './elements/user-profile';
 import UserSubscribers from './elements/user-subscribers';
 import UserSubscriptions from './elements/user-subscriptions';
@@ -73,7 +73,7 @@ function mapStateToProps(state, ownProps) {
     userView: (foundUser && state.userViews[foundUser.id] || {}),
     amIGroupAdmin,
     amISubscribedToUser: authenticated && foundUser && (user.subscriptions.indexOf(foundUser.id) > -1),
-    isUserSubscribedToMe: authenticated && foundUser && (_.findIndex(user.subscribers, {id: foundUser.id}) > -1),
+    isUserSubscribedToMe: authenticated && foundUser && (_.findIndex(user.subscribers, { id: foundUser.id }) > -1),
     isBlocked: authenticated && foundUser && (user.banIds.indexOf(foundUser.id) > -1),
     hasRequestBeenSent: authenticated && foundUser && ((user.pendingSubscriptionRequests || []).indexOf(foundUser.id) > -1)
   };
@@ -91,9 +91,9 @@ function mapStateToProps(state, ownProps) {
 
   const showPaginationHeader = !isInUserPostFeed || boxHeader.page > 1;
 
-  const viewUser = {...(foundUser), ...statusExtension};
+  const viewUser = { ...(foundUser), ...statusExtension };
 
-  const sendTo = {...state.sendTo, defaultFeed: (foundUser ? foundUser.username : null)};
+  const sendTo = { ...state.sendTo, defaultFeed: (foundUser ? foundUser.username : null) };
 
   return { user, visibleEntries, createPostForm, boxHeader, viewUser, sendTo, currentRoute, isInUserPostFeed, showPaginationHeader };
 }

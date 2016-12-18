@@ -1,12 +1,12 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
-import {preventDefault} from '../../utils';
+import { preventDefault } from '../../utils';
 import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
 
-export default ({user, signOut, toggleSidebar, routeName}) => (
+export default ({ user, signOut, toggleSidebar, routeName }) => (
   <div className="sidebar-wrapper" onClick={() => toggleSidebar()}>
     <div className="col-md-3 sidebar" onClick={(e) => e.stopPropagation()}>
       <div className="logged-in">
@@ -38,7 +38,7 @@ export default ({user, signOut, toggleSidebar, routeName}) => (
           <ul>
             <li><Link to="/">Home</Link></li>
 
-            <li><Link to="/filter/direct" style={user.unreadDirectsNumber > 0 ? {fontWeight: 'bold'} : {}}>
+            <li><Link to="/filter/direct" style={user.unreadDirectsNumber > 0 ? { fontWeight: 'bold' } : {}}>
               Direct messages
               {user.unreadDirectsNumber > 0 ? ` (${user.unreadDirectsNumber})` : false}
             </Link></li>

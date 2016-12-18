@@ -1,10 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import classnames from 'classnames';
 import _ from 'lodash';
 
 import UserName from './user-name';
-import {confirmFirst} from '../../utils';
+import { confirmFirst } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderUsers = (type) => (user) => {
@@ -48,7 +48,7 @@ const renderUsers = (type) => (user) => {
           ) : false}
 
           {type == WITH_REVOKE_SENT_REQUEST ? (
-            <a className="user-action user-action-bad" onClick={() => user.revokeSentRequest({username: user.username, id: user.id})} title="Revoke sent request">
+            <a className="user-action user-action-bad" onClick={() => user.revokeSentRequest({ username: user.username, id: user.id })} title="Revoke sent request">
               <i className="fa fa-times"></i>
               <span>Revoke</span>
             </a>

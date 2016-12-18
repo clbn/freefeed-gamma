@@ -1,11 +1,11 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
-import {createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment, toggleHiddenPosts} from '../redux/action-creators';
-import {getVisibleEntriesWithHidden, getHiddenEntriesWithHidden} from '../redux/selectors';
-import {joinCreatePostData} from '../redux/select-utils';
-import {getQuery, pluralForm} from '../utils';
+import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment, toggleHiddenPosts } from '../redux/action-creators';
+import { getVisibleEntriesWithHidden, getHiddenEntriesWithHidden } from '../redux/selectors';
+import { joinCreatePostData } from '../redux/select-utils';
+import { getQuery, pluralForm } from '../utils';
 
 import PostCreateForm from './elements/post-create-form';
 import Feed from './elements/feed';
@@ -85,7 +85,7 @@ function mapStateToProps(state) {
 
   const createPostForm = joinCreatePostData(state);
   const boxHeader = state.boxHeader;
-  const sendTo = {...state.sendTo, defaultFeed: user.username};
+  const sendTo = { ...state.sendTo, defaultFeed: user.username };
   const userRequestsCount = state.userRequests.length;
   const groupRequestsCount = state.groupRequests.length;
 

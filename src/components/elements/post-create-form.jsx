@@ -1,11 +1,11 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 
 import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
 import PostAttachments from './post-attachments';
-import {preventDefault} from '../../utils';
+import { preventDefault } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostCreateForm extends React.Component {
@@ -24,12 +24,12 @@ class PostCreateForm extends React.Component {
 
   expand = () => {
     if (!this.state.isExpanded) {
-      this.setState({isExpanded: true});
+      this.setState({ isExpanded: true });
     }
   };
 
   toggleMore = () => {
-    this.setState({isMoreOpen: !this.state.isMoreOpen});
+    this.setState({ isMoreOpen: !this.state.isMoreOpen });
   };
 
   submitForm = () => {
@@ -125,19 +125,19 @@ class PostCreateForm extends React.Component {
   render() {
     // DropzoneJS queue handlers
     const handleAddedFile = () => {
-      this.setState({attachmentQueueLength: this.state.attachmentQueueLength + 1});
+      this.setState({ attachmentQueueLength: this.state.attachmentQueueLength + 1 });
     };
     const handleRemovedFile = () => {
       if (this.state.attachmentQueueLength === 1) {
-        this.setState({hasUploadFailed: false});
+        this.setState({ hasUploadFailed: false });
       }
-      this.setState({attachmentQueueLength: this.state.attachmentQueueLength - 1});
+      this.setState({ attachmentQueueLength: this.state.attachmentQueueLength - 1 });
     };
     const handleUploadSuccess = (attachment) => (
       this.props.addAttachmentResponse(null, attachment)
     );
     const handleUploadFailure = () => {
-      this.setState({hasUploadFailed: true});
+      this.setState({ hasUploadFailed: true });
     };
 
     const defaultFeed = this.props.recipientFromUrl || this.props.sendTo.defaultFeed;

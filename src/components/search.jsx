@@ -1,9 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
-import {getVisibleEntriesWithHidden} from '../redux/selectors';
-import {preventDefault} from '../utils';
+import { getVisibleEntriesWithHidden } from '../redux/selectors';
+import { preventDefault } from '../utils';
 import PaginatedView from './elements/paginated-view';
 import Feed from './elements/feed';
 

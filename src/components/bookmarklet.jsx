@@ -1,10 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import _ from 'lodash';
 
-import {joinCreatePostData} from '../redux/select-utils';
-import {createBookmarkletPost, resetPostCreateForm, addAttachmentResponse, removeAttachment} from '../redux/action-creators';
+import { joinCreatePostData } from '../redux/select-utils';
+import { createBookmarkletPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../redux/action-creators';
 import PostBookmarkletForm from './elements/post-bookmarklet-form';
 import SignIn from './signin';
 
@@ -24,7 +24,7 @@ class Bookmarklet extends React.Component {
     const imageUrls = this.state.imageUrls;
     if (imageUrls.indexOf(url) === -1) {
       imageUrls.push(url);
-      this.setState({imageUrls});
+      this.setState({ imageUrls });
     }
 
     // Clear the #hash immediately
@@ -33,7 +33,7 @@ class Bookmarklet extends React.Component {
 
   removeImage = (url) => {
     const imageUrls = _.without(this.state.imageUrls, url);
-    this.setState({imageUrls});
+    this.setState({ imageUrls });
   };
 
   componentDidMount() {
@@ -58,7 +58,7 @@ class Bookmarklet extends React.Component {
         imageUrls.push(imageUrl);
       }
     });
-    this.setState({imageUrls});
+    this.setState({ imageUrls });
   }
 
   componentWillUnmount() {
@@ -109,7 +109,7 @@ function mapStateToProps(state) {
   return {
     authenticated: state.authenticated,
     user: state.user,
-    sendTo: {...state.sendTo, defaultFeed: state.user.username},
+    sendTo: { ...state.sendTo, defaultFeed: state.user.username },
     createPostForm: joinCreatePostData(state)
   };
 }

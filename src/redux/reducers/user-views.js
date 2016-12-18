@@ -1,7 +1,7 @@
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 
-const {request, response, fail} = ActionHelpers;
+const { request, response, fail } = ActionHelpers;
 
 export default function userViews(state = {}, action) {
   switch (action.type) {
@@ -11,7 +11,7 @@ export default function userViews(state = {}, action) {
     case request(ActionTypes.UNSUBSCRIBE): {
       const userId = action.payload.id;
       const userView = state[userId];
-      return {...state, [userId]: {...userView, isSubscribing: true}};
+      return { ...state, [userId]: { ...userView, isSubscribing: true } };
     }
     case response(ActionTypes.SUBSCRIBE):
     case response(ActionTypes.SEND_SUBSCRIPTION_REQUEST):
@@ -23,14 +23,14 @@ export default function userViews(state = {}, action) {
     case fail(ActionTypes.UNSUBSCRIBE): {
       const userId = action.request.id;
       const userView = state[userId];
-      return {...state, [userId]: {...userView, isSubscribing: false}};
+      return { ...state, [userId]: { ...userView, isSubscribing: false } };
     }
 
     case request(ActionTypes.BAN):
     case request(ActionTypes.UNBAN): {
       const userId = action.payload.id;
       const userView = state[userId];
-      return {...state, [userId]: {...userView, isBlocking: true}};
+      return { ...state, [userId]: { ...userView, isBlocking: true } };
     }
     case response(ActionTypes.BAN):
     case response(ActionTypes.UNBAN):
@@ -38,7 +38,7 @@ export default function userViews(state = {}, action) {
     case fail(ActionTypes.UNBAN): {
       const userId = action.request.id;
       const userView = state[userId];
-      return {...state, [userId]: {...userView, isBlocking: false}};
+      return { ...state, [userId]: { ...userView, isBlocking: false } };
     }
   }
 

@@ -2,11 +2,11 @@ import _ from 'lodash';
 
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
-import {userParser} from '../../utils';
+import { userParser } from '../../utils';
 
-const {response} = ActionHelpers;
+const { response } = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
-const mergeByIds = (state, array) => ({...state, ...indexById(array)});
+const mergeByIds = (state, array) => ({ ...state, ...indexById(array) });
 
 export default function subscribers(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {

@@ -1,9 +1,9 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {connect} from 'react-redux';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import {updateGroup, updateGroupPicture, resetGroupUpdateForm} from '../redux/action-creators';
+import { updateGroup, updateGroupPicture, resetGroupUpdateForm } from '../redux/action-creators';
 import GroupSettingsForm from './elements/group-settings-form';
 import GroupPictureForm from './elements/group-picture-form';
 import throbber100 from 'assets/images/throbber.gif';

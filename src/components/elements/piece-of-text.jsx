@@ -41,7 +41,7 @@ const injectSeparator = (array, separator) => {
 
   array.forEach((item, i) => {
     result.push(<span key={'item-' + i}>{item}</span>);
-    result.push(React.cloneElement(separator, {key: 'separator-' + i}, separator.props.children));
+    result.push(React.cloneElement(separator, { key: 'separator-' + i }, separator.props.children));
   });
 
   result.pop();
@@ -105,7 +105,7 @@ export default class PieceOfText extends React.Component {
   }
 
   expandText() {
-    this.setState({isExpanded: true});
+    this.setState({ isExpanded: true });
   }
 
   render() {

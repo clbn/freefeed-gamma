@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {frontendPreferences as frontendPrefsConfig} from '../config';
+import { frontendPreferences as frontendPrefsConfig } from '../config';
 
 export function getCookie(name) {
   const begin = document.cookie.indexOf(name);
@@ -50,7 +50,7 @@ const userDefaults = {
 };
 
 export function userParser(user) {
-  const newUser = {...user};
+  const newUser = { ...user };
 
   // Missing display name
   if (!user.screenName) {
@@ -70,7 +70,7 @@ export function userParser(user) {
 
 export function postParser(post) {
   post.commentsDisabled = (post.commentsDisabled === '1');
-  return {...post};
+  return { ...post };
 }
 
 export function preventDefault(realFunction) {

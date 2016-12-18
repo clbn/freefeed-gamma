@@ -1,15 +1,15 @@
 import React from 'react';
-import {IndexLink, Link} from 'react-router';
-import {connect} from 'react-redux';
+import { IndexLink, Link } from 'react-router';
+import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import classnames from 'classnames';
 
-import {unauthenticated, home, toggleSidebar} from '../redux/action-creators';
+import { unauthenticated, home, toggleSidebar } from '../redux/action-creators';
 import SearchForm from './elements/search-form';
 import Sidebar from './elements/sidebar';
 import Footer from './elements/footer';
 import UserCard from './elements/user-card';
-import {getCurrentRouteName} from '../utils';
+import { getCurrentRouteName } from '../utils';
 import throbber100 from 'assets/images/throbber.gif';
 
 const logoHandler = (routeName, offset, cb) => () => {

@@ -3,22 +3,22 @@ import _ from 'lodash';
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 
-const {request, response, fail} = ActionHelpers;
+const { request, response, fail } = ActionHelpers;
 
 export default function createPostForm(state = {}, action) {
   switch (action.type) {
     case request(ActionTypes.CREATE_POST): {
-      return {...state, status: 'loading'};
+      return { ...state, status: 'loading' };
     }
     case response(ActionTypes.CREATE_POST): {
-      return {...state, status: 'success', lastPost: action.payload.posts};
+      return { ...state, status: 'success', lastPost: action.payload.posts };
     }
     case fail(ActionTypes.CREATE_POST): {
       console.log('action', action);
-      return {...state, status: 'error', errorMessage: (action.payload || {}).err};
+      return { ...state, status: 'error', errorMessage: (action.payload || {}).err };
     }
     case ActionTypes.RESET_POST_CREATE_FORM: {
-      return {...state, status: null};
+      return { ...state, status: null };
     }
     case ActionTypes.ADD_ATTACHMENT_RESPONSE: {
       // If this is an attachment for edit-post (existent post),
@@ -27,7 +27,7 @@ export default function createPostForm(state = {}, action) {
         return state;
       }
 
-      return {...state,
+      return { ...state,
         attachments: [...(state.attachments || []), action.payload.attachments.id]
       };
     }
@@ -38,7 +38,7 @@ export default function createPostForm(state = {}, action) {
         return state;
       }
 
-      return {...state,
+      return { ...state,
         attachments: _.without((state.attachments || []), action.payload.attachmentId)
       };
     }

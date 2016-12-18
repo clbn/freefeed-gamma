@@ -2,9 +2,9 @@ import _ from 'lodash';
 
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
-import {userParser} from '../../utils';
+import { userParser } from '../../utils';
 
-const {response} = ActionHelpers;
+const { response } = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
 const mergeByIds = (state, array) => _.merge(state, indexById(array));
 
@@ -27,8 +27,8 @@ export default function users(state = {}, action) {
       let userId = action.payload.users.id;
       let oldUser = state[userId] || {};
       let newUser = userParser(action.payload.users);
-      return {...newState,
-        [userId]: {...oldUser, ...newUser}
+      return { ...newState,
+        [userId]: { ...oldUser, ...newUser }
       };
     }
     case response(ActionTypes.GET_USER_SUBSCRIBERS): {
@@ -37,32 +37,32 @@ export default function users(state = {}, action) {
     case response(ActionTypes.CREATE_GROUP): {
       let userId = action.payload.groups.id;
       let newUser = userParser(action.payload.groups);
-      return {...state,
-        [userId]: {...newUser}
+      return { ...state,
+        [userId]: { ...newUser }
       };
     }
     case response(ActionTypes.UPDATE_GROUP): {
       let userId = action.payload.groups.id;
       let oldUser = state[userId] || {};
       let newUser = userParser(action.payload.groups);
-      return {...state,
-        [userId]: {...oldUser, ...newUser}
+      return { ...state,
+        [userId]: { ...oldUser, ...newUser }
       };
     }
     case response(ActionTypes.PROMOTE_GROUP_ADMIN): {
-      const group = _.find(state || [], {username: action.request.groupName});
+      const group = _.find(state || [], { username: action.request.groupName });
       const newAdmins = [...group.administrators, action.request.user.id];
-      return {...state,
-        [group.id]: {...group,
+      return { ...state,
+        [group.id]: { ...group,
           administrators: newAdmins
         }
       };
     }
     case response(ActionTypes.DEMOTE_GROUP_ADMIN): {
-      const group = _.find(state || [], {username: action.request.groupName});
+      const group = _.find(state || [], { username: action.request.groupName });
       const newAdmins = _.without(group.administrators, action.request.user.id);
-      return {...state,
-        [group.id]: {...group,
+      return { ...state,
+        [group.id]: { ...group,
           administrators: newAdmins
         }
       };

@@ -1,12 +1,12 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {connect} from 'react-redux';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import classnames from 'classnames';
 
-import {makeGetPost} from '../../redux/selectors';
-import {postActions} from '../../redux/select-utils';
-import {fromNowOrNow, getFullDate} from '../../utils';
+import { makeGetPost } from '../../redux/selectors';
+import { postActions } from '../../redux/select-utils';
+import { fromNowOrNow, getFullDate } from '../../utils';
 import PostAttachments from './post-attachments';
 import PostComments from './post-comments';
 import PostLikes from './post-likes';
@@ -41,7 +41,7 @@ class Post extends React.Component {
     const saveEditingPost = () => {
       if (!props.isSaving) {
         let attachmentIds = props.attachments.map(item => item.id) || [];
-        props.saveEditingPost(props.id, {body: this.refs.postText.value, attachments: attachmentIds});
+        props.saveEditingPost(props.id, { body: this.refs.postText.value, attachments: attachmentIds });
       }
     };
     const deletePost = () => props.deletePost(props.id);
@@ -103,7 +103,7 @@ class Post extends React.Component {
     const secondaryUserpicInterval = (props.isSinglePost ? 9 : 6);
     const getSecondaryOffset = (index) => (userpicSize + secondaryUserpicInterval + index * (secondaryUserpicSize + secondaryUserpicInterval));
     const secondaryUserpics = externalRecipients.map((recipient, index) => (
-      <div className={secondaryUserpicClasses} style={{top: getSecondaryOffset(index) + 'px'}} key={index}>
+      <div className={secondaryUserpicClasses} style={{ top: getSecondaryOffset(index) + 'px' }} key={index}>
         <Link to={`/${recipient.username}`}>
           <img src={recipient.profilePictureMediumUrl} width={secondaryUserpicSize} height={secondaryUserpicSize}/>
         </Link>
@@ -114,7 +114,7 @@ class Post extends React.Component {
       'post-userpic': true,
       'has-secondary': hasSecondaryUserpics
     });
-    const userpicStyle = {height: getSecondaryOffset(secondaryUserpics.length) - 3};
+    const userpicStyle = { height: getSecondaryOffset(secondaryUserpics.length) - 3 };
 
     // Recipients
     const recipientCustomDisplay = function(recipient) {
@@ -157,19 +157,19 @@ class Post extends React.Component {
 
     // DropzoneJS queue handlers
     const handleAddedFile = () => {
-      this.setState({attachmentQueueLength: this.state.attachmentQueueLength + 1});
+      this.setState({ attachmentQueueLength: this.state.attachmentQueueLength + 1 });
     };
     const handleRemovedFile = () => {
       if (this.state.attachmentQueueLength === 1) {
-        this.setState({hasUploadFailed: false});
+        this.setState({ hasUploadFailed: false });
       }
-      this.setState({attachmentQueueLength: this.state.attachmentQueueLength - 1});
+      this.setState({ attachmentQueueLength: this.state.attachmentQueueLength - 1 });
     };
     const handleUploadSuccess = (attachment) => (
       this.props.addAttachmentResponse(props.id, attachment)
     );
     const handleUploadFailure = () => {
-      this.setState({hasUploadFailed: true});
+      this.setState({ hasUploadFailed: true });
     };
 
     // Post URL
@@ -387,7 +387,7 @@ function makeMapStateToProps() {
     const post = getPost(state, ownProps);
     const myId = state.user.id;
 
-    return {...post, myId};
+    return { ...post, myId };
   };
 }
 

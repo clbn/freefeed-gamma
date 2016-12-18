@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import {preventDefault} from '../../utils';
+import { preventDefault } from '../../utils';
 
 const MY_FEED_LABEL = 'My feed';
 

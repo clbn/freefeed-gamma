@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import DummyPost from './elements/dummy-post';
 import Post from './elements/post';

@@ -1,10 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment} from '../redux/action-creators';
-import {getVisibleEntriesWithHidden} from '../redux/selectors';
-import {joinCreatePostData} from '../redux/select-utils';
-import {getQuery, getCurrentRouteName} from '../utils';
+import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../redux/action-creators';
+import { getVisibleEntriesWithHidden } from '../redux/selectors';
+import { joinCreatePostData } from '../redux/select-utils';
+import { getQuery, getCurrentRouteName } from '../utils';
 
 import PostCreateForm from './elements/post-create-form';
 import Feed from './elements/feed';
@@ -51,7 +51,7 @@ function mapStateToProps(state, ownProps) {
 
   const currentRoute = getCurrentRouteName(ownProps);
   const defaultFeed = (currentRoute === 'discussions' ? user.username : null);
-  const sendTo = {...state.sendTo, defaultFeed};
+  const sendTo = { ...state.sendTo, defaultFeed };
 
   return { isLoading, user, authenticated, visibleEntries, createPostForm, boxHeader, sendTo };
 }

@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {updateUser, resetUserSettingsForm, updateUserPicture, updateFrontendPreferences, updatePassword} from '../redux/action-creators';
+import { connect } from 'react-redux';
+import { updateUser, resetUserSettingsForm, updateUserPicture, updateFrontendPreferences, updatePassword } from '../redux/action-creators';
 import UserSettingsForm from './elements/user-settings-form';
 import UserPictureForm from './elements/user-picture-form';
 import UserFrontendPreferencesForm from './elements/user-frontend-preferences-form';

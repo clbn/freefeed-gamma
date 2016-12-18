@@ -1,12 +1,12 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {connect} from 'react-redux';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import _ from 'lodash';
 
-import {userActions} from '../../redux/select-utils';
-import {getUserInfo, updateUserCard} from '../../redux/action-creators';
-import {confirmFirst, isMobile} from '../../utils';
+import { userActions } from '../../redux/select-utils';
+import { getUserInfo, updateUserCard } from '../../redux/action-creators';
+import { confirmFirst, isMobile } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 import UserFeedStatus from './user-feed-status';
 import UserRelationshipStatus from './user-relationship-status';
@@ -19,7 +19,7 @@ class UserCard extends React.Component {
     super(props);
 
     this.state = {
-      position: {left: 0, top: 0},
+      position: { left: 0, top: 0 },
       isDescriptionOpen: false
     };
 
@@ -113,13 +113,13 @@ class UserCard extends React.Component {
       const nextTriggerRect = this.getTriggerRect(nextProps);
       if (nextTriggerRect && !_.isEqual(this.triggerRect, nextTriggerRect)) {
         this.triggerRect = nextTriggerRect;
-        this.setState({position: this.getPosition(nextProps), isDescriptionOpen: false});
+        this.setState({ position: this.getPosition(nextProps), isDescriptionOpen: false });
       }
 
       if (!this.props.userCardView.isHovered && nextProps.userCardView.isHovered) {
         const timeoutId = setTimeout(() => {
           if (this.props.userCardView.isHovered && !this.props.userCardView.isOpen) {
-            this.props.updateUserCard({isOpen: true});
+            this.props.updateUserCard({ isOpen: true });
           }
           this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
         }, USERCARD_SHOW_DELAY);
@@ -130,7 +130,7 @@ class UserCard extends React.Component {
       if (this.props.userCardView.isHovered && !nextProps.userCardView.isHovered) {
         const timeoutId = setTimeout(() => {
           if (!this.props.userCardView.isHovered && this.props.userCardView.isOpen) {
-            this.props.updateUserCard({isOpen: false});
+            this.props.updateUserCard({ isOpen: false });
             this.triggerRect = {};
           }
           this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
@@ -143,22 +143,22 @@ class UserCard extends React.Component {
   }
 
   enterUserCard = () => {
-    this.props.updateUserCard({isHovered: true});
+    this.props.updateUserCard({ isHovered: true });
   }
 
   leaveUserCard = () => {
-    this.props.updateUserCard({isHovered: false});
+    this.props.updateUserCard({ isHovered: false });
   }
 
   toggleDescription = () => {
-    this.setState({isDescriptionOpen: !this.state.isDescriptionOpen});
+    this.setState({ isDescriptionOpen: !this.state.isDescriptionOpen });
   }
 
   unsubscribe = () => {
     if (this.props.amIGroupAdmin) {
       alert('You are the Admin for this group. If you want to unsubscribe please drop administrative privileges first.');
     } else {
-      this.props.unsubscribe({username: this.props.user.username, id: this.props.user.id});
+      this.props.unsubscribe({ username: this.props.user.username, id: this.props.user.id });
     }
   }
 
@@ -235,7 +235,7 @@ class UserCard extends React.Component {
 
           {props.isBlocked ? (
             <div className="user-card-actions">
-              <a onClick={()=>props.unban({username: props.user.username, id: props.user.id})}>Un-block</a>
+              <a onClick={()=>props.unban({ username: props.user.username, id: props.user.id })}>Un-block</a>
             </div>
           ) : props.authenticated && !props.isItMe ? (
             <div className="user-card-actions">
@@ -245,15 +245,15 @@ class UserCard extends React.Component {
 
               {props.user.isPrivate === '1' && !props.amISubscribedToUser ? (
                 props.hasRequestBeenSent ? (
-                  <a onClick={()=>props.revokeSentRequest({username: props.user.username, id: props.user.id})}>Revoke sub request</a>
+                  <a onClick={()=>props.revokeSentRequest({ username: props.user.username, id: props.user.id })}>Revoke sub request</a>
                 ) : (
-                  <a onClick={()=>props.sendSubscriptionRequest({username: props.user.username, id: props.user.id})}>Request a subscription</a>
+                  <a onClick={()=>props.sendSubscriptionRequest({ username: props.user.username, id: props.user.id })}>Request a subscription</a>
                 )
               ) : (
                 props.amISubscribedToUser ? (
                   <a onClick={confirmFirst(this.unsubscribe)}>Unsubscribe</a>
                 ) : (
-                  <a onClick={()=>props.subscribe({username: props.user.username, id: props.user.id})}>Subscribe</a>
+                  <a onClick={()=>props.subscribe({ username: props.user.username, id: props.user.id })}>Subscribe</a>
                 )
               )}
 
@@ -264,7 +264,7 @@ class UserCard extends React.Component {
               ) : false}
 
               {props.user.type !== 'group' && !props.amISubscribedToUser ? (
-                <span> - <a onClick={()=>props.ban({username: props.user.username, id: props.user.id})}>Block</a></span>
+                <span> - <a onClick={()=>props.ban({ username: props.user.username, id: props.user.id })}>Block</a></span>
               ) : props.amIGroupAdmin ? (
                 <span> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></span>
               ) : false}
@@ -287,7 +287,7 @@ const mapStateToProps = (state) => {
 
   const me = state.user;
 
-  const user = (_.find(state.users, {username: userCardView.username}) || {});
+  const user = (_.find(state.users, { username: userCardView.username }) || {});
   if (!user.id) {
     user.username = userCardView.username;
     user.errorMessage = state.userErrors[userCardView.username];
@@ -304,7 +304,7 @@ const mapStateToProps = (state) => {
     authenticated,
     isItMe: (me.username === user.username),
     amISubscribedToUser: ((me.subscriptions || []).indexOf(user.id) > -1),
-    isUserSubscribedToMe: (_.findIndex(me.subscribers, {id: user.id}) > -1),
+    isUserSubscribedToMe: (_.findIndex(me.subscribers, { id: user.id }) > -1),
     hasRequestBeenSent: ((me.pendingSubscriptionRequests || []).indexOf(user.id) > -1),
     isBlocked: ((me.banIds || []).indexOf(user.id) > -1),
     amIGroupAdmin: (user.type === 'group' && (user.administrators || []).indexOf(me.id) > -1)

@@ -23,7 +23,7 @@ import {
 
 export function joinCreatePostData(state) {
   const createPostForm = state.createPostForm;
-  return {...createPostForm,
+  return { ...createPostForm,
     attachments: (createPostForm.attachments || []).map(attachmentId => state.attachments[attachmentId])
   };
 }

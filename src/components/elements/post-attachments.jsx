@@ -1,5 +1,5 @@
 import React from 'react';
-import {PhotoSwipe} from 'react-photoswipe';
+import { PhotoSwipe } from 'react-photoswipe';
 
 import ImageAttachment from './post-attachment-image';
 import AudioAttachment from './post-attachment-audio';
@@ -27,7 +27,7 @@ export default class PostAttachments extends React.Component {
     zoomEl: false,
     clickToCloseNonZoomable: false,
     bgOpacity: 0.9,
-    barsSize: {top: 0, bottom: 0},
+    barsSize: { top: 0, bottom: 0 },
     getThumbBoundsFn: this.getThumbBounds()
   };
   lightboxThumbnailElement = null;
@@ -111,7 +111,7 @@ export default class PostAttachments extends React.Component {
   }
 
   expandImages() {
-    this.setState({isExpanded: true});
+    this.setState({ isExpanded: true });
   }
 
   getImageLightboxItems(imageList) {
@@ -183,7 +183,7 @@ export default class PostAttachments extends React.Component {
   }
 
   handleCloseLightbox() {
-    this.setState({isLightboxOpen: false});
+    this.setState({ isLightboxOpen: false });
   }
 
   componentDidMount() {
@@ -226,7 +226,7 @@ export default class PostAttachments extends React.Component {
           {imageAttachments}
           <PhotoSwipe
             items={imageLightboxItems}
-            options={{...this.lightboxOptions, index: this.state.lightboxIndex}}
+            options={{ ...this.lightboxOptions, index: this.state.lightboxIndex }}
             imageLoadComplete={this.handleLightboxImageLoaded}
             isOpen={this.state.isLightboxOpen}
             onClose={this.handleCloseLightbox.bind(this)}/>

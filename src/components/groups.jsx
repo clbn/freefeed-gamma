@@ -1,17 +1,17 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import _ from 'lodash';
 
-import {pluralForm} from '../utils';
-import {acceptGroupRequest, rejectGroupRequest} from '../redux/action-creators';
-import {tileUserListFactory, WITH_REQUEST_HANDLES, PLAIN} from './elements/tile-user-list';
+import { pluralForm } from '../utils';
+import { acceptGroupRequest, rejectGroupRequest } from '../redux/action-creators';
+import { tileUserListFactory, WITH_REQUEST_HANDLES, PLAIN } from './elements/tile-user-list';
 
-const TileListWithAcceptAndReject = tileUserListFactory({type: WITH_REQUEST_HANDLES, displayQuantity: true});
-const TileList = tileUserListFactory({type: PLAIN, displayQuantity: true});
+const TileListWithAcceptAndReject = tileUserListFactory({ type: WITH_REQUEST_HANDLES, displayQuantity: true });
+const TileList = tileUserListFactory({ type: PLAIN, displayQuantity: true });
 
 const renderRequestsByGroup = (groupRequests, accept, reject) => {
-  let groups = groupRequests.map((r) => ({id: r.groupId, username: r.groupName}));
+  let groups = groupRequests.map((r) => ({ id: r.groupId, username: r.groupName }));
   groups = _.uniqBy(groups, 'id');
 
   return groups.map((g) => {
@@ -81,9 +81,9 @@ function mapStateToProps(state) {
   const managedGroups = {
     header: 'Groups I admin',
     sorting: [
-      {key: 'updatedAt', label: 'date they updated (most recent first)', isReverse: true},
-      {key: 'username', label: 'username'},
-      {key: 'screenName', label: 'display name'}
+      { key: 'updatedAt', label: 'date they updated (most recent first)', isReverse: true },
+      { key: 'username', label: 'username' },
+      { key: 'screenName', label: 'display name' }
     ],
     users: managedGroupsList
   };
@@ -91,9 +91,9 @@ function mapStateToProps(state) {
   const otherGroups = {
     header: "Groups I'm in",
     sorting: [
-      {key: 'updatedAt', label: 'date they updated (most recent first)', isReverse: true},
-      {key: 'username', label: 'username'},
-      {key: 'screenName', label: 'display name'}
+      { key: 'updatedAt', label: 'date they updated (most recent first)', isReverse: true },
+      { key: 'username', label: 'username' },
+      { key: 'screenName', label: 'display name' }
     ],
     users: otherGroupsList
   };

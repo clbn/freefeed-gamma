@@ -1,4 +1,4 @@
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 
 const emptyArray = [];
 
@@ -12,7 +12,7 @@ const makeGetPostComment = () => createSelector(
         return false;
       }
       const authorId = comment.createdBy;
-      return state.users[authorId] || {id: authorId};
+      return state.users[authorId] || { id: authorId };
     },
     (state, props) => state.posts[props.postId],
     (state) => state.user.subscriptions,

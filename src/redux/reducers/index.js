@@ -1,8 +1,8 @@
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
-const {request, response, fail} = ActionHelpers;
+const { request, response, fail } = ActionHelpers;
 
-import {userParser} from '../../utils';
+import { userParser } from '../../utils';
 
 export function serverError(state = false, action) {
   switch (action.type) {
@@ -18,7 +18,7 @@ export function userErrors(state = {}, action) {
     case fail(ActionTypes.GET_USER_INFO): {
       const username = action.request.username;
       const status = action.response.status + ' ' + action.response.statusText;
-      return {...state,
+      return { ...state,
         [username]: status
       };
     }
@@ -29,13 +29,13 @@ export function userErrors(state = {}, action) {
 export function groupSettings(state={}, action) {
   switch (action.type) {
     case request(ActionTypes.GET_USER_INFO): {
-      return {...state, status: 'loading'};
+      return { ...state, status: 'loading' };
     }
     case response(ActionTypes.GET_USER_INFO): {
-      return {...state, status: 'success'};
+      return { ...state, status: 'success' };
     }
     case fail(ActionTypes.GET_USER_INFO): {
-      return {...state, status: 'error', errorMessage: (action.payload || {}).err};
+      return { ...state, status: 'error', errorMessage: (action.payload || {}).err };
     }
   }
   return state;
@@ -129,7 +129,7 @@ export function usernameSubscriptions(state = {}, action) {
 export function usernameBlockedByMe(state = {}, action) {
   return handleUsers(
     state,
-    { ...action, 'payload': {'subscribers': action.payload } },
+    { ...action, 'payload': { 'subscribers': action.payload } },
     ActionTypes.BLOCKED_BY_ME,
     'error occured while fetching blocked users'
   );
@@ -139,7 +139,7 @@ export function sidebarViewState(state={}, action) {
   switch (action.type) {
     case ActionTypes.TOGGLE_SIDEBAR: {
       const isOpen = (action.payload.val !== null ? action.payload.val : !state.isOpen);
-      return {...state,
+      return { ...state,
         isOpen
       };
     }
@@ -166,10 +166,10 @@ import comments from './comments';
 import commentViews from './comment-views';
 import createPostForm from './create-post-form';
 import feedViewState from './feed-view';
-import {groupCreateForm, groupSettingsForm, groupPictureForm} from './group-forms';
+import { groupCreateForm, groupSettingsForm, groupPictureForm } from './group-forms';
 import posts from './posts';
 import postViews from './post-views';
-import {groupRequests, userRequests, sentRequests} from './requests';
+import { groupRequests, userRequests, sentRequests } from './requests';
 import sendTo from './send-to';
 import signInForm from './sign-in-form';
 import signUpForm from './sign-up-form';
@@ -178,7 +178,7 @@ import subscriptions from './subscriptions';
 import title from './title';
 import user from './user';
 import userCardView from './user-card-view';
-import {userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm} from './user-forms';
+import { userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm } from './user-forms';
 import users from './users';
 import userViews from './user-views';
 

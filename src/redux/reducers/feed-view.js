@@ -3,7 +3,7 @@ import _ from 'lodash';
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 
-const {response, fail} = ActionHelpers;
+const { response, fail } = ActionHelpers;
 
 const initFeed = {
   visibleEntries: [],
@@ -18,7 +18,7 @@ const addPostToFeed = (state, postId) => {
   if (itsAlreadyThere) {
     return state;
   }
-  return {...state,
+  return { ...state,
     visibleEntries: [postId, ...state.visibleEntries]
   };
 };
@@ -31,7 +31,7 @@ const hidePostInFeed = (state, postId) => {
   if (itsAlreadyThere) {
     return state;
   }
-  return {...state,
+  return { ...state,
     hiddenEntries: [postId, ...state.hiddenEntries]
   };
 };
@@ -41,7 +41,7 @@ const unhidePostInFeed = (state, postId) => {
   // (but check first if it's already in there, since this might be an "Undo" happening,
   // and/or realtime event might come first).
   const itsStillThere = (state.visibleEntries.indexOf(postId) > -1);
-  return {...state,
+  return { ...state,
     visibleEntries: (itsStillThere ? state.visibleEntries : [...state.visibleEntries, postId]),
     hiddenEntries: _.without(state.hiddenEntries, postId)
   };
@@ -71,7 +71,7 @@ export default function feedViewState(state = initFeed, action) {
     }
     case response(ActionTypes.GET_SINGLE_POST): {
       const postId = action.request.postId;
-      return {...initFeed,
+      return { ...initFeed,
         visibleEntries: [postId]
       };
     }
@@ -86,13 +86,13 @@ export default function feedViewState(state = initFeed, action) {
     }
     case response(ActionTypes.DELETE_POST): {
       const postId = action.request.postId;
-      return {...state,
+      return { ...state,
         visibleEntries: _.without(state.visibleEntries, postId),
         hiddenEntries: _.without(state.hiddenEntries, postId)
       };
     }
     case ActionTypes.REALTIME_POST_DESTROY: {
-      return {...state,
+      return { ...state,
         visibleEntries: _.without(state.visibleEntries, action.postId),
         hiddenEntries: _.without(state.hiddenEntries, action.postId)
       };
@@ -110,7 +110,7 @@ export default function feedViewState(state = initFeed, action) {
       return unhidePostInFeed(state, action.postId);
     }
     case ActionTypes.TOGGLE_HIDDEN_POSTS: {
-      return {...state,
+      return { ...state,
         isHiddenRevealed: !state.isHiddenRevealed
       };
     }

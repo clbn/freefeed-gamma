@@ -1,9 +1,9 @@
-import {api as apiConfig} from '../config';
-import {getToken} from './auth';
+import { api as apiConfig } from '../config';
+import { getToken } from './auth';
 import io from 'socket.io-client';
 
 const dummyPost = {
-  getBoundingClientRect: _ => ({top: 0})
+  getBoundingClientRect: _ => ({ top: 0 })
 };
 
 const scrollCompensator = dispatchAction => (...actionParams) => {
@@ -49,7 +49,7 @@ const bindSocketEventHandlers = socket => eventHandlers => {
   Object.keys(eventHandlers).forEach((event) => socket.on(event, scrollCompensator(eventHandlers[event])));
 };
 
-const openSocket = _ => io.connect(`${apiConfig.host}/`, {query: `token=${getToken()}`});
+const openSocket = _ => io.connect(`${apiConfig.host}/`, { query: `token=${getToken()}` });
 
 export function init(eventHandlers) {
   const socket = openSocket();

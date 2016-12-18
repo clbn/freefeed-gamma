@@ -5,7 +5,7 @@ import sd from 'skin-deep';
 import PieceOfText from 'src/components/elements/piece-of-text';
 
 const renderText = (text, isExpanded = false) => {
-  const tree = sd.shallowRender(React.createElement(PieceOfText, {text, isExpanded}));
+  const tree = sd.shallowRender(React.createElement(PieceOfText, { text, isExpanded }));
   return tree.getRenderOutput().props.children;
 };
 

@@ -1,12 +1,12 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {connect} from 'react-redux';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
-import {updateUserCard} from '../../redux/action-creators';
+import { updateUserCard } from '../../redux/action-creators';
 import * as FrontendPrefsOptions from '../../utils/frontend-preferences-options';
-import {isMobile} from '../../utils';
+import { isMobile } from '../../utils';
 
-const DisplayOption = ({user, me, preferences}) => {
+const DisplayOption = ({ user, me, preferences }) => {
   if (user.username === me && preferences.useYou) {
     return <span>You</span>;
   }
@@ -44,13 +44,13 @@ class UserName extends React.Component {
         bottom: rawRects[i].bottom
       });
     }
-    this.props.updateUserCard({isHovered: true, username: this.props.user.username, rects, x: event.pageX, y: event.pageY});
+    this.props.updateUserCard({ isHovered: true, username: this.props.user.username, rects, x: event.pageX, y: event.pageY });
   }
 
   leaveUserName = () => {
     if (isMobile()) { return; }
 
-    this.props.updateUserCard({isHovered: false});
+    this.props.updateUserCard({ isHovered: false });
   }
 
   render() {

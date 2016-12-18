@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import URLFinder from 'ff-url-finder';
 
 import config from '../../config';
@@ -23,7 +23,7 @@ finder.withHashTags = true;
 finder.withArrows = true;
 
 class Linkify extends React.Component {
-  createLinkElement({type, username}, displayedLink, href) {
+  createLinkElement({ type, username }, displayedLink, href) {
     const props = {
       key: `match${++this.idx}`,
       dir: 'ltr'
@@ -31,7 +31,7 @@ class Linkify extends React.Component {
 
     switch (type) {
       case AT_LINK: {
-        props['user'] = {username};
+        props['user'] = { username };
         props['display'] = displayedLink;
         if (this.userHover) {
           props['onMouseEnter'] = () => this.userHover.hover(username);
@@ -118,7 +118,7 @@ class Linkify extends React.Component {
     } else if (React.isValidElement(children) && (children.type !== 'a') && (children.type !== 'button')) {
       parsed = React.cloneElement(
         children,
-        {key: `parse${++this.parseCounter}`},
+        { key: `parse${++this.parseCounter}` },
         this.parse(children.props.children)
       );
     } else if (children instanceof Array) {

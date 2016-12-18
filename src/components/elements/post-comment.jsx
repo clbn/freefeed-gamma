@@ -1,13 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import classnames from 'classnames';
 
-import {makeGetPostComment} from '../../redux/selectors';
+import { makeGetPostComment } from '../../redux/selectors';
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
-import {preventDefault, confirmFirst, fromNowOrNow, getFullDate} from '../../utils';
-import {postActions} from '../../redux/select-utils';
+import { preventDefault, confirmFirst, fromNowOrNow, getFullDate } from '../../utils';
+import { postActions } from '../../redux/select-utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostComment extends React.Component {
@@ -33,12 +33,12 @@ class PostComment extends React.Component {
   }
 
   userHoverHandlers = {
-    hover: (username) => this.props.startHighlightingComments({postId: this.props.postId, username}),
+    hover: (username) => this.props.startHighlightingComments({ postId: this.props.postId, username }),
     leave: () => this.props.stopHighlightingComments()
   };
 
   arrowHoverHandlers = {
-    hover: (arrows) => this.props.startHighlightingComments({postId: this.props.postId, baseCommentId: this.props.id, arrows}),
+    hover: (arrows) => this.props.startHighlightingComments({ postId: this.props.postId, baseCommentId: this.props.id, arrows }),
     leave: () => this.props.stopHighlightingComments()
   };
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import DropzoneComponent from 'react-dropzone-component';
 
-import {api as apiConfig} from '../../config';
-import {getToken} from '../../services/auth';
+import { api as apiConfig } from '../../config';
+import { getToken } from '../../services/auth';
 
 const dropzoneComponentConfig = {
   postUrl: `${apiConfig.host}/v1/attachments`

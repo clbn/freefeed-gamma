@@ -2,11 +2,11 @@ import _ from 'lodash';
 
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
-import {postParser} from '../../utils';
+import { postParser } from '../../utils';
 
-const {response} = ActionHelpers;
+const { response } = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
-const mergeByIds = (state, array) => ({...state, ...indexById(array)});
+const mergeByIds = (state, array) => ({ ...state, ...indexById(array) });
 
 const updatePostData = (state, action) => {
   const postId = action.payload.posts.id;
@@ -41,7 +41,7 @@ const addCommentAndTrim = (state, postId, commentId) => {
     omittedComments = post.omittedComments + extraComments;
   }
 
-  return {...state,
+  return { ...state,
     [post.id]: {
       ...post,
       comments,
@@ -57,8 +57,8 @@ export default function posts(state = {}, action) {
   switch (action.type) {
     case response(ActionTypes.SHOW_MORE_COMMENTS): {
       const post = state[action.payload.posts.id];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           omittedComments: 0,
           comments: action.payload.posts.comments
         }
@@ -66,8 +66,8 @@ export default function posts(state = {}, action) {
     }
     case response(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
       const post = state[action.payload.posts.id];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           omittedLikes: 0,
           likes: action.payload.posts.likes
         }
@@ -75,8 +75,8 @@ export default function posts(state = {}, action) {
     }
     case response(ActionTypes.SAVE_EDITING_POST): {
       const post = state[action.payload.posts.id];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           body: action.payload.posts.body,
           updatedAt: action.payload.posts.updatedAt,
           attachments: action.payload.posts.attachments || []
@@ -91,7 +91,7 @@ export default function posts(state = {}, action) {
       }
 
       const post = state[action.payload.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           attachments: [...(post.attachments || []), action.payload.attachments.id]
@@ -106,7 +106,7 @@ export default function posts(state = {}, action) {
       }
 
       const post = state[action.payload.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           attachments: _.without((post.attachments || []), action.payload.attachmentId)
@@ -120,8 +120,8 @@ export default function posts(state = {}, action) {
         return state;
       }
       const comments = _.without(post.comments, commentId);
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           comments
         }
       };
@@ -134,10 +134,10 @@ export default function posts(state = {}, action) {
       if (!post) {
         return state;
       }
-      return {...state, [action.postId]: {
+      return { ...state, [action.postId]: {
         ...post,
         comments: _.without(post.comments, action.commentId)
-      }};
+      } };
     }
     case response(ActionTypes.ADD_COMMENT): {
       return addCommentAndTrim(state, action.request.postId, action.payload.comments.id);
@@ -148,7 +148,7 @@ export default function posts(state = {}, action) {
       if (likeAlreadyAdded) {
         return state;
       }
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           likes: [action.request.userId, ...(post.likes || [])]
@@ -160,7 +160,7 @@ export default function posts(state = {}, action) {
       if (!post || post.likes && post.likes.indexOf(action.users[0].id) !== -1) {
         return state;
       }
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           likes: [action.users[0].id, ...(post.likes || [])]
@@ -169,7 +169,7 @@ export default function posts(state = {}, action) {
     }
     case response(ActionTypes.UNLIKE_POST): {
       const post = state[action.request.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           likes: _.without(post.likes, action.request.userId)
@@ -181,7 +181,7 @@ export default function posts(state = {}, action) {
       if (!post) {
         return state;
       }
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           likes: _.without(post.likes, action.userId)
@@ -190,16 +190,16 @@ export default function posts(state = {}, action) {
     }
     case response(ActionTypes.HIDE_POST): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHidden: true
         }
       };
     }
     case response(ActionTypes.UNHIDE_POST): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHidden: false
         }
       };
@@ -209,24 +209,24 @@ export default function posts(state = {}, action) {
       if (!post) {
         return state;
       }
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHidden: false
         }
       };
     }
     case response(ActionTypes.DISABLE_COMMENTS): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           commentsDisabled: true
         }
       };
     }
     case response(ActionTypes.ENABLE_COMMENTS): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           commentsDisabled: false
         }
       };
@@ -246,8 +246,8 @@ export default function posts(state = {}, action) {
         return state;
       }
       const newPost = postParser(action.post);
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           body: newPost.body,
           attachments: newPost.attachments || [],
           commentsDisabled: newPost.commentsDisabled,

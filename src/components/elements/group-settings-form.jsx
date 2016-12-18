@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {preventDefault} from '../../utils';
+import { preventDefault } from '../../utils';
 import GroupTypeSelector from './group-type-selector';
 
 export default class GroupSettingsForm extends React.Component {
@@ -65,7 +65,7 @@ export default class GroupSettingsForm extends React.Component {
           originalState={this.props.group}
           currentState={this.state}
           changeGroupType={this.changeGroupType}
-          submitButton={{text: 'Update', status: this.props.status}}/>
+          submitButton={{ text: 'Update', status: this.props.status }}/>
 
         {this.props.status === 'success' ? (
           <div className="alert alert-info" role="alert">Updated!</div>

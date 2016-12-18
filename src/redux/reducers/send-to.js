@@ -2,9 +2,9 @@ import _ from 'lodash';
 
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
-import {userParser} from '../../utils';
+import { userParser } from '../../utils';
 
-const {response} = ActionHelpers;
+const { response } = ActionHelpers;
 
 const getValidRecipients = (state) => {
   const subscriptions = _.map(state.subscriptions || [], (rs) => {
@@ -14,7 +14,7 @@ const getValidRecipients = (state) => {
       user = _.find(state.subscribers || [], { 'id': sub.user });
     }
     if (user) {
-      return {id: rs.id, user: user};
+      return { id: rs.id, user: user };
     }
   }).filter(Boolean);
 
@@ -53,13 +53,13 @@ export default function sendTo(state = INITIAL_SEND_TO_STATE, action) {
     case response(ActionTypes.CREATE_GROUP): {
       let groupId = action.payload.groups.id;
       let group = userParser(action.payload.groups);
-      return {...state,
+      return { ...state,
         feeds: [ ...state.feeds, { id: groupId, user: group } ]
       };
     }
     case response(ActionTypes.SUBSCRIBE):
     case response(ActionTypes.UNSUBSCRIBE): {
-      return {...state,
+      return { ...state,
         feeds: getValidRecipients(action.payload)
       };
     }

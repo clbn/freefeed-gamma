@@ -1,8 +1,8 @@
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
-import {getToken} from '../../services/auth';
+import { getToken } from '../../services/auth';
 
-const {response} = ActionHelpers;
+const { response } = ActionHelpers;
 
 export default function authenticated(state = !!getToken(), action) {
   switch (action.type) {

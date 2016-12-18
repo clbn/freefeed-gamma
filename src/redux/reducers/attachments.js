@@ -3,9 +3,9 @@ import _ from 'lodash';
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 
-const {response} = ActionHelpers;
+const { response } = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
-const mergeByIds = (state, array) => ({...state, ...indexById(array)});
+const mergeByIds = (state, array) => ({ ...state, ...indexById(array) });
 
 export default function attachments(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
@@ -20,7 +20,7 @@ export default function attachments(state = {}, action) {
       return mergeByIds(state, action.attachments);
     }
     case ActionTypes.ADD_ATTACHMENT_RESPONSE: {
-      return {...state,
+      return { ...state,
         [action.payload.attachments.id]: action.payload.attachments
       };
     }

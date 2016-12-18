@@ -1,8 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {makeGetPostComments} from '../../redux/selectors';
-import {showMoreComments, toggleCommenting, addComment} from '../../redux/action-creators';
+import { makeGetPostComments } from '../../redux/selectors';
+import { showMoreComments, toggleCommenting, addComment } from '../../redux/action-creators';
 import PostComment from './post-comment';
 import PostCommentsMore from './post-comments-more';
 import PostCommentCreateForm from './post-comment-create-form';
@@ -16,7 +16,7 @@ class PostComments extends React.Component {
   }
 
   bindNewCommentTextarea = (textarea) => {
-    this.setState({newCommentTextarea: textarea});
+    this.setState({ newCommentTextarea: textarea });
   };
 
   showMoreComments = () => this.props.showMoreComments(this.props.post.id);

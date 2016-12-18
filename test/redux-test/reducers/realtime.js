@@ -1,13 +1,13 @@
 import test from 'tape';
-import {postViews, users} from 'src/redux/reducers';
-import {REALTIME_COMMENT_NEW, REALTIME_COMMENT_DESTROY, REALTIME_LIKE_NEW, REALTIME_POST_NEW} from 'src/redux/action-types';
+import { postViews, users } from 'src/redux/reducers';
+import { REALTIME_COMMENT_NEW, REALTIME_COMMENT_DESTROY, REALTIME_LIKE_NEW, REALTIME_POST_NEW } from 'src/redux/action-types';
 
 const testPost = {
   id: 1,
   omittedComments: 1,
 };
 
-const postViewsBefore = {[testPost.id]: testPost};
+const postViewsBefore = { [testPost.id]: testPost };
 
 
 const newRealtimeCommentAction = {
@@ -45,12 +45,12 @@ const testUser = {
   name: 'Ururu'
 };
 
-const usersBefore = {[testUser.id]: testUser};
+const usersBefore = { [testUser.id]: testUser };
 
 test('new post doesn\'t add user if presented', t => {
   const result = users(usersBefore, {
     type: REALTIME_POST_NEW,
-    users: [{id: 1}],
+    users: [{ id: 1 }],
   });
 
   t.equal(result[testUser.id], testUser);
@@ -61,7 +61,7 @@ test('new post doesn\'t add user if presented', t => {
 test('new comment doesn\'t add user if presented', t => {
   const result = users(usersBefore, {
     type: REALTIME_COMMENT_NEW,
-    users: [{id: 1}],
+    users: [{ id: 1 }],
   });
 
   t.equal(result[testUser.id], testUser);
@@ -72,7 +72,7 @@ test('new comment doesn\'t add user if presented', t => {
 test('new like doesn\'t add user if presented', t => {
   const result = users(usersBefore, {
     type: REALTIME_LIKE_NEW,
-    users: [{id: 1}],
+    users: [{ id: 1 }],
   });
 
   t.equal(result[testUser.id], testUser);

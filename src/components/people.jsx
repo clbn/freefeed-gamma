@@ -1,15 +1,15 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import {pluralForm} from '../utils';
-import {acceptUserRequest, rejectUserRequest, revokeSentRequest} from '../redux/action-creators';
-import {tileUserListFactory, PLAIN, WITH_REQUEST_HANDLES, WITH_REVOKE_SENT_REQUEST} from './elements/tile-user-list';
+import { pluralForm } from '../utils';
+import { acceptUserRequest, rejectUserRequest, revokeSentRequest } from '../redux/action-creators';
+import { tileUserListFactory, PLAIN, WITH_REQUEST_HANDLES, WITH_REVOKE_SENT_REQUEST } from './elements/tile-user-list';
 import throbber100 from 'assets/images/throbber.gif';
 
-const TileList = tileUserListFactory({type: PLAIN, displayQuantity: true});
-const TileListWithAcceptAndReject = tileUserListFactory({type: WITH_REQUEST_HANDLES, displayQuantity: true});
-const TileListWithRevoke = tileUserListFactory({type: WITH_REVOKE_SENT_REQUEST, displayQuantity: true});
+const TileList = tileUserListFactory({ type: PLAIN, displayQuantity: true });
+const TileListWithAcceptAndReject = tileUserListFactory({ type: WITH_REQUEST_HANDLES, displayQuantity: true });
+const TileListWithRevoke = tileUserListFactory({ type: WITH_REVOKE_SENT_REQUEST, displayQuantity: true });
 
 const People = (props) => {
   const feedRequestsHeader = `Subscription ${pluralForm(props.feedRequests.length, 'request', null, 'w')}`;
@@ -69,9 +69,9 @@ function mapStateToProps(state) {
   const mutualSubscriptions = {
     header: 'Mutual subscriptions',
     sorting: [
-      {key: null, label: 'date they subscribed (most recent first)'},
-      {key: 'username', label: 'username'},
-      {key: 'screenName', label: 'display name'}
+      { key: null, label: 'date they subscribed (most recent first)' },
+      { key: 'username', label: 'username' },
+      { key: 'screenName', label: 'display name' }
     ],
     users: mutualSubscriptionsList
   };
@@ -79,9 +79,9 @@ function mapStateToProps(state) {
   const otherSubscriptions = {
     header: 'Subscriptions',
     sorting: [
-      {key: null, label: 'date you subscribed (most recent first)'},
-      {key: 'username', label: 'username'},
-      {key: 'screenName', label: 'display name'}
+      { key: null, label: 'date you subscribed (most recent first)' },
+      { key: 'username', label: 'username' },
+      { key: 'screenName', label: 'display name' }
     ],
     users: otherSubscriptionsList
   };
@@ -89,9 +89,9 @@ function mapStateToProps(state) {
   const otherSubscribers = {
     header: 'Subscribers',
     sorting: [
-      {key: null, label: 'date they subscribed (most recent first)'},
-      {key: 'username', label: 'username'},
-      {key: 'screenName', label: 'display name'}
+      { key: null, label: 'date they subscribed (most recent first)' },
+      { key: 'username', label: 'username' },
+      { key: 'screenName', label: 'display name' }
     ],
     users: otherSubscribersList
   };

@@ -17,11 +17,11 @@ export default class GroupTypeSelector extends React.Component {
 
   changeVisibility = (event) => {
     if (event.target.value === this.levels.PUBLIC) {
-      this.props.changeGroupType({isPrivate: '0', isProtected: '0'});
+      this.props.changeGroupType({ isPrivate: '0', isProtected: '0' });
     } else if (event.target.value === this.levels.PROTECTED) {
-      this.props.changeGroupType({isPrivate: '0', isProtected: '1'});
+      this.props.changeGroupType({ isPrivate: '0', isProtected: '1' });
     } else if (event.target.value === this.levels.PRIVATE) {
-      this.props.changeGroupType({isPrivate: '1', isProtected: '0'});
+      this.props.changeGroupType({ isPrivate: '1', isProtected: '0' });
     }
   };
 

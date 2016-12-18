@@ -1,14 +1,14 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {connect} from 'react-redux';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import {unsubscribeFromGroup, promoteGroupAdmin, demoteGroupAdmin} from '../../redux/action-creators';
-import {tileUserListFactory, WITH_REMOVE_AND_MAKE_ADMIN_HANDLES, WITH_REMOVE_ADMIN_RIGHTS} from './tile-user-list';
+import { unsubscribeFromGroup, promoteGroupAdmin, demoteGroupAdmin } from '../../redux/action-creators';
+import { tileUserListFactory, WITH_REMOVE_AND_MAKE_ADMIN_HANDLES, WITH_REMOVE_ADMIN_RIGHTS } from './tile-user-list';
 import throbber100 from 'assets/images/throbber.gif';
 
-const AdminsList = tileUserListFactory({type: WITH_REMOVE_ADMIN_RIGHTS});
-const OtherSubsList = tileUserListFactory({type: WITH_REMOVE_AND_MAKE_ADMIN_HANDLES});
+const AdminsList = tileUserListFactory({ type: WITH_REMOVE_ADMIN_RIGHTS });
+const OtherSubsList = tileUserListFactory({ type: WITH_REMOVE_AND_MAKE_ADMIN_HANDLES });
 
 const UserManageSubscribers = (props) => {
   const unsubscribe = (username) => props.unsubscribeFromGroup(props.viewUser.username, username);

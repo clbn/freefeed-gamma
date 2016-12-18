@@ -1,11 +1,11 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 
-import {makeGetPostLikes} from '../../redux/selectors';
-import {showMoreLikes} from '../../redux/action-creators';
+import { makeGetPostLikes } from '../../redux/selectors';
+import { showMoreLikes } from '../../redux/action-creators';
 import UserName from './user-name';
-import {preventDefault} from '../../utils';
+import { preventDefault } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderLike = (item, i, items) => (

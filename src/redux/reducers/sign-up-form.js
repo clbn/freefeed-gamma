@@ -1,7 +1,7 @@
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 
-const {request, response, fail} = ActionHelpers;
+const { request, response, fail } = ActionHelpers;
 
 const INITIAL_SIGN_UP_FORM_STATE = {
   username: '',
@@ -26,16 +26,16 @@ export default function signUpForm(state = INITIAL_SIGN_UP_FORM_STATE, action) {
       };
     }
     case ActionTypes.SIGN_UP_EMPTY: {
-      return {...state, error: action.message, loading: false };
+      return { ...state, error: action.message, loading: false };
     }
     case request(ActionTypes.SIGN_UP): {
-      return {...state, loading: true };
+      return { ...state, loading: true };
     }
     case response(ActionTypes.SIGN_UP): {
-      return {...state, loading: false };
+      return { ...state, loading: false };
     }
     case fail(ActionTypes.SIGN_UP): {
-      return {...state, error: action.payload.err, loading: false };
+      return { ...state, error: action.payload.err, loading: false };
     }
   }
   return state;

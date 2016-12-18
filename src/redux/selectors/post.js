@@ -1,4 +1,4 @@
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 import _ from 'lodash';
 
 const emptyArray = [];
@@ -33,7 +33,7 @@ const makeGetPost = () => createSelector(
     (state, props) => state.postViews[props.id],
     (state, props) => {
       const authorId = state.posts[props.id].createdBy;
-      return state.users[authorId] || {id: authorId};
+      return state.users[authorId] || { id: authorId };
     },
     (state) => state.subscriptions,
     (state) => state.subscribers,

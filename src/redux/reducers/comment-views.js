@@ -3,7 +3,7 @@ import _ from 'lodash';
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 
-const {request, response, fail} = ActionHelpers;
+const { request, response, fail } = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
 
 const updateCommentViews = (state, comments) => {
@@ -12,7 +12,7 @@ const updateCommentViews = (state, comments) => {
     isEditing: false
   }));
   const viewStateMap = indexById(commentViews);
-  return {...viewStateMap, ...state};
+  return { ...viewStateMap, ...state };
 };
 
 export default function commentViews(state={}, action) {
@@ -37,19 +37,19 @@ export default function commentViews(state={}, action) {
       };
     }
     case request(ActionTypes.SAVE_EDITING_COMMENT): {
-      return {...state, [action.payload.commentId]: {...state[action.payload.commentId], isSaving: true}};
+      return { ...state, [action.payload.commentId]: { ...state[action.payload.commentId], isSaving: true } };
     }
     case response(ActionTypes.SAVE_EDITING_COMMENT): {
-      return {...state, [action.payload.comments.id]: {...state[action.payload.comments.id], isEditing: false, isSaving: false, errorMessage: ''}};
+      return { ...state, [action.payload.comments.id]: { ...state[action.payload.comments.id], isEditing: false, isSaving: false, errorMessage: '' } };
     }
     case fail(ActionTypes.SAVE_EDITING_COMMENT): {
-      return {...state, [action.request.commentId]: {...state[action.request.commentId], isEditing: true, isSaving: false, errorMessage: (action.payload || {}).err}};
+      return { ...state, [action.request.commentId]: { ...state[action.request.commentId], isEditing: true, isSaving: false, errorMessage: (action.payload || {}).err } };
     }
     case response(ActionTypes.DELETE_COMMENT): {
-      return {...state, [action.request.commentId]: undefined};
+      return { ...state, [action.request.commentId]: undefined };
     }
     case response(ActionTypes.ADD_COMMENT): {
-      return {...state,
+      return { ...state,
         [action.payload.comments.id]: {
           id: action.payload.comments.id,
           isEditing: false
@@ -58,7 +58,7 @@ export default function commentViews(state={}, action) {
     }
     case ActionTypes.REALTIME_COMMENT_NEW:
     case ActionTypes.REALTIME_COMMENT_UPDATE: {
-      return {...state,
+      return { ...state,
         [action.comment.id]: {
           id: action.comment.id,
           isEditing: false
@@ -66,7 +66,7 @@ export default function commentViews(state={}, action) {
       };
     }
     case ActionTypes.REALTIME_COMMENT_DESTROY: {
-      return {...state,
+      return { ...state,
         [action.commentId]: undefined
       };
     }
@@ -75,17 +75,17 @@ export default function commentViews(state={}, action) {
     }
 
     case ActionTypes.START_HIGHLIGHTING_COMMENTS: {
-      const newState = {...state};
+      const newState = { ...state };
       action.payload.forEach(commentId => {
-        newState[commentId] = {...newState[commentId], isHighlighted: true};
+        newState[commentId] = { ...newState[commentId], isHighlighted: true };
       });
       return newState;
     }
 
     case ActionTypes.STOP_HIGHLIGHTING_COMMENTS: {
-      const newState = {...state};
+      const newState = { ...state };
       action.payload.forEach(commentId => {
-        newState[commentId] = {...newState[commentId], isHighlighted: false};
+        newState[commentId] = { ...newState[commentId], isHighlighted: false };
       });
       return newState;
     }

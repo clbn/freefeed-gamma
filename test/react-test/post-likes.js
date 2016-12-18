@@ -2,13 +2,13 @@ import test from 'tape';
 import React from 'react';
 import sd from 'skin-deep';
 
-import {PostLikes} from 'src/components/elements/post-likes';
+import { PostLikes } from 'src/components/elements/post-likes';
 
 const renderLikes = (likes, omittedLikes = 0) => {
-  const post = {omittedLikes};
-  const me = {id: 123};
+  const post = { omittedLikes };
+  const me = { id: 123 };
 
-  const tree = sd.shallowRender(React.createElement(PostLikes, {likes, post, me}));
+  const tree = sd.shallowRender(React.createElement(PostLikes, { likes, post, me }));
   return tree.getRenderOutput().props.children[1].props.children;
 };
 

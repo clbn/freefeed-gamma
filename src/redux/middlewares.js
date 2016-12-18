@@ -1,12 +1,12 @@
-import {browserHistory} from 'react-router';
+import { browserHistory } from 'react-router';
 
 import * as ActionCreators from './action-creators';
 import * as ActionTypes from './action-types';
-import {request, response, fail, requiresAuth, isFeedRequest, isFeedResponse} from './action-helpers';
-import {getPost} from '../services/api';
-import {setToken, getPersistedUser, persistUser} from '../services/auth';
-import {init} from '../services/realtime';
-import {userParser} from '../utils';
+import { request, response, fail, requiresAuth, isFeedRequest, isFeedResponse } from './action-helpers';
+import { getPost } from '../services/api';
+import { setToken, getPersistedUser, persistUser } from '../services/auth';
+import { init } from '../services/realtime';
+import { userParser } from '../utils';
 
 //middleware for api requests
 export const apiMiddleware = store => next => async (action) => {
@@ -17,14 +17,14 @@ export const apiMiddleware = store => next => async (action) => {
 
   //dispatch request begin action
   //clean apiRequest to not get caught by this middleware
-  store.dispatch({...action, type: request(action.type), apiRequest: null});
+  store.dispatch({ ...action, type: request(action.type), apiRequest: null });
   try {
     const apiResponse = await action.apiRequest(action.payload);
     const obj = await apiResponse.json();
     if (apiResponse.status === 200) {
-      return store.dispatch({payload: obj, type: response(action.type), request: action.payload});
+      return store.dispatch({ payload: obj, type: response(action.type), request: action.payload });
     } else {
-      return store.dispatch({payload: obj, type: fail(action.type), request: action.payload, response: apiResponse});
+      return store.dispatch({ payload: obj, type: fail(action.type), request: action.payload, response: apiResponse });
     }
   } catch (e) {
     return store.dispatch(ActionCreators.serverError(e));
@@ -84,7 +84,7 @@ export const highlightedCommentsMiddleware = store => next => action => {
       return;
     }
 
-    const {postId, baseCommentId, username, arrows} = action.payload;
+    const { postId, baseCommentId, username, arrows } = action.payload;
     const post = state.posts[postId];
 
     const baseCommentIndex = post.comments.indexOf(baseCommentId);
@@ -99,7 +99,7 @@ export const highlightedCommentsMiddleware = store => next => action => {
       return isCommentHighlighted(commentId, authorUsername);
     });
 
-    return store.dispatch({type: ActionTypes.START_HIGHLIGHTING_COMMENTS, payload: highlightedCommentIds});
+    return store.dispatch({ type: ActionTypes.START_HIGHLIGHTING_COMMENTS, payload: highlightedCommentIds });
   }
 
   // When we got raw STOP_HIGHLIGHTING_COMMENTS with empty payload,
@@ -112,7 +112,7 @@ export const highlightedCommentsMiddleware = store => next => action => {
     }
 
     const highlightedCommentIds = state.highlightedComments;
-    return store.dispatch({type: ActionTypes.STOP_HIGHLIGHTING_COMMENTS, payload: highlightedCommentIds});
+    return store.dispatch({ type: ActionTypes.STOP_HIGHLIGHTING_COMMENTS, payload: highlightedCommentIds });
   }
 
   return next(action);
@@ -177,7 +177,7 @@ export const directsMiddleware = store => next => action => {
   }
 
   if (action.type === response(ActionTypes.MARK_DIRECTS_AS_READ)) {
-    persistUser({...getPersistedUser(), unreadDirectsNumber: 0});
+    persistUser({ ...getPersistedUser(), unreadDirectsNumber: 0 });
   }
 
   return next(action);
@@ -240,10 +240,10 @@ const maybeGetRespectivePost = async (store, postId, action) => {
   const isHomeFeed = state.routing.locationBeforeTransitions.pathname === '/';
   const isFirstPage = !state.routing.locationBeforeTransitions.query.offset;
   if (isHomeFeed && isFirstPage) {
-    const postResponse = await getPost({postId});
+    const postResponse = await getPost({ postId });
     const data = await postResponse.json();
     if (postResponse.status === 200 && isPostEligibleForBump(data, action, state)) {
-      return store.dispatch({...data, type: ActionTypes.REALTIME_POST_NEW, post: data.posts});
+      return store.dispatch({ ...data, type: ActionTypes.REALTIME_POST_NEW, post: data.posts });
     }
   }
 
@@ -251,7 +251,7 @@ const maybeGetRespectivePost = async (store, postId, action) => {
 };
 
 const bindHandlers = store => ({
-  'user:update': data => store.dispatch({...data, type: ActionTypes.REALTIME_USER_UPDATE}),
+  'user:update': data => store.dispatch({ ...data, type: ActionTypes.REALTIME_USER_UPDATE }),
   'post:new': data => {
     const state = store.getState();
 
@@ -263,20 +263,20 @@ const bindHandlers = store => ({
       const useRealtimePreference = state.user.frontendPreferences.realtimeActive;
 
       if (!isHomeFeed || (useRealtimePreference && isHomeFeed)) {
-        return store.dispatch({...data, type: ActionTypes.REALTIME_POST_NEW, post: data.posts});
+        return store.dispatch({ ...data, type: ActionTypes.REALTIME_POST_NEW, post: data.posts });
       }
     }
     return false;
   },
-  'post:update': data => store.dispatch({...data, type: ActionTypes.REALTIME_POST_UPDATE, post: data.posts}),
-  'post:destroy': data => store.dispatch({type: ActionTypes.REALTIME_POST_DESTROY, postId: data.meta.postId}),
-  'post:hide': data => store.dispatch({type: ActionTypes.REALTIME_POST_HIDE, postId: data.meta.postId}),
-  'post:unhide': data => store.dispatch({type: ActionTypes.REALTIME_POST_UNHIDE, postId: data.meta.postId}),
-  'comment:new': data => maybeGetRespectivePost(store, data.comments.postId, {type: ActionTypes.REALTIME_COMMENT_NEW, comment: data.comments, users: data.users}),
-  'comment:update': data => store.dispatch({...data, type: ActionTypes.REALTIME_COMMENT_UPDATE, comment: data.comments}),
-  'comment:destroy': data => store.dispatch({type: ActionTypes.REALTIME_COMMENT_DESTROY, commentId: data.commentId, postId: data.postId}),
-  'like:new': data => maybeGetRespectivePost(store, data.meta.postId, {type: ActionTypes.REALTIME_LIKE_NEW, postId: data.meta.postId, users: [data.users]}),
-  'like:remove': data => store.dispatch({type: ActionTypes.REALTIME_LIKE_REMOVE, postId: data.meta.postId, userId: data.meta.userId}),
+  'post:update': data => store.dispatch({ ...data, type: ActionTypes.REALTIME_POST_UPDATE, post: data.posts }),
+  'post:destroy': data => store.dispatch({ type: ActionTypes.REALTIME_POST_DESTROY, postId: data.meta.postId }),
+  'post:hide': data => store.dispatch({ type: ActionTypes.REALTIME_POST_HIDE, postId: data.meta.postId }),
+  'post:unhide': data => store.dispatch({ type: ActionTypes.REALTIME_POST_UNHIDE, postId: data.meta.postId }),
+  'comment:new': data => maybeGetRespectivePost(store, data.comments.postId, { type: ActionTypes.REALTIME_COMMENT_NEW, comment: data.comments, users: data.users }),
+  'comment:update': data => store.dispatch({ ...data, type: ActionTypes.REALTIME_COMMENT_UPDATE, comment: data.comments }),
+  'comment:destroy': data => store.dispatch({ type: ActionTypes.REALTIME_COMMENT_DESTROY, commentId: data.commentId, postId: data.postId }),
+  'like:new': data => maybeGetRespectivePost(store, data.meta.postId, { type: ActionTypes.REALTIME_LIKE_NEW, postId: data.meta.postId, users: [data.users] }),
+  'like:remove': data => store.dispatch({ type: ActionTypes.REALTIME_LIKE_REMOVE, postId: data.meta.postId, userId: data.meta.userId }),
 });
 
 export const realtimeMiddleware = store => {

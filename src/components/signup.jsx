@@ -1,8 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {signUpChange, signUp, signUpEmpty} from '../redux/action-creators';
-import {preventDefault} from '../utils';
-import {captcha as captchaConfig} from '../config';
+import { connect } from 'react-redux';
+import { signUpChange, signUp, signUpEmpty } from '../redux/action-creators';
+import { preventDefault } from '../utils';
+import { captcha as captchaConfig } from '../config';
 import Recaptcha from 'react-google-recaptcha';
 import validator from 'validator';
 
@@ -61,7 +61,7 @@ function signUpFunc(props) {
   let errorMessage = validate(props);
 
   if (!errorMessage) {
-    props.signUp({...props});
+    props.signUp({ ...props });
   } else {
     props.signUpEmpty(errorMessage);
   }
@@ -83,17 +83,17 @@ function SignUp(props) {
           <form onSubmit={preventDefault(() => signUpFunc(props))}>
             <div className="form-group">
               <label htmlFor="username-input">Username</label>
-              <input id="username-input" className="form-control" type="text" onChange={e => props.signUpChange({username: e.target.value})}/>
+              <input id="username-input" className="form-control" type="text" onChange={e => props.signUpChange({ username: e.target.value })}/>
             </div>
 
             <div className="form-group">
               <label htmlFor="email-input">Email</label>
-              <input id="email-input" className="form-control" type="email" onChange={e => props.signUpChange({email: e.target.value})}/>
+              <input id="email-input" className="form-control" type="email" onChange={e => props.signUpChange({ email: e.target.value })}/>
             </div>
 
             <div className="form-group">
               <label htmlFor="password-input">Password</label>
-              <input id="password-input" className="form-control" type="password" onChange={e => props.signUpChange({password: e.target.value})}/>
+              <input id="password-input" className="form-control" type="password" onChange={e => props.signUpChange({ password: e.target.value })}/>
             </div>
 
             {captchaConfig.siteKey ? (
@@ -102,8 +102,8 @@ function SignUp(props) {
                   sitekey={captchaConfig.siteKey}
                   theme="light"
                   type="image"
-                  onChange={v => props.signUpChange({captcha: v})}
-                  onExpired={v => props.signUpChange({captcha: null})} />
+                  onChange={v => props.signUpChange({ captcha: v })}
+                  onExpired={v => props.signUpChange({ captcha: null })} />
               </div>
             ) : false}
 
@@ -118,7 +118,7 @@ function SignUp(props) {
 }
 
 function mapStateToProps(state) {
-  return {...state.signUpForm};
+  return { ...state.signUpForm };
 }
 
 function mapDispatchToProps(dispatch) {

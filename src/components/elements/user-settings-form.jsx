@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import {preventDefault} from '../../utils';
+import { preventDefault } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class FeedVisibilitySelector extends React.Component {
@@ -19,11 +19,11 @@ class FeedVisibilitySelector extends React.Component {
 
   changeLevel = (event) => {
     if (event.target.value === this.levels.PUBLIC) {
-      this.props.changeVisibility({isPrivate: '0', isProtected: '0'});
+      this.props.changeVisibility({ isPrivate: '0', isProtected: '0' });
     } else if (event.target.value === this.levels.PROTECTED) {
-      this.props.changeVisibility({isPrivate: '0', isProtected: '1'});
+      this.props.changeVisibility({ isPrivate: '0', isProtected: '1' });
     } else if (event.target.value === this.levels.PRIVATE) {
-      this.props.changeVisibility({isPrivate: '1', isProtected: '0'});
+      this.props.changeVisibility({ isPrivate: '1', isProtected: '0' });
     }
   };
 

@@ -4,9 +4,9 @@ import 'index.jade';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
-import {Provider} from 'react-redux';
-import {syncHistoryWithStore} from 'react-router-redux';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 import Autotrack from 'autotrack';
 
 import configureStore from './redux/configure-store';
@@ -40,7 +40,7 @@ if (store.getState().authenticated) {
   store.dispatch(ActionCreators.unauthenticated());
 }
 
-import {bindRouteActions} from './redux/route-actions';
+import { bindRouteActions } from './redux/route-actions';
 
 const boundRouteActions = bindRouteActions(store.dispatch);
 
@@ -78,7 +78,7 @@ const getRouteHooks = (route) => ({
 
 history.listen(() => scrollTo(0, 0));
 history.listen(() => store.dispatch(ActionCreators.toggleSidebar(false)));
-history.listen(() => store.dispatch(ActionCreators.updateUserCard({isHovered: false, isOpen: false})));
+history.listen(() => store.dispatch(ActionCreators.updateUserCard({ isHovered: false, isOpen: false })));
 
 ReactDOM.render(
   <Provider store={store}>

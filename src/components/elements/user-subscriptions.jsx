@@ -1,11 +1,11 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import {tileUserListFactory, PLAIN} from './tile-user-list';
+import { tileUserListFactory, PLAIN } from './tile-user-list';
 import throbber100 from 'assets/images/throbber.gif';
 
-const TileList = tileUserListFactory({type: PLAIN});
+const TileList = tileUserListFactory({ type: PLAIN });
 
 const UserSubscriptions = (props) => {
   if (props.viewUser.isPrivate === '1' && !props.viewUser.amISubscribedToUser && !props.viewUser.isItMe) {
@@ -45,9 +45,9 @@ function mapStateToProps(state, ownProps) {
       .reverse();
 
     sorting = [
-      {'key': null, 'label': 'date you subscribed (most recent first)'},
-      {'key': 'username', 'label': 'username'},
-      {'key': 'screenName', 'label': 'display name'}
+      { 'key': null, 'label': 'date you subscribed (most recent first)' },
+      { 'key': 'username', 'label': 'username' },
+      { 'key': 'screenName', 'label': 'display name' }
     ];
   } else {
     users = _.sortBy(state.usernameSubscriptions.payload, 'username');

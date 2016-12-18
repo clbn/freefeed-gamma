@@ -3,9 +3,9 @@ import _ from 'lodash';
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 
-const {request, response, fail} = ActionHelpers;
+const { request, response, fail } = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
-const mergeByIds = (state, array) => ({...state, ...indexById(array)});
+const mergeByIds = (state, array) => ({ ...state, ...indexById(array) });
 
 const initPostViewState = (post) => {
   const id = post.id;
@@ -14,7 +14,7 @@ const initPostViewState = (post) => {
   const errorMessage = '';
   const commentError = '';
 
-  return {id, isEditing, errorStatus, errorMessage, commentError};
+  return { id, isEditing, errorStatus, errorMessage, commentError };
 };
 
 export default function postViews(state = {}, action) {
@@ -102,8 +102,8 @@ export default function postViews(state = {}, action) {
       return { ...state, [id]: { ...state[id], errorStatus, errorMessage } };
     }
     case ActionTypes.TOGGLE_COMMENTING: {
-      return {...state,
-        [action.postId]: {...state[action.postId],
+      return { ...state,
+        [action.postId]: { ...state[action.postId],
           isCommenting: !state[action.postId].isCommenting,
           commentError: ''
         }
@@ -111,15 +111,15 @@ export default function postViews(state = {}, action) {
     }
     case request(ActionTypes.ADD_COMMENT): {
       const post = state[action.payload.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           isSavingComment: true
-        }};
+        } };
     }
     case response(ActionTypes.ADD_COMMENT): {
       const post = state[action.request.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           isCommenting: false,
@@ -129,7 +129,7 @@ export default function postViews(state = {}, action) {
     }
     case fail(ActionTypes.ADD_COMMENT): {
       const post = state[action.request.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           isSavingComment: false,
@@ -139,15 +139,15 @@ export default function postViews(state = {}, action) {
     }
     case request(ActionTypes.LIKE_POST): {
       const post = state[action.payload.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           isLiking: true
-        }};
+        } };
     }
     case response(ActionTypes.LIKE_POST): {
       const post = state[action.request.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           isLiking: false
@@ -157,7 +157,7 @@ export default function postViews(state = {}, action) {
     case fail(ActionTypes.LIKE_POST): {
       const post = state[action.request.postId];
       const errorString = 'Something went wrong while liking the post...';
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           isLiking: false,
@@ -167,15 +167,15 @@ export default function postViews(state = {}, action) {
     }
     case request(ActionTypes.UNLIKE_POST): {
       const post = state[action.payload.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           isLiking: true
-        }};
+        } };
     }
     case response(ActionTypes.UNLIKE_POST): {
       const post = state[action.request.postId];
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           isLiking: false
@@ -185,7 +185,7 @@ export default function postViews(state = {}, action) {
     case fail(ActionTypes.UNLIKE_POST): {
       const post = state[action.request.postId];
       const errorString = 'Something went wrong while un-liking the post...';
-      return {...state,
+      return { ...state,
         [post.id]: {
           ...post,
           isLiking: false,
@@ -196,15 +196,15 @@ export default function postViews(state = {}, action) {
 
     case request(ActionTypes.HIDE_POST): {
       const post = state[action.payload.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHiding: true
-        }};
+        } };
     }
     case response(ActionTypes.HIDE_POST): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHiding: false
         }
       };
@@ -214,16 +214,16 @@ export default function postViews(state = {}, action) {
       if (!post) {
         return state;
       }
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHiding: false
         }
       };
     }
     case fail(ActionTypes.HIDE_POST): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHiding: false,
           hideError: 'Something went wrong while hiding the post.'
         }
@@ -232,15 +232,15 @@ export default function postViews(state = {}, action) {
 
     case request(ActionTypes.UNHIDE_POST): {
       const post = state[action.payload.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHiding: true
-        }};
+        } };
     }
     case response(ActionTypes.UNHIDE_POST): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHiding: false
         }
       };
@@ -250,16 +250,16 @@ export default function postViews(state = {}, action) {
       if (!post) {
         return state;
       }
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHiding: false
         }
       };
     }
     case fail(ActionTypes.UNHIDE_POST): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isHiding: false,
           hideError: 'Something went wrong while un-hiding the post.'
         }
@@ -268,8 +268,8 @@ export default function postViews(state = {}, action) {
 
     case ActionTypes.TOGGLE_MODERATING_COMMENTS: {
       const post = state[action.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isModeratingComments: !post.isModeratingComments
         }
       };
@@ -277,16 +277,16 @@ export default function postViews(state = {}, action) {
 
     case request(ActionTypes.DISABLE_COMMENTS): {
       const post = state[action.payload.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isDisablingComments: true
         }
       };
     }
     case response(ActionTypes.DISABLE_COMMENTS): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isDisablingComments: false,
           commentsDisabled: true
         }
@@ -294,8 +294,8 @@ export default function postViews(state = {}, action) {
     }
     case fail(ActionTypes.DISABLE_COMMENTS): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isDisablingComments: false,
           disableCommentsError: 'Something went wrong while disabling comments.'
         }
@@ -304,15 +304,15 @@ export default function postViews(state = {}, action) {
 
     case request(ActionTypes.ENABLE_COMMENTS): {
       const post = state[action.payload.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isDisablingComments: true
-        }};
+        } };
     }
     case response(ActionTypes.ENABLE_COMMENTS): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isDisablingComments: false,
           commentsDisabled: false
         }
@@ -320,8 +320,8 @@ export default function postViews(state = {}, action) {
     }
     case fail(ActionTypes.ENABLE_COMMENTS): {
       const post = state[action.request.postId];
-      return {...state,
-        [post.id]: {...post,
+      return { ...state,
+        [post.id]: { ...post,
           isDisablingComments: false,
           disableCommentsError: 'Something went wrong while enabling comments.'
         }
@@ -330,7 +330,7 @@ export default function postViews(state = {}, action) {
 
     case response(ActionTypes.CREATE_POST): {
       const post = action.payload.posts;
-      return {...state,
+      return { ...state,
         [post.id]: initPostViewState(post)
       };
     }
