@@ -13,6 +13,7 @@
   },
   "rules": {
     "curly": ["error", "all"],
+    "eol-last": ["warn", "always"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "key-spacing": ["warn", { "beforeColon": false, "afterColon": true, "mode": "strict" }],
     "keyword-spacing": ["error", { "before": true, "after": true }],
