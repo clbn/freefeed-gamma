@@ -100,7 +100,7 @@ export default class PostRecipients extends React.Component {
               clearable={false} />
             {this.state.isWarningDisplayed ? (
               <div className="alert alert-warning">
-                You are going to send a direct message and also post this message to a feed. This means that everyone who sees this feed will be able to see your message. 
+                You are going to send a direct message and also post this message to a feed. This means that everyone who sees this feed will be able to see your message.
               </div>
             ) : false}
           </div>
@@ -109,4 +109,3 @@ export default class PostRecipients extends React.Component {
     );
   }
 }
- 
