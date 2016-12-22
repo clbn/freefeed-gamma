@@ -103,8 +103,7 @@ class Linkify extends React.Component {
       });
 
       return (elements.length === 1) ? elements[0] : elements;
-    }
-    catch (err) {
+    } catch (err) {
       console.log('Error while linkifying text', string, err);
     }
     return [string];

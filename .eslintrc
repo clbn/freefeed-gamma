@@ -12,6 +12,7 @@
     }
   },
   "rules": {
+    "brace-style": ["warn", "1tbs", { "allowSingleLine": true }],
     "curly": ["error", "all"],
     "eol-last": ["warn", "always"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
