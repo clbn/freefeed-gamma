@@ -9,7 +9,7 @@ export default (props) => {
 
   return (
     <div className="attachment">
-      <a href={props.url} title={nameAndSize} target="_blank">
+      <a href={props.url} title={nameAndSize} target="_blank" rel="noopener">
         <i className="fa fa-file-o"></i>
         <span>{nameAndSize}</span>
       </a>

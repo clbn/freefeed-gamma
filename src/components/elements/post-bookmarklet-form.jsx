@@ -69,7 +69,7 @@ export default class PostBookmarkletForm extends React.Component {
       return (
         <div className="brand-new-post">
           Done! Check out<br/>
-          <a href={postUrl} target="_blank">your brand new post</a>
+          <a href={postUrl} target="_blank" rel="noopener">your brand new post</a>
         </div>
       );
     }

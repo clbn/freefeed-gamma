@@ -36,7 +36,7 @@ export default (props) => {
 
   return (
     <div className="attachment">
-      <a href={props.url} title={nameAndSize} onClick={preventDefault(props.handleClick)} target="_blank">
+      <a href={props.url} title={nameAndSize} onClick={preventDefault(props.handleClick)} target="_blank" rel="noopener">
         {props.thumbnailUrl ? (
           <img {...imageAttributes}/>
         ) : (

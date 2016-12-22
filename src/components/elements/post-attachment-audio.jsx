@@ -21,7 +21,7 @@ export default (props) => {
         <audio src={props.url} title={artistAndTitle} preload="none" controls></audio>
       </div>
       <div>
-        <a href={props.url} title={artistAndTitle} target="_blank">
+        <a href={props.url} title={artistAndTitle} target="_blank" rel="noopener">
           <i className="fa fa-file-audio-o"></i>
           <span>{artistAndTitle}</span>
         </a>
