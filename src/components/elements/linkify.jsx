@@ -54,6 +54,7 @@ class Linkify extends React.Component {
       default: {
         props['href'] = href;
         props['target'] = '_blank';
+        props['rel'] = 'noopener';
         return React.createElement('a', props, displayedLink);
       }
     }
