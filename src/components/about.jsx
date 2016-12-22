@@ -20,7 +20,7 @@ export default (props) => (
       <h3>Why FreeFeed?</h3>
 
       <p>FreeFeed is being built as a replacement
-        for <a href="https://en.wikipedia.org/wiki/FriendFeed" target="_blank">FriendFeed</a>,
+        for <a href="https://en.wikipedia.org/wiki/FriendFeed" target="_blank" rel="noopener">FriendFeed</a>,
         the real-time aggregator and social network where "likes" for user
         generated content were implemented for the first time.</p>
 
@@ -47,7 +47,7 @@ export default (props) => (
         in Tallinn, Estonia to fund and coordinate open-source development of the
         platform.</p>
 
-      <p>After launching a <a href="https://www.indiegogo.com/projects/freefeed-v-1" target="_blank">successful
+      <p>After launching a <a href="https://www.indiegogo.com/projects/freefeed-v-1" target="_blank" rel="noopener">successful
         crowdfunding campaign</a> in December 2015, the platform is now being
         actively developed. It is being used by hundreds of people now, even
         though the work is still underway.</p>

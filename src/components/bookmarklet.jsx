@@ -78,7 +78,7 @@ class Bookmarklet extends React.Component {
       <div className={bookmarkletClasses}>
         <header>
           <h1>
-            Share on <a href="/" target="_blank">FreeFeed</a>
+            Share on <a href="/" target="_blank" rel="noopener">FreeFeed</a>
             <sup className="gamma" title="Gamma">&gamma;</sup>
           </h1>
         </header>

@@ -15,15 +15,15 @@ export default (props) => (
         {' \u00b7 '}
         <Link to="/about/terms">Terms</Link>
         {' \u00b7 '}
-        <a href="https://status.freefeed.net/" target="_blank">Status</a>
+        <a href="https://status.freefeed.net/" target="_blank" rel="noopener">Status</a>
         {' \u00b7 '}
-        <a href="https://dev.freefeed.net/" target="_blank">Development</a>
+        <a href="https://dev.freefeed.net/" target="_blank" rel="noopener">Development</a>
 
         {' \u00a0-\u00a0 '}
 
         Gamma: <Link to="/gamma">News</Link>
         {' \u00b7 '}
-        <a href="https://github.com/clbn/freefeed-gamma" target="_blank">Development</a>
+        <a href="https://github.com/clbn/freefeed-gamma" target="_blank" rel="noopener">Development</a>
       </footer>
     </div>
   </div>
