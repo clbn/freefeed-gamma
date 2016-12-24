@@ -52,7 +52,6 @@ class UserCard extends React.Component {
     const rectLeft = this.triggerRect.left;
     const rectRight = this.triggerRect.right;
 
-
     // Find X
 
     const xOffset = 20; // offset from the edge of the rect (in px)
@@ -76,7 +75,6 @@ class UserCard extends React.Component {
     } else {
       position.right = pageWidth - x - window.scrollX;
     }
-
 
     // Find Y
 

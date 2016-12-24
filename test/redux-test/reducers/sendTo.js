@@ -3,7 +3,6 @@ import { sendTo } from 'src/redux/reducers';
 import { WHO_AM_I, SUBSCRIBE, UNSUBSCRIBE } from 'src/redux/action-types';
 import { response } from 'src/redux/action-helpers';
 
-
 const stateInitial = {
   feeds: []
 };
@@ -97,7 +96,6 @@ const payloadZeroSubs = {
   "users": { "id": "86ad24d8-0ca0-42af-905f-743d3a472eb6","username": "clbn12","type": "user","screenName": "clbn12","email": "clbn12@clbn12.com","isPrivate": "0","frontendPreferences": {},"profilePictureLargeUrl": "","profilePictureMediumUrl": "","banIds": [],"statistics": { "id": "86ad24d8-0ca0-42af-905f-743d3a472eb6","posts": "0","likes": "0","comments": "0","subscribers": "0","subscriptions": "0" },"administrators": ["86ad24d8-0ca0-42af-905f-743d3a472eb6"],"pendingGroupRequests": false },
   "admins": [{ "id": "86ad24d8-0ca0-42af-905f-743d3a472eb6","username": "clbn12","type": "user","screenName": "clbn12","updatedAt": "1456840434186","isPrivate": "0","profilePictureLargeUrl": "","profilePictureMediumUrl": "","administrators": [{}],"statistics": { "id": "86ad24d8-0ca0-42af-905f-743d3a472eb6","posts": "0","likes": "0","comments": "0","subscribers": "0","subscriptions": "0" } }]
 };
-
 
 test('sendTo: WHO_AM_I adds one existing recipient into the initially empty state', t => {
   const state = sendTo(stateInitial, { type: response(WHO_AM_I), payload: payloadOneSub });

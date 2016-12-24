@@ -9,7 +9,6 @@ const testPost = {
 
 const postViewsBefore = { [testPost.id]: testPost };
 
-
 const newRealtimeCommentAction = {
   type: REALTIME_COMMENT_NEW,
   comment: {
@@ -79,7 +78,6 @@ test('new like doesn\'t add user if presented', t => {
 
   t.end();
 });
-
 
 const anotherTestUser = {
   id: 2,

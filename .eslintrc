@@ -19,6 +19,7 @@
     "key-spacing": ["warn", { "beforeColon": false, "afterColon": true, "mode": "strict" }],
     "keyword-spacing": ["error", { "before": true, "after": true }],
     "linebreak-style": ["warn", "unix"],
+    "no-multiple-empty-lines": ["warn", { "max": 1 }],
     "no-tabs": "warn",
     "no-trailing-spaces": "warn",
     "object-curly-spacing": ["warn", "always"],

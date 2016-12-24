@@ -316,7 +316,6 @@ export const subscribe = userAction('subscribe');
 export const unsubscribe = userAction('unsubscribe');
 export const sendSubscriptionRequest = userAction('sendRequest');
 
-
 export function getUserComments({ username, offset }) {
   return fetch(`${apiConfig.host}/v1/timelines/${username}/comments?offset=${offset}`, getRequestOptions());
 }
