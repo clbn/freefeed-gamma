@@ -3,15 +3,19 @@ import React from 'react';
 import { preventDefault } from '../../utils';
 
 export default class UserChangePasswordForm extends React.Component {
+  refCurrentPassword = (input) => { this.currentPassword = input; };
+  refPassword = (input) => { this.password = input; };
+  refPasswordConfirmation = (input) => { this.passwordConfirmation = input; };
+
   updatePassword = () => {
     if (!this.props.isSaving) {
       this.props.updatePassword({
-        currentPassword: this.refs.currentPassword.value,
-        password: this.refs.password.value,
-        passwordConfirmation: this.refs.passwordConfirmation.value
+        currentPassword: this.currentPassword.value,
+        password: this.password.value,
+        passwordConfirmation: this.passwordConfirmation.value
       });
     }
-  }
+  };
 
   render() {
     return (
@@ -20,17 +24,17 @@ export default class UserChangePasswordForm extends React.Component {
 
         <div className="form-group">
           <label htmlFor="currentPassword">Current password:</label>
-          <input id="currentPassword" className="form-control" ref="currentPassword" type="password"/>
+          <input id="currentPassword" className="form-control" ref={this.refCurrentPassword} type="password"/>
         </div>
 
         <div className="form-group">
           <label htmlFor="password">New password:</label>
-          <input id="password" className="form-control" ref="password" type="password"/>
+          <input id="password" className="form-control" ref={this.refPassword} type="password"/>
         </div>
 
         <div className="form-group">
           <label htmlFor="passwordConfirmation">Confirm password:</label>
-          <input id="passwordConfirmation" className="form-control" ref="passwordConfirmation" type="password"/>
+          <input id="passwordConfirmation" className="form-control" ref={this.refPasswordConfirmation} type="password"/>
         </div>
 
         <p>
