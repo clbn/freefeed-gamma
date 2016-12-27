@@ -61,6 +61,9 @@ export function frontendPreferencesForm(state={}, action) {
     case fail(ActionTypes.UPDATE_FRONTEND_PREFERENCES): {
       return { ...state, status: 'error', errorMessage: (action.payload || {}).err };
     }
+    case ActionTypes.RESET_USER_SETTINGS_FORM: {
+      return {};
+    }
   }
   return state;
 }
