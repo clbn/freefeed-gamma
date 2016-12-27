@@ -4,13 +4,6 @@ import { frontendPreferences as frontendPrefsConfig } from '../../config';
 
 const { request, response, fail } = ActionHelpers;
 
-const DEFAULT_PASSWORD_FORM_STATE = {
-  isSaving: false,
-  success: false,
-  error: false,
-  errorText: ''
-};
-
 export function userSettingsForm(state={}, action) {
   switch (action.type) {
     case request(ActionTypes.UPDATE_USER): {
@@ -68,16 +61,16 @@ export function frontendPreferencesForm(state={}, action) {
   return state;
 }
 
-export function passwordForm(state = DEFAULT_PASSWORD_FORM_STATE, action) {
+export function passwordForm(state={}, action) {
   switch (action.type) {
     case request(ActionTypes.UPDATE_PASSWORD): {
-      return { ...state, isSaving: true, error: false, success: false };
+      return { ...state, status: 'loading' };
     }
     case response(ActionTypes.UPDATE_PASSWORD): {
-      return { ...state, isSaving: false, success: true, error: false };
+      return { ...state, status: 'success' };
     }
     case fail(ActionTypes.UPDATE_PASSWORD): {
-      return { ...state, isSaving: false, success: false, error: true, errorText: action.payload.err };
+      return { ...state, status: 'error', errorMessage: (action.payload || {}).err };
     }
   }
   return state;

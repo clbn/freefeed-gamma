@@ -38,15 +38,13 @@ export default class UserChangePasswordForm extends React.Component {
         </div>
 
         <p>
-          <button className="btn btn-default" type="submit">Update Password</button>
+          <button className="btn btn-default" type="submit">Update password</button>
         </p>
 
-        {this.props.success ? (
+        {this.props.status === 'success' ? (
           <div className="alert alert-info" role="alert">Your password has been changed</div>
-        ) : false}
-
-        {this.props.error ? (
-          <div className="alert alert-danger" role="alert">{this.props.errorText}</div>
+        ) : this.props.status === 'error' ? (
+          <div className="alert alert-danger" role="alert">{this.props.errorMessage}</div>
         ) : false}
       </form>
     );
