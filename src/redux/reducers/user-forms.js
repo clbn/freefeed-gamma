@@ -72,6 +72,9 @@ export function passwordForm(state={}, action) {
     case fail(ActionTypes.UPDATE_PASSWORD): {
       return { ...state, status: 'error', errorMessage: (action.payload || {}).err };
     }
+    case ActionTypes.RESET_USER_SETTINGS_FORM: {
+      return {};
+    }
   }
   return state;
 }
