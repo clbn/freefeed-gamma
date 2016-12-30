@@ -8,16 +8,20 @@ import PaginatedView from './elements/paginated-view';
 import Feed from './elements/feed';
 
 class Search extends React.Component {
+  refSearchQuery = (input) => {
+    this.searchQuery = input;
+  };
+
   componentWillReceiveProps(newProps) {
     if (newProps.query !== this.props.query) {
-      this.refs.searchQuery.value = newProps.query;
+      this.searchQuery.value = newProps.query;
     }
   }
 
   submitForm = () => {
-    const query = this.refs.searchQuery.value;
+    const query = this.searchQuery.value;
     browserHistory.push(`/search?q=${encodeURIComponent(query)}`);
-  }
+  };
 
   render() {
     const props = this.props;
@@ -37,7 +41,7 @@ class Search extends React.Component {
         <form className="search-form" onSubmit={preventDefault(this.submitForm)}>
           <div className="row">
             <div className="col-xs-9">
-              <input className="form-control" type="text" name="q" ref="searchQuery" defaultValue={props.query}/>
+              <input className="form-control" type="text" name="q" ref={this.refSearchQuery} defaultValue={props.query}/>
             </div>
             <div className="col-xs-3">
               <button className="btn btn-default" type="submit">Search</button>
