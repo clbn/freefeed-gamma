@@ -14,6 +14,10 @@ export default class SearchForm extends React.Component {
     };
   }
 
+  refSearchQuery = (input) => {
+    this.searchQuery = input;
+  };
+
   focusForm = () => {
     this.setState({ isFocused: true });
   };
@@ -23,7 +27,7 @@ export default class SearchForm extends React.Component {
   };
 
   submitForm = () => {
-    const query = this.refs.searchQuery.value;
+    const query = this.searchQuery.value;
     browserHistory.push(`/search?q=${encodeURIComponent(query)}`);
   };
 
@@ -36,7 +40,7 @@ export default class SearchForm extends React.Component {
 
     return (
       <form className={formClasses} action="/search" onSubmit={preventDefault(this.submitForm)}>
-        <input className="form-control" type="text" name="q" ref="searchQuery" defaultValue="" onFocus={this.focusForm} onBlur={this.blurForm}/>
+        <input className="form-control" type="text" name="q" ref={this.refSearchQuery} defaultValue="" onFocus={this.focusForm} onBlur={this.blurForm}/>
         <button className="btn btn-default" type="submit">
           <i className="fa fa-search"></i>
         </button>
