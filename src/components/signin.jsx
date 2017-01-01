@@ -7,9 +7,12 @@ import { preventDefault } from '../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class SignIn extends React.Component {
+  refUsername = (input) => { this.username = input; };
+  refPassword = (input) => { this.password = input; };
+
   submitForm = () => {
-    const username = this.refs.username.value;
-    const password = this.refs.password.value;
+    const username = this.username.value;
+    const password = this.password.value;
     this.props.signIn(username, password);
   };
 
@@ -23,11 +26,11 @@ class SignIn extends React.Component {
             <form onSubmit={preventDefault(this.submitForm)}>
               <div className="form-group">
                 <label htmlFor="username-input">Username</label>
-                <input id="username-input" className="form-control" type="text" ref="username"/>
+                <input id="username-input" className="form-control" type="text" ref={this.refUsername}/>
               </div>
               <div className="form-group">
                 <label htmlFor="password-input">Password</label>
-                <input id="password-input" className="form-control" type="password" ref="password"/>
+                <input id="password-input" className="form-control" type="password" ref={this.refPassword}/>
               </div>
               <div className="form-group">
                 <button className="btn btn-default" type="submit">Sign in</button>
