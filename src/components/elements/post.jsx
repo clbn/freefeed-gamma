@@ -27,6 +27,10 @@ class Post extends React.Component {
     };
   }
 
+  refPostText = (input) => {
+    this.postText = input;
+  };
+
   removeAttachment = (attachmentId) => this.props.removeAttachment(this.props.id, attachmentId)
 
   render() {
@@ -41,7 +45,7 @@ class Post extends React.Component {
     const saveEditingPost = () => {
       if (!props.isSaving) {
         let attachmentIds = props.attachments.map(item => item.id) || [];
-        props.saveEditingPost(props.id, { body: this.refs.postText.value, attachments: attachmentIds });
+        props.saveEditingPost(props.id, { body: this.postText.value, attachments: attachmentIds });
       }
     };
     const deletePost = () => props.deletePost(props.id);
@@ -290,7 +294,7 @@ class Post extends React.Component {
 
               <div>
                 <Textarea
-                  ref="postText"
+                  ref={this.refPostText}
                   className="form-control post-textarea"
                   defaultValue={props.body}
                   autoFocus={true}
