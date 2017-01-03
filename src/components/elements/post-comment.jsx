@@ -11,6 +11,10 @@ import { postActions } from '../../redux/select-utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostComment extends React.Component {
+  refCommentText = (input) => {
+    this.commentText = input;
+  };
+
   openAnsweringComment = () => {
     if (this.props.openAnsweringComment) {
       this.props.openAnsweringComment(this.props.createdBy.username);
@@ -28,7 +32,7 @@ class PostComment extends React.Component {
 
   saveComment = () => {
     if (!this.props.isSaving) {
-      this.props.saveEditingComment(this.props.id, this.refs.commentText.value);
+      this.props.saveEditingComment(this.props.id, this.commentText.value);
     }
   }
 
@@ -71,7 +75,7 @@ class PostComment extends React.Component {
           <div className="comment-body">
             <div>
               <Textarea
-                ref="commentText"
+                ref={this.refCommentText}
                 className="form-control comment-textarea"
                 defaultValue={this.props.body}
                 autoFocus={true}
