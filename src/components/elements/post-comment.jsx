@@ -19,7 +19,7 @@ class PostComment extends React.Component {
     if (this.props.openAnsweringComment) {
       this.props.openAnsweringComment(this.props.createdBy.username);
     }
-  }
+  };
 
   checkSave = (event) => {
     const isEnter = event.keyCode === 13;
@@ -28,13 +28,13 @@ class PostComment extends React.Component {
       event.preventDefault();
       setTimeout(this.saveComment, 0);
     }
-  }
+  };
 
   saveComment = () => {
     if (!this.props.isSaving) {
       this.props.saveEditingComment(this.props.id, this.commentText.value);
     }
-  }
+  };
 
   userHoverHandlers = {
     hover: (username) => this.props.startHighlightingComments({ postId: this.props.postId, username }),
