@@ -22,6 +22,10 @@ class PostCreateForm extends React.Component {
     };
   }
 
+  refPostRecipients = (input) => { this.postRecipients = input; };
+  refPostText = (input) => { this.postText = input; };
+  refCommentsDisabled = (input) => { this.commentsDisabled = input; };
+
   expand = () => {
     if (!this.state.isExpanded) {
       this.setState({ isExpanded: true });
@@ -34,11 +38,11 @@ class PostCreateForm extends React.Component {
 
   submitForm = () => {
     // Get all the values
-    const feeds = this.refs.selectFeeds.values;
-    const postText = this.refs.postText.value;
+    const feeds = this.postRecipients.values;
+    const postText = this.postText.value;
     const attachmentIds = this.props.createPostForm.attachments.map(attachment => attachment.id);
     const more = {
-      commentsDisabled: (this.refs.commentsDisabled && this.refs.commentsDisabled.checked)
+      commentsDisabled: (this.commentsDisabled && this.commentsDisabled.checked)
     };
 
     // Send to the server
@@ -46,7 +50,7 @@ class PostCreateForm extends React.Component {
   };
 
   clearForm = () => {
-    this.refs.postText.value = '';
+    this.postText.value = '';
     setTimeout(() => document.activeElement.blur(), 0);
 
     this.setState({
@@ -68,7 +72,7 @@ class PostCreateForm extends React.Component {
   }
 
   checkCreatePostAvailability = (e) => {
-    let isFormEmpty = this.isPostTextEmpty(this.refs.postText.value) || this.refs.selectFeeds.values == 0;
+    let isFormEmpty = this.isPostTextEmpty(this.postText.value) || this.postRecipients.values == 0;
 
     this.setState({
       isFormEmpty
@@ -88,7 +92,7 @@ class PostCreateForm extends React.Component {
 
   componentDidMount() {
     if (this.props.recipientFromUrl) {
-      setTimeout(() => this.refs.postText.focus(), 0);
+      setTimeout(() => this.postText.focus(), 0);
     }
   }
 
@@ -109,7 +113,7 @@ class PostCreateForm extends React.Component {
       this.setState({
         isExpanded: true
       });
-      setTimeout(() => this.refs.postText.focus(), 0);
+      setTimeout(() => this.postText.focus(), 0);
     }
 
     // If it was successful saving, clear the form
@@ -146,7 +150,7 @@ class PostCreateForm extends React.Component {
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
         <div>
           {this.state.isExpanded ? (
-            <PostRecipients ref="selectFeeds"
+            <PostRecipients ref={this.refPostRecipients}
               feeds={this.props.sendTo.feeds}
               defaultFeed={defaultFeed}
               user={this.props.user}
@@ -161,7 +165,7 @@ class PostCreateForm extends React.Component {
 
           <Textarea
             className="form-control post-textarea"
-            ref="postText"
+            ref={this.refPostText}
             onFocus={this.expand}
             onKeyDown={this.checkSave}
             onChange={this.checkCreatePostAvailability}
@@ -185,7 +189,7 @@ class PostCreateForm extends React.Component {
                 <input
                   className="post-edit-more-checkbox"
                   type="checkbox"
-                  ref="commentsDisabled"
+                  ref={this.refCommentsDisabled}
                   defaultChecked={false}/>
                 <span className="post-edit-more-labeltext">Comments disabled</span>
               </label>
