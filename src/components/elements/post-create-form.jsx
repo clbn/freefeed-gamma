@@ -65,19 +65,19 @@ class PostCreateForm extends React.Component {
     attachmentIds.forEach(this.removeAttachment);
   };
 
-  removeAttachment = (attachmentId) => this.props.removeAttachment(null, attachmentId)
+  removeAttachment = (attachmentId) => this.props.removeAttachment(null, attachmentId);
 
   isPostTextEmpty = (postText) => {
     return postText == '' || /^\s+$/.test(postText);
-  }
+  };
 
-  checkCreatePostAvailability = (e) => {
+  checkCreatePostAvailability = () => {
     let isFormEmpty = this.isPostTextEmpty(this.postText.value) || this.postRecipients.values == 0;
 
     this.setState({
       isFormEmpty
     });
-  }
+  };
 
   checkSave = (e) => {
     const isEnter = e.keyCode === 13;
@@ -88,7 +88,7 @@ class PostCreateForm extends React.Component {
         this.submitForm();
       }
     }
-  }
+  };
 
   componentDidMount() {
     if (this.props.recipientFromUrl) {
