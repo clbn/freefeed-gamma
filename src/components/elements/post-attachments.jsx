@@ -32,6 +32,10 @@ export default class PostAttachments extends React.Component {
   };
   lightboxThumbnailElement = null;
 
+  refAttachmentsContainer = (element) => {
+    this.attachmentsContainer = element;
+  };
+
   getImageAttachments(images) {
     let showToggle = false;
 
@@ -188,7 +192,7 @@ export default class PostAttachments extends React.Component {
 
   componentDidMount() {
     this.setState({
-      containerWidth: +(this.refs.attachmentsContainer && this.refs.attachmentsContainer.offsetWidth)
+      containerWidth: +(this.attachmentsContainer && this.attachmentsContainer.offsetWidth)
     });
   }
 
@@ -221,7 +225,7 @@ export default class PostAttachments extends React.Component {
       ));
 
     return (attachments.length > 0 ? (
-      <div className="attachments" ref="attachmentsContainer">
+      <div className="attachments" ref={this.refAttachmentsContainer}>
         <div className="image-attachments">
           {imageAttachments}
           <PhotoSwipe
