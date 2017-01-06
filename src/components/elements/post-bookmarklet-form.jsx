@@ -13,9 +13,13 @@ export default class PostBookmarkletForm extends React.Component {
     };
   }
 
+  refPostRecipients = (input) => { this.postRecipients = input; };
+  refPostText = (input) => { this.postText = input; };
+  refCommentText = (input) => { this.commentText = input; };
+
   checkCreatePostAvailability = () => {
-    const isPostTextEmpty = (this.refs.postText.value == '' || /^\s+$/.test(this.refs.postText.value));
-    let isFormEmpty = (isPostTextEmpty || this.refs.selectFeeds.values == 0);
+    const isPostTextEmpty = (this.postText.value == '' || /^\s+$/.test(this.postText.value));
+    let isFormEmpty = (isPostTextEmpty || this.postRecipients.values == 0);
 
     this.setState({
       isFormEmpty
@@ -35,10 +39,10 @@ export default class PostBookmarkletForm extends React.Component {
 
   submitForm = () => {
     // Get all the values
-    const feeds = this.refs.selectFeeds.values;
-    const postText = this.refs.postText.value;
+    const feeds = this.postRecipients.values;
+    const postText = this.postText.value;
     const imageUrls = this.props.imageUrls;
-    const commentText = this.refs.commentText.value;
+    const commentText = this.commentText.value;
 
     // Send to the server
     this.props.createPost(feeds, postText, imageUrls, commentText);
@@ -88,7 +92,7 @@ export default class PostBookmarkletForm extends React.Component {
           </div>
         ) : false}
 
-        <PostRecipients ref="selectFeeds"
+        <PostRecipients ref={this.refPostRecipients}
           feeds={this.props.sendTo.feeds}
           defaultFeed={this.props.sendTo.defaultFeed}
           user={this.props.user}
@@ -96,7 +100,7 @@ export default class PostBookmarkletForm extends React.Component {
 
         <textarea
           className="form-control post-textarea"
-          ref="postText"
+          ref={this.refPostText}
           defaultValue={this.props.postText}
           onKeyDown={this.checkSave}
           onChange={this.checkCreatePostAvailability}
@@ -118,7 +122,7 @@ export default class PostBookmarkletForm extends React.Component {
           <div className="comment-body">
             <textarea
               className="form-control comment-textarea"
-              ref="commentText"
+              ref={this.refCommentText}
               defaultValue={this.props.commentText}
               onKeyDown={this.checkSave}
               onChange={this.checkCreatePostAvailability}
