@@ -124,12 +124,12 @@ export default class UserSettingsForm extends React.Component {
 
         <div className="form-group">
           <label htmlFor="email-input">Email:</label>
-          <input id="email-input" className="form-control" name="email" ref="email" type="email" value={this.state.email} onChange={this.changeInput('email')}/>
+          <input id="email-input" className="form-control" name="email" type="email" value={this.state.email} onChange={this.changeInput('email')}/>
         </div>
 
         <div className="form-group">
           <label htmlFor="description-textarea">Description:</label>
-          <textarea id="description-textarea" className="form-control" name="description" ref="description" value={this.state.description} onChange={this.changeInput('description')} maxLength="1500"/>
+          <textarea id="description-textarea" className="form-control" name="description" value={this.state.description} onChange={this.changeInput('description')} maxLength="1500"/>
         </div>
 
         <FeedVisibilitySelector
