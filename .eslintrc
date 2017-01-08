@@ -11,6 +11,9 @@
       "jsx": true
     }
   },
+  "plugins": [
+    "react"
+  ],
   "rules": {
     "brace-style": ["warn", "1tbs", { "allowSingleLine": true }],
     "curly": ["error", "all"],
@@ -23,6 +26,7 @@
     "no-tabs": "warn",
     "no-trailing-spaces": "warn",
     "object-curly-spacing": ["warn", "always"],
+    "react/no-string-refs": "error",
     "semi": ["error", "always"],
     "space-before-blocks": ["error", "always"],
     "space-before-function-paren": ["error", "never"]
