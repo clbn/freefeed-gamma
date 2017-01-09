@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../redux/action-creators';
 import { getVisibleEntriesWithHidden } from '../redux/selectors';
 import { joinCreatePostData } from '../redux/select-utils';
-import { getQuery, getCurrentRouteName } from '../utils';
+import { getCurrentRouteName } from '../utils';
 
 import PostCreateForm from './elements/post-create-form';
 import Feed from './elements/feed';

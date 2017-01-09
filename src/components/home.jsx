@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment, toggleHiddenPosts } from '../redux/action-creators';
 import { getVisibleEntriesWithHidden, getHiddenEntriesWithHidden } from '../redux/selectors';
 import { joinCreatePostData } from '../redux/select-utils';
-import { getQuery, pluralForm } from '../utils';
+import { pluralForm } from '../utils';
 
 import PostCreateForm from './elements/post-create-form';
 import Feed from './elements/feed';
