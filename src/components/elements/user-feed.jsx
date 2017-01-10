@@ -2,7 +2,6 @@ import React from 'react';
 
 import PaginatedView from './paginated-view';
 import Feed from './feed';
-import throbber16 from 'assets/images/throbber-16.gif';
 
 export default (props) => (
   <div>
