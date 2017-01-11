@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default (props) => (
+export default () => (
   <div className="box">
     <div className="box-header-timeline">
       Terms of Service

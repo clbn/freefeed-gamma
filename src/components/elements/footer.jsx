@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default (props) => (
+export default () => (
   <div className="row">
     <div className="col-md-12">
       <footer>
