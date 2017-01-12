@@ -14,7 +14,7 @@ export default class UserProfile extends React.Component {
     this.state = { isUnsubWarningDisplayed: false };
   }
 
-  componentWillReceiveProps = (newProps) => {
+  componentWillReceiveProps() {
     this.setState({ isUnsubWarningDisplayed: false });
   }
 
