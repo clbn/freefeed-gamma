@@ -13,7 +13,7 @@ const _getMemoizedUsers = _.memoize(
   },
 
   // The function to resolve the cache key
-  (userIds, stateUsers) => userIds
+  (userIds, stateUsers) => userIds // eslint-disable-line no-unused-vars
 
   // ^ So here we make the cache only rely on the list of user IDs. It's not
   // really safe to do, since any particular display name might be changed.

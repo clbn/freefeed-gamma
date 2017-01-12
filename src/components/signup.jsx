@@ -103,7 +103,7 @@ function SignUp(props) {
                   theme="light"
                   type="image"
                   onChange={v => props.signUpChange({ captcha: v })}
-                  onExpired={v => props.signUpChange({ captcha: null })} />
+                  onExpired={_ => props.signUpChange({ captcha: null })} />
               </div>
             ) : false}
 

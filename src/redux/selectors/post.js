@@ -8,7 +8,7 @@ const _getMemoizedPostAttachments = _.memoize(
   (postAttachmentIds, stateAttachments) => postAttachmentIds.map(attachmentId => stateAttachments[attachmentId]),
 
   // The function to resolve the cache key
-  (postAttachmentIds, stateAttachments) => postAttachmentIds
+  (postAttachmentIds, stateAttachments) => postAttachmentIds // eslint-disable-line no-unused-vars
 
   // ^ So here we make the cache only rely on the list of attachment IDs. It's
   // safe to do, since any particular attachment is immutable. And it's important
