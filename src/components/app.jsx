@@ -150,7 +150,7 @@ class App extends React.Component {
                   <SearchForm />
                 ) : false}
 
-                <div className="mobile-sidebar-toggle" onClick={() => props.toggleSidebar()}>
+                <div className="mobile-sidebar-toggle" onClick={props.toggleSidebar}>
                   <i className="fa fa-bars" aria-hidden="true"></i>
                   {props.user.unreadDirectsNumber > 0 ? (
                     <span className="direct-messages-badge">{props.user.unreadDirectsNumber}</span>
