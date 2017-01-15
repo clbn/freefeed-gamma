@@ -64,7 +64,7 @@ export default class PostAttachments extends React.Component {
         <a key="show-more-images"
            className="show-more-images fa"
            title="Show more"
-           onClick={this.expandImages.bind(this)}></a>
+           onClick={this.handleExpandImages}></a>
       );
     }
 
@@ -112,10 +112,6 @@ export default class PostAttachments extends React.Component {
     }
 
     return Math.max(capacity, 1);
-  }
-
-  expandImages() {
-    this.setState({ isExpanded: true });
   }
 
   getImageLightboxItems(imageList) {
@@ -186,9 +182,9 @@ export default class PostAttachments extends React.Component {
     };
   }
 
-  handleCloseLightbox() {
-    this.setState({ isLightboxOpen: false });
-  }
+  handleCloseLightbox = () => this.setState({ isLightboxOpen: false });
+
+  handleExpandImages = () => this.setState({ isExpanded: true });
 
   componentDidMount() {
     this.setState({
@@ -233,7 +229,7 @@ export default class PostAttachments extends React.Component {
             options={{ ...this.lightboxOptions, index: this.state.lightboxIndex }}
             imageLoadComplete={this.handleLightboxImageLoaded}
             isOpen={this.state.isLightboxOpen}
-            onClose={this.handleCloseLightbox.bind(this)}/>
+            onClose={this.handleCloseLightbox}/>
         </div>
         <div className="audio-attachments">
           {audioAttachments}
