@@ -104,16 +104,14 @@ export default class PieceOfText extends React.Component {
     };
   }
 
-  expandText() {
-    this.setState({ isExpanded: true });
-  }
+  handleExpandText = () => this.setState({ isExpanded: true });
 
   render() {
     return (this.props.text ? (
       <Linkify userHover={this.props.userHover} arrowHover={this.props.arrowHover}>
         {this.state.isExpanded
           ? getExpandedText(this.props.text)
-          : getCollapsedText(this.props.text, this.expandText.bind(this))}
+          : getCollapsedText(this.props.text, this.handleExpandText)}
       </Linkify>
     ) : <span/>);
   }
