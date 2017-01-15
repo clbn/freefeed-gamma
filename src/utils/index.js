@@ -88,6 +88,10 @@ export function preventDefault(realFunction) {
   };
 }
 
+export function stopPropagation(event) {
+  event.stopPropagation();
+}
+
 export function confirmFirst(realFunction) {
   return () => {
     if (confirm('Are you sure?')) {

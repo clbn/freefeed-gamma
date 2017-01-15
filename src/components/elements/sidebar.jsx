@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { preventDefault } from '../../utils';
+import { preventDefault, stopPropagation } from '../../utils';
 import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
 
 export default ({ user, signOut, toggleSidebar, routeName }) => (
-  <div className="sidebar-wrapper" onClick={() => toggleSidebar()}>
-    <div className="col-md-3 sidebar" onClick={(e) => e.stopPropagation()}>
+  <div className="sidebar-wrapper" onClick={toggleSidebar}>
+    <div className="col-md-3 sidebar" onClick={stopPropagation}>
       <div className="logged-in">
         <div className="userpic">
           <Link to={`/${user.username}`} ><img src={user.profilePictureMediumUrl} width="50" height="50"/></Link>
