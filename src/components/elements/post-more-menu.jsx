@@ -12,20 +12,16 @@ export default class PostMoreMenu extends React.Component {
     };
   }
 
-  toggle() {
-    this.setState({ isOpen: !this.state.isOpen });
-  }
+  handleToggle = () => this.setState({ isOpen: !this.state.isOpen });
 
-  close() {
-    this.setState({ isOpen: false });
-  }
+  handleClose = () => this.setState({ isOpen: false });
 
   render() {
     let menuOptions = {
       align: 'left',
-      close: this.close.bind(this),
+      close: this.handleClose,
       isOpen: this.state.isOpen,
-      toggle: <a onClick={this.toggle.bind(this)}>More&nbsp;&#x25be;</a>
+      toggle: <a onClick={this.handleToggle}>More&nbsp;&#x25be;</a>
     };
 
     return (
