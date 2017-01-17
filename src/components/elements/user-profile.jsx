@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { confirmFirst, preventDefault, pluralForm } from '../../utils';
+import { confirmFirst, pluralForm } from '../../utils';
 import UserFeedStatus from './user-feed-status';
 import UserRelationshipStatus from './user-relationship-status';
 import PostCreateForm from './post-create-form';
@@ -40,7 +40,7 @@ export default class UserProfile extends React.Component {
     }
   };
 
-  handleBlock = preventDefault(() => this.props.ban({ username: this.props.username, id: this.props.id }));
+  handleBlock = () => this.props.ban({ username: this.props.username, id: this.props.id });
   handleUnblock = () => this.props.unban({ username: this.props.username, id: this.props.id });
   handleSendSubRequest = () => this.props.sendSubscriptionRequest({ username: this.props.username, id: this.props.id });
   handleRevokeSentRequest = () => this.props.revokeSentRequest({ username: this.props.username, id: this.props.id });
