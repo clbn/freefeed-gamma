@@ -32,16 +32,23 @@ export default class UserProfile extends React.Component {
     return false;
   };
 
+  unsubscribe = () => {
+    if (this.props.amIGroupAdmin) {
+      this.setState({ isUnsubWarningDisplayed: true });
+    } else {
+      this.props.unsubscribe({ username: this.props.username, id: this.props.id });
+    }
+  };
+
+  handleBlock = preventDefault(() => this.props.ban({ username: this.props.username, id: this.props.id }));
+  handleUnblock = () => this.props.unban({ username: this.props.username, id: this.props.id });
+  handleSendSubRequest = () => this.props.sendSubscriptionRequest({ username: this.props.username, id: this.props.id });
+  handleRevokeSentRequest = () => this.props.revokeSentRequest({ username: this.props.username, id: this.props.id });
+  handleSubscribe = () => this.props.subscribe({ username: this.props.username, id: this.props.id });
+  handleUnsubscribe = confirmFirst(this.unsubscribe);
+
   render() {
     const props = this.props;
-
-    const unsubscribe = () => {
-      if (props.amIGroupAdmin) {
-        this.setState({ isUnsubWarningDisplayed: true });
-      } else {
-        props.unsubscribe({ username: props.username, id: props.id });
-      }
-    };
 
     return (
       <div>
@@ -112,7 +119,7 @@ export default class UserProfile extends React.Component {
               <div className="col-sm-6 col-xs-12">
                 {props.isBlocked ? (
                   <div className="profile-controls">
-                    {props.userView.isBlocking ? 'Unblocking...' : <a onClick={()=>props.unban({ username: props.username, id: props.id })}>Un-block</a>}
+                    {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
 
                     {props.userView.isBlocking ? (
                       <span className="profile-controls-throbber">
@@ -128,15 +135,15 @@ export default class UserProfile extends React.Component {
 
                     {props.isPrivate === '1' && !props.amISubscribedToUser ? (
                       props.hasRequestBeenSent ? (
-                        props.userView.isSubscribing ? 'Revoking...' : <a onClick={()=>props.revokeSentRequest({ username: props.username, id: props.id })}>Revoke request</a>
+                        props.userView.isSubscribing ? 'Revoking...' : <a onClick={this.handleRevokeSentRequest}>Revoke request</a>
                       ) : (
-                        props.userView.isSubscribing ? 'Requesting...' : <a onClick={()=>props.sendSubscriptionRequest({ username: props.username, id: props.id })}>Request a subscription</a>
+                        props.userView.isSubscribing ? 'Requesting...' : <a onClick={this.handleSendSubRequest}>Request a subscription</a>
                       )
                     ) : (
                       props.amISubscribedToUser ? (
-                        props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={confirmFirst(unsubscribe)}>Unsubscribe</a>
+                        props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={this.handleUnsubscribe}>Unsubscribe</a>
                       ) : (
-                        props.userView.isSubscribing ? 'Subscribing...' : <a onClick={()=>props.subscribe({ username: props.username, id: props.id })}>Subscribe</a>
+                        props.userView.isSubscribing ? 'Subscribing...' : <a onClick={this.handleSubscribe}>Subscribe</a>
                       )
                     )}
 
@@ -147,7 +154,7 @@ export default class UserProfile extends React.Component {
                     ) : false}
 
                     {props.type !== 'group' && !props.amISubscribedToUser ? (
-                      props.userView.isBlocking ? ' - Blocking...' : <span> - <a onClick={preventDefault(_=>props.ban({ username: props.username, id: props.id }))}>Block this user</a></span>
+                      props.userView.isBlocking ? ' - Blocking...' : <span> - <a onClick={this.handleBlock}>Block this user</a></span>
                     ) : false}
 
                     {props.userView.isBlocking ? (
