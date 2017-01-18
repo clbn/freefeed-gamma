@@ -160,6 +160,13 @@ class UserCard extends React.Component {
     }
   }
 
+  handleBlock = () => this.props.ban({ username: this.props.user.username, id: this.props.user.id });
+  handleUnblock = () => this.props.unban({ username: this.props.user.username, id: this.props.user.id });
+  handleSendSubRequest = () => this.props.sendSubscriptionRequest({ username: this.props.user.username, id: this.props.user.id });
+  handleRevokeSentRequest = () => this.props.revokeSentRequest({ username: this.props.user.username, id: this.props.user.id });
+  handleSubscribe = () => this.props.subscribe({ username: this.props.user.username, id: this.props.user.id });
+  handleUnsubscribe = confirmFirst(this.unsubscribe);
+
   render() {
     const props = this.props;
 
@@ -233,7 +240,7 @@ class UserCard extends React.Component {
 
           {props.isBlocked ? (
             <div className="user-card-actions">
-              <a onClick={()=>props.unban({ username: props.user.username, id: props.user.id })}>Un-block</a>
+              <a onClick={this.handleUnblock}>Un-block</a>
             </div>
           ) : props.authenticated && !props.isItMe ? (
             <div className="user-card-actions">
@@ -243,15 +250,15 @@ class UserCard extends React.Component {
 
               {props.user.isPrivate === '1' && !props.amISubscribedToUser ? (
                 props.hasRequestBeenSent ? (
-                  <a onClick={()=>props.revokeSentRequest({ username: props.user.username, id: props.user.id })}>Revoke sub request</a>
+                  <a onClick={this.handleRevokeSentRequest}>Revoke sub request</a>
                 ) : (
-                  <a onClick={()=>props.sendSubscriptionRequest({ username: props.user.username, id: props.user.id })}>Request a subscription</a>
+                  <a onClick={this.handleSendSubRequest}>Request a subscription</a>
                 )
               ) : (
                 props.amISubscribedToUser ? (
-                  <a onClick={confirmFirst(this.unsubscribe)}>Unsubscribe</a>
+                  <a onClick={this.handleUnsubscribe}>Unsubscribe</a>
                 ) : (
-                  <a onClick={()=>props.subscribe({ username: props.user.username, id: props.user.id })}>Subscribe</a>
+                  <a onClick={this.handleSubscribe}>Subscribe</a>
                 )
               )}
 
@@ -262,7 +269,7 @@ class UserCard extends React.Component {
               ) : false}
 
               {props.user.type !== 'group' && !props.amISubscribedToUser ? (
-                <span> - <a onClick={()=>props.ban({ username: props.user.username, id: props.user.id })}>Block</a></span>
+                <span> - <a onClick={this.handleBlock}>Block</a></span>
               ) : props.amIGroupAdmin ? (
                 <span> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></span>
               ) : false}
