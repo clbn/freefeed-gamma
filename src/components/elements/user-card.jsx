@@ -43,7 +43,7 @@ class UserCard extends React.Component {
     }
 
     return false;
-  }
+  };
 
   getPosition = (nextProps) => {
     const position = {};
@@ -93,7 +93,7 @@ class UserCard extends React.Component {
     }
 
     return position;
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (isMobile()) { return; }
@@ -142,15 +142,15 @@ class UserCard extends React.Component {
 
   enterUserCard = () => {
     this.props.updateUserCard({ isHovered: true });
-  }
+  };
 
   leaveUserCard = () => {
     this.props.updateUserCard({ isHovered: false });
-  }
+  };
 
   toggleDescription = () => {
     this.setState({ isDescriptionOpen: !this.state.isDescriptionOpen });
-  }
+  };
 
   unsubscribe = () => {
     if (this.props.amIGroupAdmin) {
@@ -158,7 +158,7 @@ class UserCard extends React.Component {
     } else {
       this.props.unsubscribe({ username: this.props.user.username, id: this.props.user.id });
     }
-  }
+  };
 
   handleBlock = () => this.props.ban({ username: this.props.user.username, id: this.props.user.id });
   handleUnblock = () => this.props.unban({ username: this.props.user.username, id: this.props.user.id });
