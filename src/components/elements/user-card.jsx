@@ -241,6 +241,12 @@ class UserCard extends React.Component {
           {props.isBlocked ? (
             <div className="user-card-actions">
               <a onClick={this.handleUnblock}>Un-block</a>
+
+              {props.userView.isBlocking ? (
+                <span className="user-card-actions-throbber">
+                  <img width="15" height="15" src={throbber16}/>
+                </span>
+              ) : false}
             </div>
           ) : props.authenticated && !props.isItMe ? (
             <div className="user-card-actions">
