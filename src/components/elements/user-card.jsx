@@ -240,7 +240,7 @@ class UserCard extends React.Component {
 
           {props.isBlocked ? (
             <div className="user-card-actions">
-              <a onClick={this.handleUnblock}>Un-block</a>
+              {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
 
               {props.userView.isBlocking ? (
                 <span className="user-card-actions-throbber">
@@ -256,15 +256,15 @@ class UserCard extends React.Component {
 
               {props.user.isPrivate === '1' && !props.amISubscribedToUser ? (
                 props.hasRequestBeenSent ? (
-                  <a onClick={this.handleRevokeSentRequest}>Revoke sub request</a>
+                  props.userView.isSubscribing ? 'Revoking...' : <a onClick={this.handleRevokeSentRequest}>Revoke sub request</a>
                 ) : (
-                  <a onClick={this.handleSendSubRequest}>Request a subscription</a>
+                  props.userView.isSubscribing ? 'Requesting...' : <a onClick={this.handleSendSubRequest}>Request a subscription</a>
                 )
               ) : (
                 props.amISubscribedToUser ? (
-                  <a onClick={this.handleUnsubscribe}>Unsubscribe</a>
+                  props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={this.handleUnsubscribe}>Unsubscribe</a>
                 ) : (
-                  <a onClick={this.handleSubscribe}>Subscribe</a>
+                  props.userView.isSubscribing ? 'Subscribing...' : <a onClick={this.handleSubscribe}>Subscribe</a>
                 )
               )}
 
@@ -275,7 +275,7 @@ class UserCard extends React.Component {
               ) : false}
 
               {props.user.type !== 'group' && !props.amISubscribedToUser ? (
-                <span> - <a onClick={this.handleBlock}>Block</a></span>
+                props.userView.isBlocking ? ' - Blocking...' : <span> - <a onClick={this.handleBlock}>Block</a></span>
               ) : props.amIGroupAdmin ? (
                 <span> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></span>
               ) : false}
