@@ -27,6 +27,7 @@
     "no-trailing-spaces": "warn",
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_$" }],
     "object-curly-spacing": ["warn", "always"],
+    "react/jsx-no-bind": "error",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/no-string-refs": "error",
