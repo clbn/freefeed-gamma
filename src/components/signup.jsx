@@ -23,8 +23,6 @@ class SignUp extends React.Component {
   };
 
   render() {
-    const props = this.props;
-
     return (
       <div className="box">
         <div className="row">
@@ -62,8 +60,8 @@ class SignUp extends React.Component {
               </div>
             </form>
 
-            {props.error ? (
-              <div className="alert alert-danger" role="alert">{props.error}</div>
+            {this.props.status === 'error' ? (
+              <div className="alert alert-danger" role="alert">{this.props.errorMessage}</div>
             ) : false}
           </div>
         </div>
