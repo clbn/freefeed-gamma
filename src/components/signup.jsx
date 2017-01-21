@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signUpChange, signUp, signUpEmpty } from '../redux/action-creators';
+import Recaptcha from 'react-google-recaptcha';
+
+import { signUp } from '../redux/action-creators';
 import { preventDefault } from '../utils';
 import { captcha as captchaConfig } from '../config';
-import Recaptcha from 'react-google-recaptcha';
 
 class SignUp extends React.Component {
   refUsername = (input) => { this.username = input; };
@@ -77,9 +78,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    signUpChange: (...args) => dispatch(signUpChange(...args)),
-    signUp: (...args) => dispatch(signUp(...args)),
-    signUpEmpty: (...args) => dispatch(signUpEmpty(...args)),
+    signUp: (...args) => dispatch(signUp(...args))
   };
 }
 
