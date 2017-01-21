@@ -16,12 +16,6 @@ function SignUp(props) {
         <div className="col-md-6">
           <h2>Sign up</h2>
 
-          {props.error ? (
-            <div className="alert alert-danger" role="alert">
-              {props.error}
-            </div>
-          ) : false}
-
           <form onSubmit={preventDefault(() => signUpFunc(props))}>
             <div className="form-group">
               <label htmlFor="username-input">Username</label>
@@ -53,6 +47,10 @@ function SignUp(props) {
               <button className="btn btn-default" type="submit">Sign up</button>
             </div>
           </form>
+
+          {props.error ? (
+            <div className="alert alert-danger" role="alert">{props.error}</div>
+          ) : false}
         </div>
       </div>
     </div>
