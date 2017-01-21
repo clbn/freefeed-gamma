@@ -6,12 +6,19 @@ import { captcha as captchaConfig } from '../config';
 import Recaptcha from 'react-google-recaptcha';
 
 class SignUp extends React.Component {
+  refUsername = (input) => { this.username = input; };
+  refEmail = (input) => { this.email = input; };
+  refPassword = (input) => { this.password = input; };
+
+  handleCaptcha = (value) => { this.captcha = value; };
+
   submitForm = () => {
-    const username = this.props.username;
-    const password = this.props.password;
-    const email = this.props.email;
-    const captcha = this.props.captcha;
-    this.props.signUp({ username, password, email, captcha });
+    const username = this.username.value;
+    const email = this.email.value;
+    const password = this.password.value;
+    const captcha = this.captcha || null;
+
+    this.props.signUp({ username, email, password, captcha });
   };
 
   render() {
@@ -26,17 +33,17 @@ class SignUp extends React.Component {
             <form onSubmit={preventDefault(this.submitForm)}>
               <div className="form-group">
                 <label htmlFor="username-input">Username</label>
-                <input id="username-input" className="form-control" type="text" onChange={e => props.signUpChange({ username: e.target.value })}/>
+                <input id="username-input" className="form-control" type="text" ref={this.refUsername}/>
               </div>
 
               <div className="form-group">
                 <label htmlFor="email-input">Email</label>
-                <input id="email-input" className="form-control" type="email" onChange={e => props.signUpChange({ email: e.target.value })}/>
+                <input id="email-input" className="form-control" type="email" ref={this.refEmail}/>
               </div>
 
               <div className="form-group">
                 <label htmlFor="password-input">Password</label>
-                <input id="password-input" className="form-control" type="password" onChange={e => props.signUpChange({ password: e.target.value })}/>
+                <input id="password-input" className="form-control" type="password" ref={this.refPassword}/>
               </div>
 
               {captchaConfig.siteKey ? (
@@ -45,8 +52,7 @@ class SignUp extends React.Component {
                     sitekey={captchaConfig.siteKey}
                     theme="light"
                     type="image"
-                    onChange={v => props.signUpChange({ captcha: v })}
-                    onExpired={_ => props.signUpChange({ captcha: null })} />
+                    onChange={this.handleCaptcha}/>
                 </div>
               ) : false}
 
