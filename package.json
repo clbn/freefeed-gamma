@@ -10,7 +10,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "./dev-server",
+    "start": "./scripts/start.sh",
     "test": "./node_modules/.bin/webpack",
     "lint": "./node_modules/.bin/eslint --ext .js --ext .jsx src/* test/*"
   },
