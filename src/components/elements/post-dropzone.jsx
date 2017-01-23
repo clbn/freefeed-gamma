@@ -1,7 +1,7 @@
 import React from 'react';
 import DropzoneComponent from 'react-dropzone-component';
 
-import { api as apiConfig } from '../../config';
+import { api as apiConfig } from '../../../config/app';
 import { getToken } from '../../services/auth';
 
 const dropzoneComponentConfig = {

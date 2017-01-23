@@ -4,7 +4,7 @@ import Recaptcha from 'react-google-recaptcha';
 
 import { signUp } from '../redux/action-creators';
 import { preventDefault } from '../utils';
-import { captcha as captchaConfig } from '../config';
+import { captcha as captchaConfig } from '../../config/app';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class SignUp extends React.Component {

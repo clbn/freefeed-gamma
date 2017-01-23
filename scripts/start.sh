@@ -3,9 +3,9 @@ set -e
 
 : "${PORT:=8080}"
 
-if ! [ -f './src/config.js' ]; then
+if ! [ -f './config/app.js' ]; then
   echo 'Copying config.js...'
-  cp ./src/config.dist.js ./src/config.js
+  cp ./config/app.dist.js ./config/app.js
   echo 'Done!'
   echo
 fi

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { frontendPreferences as frontendPrefsConfig } from '../config';
+import { frontendPreferences as frontendPrefsConfig } from '../../config/app';
 
 export function getCookie(name) {
   const begin = document.cookie.indexOf(name);

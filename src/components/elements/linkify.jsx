@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import URLFinder from 'ff-url-finder';
 
-import config from '../../config';
+import config from '../../../config/app';
 import UserName from './user-name';
 
 const MAX_URL_LENGTH = 50;

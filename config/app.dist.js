@@ -1,4 +1,4 @@
-import * as FrontendPrefsOptions from './utils/frontend-preferences-options';
+import * as FrontendPrefsOptions from '../src/utils/frontend-preferences-options';
 
 const config = {
   api: {
