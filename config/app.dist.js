@@ -1,5 +1,3 @@
-import * as FrontendPrefsOptions from '../src/utils/frontend-preferences-options';
-
 const config = {
   api: {
     host: 'https://freefeed.net'
@@ -29,7 +27,7 @@ const config = {
     clientId: 'net.freefeed',
     defaultValues: {
       displayNames: {
-        displayOption: FrontendPrefsOptions.DISPLAYNAMES_DISPLAYNAME,
+        displayOption: 1, // see the options in src/utils/frontend-preferences-options.js
         useYou: true
       },
       realtimeActive: false,
