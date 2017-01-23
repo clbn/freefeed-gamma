@@ -2,7 +2,18 @@
   "name": "freefeed-gamma",
   "version": "1.0.0",
   "description": "",
+  "license": "MIT",
+  "author": "Alex Olshansky and FreeFeed contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clbn/freefeed-gamma.git"
+  },
   "main": "index.js",
+  "scripts": {
+    "start": "./dev-server",
+    "test": "./node_modules/.bin/webpack",
+    "lint": "./node_modules/.bin/eslint --ext .js --ext .jsx src/* test/*"
+  },
   "dependencies": {
     "autotrack": "^0.6.3",
     "babel-core": "^6.17.0",
@@ -57,16 +68,5 @@
     "webpack": "^1.12.2",
     "webpack-dev-server": "1.12.1",
     "webpack-path-rewriter": "^1.1.2"
-  },
-  "scripts": {
-    "start": "./dev-server",
-    "test": "./node_modules/.bin/webpack",
-    "lint": "./node_modules/.bin/eslint --ext .js --ext .jsx src/* test/*"
-  },
-  "author": "FreeFeed contributors",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/clbn/freefeed-gamma.git"
-  },
-  "license": "MIT"
+  }
 }
