@@ -1,4 +1,4 @@
-out_dir ?= ./_dist
+out_dir ?= ./build
 public_path ?= /
 
 webpack = ./node_modules/.bin/webpack \

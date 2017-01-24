@@ -30,4 +30,4 @@ To build a production-ready app, run:
 $ make prod
 ```
 
-It builds the app to the `_dist` folder.
+It builds the app to the `build` folder.

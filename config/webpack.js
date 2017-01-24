@@ -21,7 +21,7 @@ function strToBool(val, def) {
 const options = {
   paths: {
     root: rootDirectory,
-    build: resolvePath('_dist'),
+    build: resolvePath('build'),
     src: resolvePath('src')
   },
   dev: strToBool(env.DEV, true),
