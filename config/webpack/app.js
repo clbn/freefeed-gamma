@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PathRewriter = require('webpack-path-rewriter');
+const Visualizer = require('webpack-visualizer-plugin');
 
 const gitCommitDate = require('child_process').execSync('git show -s --format="%ci"').toString();
 
@@ -99,6 +100,10 @@ module.exports = function(opts) {
       ]
     },
     plugins: skipFalsy([
+      new Visualizer({
+        filename: '../webpack-visualizer.html'
+      }),
+
       new webpack.ContextReplacementPlugin(/moment[/]locale$/, /(?:en|ru)[.]js/),
 
       new webpack.DefinePlugin({
