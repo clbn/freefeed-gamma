@@ -62,7 +62,7 @@ html(lang='en')
 
     script.
       window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', '#{require('./config/app').googleAnalytics.trackingId}', 'auto');
+      ga('create', '#{opts.appConfig.googleAnalytics.trackingId}', 'auto');
       ga('require', 'autotrack');
       ga('send', 'pageview');
     script(async src='https://www.google-analytics.com/analytics.js')
@@ -70,7 +70,7 @@ html(lang='en')
     script(src='https://cdn.ravenjs.com/3.2.1/raven.min.js')
     script.
       try {
-        Raven.config('#{require('./config/app').sentry.publicDSN}').install();
+        Raven.config('#{opts.appConfig.sentry.publicDSN}').install();
       } catch (e) {}
 
     script(src='[[ app-*.js ]]')

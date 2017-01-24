@@ -2,6 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const env = process.env;
 
+const appConfig = require('./app');
+
 const rootDirectory = fs.realpathSync(process.cwd());
 
 function resolvePath(relativePath) {
@@ -27,7 +29,8 @@ const options = {
   hot: process.argv.indexOf('--hot') !== -1,
   hash: strToBool(env.HASH, false),
   uglify: strToBool(env.UGLIFY, false),
-  port: env.PORT || '8080'
+  port: env.PORT || '8080',
+  appConfig: appConfig
 };
 
 module.exports = [
