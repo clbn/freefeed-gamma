@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../redux/action-creators';
 import { getVisibleEntriesWithHidden } from '../redux/selectors';

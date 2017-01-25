@@ -115,7 +115,7 @@ export default function posts(state = {}, action) {
     }
     case response(ActionTypes.DELETE_COMMENT): {
       const commentId = action.request.commentId;
-      const post = _(state).find(_post => (_post.comments||[]).indexOf(commentId) !== -1);
+      const post = _.find(state, _post => (_post.comments || []).indexOf(commentId) !== -1);
       if (!post) {
         return state;
       }
