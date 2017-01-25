@@ -8,9 +8,9 @@ module.exports = function(opts) {
       filename: 'assets/[name]-wrap.js'
     },
     module: {
-      loaders: [{
+      rules: [{
         test: /bookmarklet\-popup\.js$/,
-        loader: 'file?name=assets/[name].[ext]'
+        loader: 'file-loader?name=assets/[name].[ext]'
       }]
     }
   };

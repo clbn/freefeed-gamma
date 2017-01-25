@@ -6,19 +6,19 @@ const Visualizer = require('webpack-visualizer-plugin');
 const gitCommitDate = require('child_process').execSync('git show -s --format="%ci"').toString();
 
 module.exports = function(opts) {
-  const cssCommonExtractor = new ExtractTextPlugin(
-    opts.hash ? 'common-[contenthash].css' : 'common-dev.css',
-    { allChunks: true }
-  );
+  const cssCommonExtractor = new ExtractTextPlugin({
+    filename: opts.hash ? 'common-[contenthash].css' : 'common-dev.css',
+    allChunks: true
+  });
 
-  const cssAppExtractor = new ExtractTextPlugin(
-    opts.hash ? 'app-[contenthash].css' : 'app-dev.css',
-    { allChunks: true }
-  );
+  const cssAppExtractor = new ExtractTextPlugin({
+    filename: opts.hash ? 'app-[contenthash].css' : 'app-dev.css',
+    allChunks: true
+  });
 
   const styleLoader = function(loader, extractor) {
     return opts.hot
-      ? addSourceMapArg('style!' + loader)
+      ? addSourceMapArg('style-loader!' + loader)
       : extractor.extract(addSourceMapArg(loader));
   };
 
@@ -35,11 +35,10 @@ module.exports = function(opts) {
 
   return {
     entry: {
-      app: skipFalsy([
-        opts.hot && 'webpack/hot/dev-server',
+      app: [
         'babel-polyfill',
         './src'
-      ])
+      ]
     },
     output: {
       path: opts.paths.build,
@@ -47,32 +46,32 @@ module.exports = function(opts) {
       pathinfo: opts.dev
     },
     resolve: {
-      extensions: ['', '.js', '.json', '.jsx'],
-      root: opts.paths.src,
-      fallback: [ opts.paths.root ]
+      extensions: ['.js', '.jsx'],
+      modules: [
+        opts.paths.src,
+        opts.paths.nodeModules,
+        opts.paths.root
+      ]
     },
     devtool: opts.dev ? 'cheap-module-eval-source-map' : 'source-map',
     devServer: {
       historyApiFallback: true
     },
-    debug: opts.dev,
     module: {
-      preLoaders: [
-        { test: /\.jsx?$/,
-          exclude: /node_modules/,
-          loader: 'eslint-loader'
-        }
-      ],
-      loaders: [
+      rules: [
         { test: /\.jsx?$/,
           exclude: /(node_modules[/]|test[/])/,
-          loader: 'babel'
+          use: [
+            'babel-loader',
+            'eslint-loader'
+          ],
+          enforce: 'pre'
         },
         { test: /[/]styles[/]common[/].*[.]scss$/,
-          loader: styleLoader('css?-mergeIdents&-mergeRules&-uniqueSelectors!sass', cssCommonExtractor)
+          loader: styleLoader('css-loader?-mergeIdents&-mergeRules&-uniqueSelectors!sass-loader', cssCommonExtractor)
         },
         { test: /[/]styles[/]helvetica[/].*[.]scss$/,
-          loader: styleLoader('css?-mergeIdents&-mergeRules&-uniqueSelectors!sass', cssAppExtractor)
+          loader: styleLoader('css-loader?-mergeIdents&-mergeRules&-uniqueSelectors!sass-loader', cssAppExtractor)
         },
         { test: /[.]html$/,
           loader: PathRewriter.rewriteAndEmit({
@@ -82,20 +81,20 @@ module.exports = function(opts) {
         { test: /[.]jade$/,
           loader: PathRewriter.rewriteAndEmit({
             name: '[path][name].html',
-            loader: 'jade-html?' + JSON.stringify({ pretty: true, opts: opts })
+            loader: 'jade-html-loader?' + JSON.stringify({ pretty: true, opts: opts })
           })
         },
         // Font Awesome assets
         { test: /fontawesome\-webfont\.(eot|svg|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'file?name=assets/fonts/font-awesome/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
+          loader: 'file-loader?name=assets/fonts/font-awesome/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
         },
         // PhotoSwipe assets
         { test: /photoswipe.+\.(png|svg|gif)$/,
-          loader: 'file?name=assets/images/photoswipe/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
+          loader: 'file-loader?name=assets/images/photoswipe/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
         },
         // Local assets
         { test: /[/]assets[/]/,
-          loader: 'file?name=' + (opts.hash ? '[path][name]-[hash].[ext]' : '[path][name]-dev.[ext]')
+          loader: 'file-loader?name=' + (opts.hash ? '[path][name]-[hash].[ext]' : '[path][name]-dev.[ext]')
         }
       ]
     },
@@ -104,14 +103,14 @@ module.exports = function(opts) {
         filename: '../webpack-visualizer.html'
       }),
 
+      new webpack.LoaderOptionsPlugin({ debug: opts.dev }),
+
       new webpack.ContextReplacementPlugin(/moment[/]locale$/, /(?:en|ru)[.]js/),
 
       new webpack.DefinePlugin({
         APP_VERSION: JSON.stringify(gitCommitDate.substr(0, 10).replace(/-/g, '.')),
         'process.env.NODE_ENV': opts.dev ? '"development"' : '"production"'
       }),
-
-      new webpack.optimize.OccurenceOrderPlugin(),
 
       cssCommonExtractor,
       cssAppExtractor,

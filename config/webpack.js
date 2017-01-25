@@ -22,6 +22,7 @@ const options = {
   paths: {
     root: rootDirectory,
     build: resolvePath('build'),
+    nodeModules: resolvePath('node_modules'),
     src: resolvePath('src')
   },
   dev: strToBool(env.DEV, true),
