@@ -36,7 +36,6 @@
     "isomorphic-fetch": "^2.1.1",
     "jade": "^1.11.0",
     "jade-html-loader": "bline/jade-html-loader",
-    "loader-utils": "^0.2.11",
     "lodash": "^4.8.2",
     "moment": "^2.10.6",
     "node-sass": "^4.3.0",
