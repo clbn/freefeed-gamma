@@ -65,6 +65,7 @@
     "tap-webpack-plugin": "^1.0.0",
     "tape": "^4.2.2",
     "webpack": "^2.2.0",
+    "webpack-dashboard": "^0.2.1",
     "webpack-dev-server": "^2.2.0",
     "webpack-path-rewriter": "^1.1.2",
     "webpack-visualizer-plugin": "^0.1.10"
