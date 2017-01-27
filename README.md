@@ -27,7 +27,7 @@ right away.
 To build a production-ready app, run:
 
 ```
-$ make prod
+$ npm run build
 ```
 
 It builds the app to the `build` folder.
