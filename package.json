@@ -52,7 +52,7 @@
     "react-helmet": "^3.1.0",
     "react-photoswipe": "^1.1.0",
     "react-redux": "^5.0.0",
-    "react-router": "^2.4.0",
+    "react-router": "^3.0.2",
     "react-router-redux": "^4.0.4",
     "react-select": "^1.0.0-beta13",
     "react-textarea-autosize": "^4.0.1",
