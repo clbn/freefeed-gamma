@@ -37,16 +37,15 @@ export default function postViews(state = {}, action) {
       const isLoadingLikes = false;
       return { ...state, [id]: { ...state[id], isLoadingLikes } };
     }
-    case request(ActionTypes.SHOW_MORE_COMMENTS): {
+    case request(ActionTypes.SHOW_MORE_COMMENTS):
+    case request(ActionTypes.GET_SINGLE_POST): {
       const id = action.payload.postId;
       const isLoadingComments = true;
-
       return { ...state, [id]: { ...state[id], isLoadingComments } };
     }
     case response(ActionTypes.SHOW_MORE_COMMENTS): {
       const id = action.payload.posts.id;
       const isLoadingComments = false;
-
       return { ...state, [id]: { ...state[id], isLoadingComments } };
     }
     case response(ActionTypes.GET_SINGLE_POST): {
