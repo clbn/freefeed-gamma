@@ -44,6 +44,10 @@ import { bindRouteActions } from './redux/route-actions';
 
 const boundRouteActions = bindRouteActions(store.dispatch);
 
+// Set initial History state. Otherwise, there are problems with
+// third-party components using History API (specifically, PhotoSwipe).
+browserHistory.replace(location);
+
 const history = syncHistoryWithStore(browserHistory, store);
 
 const userSubscribersActions = (next) => {
