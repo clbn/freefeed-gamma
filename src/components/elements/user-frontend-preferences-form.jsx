@@ -99,7 +99,7 @@ export default class UserFrontendPreferencesForm extends React.Component {
         </div>
 
         <p>
-          <button className="btn btn-default" type="submit">Update</button>
+          <button className="btn btn-default" type="submit">Update preferences</button>
           {this.props.status === 'loading' ? (
             <span className="settings-throbber">
               <img width="16" height="16" src={throbber16}/>

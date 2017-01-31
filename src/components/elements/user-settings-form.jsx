@@ -138,7 +138,7 @@ export default class UserSettingsForm extends React.Component {
           changeVisibility={this.changeVisibility}/>
 
         <div className="form-group">
-          <button className="btn btn-default" type="submit">Update</button>
+          <button className="btn btn-default" type="submit">Update settings</button>
 
           {this.props.status === 'loading' ? (
             <span className="settings-throbber">

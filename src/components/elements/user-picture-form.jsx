@@ -31,7 +31,7 @@ export default class UserPictureForm extends React.Component {
         </div>
 
         <div className="form-group">
-          <button className="btn btn-default" type="submit">Update</button>
+          <button className="btn btn-default" type="submit">Update picture</button>
 
           {this.props.status === 'loading' ? (
             <span className="settings-throbber">
