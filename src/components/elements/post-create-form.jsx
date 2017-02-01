@@ -204,6 +204,8 @@ class PostCreateForm extends React.Component {
             </span>
           ) : false}
 
+          <a className="post-cancel" onClick={this.clearForm}>Cancel</a>
+
           <button className="btn btn-default btn-xs"
             onClick={preventDefault(this.submitForm)}
             disabled={this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading'}>Post</button>
