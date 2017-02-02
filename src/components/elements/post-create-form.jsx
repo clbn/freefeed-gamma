@@ -36,6 +36,14 @@ class PostCreateForm extends React.Component {
     this.setState({ isMoreOpen: !this.state.isMoreOpen });
   };
 
+  cancelCreatingPost = () => {
+    if (this.state.isFormEmpty) {
+      this.clearForm();
+    } else if (confirm('Discard changes and close the form?')) {
+      this.clearForm();
+    }
+  };
+
   submitForm = () => {
     // Get all the values
     const feeds = this.postRecipients.values;
@@ -204,7 +212,7 @@ class PostCreateForm extends React.Component {
             </span>
           ) : false}
 
-          <a className="post-cancel" onClick={this.clearForm}>Cancel</a>
+          <a className="post-cancel" onClick={this.cancelCreatingPost}>Cancel</a>
 
           <button className="btn btn-default btn-xs"
             onClick={preventDefault(this.submitForm)}
