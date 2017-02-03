@@ -9,6 +9,14 @@ export default class PostCommentCreateForm extends React.Component {
     this.props.bindTextarea(this._textarea);
   };
 
+  cancelCommenting = () => {
+    if (!this._textarea.value) {
+      this.props.toggleCommenting();
+    } else if (confirm('Discard changes and close the form?')) {
+      this.props.toggleCommenting();
+    }
+  };
+
   checkSave = (event) => {
     const isEnter = event.keyCode === 13;
     const isShiftPressed = event.shiftKey;
@@ -67,7 +75,7 @@ export default class PostCommentCreateForm extends React.Component {
 
             <span>
               <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Comment</button>
-              <a className="comment-cancel" onClick={this.props.toggleCommenting}>Cancel</a>
+              <a className="comment-cancel" onClick={this.cancelCommenting}>Cancel</a>
             </span>
 
             {this.props.post.isSavingComment ? (
