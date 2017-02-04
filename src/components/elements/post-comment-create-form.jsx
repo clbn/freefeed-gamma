@@ -25,13 +25,13 @@ export default class PostCommentCreateForm extends React.Component {
       event.target.blur();
       setTimeout(this.saveComment, 0);
     }
-  }
+  };
 
   saveComment = () => {
     if (!this.props.post.isSavingComment) {
       this.props.saveEditingComment(this.props.post.id, this._textarea.value);
     }
-  }
+  };
 
   componentWillReceiveProps(newProps) {
     // If it was successful saving, clear the form
