@@ -44,6 +44,27 @@ class PostCreateForm extends React.Component {
     }
   };
 
+  handleDropzoneInit = (d) => {
+    this.dropzoneObject = d;
+  };
+
+  handlePaste = (e) => {
+    if (e.clipboardData) {
+      const items = e.clipboardData.items;
+      if (items) {
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image') > -1) {
+            const blob = items[i].getAsFile();
+            if (!blob.name) {
+              blob.name = 'image.png';
+            }
+            this.dropzoneObject.addFile(blob);
+          }
+        }
+      }
+    }
+  };
+
   submitForm = () => {
     // Get all the values
     const feeds = this.postRecipients.values;
@@ -166,6 +187,7 @@ class PostCreateForm extends React.Component {
           ) : false}
 
           <PostDropzone
+            onInit={this.handleDropzoneInit}
             onAddedFile={handleAddedFile}
             onRemovedFile={handleRemovedFile}
             onUploadSuccess={handleUploadSuccess}
@@ -177,6 +199,7 @@ class PostCreateForm extends React.Component {
             onFocus={this.expand}
             onKeyDown={this.checkSave}
             onChange={this.checkCreatePostAvailability}
+            onPaste={this.handlePaste}
             minRows={3}
             maxRows={10}
             maxLength="1500"/>

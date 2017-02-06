@@ -31,6 +31,8 @@ const dropzoneConfig = {
 };
 
 const dropzoneEventHandlers = (props) => ({
+  init: props.onInit,
+
   // DropzoneJS uses stopPropagation() for dragenter and drop events, so
   // they are not being propagated to window and it breaks crafty handling
   // of those events we have in the Layout component. So here we have to
