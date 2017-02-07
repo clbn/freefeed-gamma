@@ -53,7 +53,7 @@ class PostCreateForm extends React.Component {
       const items = e.clipboardData.items;
       if (items) {
         for (let i = 0; i < items.length; i++) {
-          if (items[i].type.indexOf('image') > -1) {
+          if (items[i].type.indexOf('image/') > -1) {
             const blob = items[i].getAsFile();
             if (!blob.name) {
               blob.name = 'image.png';
