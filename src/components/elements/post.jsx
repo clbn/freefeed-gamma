@@ -31,6 +31,27 @@ class Post extends React.Component {
     this.postText = input;
   };
 
+  handleDropzoneInit = (d) => {
+    this.dropzoneObject = d;
+  };
+
+  handlePaste = (e) => {
+    if (e.clipboardData) {
+      const items = e.clipboardData.items;
+      if (items) {
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image/') > -1) {
+            const blob = items[i].getAsFile();
+            if (!blob.name) {
+              blob.name = 'image.png';
+            }
+            this.dropzoneObject.addFile(blob);
+          }
+        }
+      }
+    }
+  };
+
   removeAttachment = (attachmentId) => this.props.removeAttachment(this.props.id, attachmentId)
 
   render() {
@@ -287,6 +308,7 @@ class Post extends React.Component {
           {props.isEditing ? (
             <div className="post-editor">
               <PostDropzone
+                onInit={this.handleDropzoneInit}
                 onAddedFile={handleAddedFile}
                 onRemovedFile={handleRemovedFile}
                 onUploadSuccess={handleUploadSuccess}
@@ -299,6 +321,7 @@ class Post extends React.Component {
                   defaultValue={props.body}
                   autoFocus={true}
                   onKeyDown={checkSave}
+                  onPaste={this.handlePaste}
                   minRows={3}
                   maxRows={10}
                   maxLength="1500"/>
