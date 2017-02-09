@@ -243,6 +243,11 @@ $line-height-post-body-single: 28px;
   .post-error {
     margin: 10px 0 !important;
   }
+
+  // This only affects attachments in create-post, not in edit-post (and this is fine)
+  .attachments {
+    clear: both;
+  }
 }
 
 .recently-hidden-post {
