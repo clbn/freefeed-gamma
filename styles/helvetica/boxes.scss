@@ -38,22 +38,6 @@
   padding: 5px 10px;
 }
 
-// Sidebar Friend block header
-.box-header-friends {
-  @extend .box-header;
-
-  font-weight: bold;
-  font-size: 15px;
-}
-
-// Sidebar Group block header
-.box-header-groups {
-  @extend .box-header;
-
-  font-weight: bold;
-  font-size: 15px;
-}
-
 // Content and footer
 .content {
   .box-body {
@@ -64,6 +48,11 @@
 }
 
 .sidebar {
+  .box-header {
+    font-weight: bold;
+    font-size: 15px;
+  }
+
   .box-body {
     font-family: Arial, sans-serif;
     font-size: 15px;

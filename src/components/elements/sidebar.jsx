@@ -31,7 +31,7 @@ export default ({ user, signOut, toggleSidebar, routeName }) => (
       ) : false}
 
       <div className="box">
-        <div className="box-header-friends">
+        <div className="box-header">
           People
         </div>
         <div className="box-body">
@@ -52,7 +52,7 @@ export default ({ user, signOut, toggleSidebar, routeName }) => (
       </div>
 
       <div className="box">
-        <div className="box-header-groups">
+        <div className="box-header">
           Groups
         </div>
         <div className="box-body">
@@ -64,7 +64,7 @@ export default ({ user, signOut, toggleSidebar, routeName }) => (
       </div>
 
       <div className="box">
-        <div className="box-header-groups">
+        <div className="box-header">
           Info
         </div>
         <div className="box-body">
@@ -76,7 +76,7 @@ export default ({ user, signOut, toggleSidebar, routeName }) => (
       </div>
 
       <div className="box hidden-on-mobile">
-        <div className="box-header-groups">
+        <div className="box-header">
           Bookmarklet
         </div>
         <div className="box-footer">
