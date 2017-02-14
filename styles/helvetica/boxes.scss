@@ -51,18 +51,19 @@
   .box-header {
     font-weight: bold;
     font-size: 15px;
+    margin-bottom: 10px;
   }
 
   .box-body {
     font-family: Arial, sans-serif;
     font-size: 15px;
-    padding: 10px 0 3px 0;
+    margin-bottom: 3px;
     background-color: #fff;
 
     @include clearfix;
 
     a {
-      color: #0000cc;
+      color: #000;
       text-decoration: none;
     }
 
@@ -75,11 +76,6 @@
         padding-bottom: 3px;
         white-space: nowrap;
         overflow: hidden;
-
-        a {
-          color: #000;
-          font-size: 15px;
-        }
       }
     }
 
