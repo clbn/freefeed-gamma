@@ -72,7 +72,27 @@
     }
   }
 
-  .hidden-on-mobile {
-    display: none;
+  .sidebar {
+    .box-header {
+      margin-bottom: 0 !important;
+    }
+
+    .box-body ul li {
+      border-bottom: 1px solid #eee;
+      padding: 0 !important;
+
+      a {
+        display: block;
+        padding: 10px 0 !important;
+      }
+    }
+
+    .box-footer {
+      padding-top: 10px !important;
+    }
+
+    .hidden-on-mobile {
+      display: none;
+    }
   }
 }
