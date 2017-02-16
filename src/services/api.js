@@ -40,12 +40,12 @@ const MAX_COMMENTS = 2;
 export function getLikesOnly({ postId, commentsExpanded }) {
   const maxComments = commentsExpanded ? 'all' : `${MAX_COMMENTS}`;
   return fetch(
-    `${apiConfig.host}/v1/posts/${postId}?maxComments=${maxComments}&maxLikes=all`, getRequestOptions());
+    `${apiConfig.host}/v2/posts/${postId}?maxComments=${maxComments}&maxLikes=all`, getRequestOptions());
 }
 
 export function getPost({ postId, maxComments = MAX_COMMENTS }) {
   return fetch(
-    `${apiConfig.host}/v1/posts/${postId}?maxComments=${maxComments}`, getRequestOptions());
+    `${apiConfig.host}/v2/posts/${postId}?maxComments=${maxComments}`, getRequestOptions());
 }
 
 export function createPost({ feeds, postText, attachmentIds, more }) {
