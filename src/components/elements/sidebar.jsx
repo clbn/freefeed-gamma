@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { preventDefault, stopPropagation } from '../../utils';
+import { confirmFirst, preventDefault, stopPropagation } from '../../utils';
 import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
@@ -21,7 +21,7 @@ export default ({ user, signOut, toggleSidebar, routeName }) => (
           <div>
             <Link to="/settings">settings</Link>
             &nbsp;-&nbsp;
-            <a onClick={preventDefault(signOut)}>sign out</a>
+            <a onClick={confirmFirst(signOut)}>sign out</a>
           </div>
         </div>
       </div>
