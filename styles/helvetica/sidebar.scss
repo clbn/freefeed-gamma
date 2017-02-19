@@ -1,6 +1,10 @@
 .sidebar {
   a {
     color: #000;
+
+    i {
+      display: none;
+    }
   }
 
   a.bookmarklet-button {
@@ -84,6 +88,12 @@
       a {
         display: block;
         padding: 10px 0 !important;
+
+        i {
+          display: inline;
+          color: #333;
+          margin-right: 7px;
+        }
       }
     }
 

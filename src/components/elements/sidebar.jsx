@@ -36,11 +36,18 @@ export default ({ user, signOut, toggleSidebar, routeName }) => (
         </div>
         <div className="box-body">
           <ul>
-            <li><Link to="/">Home</Link></li>
+            <li><Link to="/">
+              <i className="fa fa-home fa-fw"></i>
+              Home
+            </Link></li>
 
-            <li><Link to="/filter/discussions">My discussions</Link></li>
+            <li><Link to="/filter/discussions">
+              <i className="fa fa-comments fa-fw"></i>
+              My discussions
+            </Link></li>
 
             <li><Link to="/filter/direct" style={user.unreadDirectsNumber > 0 ? { fontWeight: 'bold' } : {}}>
+              <i className="fa fa-envelope fa-fw"></i>
               Direct messages
               {user.unreadDirectsNumber > 0 ? ` (${user.unreadDirectsNumber})` : false}
             </Link></li>
