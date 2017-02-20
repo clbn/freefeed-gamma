@@ -9,7 +9,7 @@ const GROUPS_SIDEBAR_LIST_LENGTH = 4;
 const renderRecentGroup = recentGroup => {
   const updatedAgo = fromNowOrNow(parseInt(recentGroup.updatedAt));
   return (
-    <li className="p-my-groups-link" key={recentGroup.id}>
+    <li key={recentGroup.id}>
       <Link to={`/${recentGroup.username}`}>
         {recentGroup.screenName}
         <div className="updated-ago">{updatedAgo}</div>
@@ -22,7 +22,7 @@ const RecentGroups = (props) => {
   const recentGroups = props.recentGroups.map(renderRecentGroup);
 
   return (
-    <ul className="p-my-groups">
+    <ul>
       {recentGroups}
     </ul>
   );
