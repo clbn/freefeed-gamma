@@ -11,7 +11,12 @@ const renderRecentGroup = recentGroup => {
   return (
     <li key={recentGroup.id}>
       <Link to={`/${recentGroup.username}`}>
+        <div className="userpic">
+          <img src={recentGroup.profilePictureMediumUrl} width="33" height="33"/>
+        </div>
+
         {recentGroup.screenName}
+
         <div className="updated-ago">{updatedAgo}</div>
       </Link>
     </li>

@@ -2,7 +2,8 @@
   a {
     color: #000;
 
-    i {
+    i,
+    .userpic {
       display: none;
     }
   }
@@ -93,6 +94,19 @@
           display: inline;
           color: #333;
           margin-right: 7px;
+        }
+
+        .userpic {
+          display: block;
+          float: left;
+          width: 33px;
+          height: 33px;
+          margin-top: 1px + 1px;
+          margin-right: 1px + 10px;
+        }
+
+        .updated-ago {
+          margin-top: 1px;
         }
       }
     }
