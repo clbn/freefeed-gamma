@@ -88,6 +88,10 @@ header {
   margin: 0 3px;
   white-space: nowrap;
 
+  &.line-start {
+    margin-left: 0;
+  }
+
   @media (max-width: 767px) {
     font-size: 20px;
   }
