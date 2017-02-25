@@ -129,7 +129,7 @@ class App extends React.Component {
         <Helmet title={title} />
 
         <header className="row">
-          <div className="col-xs-9 col-md-4">
+          <div className="col-xs-8 col-md-4">
             <h1>
               <IndexLink to="/" onClick={logoHandler(props.routeName, props.offset, props.home)}>FreeFeed</IndexLink>
 
@@ -143,7 +143,7 @@ class App extends React.Component {
             </h1>
           </div>
 
-          <div className="col-xs-3 col-md-8 text-right">
+          <div className="col-xs-4 col-md-8 text-right">
             {props.authenticated ? (
               <div>
                 {props.routeName !== 'search' ? (
@@ -158,9 +158,7 @@ class App extends React.Component {
                 </div>
               </div>
             ) : (
-              <div className="signin-link">
-                <Link to="/signin">Sign In</Link>
-              </div>
+              <Link to="/signin" className="signin-link">Sign in</Link>
             )}
           </div>
         </header>
