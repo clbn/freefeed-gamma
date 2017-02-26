@@ -120,5 +120,5 @@ export function pluralForm(n, singular, plural = null, format = 'n w') {
 
 export function isMobile() {
   const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-  return (viewportWidth <= 767);
+  return (viewportWidth <= 991);
 }
