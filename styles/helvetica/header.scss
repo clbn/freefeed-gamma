@@ -51,7 +51,10 @@ header {
     line-height: 36px;
     padding: 5px 0;
     text-align: center;
+
     margin: 12px 0 10px -50px;
+    @media (min-width: 768px) { margin-top: 23px; }
+
     background-color: #eee;
     border-radius: 5px;
 

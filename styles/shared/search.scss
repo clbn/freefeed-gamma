@@ -1,10 +1,11 @@
 .search-form-in-header {
   display: none;
-  @media (min-width: 992px) { display: block; }
+  @media (min-width: 768px) { display: block; }
+
+  float: left;
 
   text-align: left;
   margin-top: 29px;
-  margin-left: -80px;
   opacity: 0.5;
 
   &.focused {
