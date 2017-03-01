@@ -6,7 +6,7 @@ import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
 
-export default ({ user, signOut, toggleSidebar, routeName }) => (
+export default ({ user, signOut, toggleSidebar }) => (
   <div className="sidebar-wrapper" onClick={toggleSidebar}>
     <div className="col-md-3 sidebar" onClick={stopPropagation}>
       <div className="logged-in">
@@ -26,9 +26,7 @@ export default ({ user, signOut, toggleSidebar, routeName }) => (
         </div>
       </div>
 
-      {routeName !== 'search' ? (
-        <SearchForm />
-      ) : false}
+      <SearchForm />
 
       <div className="box">
         <div className="box-header">
