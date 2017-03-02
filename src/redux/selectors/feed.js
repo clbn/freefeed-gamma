@@ -1,8 +1,26 @@
-const getIdAndHidden = (state) => (postId) => ({
+import { createSelector } from 'reselect';
+
+const getIdAndHidden = (posts) => (postId) => ({
   id: postId,
-  isHidden: state.posts[postId].isHidden
+  isHidden: posts[postId].isHidden
 });
 
-export const getVisibleEntriesWithHidden = (state) => state.feedViewState.visibleEntries.map(getIdAndHidden(state));
+export const getVisibleEntriesWithHidden = createSelector(
+  [
+    (state) => state.feedViewState.visibleEntries,
+    (state) => state.posts
+  ],
+  (visibleEntries, posts) => {
+    return visibleEntries.map(getIdAndHidden(posts));
+  }
+);
 
-export const getHiddenEntriesWithHidden = (state) => state.feedViewState.hiddenEntries.map(getIdAndHidden(state));
+export const getHiddenEntriesWithHidden = createSelector(
+  [
+    (state) => state.feedViewState.hiddenEntries,
+    (state) => state.posts
+  ],
+  (hiddenEntries, posts) => {
+    return hiddenEntries.map(getIdAndHidden(posts));
+  }
+);
