@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../redux/action-creators';
 import { getVisibleEntriesWithHidden } from '../redux/selectors';
-import { joinCreatePostData, userActions } from '../redux/select-utils';
+import { userActions } from '../redux/select-utils';
 import { getCurrentRouteName } from '../utils';
 import UserProfile from './elements/user-profile';
 import UserSubscribers from './elements/user-subscribers';
@@ -18,14 +17,7 @@ const User = (props) => {
       <UserProfile
         {...props.viewUser}
         {...props.userActions}
-        isInUserPostFeed={props.isInUserPostFeed}
-        user={props.user}
-        sendTo={props.sendTo}
-        createPost={props.createPost}
-        resetPostCreateForm={props.resetPostCreateForm}
-        createPostForm={props.createPostForm}
-        addAttachmentResponse={props.addAttachmentResponse}
-        removeAttachment={props.removeAttachment}/>
+        isInUserPostFeed={props.isInUserPostFeed}/>
 
       {props.viewUser.isUserFound ? (
         props.currentRoute === 'userSubscribers' ? (
@@ -48,7 +40,6 @@ function mapStateToProps(state, ownProps) {
   const user = state.user;
   const authenticated = state.authenticated;
   const visibleEntries = getVisibleEntriesWithHidden(state);
-  const createPostForm = joinCreatePostData(state);
   const boxHeader = state.boxHeader;
   const requestedUsername = ownProps.params.userName;
   const foundUser = Object.getOwnPropertyNames(state.users)
@@ -94,18 +85,12 @@ function mapStateToProps(state, ownProps) {
 
   const viewUser = { ...(foundUser), ...statusExtension };
 
-  const sendTo = { ...state.sendTo, defaultFeed: (foundUser ? foundUser.username : null) };
-
-  return { user, visibleEntries, createPostForm, boxHeader, viewUser, sendTo, currentRoute, isInUserPostFeed, showPaginationHeader };
+  return { visibleEntries, boxHeader, viewUser, currentRoute, isInUserPostFeed, showPaginationHeader };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    userActions: userActions(dispatch),
-    createPost: (...args) => dispatch(createPost(...args)),
-    resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),
-    addAttachmentResponse: (...args) => dispatch(addAttachmentResponse(...args)),
-    removeAttachment: (...args) => dispatch(removeAttachment(...args))
+    userActions: userActions(dispatch)
   };
 }
 

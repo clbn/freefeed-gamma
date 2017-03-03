@@ -188,14 +188,7 @@ export default class UserProfile extends React.Component {
         ) : false}
 
         {props.canIPostHere ? (
-          <PostCreateForm
-            sendTo={props.sendTo}
-            user={props.user}
-            createPost={props.createPost}
-            resetPostCreateForm={props.resetPostCreateForm}
-            createPostForm={props.createPostForm}
-            addAttachmentResponse={props.addAttachmentResponse}
-            removeAttachment={props.removeAttachment}/>
+          <PostCreateForm/>
         ) : false}
       </div>
     );

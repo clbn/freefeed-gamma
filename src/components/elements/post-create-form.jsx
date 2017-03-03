@@ -8,13 +8,15 @@ import PostAttachments from './post-attachments';
 import { preventDefault } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
+import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../../redux/action-creators';
+import { joinCreatePostData } from '../../redux/select-utils';
+
 class PostCreateForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       isExpanded: !!props.recipientFromUrl,
-      defaultFeed: props.recipientFromUrl || props.sendTo.defaultFeed,
       isFormEmpty: true,
       isMoreOpen: false,
       hasUploadFailed: false,
@@ -126,11 +128,11 @@ class PostCreateForm extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    // If defaultFeed gets updated, it means the transition between Direct messages
+    // If defaultRecipient gets updated, it means the transition between Direct messages
     // and Discussions pages happened (they share the top component, so PostCreateForm
     // doesn't get unmounted/mounted in the process). That's one "hacky" way to check
     // for this transition without passing another prop from discussions.jsx
-    if (newProps.sendTo.defaultFeed !== this.props.sendTo.defaultFeed) {
+    if (newProps.defaultRecipient !== this.props.defaultRecipient) {
       this.clearForm();
     }
 
@@ -173,7 +175,7 @@ class PostCreateForm extends React.Component {
       this.setState({ hasUploadFailed: true });
     };
 
-    const defaultFeed = this.props.recipientFromUrl || this.props.sendTo.defaultFeed;
+    const defaultFeed = this.props.recipientFromUrl || this.props.defaultRecipient;
 
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
@@ -266,10 +268,23 @@ class PostCreateForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    createPostForm: joinCreatePostData(state),
+    user: state.user,
+    sendTo: state.sendTo,
+    defaultRecipient: (ownProps.defaultRecipient !== undefined ? ownProps.defaultRecipient : state.user.username),
     recipientFromUrl: state.routing.locationBeforeTransitions.query.to
   };
 };
 
-export default connect(mapStateToProps)(PostCreateForm);
+function mapDispatchToProps(dispatch) {
+  return {
+    createPost: (...args) => dispatch(createPost(...args)),
+    resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),
+    addAttachmentResponse: (...args) => dispatch(addAttachmentResponse(...args)),
+    removeAttachment: (...args) => dispatch(removeAttachment(...args))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostCreateForm);
