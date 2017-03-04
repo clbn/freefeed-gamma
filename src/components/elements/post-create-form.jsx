@@ -9,7 +9,6 @@ import { preventDefault } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../../redux/action-creators';
-import { joinCreatePostData } from '../../redux/select-utils';
 
 class PostCreateForm extends React.Component {
   constructor(props) {
@@ -71,7 +70,7 @@ class PostCreateForm extends React.Component {
     // Get all the values
     const feeds = this.postRecipients.values;
     const postText = this.postText.value;
-    const attachmentIds = this.props.createPostForm.attachments.map(attachment => attachment.id);
+    const attachmentIds = this.props.createPostForm.attachments || [];
     const more = {
       commentsDisabled: (this.commentsDisabled && this.commentsDisabled.checked)
     };
@@ -92,7 +91,7 @@ class PostCreateForm extends React.Component {
       attachmentQueueLength: 0
     });
 
-    const attachmentIds = this.props.createPostForm.attachments.map(attachment => attachment.id);
+    const attachmentIds = this.props.createPostForm.attachments || [];
     attachmentIds.forEach(this.removeAttachment);
   };
 
@@ -176,6 +175,7 @@ class PostCreateForm extends React.Component {
     };
 
     const defaultFeed = this.props.recipientFromUrl || this.props.defaultRecipient;
+    const attachments = (this.props.createPostForm.attachments || []).map(attachmentId => this.props.attachments[attachmentId]);
 
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
@@ -257,7 +257,7 @@ class PostCreateForm extends React.Component {
         ) : false}
 
         <PostAttachments
-          attachments={this.props.createPostForm.attachments}
+          attachments={attachments}
           isEditing={true}
           isExpanded={true}
           removeAttachment={this.removeAttachment}/>
@@ -270,7 +270,8 @@ class PostCreateForm extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    createPostForm: joinCreatePostData(state),
+    createPostForm: state.createPostForm,
+    attachments: state.attachments,
     user: state.user,
     sendTo: state.sendTo,
     defaultRecipient: (ownProps.defaultRecipient !== undefined ? ownProps.defaultRecipient : state.user.username),
