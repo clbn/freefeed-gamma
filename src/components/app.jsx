@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import classnames from 'classnames';
 
-import { unauthenticated, home, toggleSidebar } from '../redux/action-creators';
+import { home, toggleSidebar } from '../redux/action-creators';
 import SearchForm from './elements/search-form';
 import Sidebar from './elements/sidebar';
 import Footer from './elements/footer';
@@ -118,7 +118,6 @@ class App extends React.Component {
       'container': true,
       'unauthenticated': !props.authenticated,
       'dragover': this.state.isDragOver,
-      'mobile-sidebar-open': props.sidebarViewState.isOpen
     });
 
     const titlePrefix = (props.user.unreadDirectsNumber > 0 ? '(' + props.user.unreadDirectsNumber + ') ' : '');
@@ -166,7 +165,7 @@ class App extends React.Component {
         {props.authenticated ? (
           <div className="row">
             <div className="content col-md-9">{props.children}</div>
-            <Sidebar {...props}/>
+            <Sidebar/>
           </div>
         ) : (
           <div className="row">
@@ -189,14 +188,12 @@ function mapStateToProps(state, ownProps) {
     isLoading: state.routeLoadingState,
     routeName: getCurrentRouteName(ownProps),
     offset: state.routing.locationBeforeTransitions.query.offset,
-    title: state.title,
-    sidebarViewState: state.sidebarViewState
+    title: state.title
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    signOut: ()=>dispatch(unauthenticated()),
     home: ()=> dispatch(home()),
     toggleSidebar: () => dispatch(toggleSidebar())
   };
