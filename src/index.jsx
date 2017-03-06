@@ -11,6 +11,7 @@ import Autotrack from 'autotrack'; // eslint-disable-line no-unused-vars
 
 import configureStore from './redux/configure-store';
 import * as ActionCreators from './redux/action-creators';
+import { toggleSidebar } from './utils';
 
 import App from './components/app';
 import Home from './components/home';
@@ -81,7 +82,7 @@ const getRouteHooks = (route) => ({
 });
 
 history.listen(() => scrollTo(0, 0));
-history.listen(() => store.dispatch(ActionCreators.toggleSidebar(false)));
+history.listen(() => toggleSidebar(false));
 history.listen(() => store.dispatch(ActionCreators.updateUserCard({ isHovered: false, isOpen: false })));
 
 ReactDOM.render(

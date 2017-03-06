@@ -1,16 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 
-import { unauthenticated, toggleSidebar } from '../../redux/action-creators';
-import { confirmFirst, preventDefault, stopPropagation } from '../../utils';
+import { unauthenticated } from '../../redux/action-creators';
+import { toggleSidebar, confirmFirst, preventDefault, stopPropagation } from '../../utils';
 import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
 
-const Sidebar = ({ sidebarViewState, toggleSidebar, user, signOut }) => (
-  <div className={classnames({ 'col-md-3': true, 'sidebar-overlay': true, 'mobile-sidebar-open': sidebarViewState.isOpen })} onClick={toggleSidebar}>
+const Sidebar = ({ user, signOut }) => (
+  <div className="col-md-3 sidebar-overlay" onClick={toggleSidebar}>
     <div className="sidebar" onClick={stopPropagation}>
       <div className="logged-in">
         <div className="userpic">
@@ -107,14 +106,12 @@ const Sidebar = ({ sidebarViewState, toggleSidebar, user, signOut }) => (
 
 function makeMapStateToProps(state) {
   return {
-    sidebarViewState: state.sidebarViewState,
     user: state.user
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggleSidebar: () => dispatch(toggleSidebar()),
     signOut: () => dispatch(unauthenticated())
   };
 }

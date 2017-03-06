@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import classnames from 'classnames';
 
-import { home, toggleSidebar } from '../redux/action-creators';
+import { home } from '../redux/action-creators';
 import SearchForm from './elements/search-form';
 import Sidebar from './elements/sidebar';
 import Footer from './elements/footer';
 import UserCard from './elements/user-card';
-import { getCurrentRouteName } from '../utils';
+import { getCurrentRouteName, toggleSidebar } from '../utils';
 import throbber100 from 'assets/images/throbber.gif';
 
 const logoHandler = (routeName, offset, cb) => () => {
@@ -149,7 +149,7 @@ class App extends React.Component {
                   <SearchForm />
                 ) : false}
 
-                <div className="mobile-sidebar-toggle" onClick={props.toggleSidebar}>
+                <div className="mobile-sidebar-toggle" onClick={toggleSidebar}>
                   <i className="fa fa-bars" aria-hidden="true"></i>
                   {props.user.unreadDirectsNumber > 0 ? (
                     <span className="direct-messages-badge">{props.user.unreadDirectsNumber}</span>
@@ -194,8 +194,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    home: ()=> dispatch(home()),
-    toggleSidebar: () => dispatch(toggleSidebar())
+    home: ()=> dispatch(home())
   };
 }
 

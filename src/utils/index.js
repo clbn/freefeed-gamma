@@ -122,3 +122,13 @@ export function isMobile() {
   const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   return (viewportWidth <= 991);
 }
+
+export function toggleSidebar(val = null) {
+  const classList = document.querySelector('.sidebar-overlay').classList;
+
+  if (val === true || val === false) {
+    classList.toggle('mobile-sidebar-open', val); // if true, then add class, if not, remove class
+  } else {
+    classList.toggle('mobile-sidebar-open'); // if class exists, then remove it, if not, add it
+  }
+}

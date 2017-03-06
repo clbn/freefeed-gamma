@@ -135,18 +135,6 @@ export function usernameBlockedByMe(state = {}, action) {
   );
 }
 
-export function sidebarViewState(state={}, action) {
-  switch (action.type) {
-    case ActionTypes.TOGGLE_SIDEBAR: {
-      const isOpen = (action.payload.val !== null ? action.payload.val : !state.isOpen);
-      return { ...state,
-        isOpen
-      };
-    }
-  }
-  return state;
-}
-
 export function highlightedComments(state = [], action) {
   switch (action.type) {
     case ActionTypes.START_HIGHLIGHTING_COMMENTS: {

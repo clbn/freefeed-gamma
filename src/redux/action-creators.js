@@ -525,13 +525,6 @@ export function blockedByMe() {
   };
 }
 
-export function toggleSidebar(val = null) {
-  return {
-    type: ActionTypes.TOGGLE_SIDEBAR,
-    payload: { val }
-  };
-}
-
 export function updateUserCard(payload) {
   return {
     type: ActionTypes.UPDATE_USER_CARD,
