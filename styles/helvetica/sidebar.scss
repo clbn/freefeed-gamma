@@ -45,18 +45,18 @@
 
 @media (max-width: 991px) {
   .sidebar-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 0; // overriding col-md-3
-    background-color: rgba(221, 221, 221, 0.9);
-    z-index: 10;
+    transition: all 0.3s;
 
     &.mobile-sidebar-open {
       display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0; // overriding col-md-3
+      background-color: rgba(221, 221, 221, 0.9);
+      z-index: 10;
     }
   }
 
@@ -72,6 +72,13 @@
     background-color: #fff;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
     padding: 12px 15px 0 15px;
+
+    margin-right: -275px;
+    transition: margin-right 0.3s;
+
+    .mobile-sidebar-open & {
+      margin-right: 0;
+    }
 
     .box-header {
       margin-bottom: 0 !important;
