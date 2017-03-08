@@ -41,6 +41,10 @@
       margin-bottom: 8px;
     }
   }
+
+  .search-form-in-header {
+    display: none;
+  }
 }
 
 @media (max-width: 991px) {
@@ -78,6 +82,22 @@
 
     .mobile-sidebar-open & {
       margin-right: 0;
+    }
+
+    .search-form-in-header {
+      display: block;
+      margin: 0 0 15px 0;
+      opacity: 1;
+
+      input, button {
+        display: inline;
+        vertical-align: middle;
+        height: 34px;
+      }
+
+      input {
+        width: 75%;
+      }
     }
 
     .box-header {
