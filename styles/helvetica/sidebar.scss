@@ -49,7 +49,8 @@
 
 @media (max-width: 991px) {
   .sidebar-overlay {
-    transition: all 0.3s;
+    background-color: transparent;
+    transition: background-color 0.3s;
 
     &.mobile-sidebar-open {
       display: block;
@@ -77,11 +78,11 @@
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
     padding: 12px 15px 0 15px;
 
-    margin-right: -275px;
-    transition: margin-right 0.3s;
+    transform: translate(270px + 5px, 0);
+    transition: transform 0.3s;
 
     .mobile-sidebar-open & {
-      margin-right: 0;
+      transform: translate(0, 0);
     }
 
     .search-form-in-header {
