@@ -4,20 +4,12 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import classnames from 'classnames';
 
-import { home } from '../redux/action-creators';
 import SearchForm from './elements/search-form';
 import Sidebar from './elements/sidebar';
 import Footer from './elements/footer';
 import UserCard from './elements/user-card';
 import { getCurrentRouteName, toggleSidebar } from '../utils';
 import throbber100 from 'assets/images/throbber.gif';
-
-const logoHandler = (routeName, offset, cb) => () => {
-  if (routeName === 'home' && !offset) {
-    return cb();
-  }
-  return false;
-};
 
 class App extends React.Component {
   // Here we have some handling of drag-n-drop, because standard dragenter
@@ -130,7 +122,7 @@ class App extends React.Component {
         <header className="row">
           <div className="col-xs-8 col-sm-4 col-md-3">
             <h1>
-              <IndexLink to="/" onClick={logoHandler(props.routeName, props.offset, props.home)}>FreeFeed</IndexLink>
+              <IndexLink to="/">FreeFeed</IndexLink>
 
               {props.isLoading ? (
                 <span className="loading"><img src={throbber100} width="30" height="30"/></span>
@@ -192,10 +184,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    home: ()=> dispatch(home())
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
