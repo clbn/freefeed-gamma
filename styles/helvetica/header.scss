@@ -58,6 +58,13 @@ header {
     background-color: #eee;
     border-radius: 5px;
 
+    .fa-times { display: none; }
+
+    &.mobile-sidebar-open {
+      .fa-bars { display: none; }
+      .fa-times { display: inline-block; }
+    }
+
     .direct-messages-badge {
       position: absolute;
       top: -5px;

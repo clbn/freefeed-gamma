@@ -143,6 +143,7 @@ class App extends React.Component {
 
                 <div className="mobile-sidebar-toggle" onClick={toggleSidebar}>
                   <i className="fa fa-bars" aria-hidden="true"></i>
+                  <i className="fa fa-times" aria-hidden="true"></i>
                   {props.user.unreadDirectsNumber > 0 ? (
                     <span className="direct-messages-badge">{props.user.unreadDirectsNumber}</span>
                   ) : false}
