@@ -78,10 +78,14 @@
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
     padding: 12px 15px 0 15px;
 
+    -webkit-transform: translate(270px + 5px, 0);
     transform: translate(270px + 5px, 0);
+
+    -webkit-transition: -webkit-transform 0.3s;
     transition: transform 0.3s;
 
     .mobile-sidebar-open & {
+      -webkit-transform: translate(0, 0);
       transform: translate(0, 0);
     }
 
