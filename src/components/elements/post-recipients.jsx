@@ -86,7 +86,7 @@ export default class PostRecipients extends React.Component {
           <div>
             To:&nbsp;
             <span className="Select-value-label-standalone">{defaultFeedLabel}</span>&nbsp;
-            <a className="p-sendto-toggler" onClick={preventDefault(_=>this.toggleSendTo())}>Add/Edit</a>
+            <a onClick={preventDefault(_=>this.toggleSendTo())}>Add/Edit</a>
           </div>
         ) : (
           <div>
