@@ -63,19 +63,19 @@ export default class PostRecipients extends React.Component {
       types[v.type] = v;
     }
     return Object.keys(types).length <= 1;
-  }
+  };
 
   selectChanged = (values) => {
     this._values = values.map(item => item.value);
     let isWarningDisplayed = !this.isGroupsOrDirectsOnly(values);
     this.setState({ values, isWarningDisplayed });
     this.props.onChange();
-  }
+  };
 
-  toggleSendTo = _ => {
+  toggleSendTo = () => {
     let newShowFeedsOption = !this.state.showFeedsOption;
     this.setState({ showFeedsOption: newShowFeedsOption });
-  }
+  };
 
   render() {
     const defaultFeedLabel = (this.state.values[0] === this.props.user.username ? MY_FEED_LABEL : this.state.values[0]);
