@@ -53,6 +53,7 @@ export default class PostRecipients extends React.Component {
     }
   }
 
+  // This getter is used in PostCreateForm
   get values() {
     return this._values;
   }
