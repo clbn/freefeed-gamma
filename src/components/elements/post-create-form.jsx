@@ -104,9 +104,9 @@ class PostCreateForm extends React.Component {
   checkCreatePostAvailability = () => {
     let isFormEmpty = this.isPostTextEmpty(this.postText.value) || this.postRecipients.values.length === 0;
 
-    this.setState({
-      isFormEmpty
-    });
+    if (isFormEmpty !== this.state.isFormEmpty) {
+      this.setState({ isFormEmpty });
+    }
   };
 
   checkSave = (e) => {
