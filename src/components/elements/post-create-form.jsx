@@ -97,12 +97,10 @@ class PostCreateForm extends React.Component {
 
   removeAttachment = (attachmentId) => this.props.removeAttachment(null, attachmentId);
 
-  isPostTextEmpty = (postText) => {
-    return postText == '' || /^\s+$/.test(postText);
-  };
+  isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
 
   checkCreatePostAvailability = () => {
-    let isFormEmpty = this.isPostTextEmpty(this.postText.value) || this.postRecipients.values.length === 0;
+    let isFormEmpty = this.isPostTextEmpty() || this.postRecipients.values.length === 0;
 
     if (isFormEmpty !== this.state.isFormEmpty) {
       this.setState({ isFormEmpty });
