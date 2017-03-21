@@ -38,7 +38,7 @@ class PostCreateForm extends React.Component {
   };
 
   cancelCreatingPost = () => {
-    if (this.state.isFormEmpty) {
+    if (this.isPostTextEmpty()) {
       this.clearForm();
     } else if (confirm('Discard changes and close the form?')) {
       this.clearForm();
