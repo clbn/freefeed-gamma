@@ -97,10 +97,10 @@ class PostCreateForm extends React.Component {
 
   isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
 
-  checkCreatePostAvailability = () => {
+  checkCreatePostAvailability = (recipientsUpdated = false) => {
     let isFormEmpty = this.isPostTextEmpty() || this.postRecipients.values.length === 0;
 
-    if (isFormEmpty !== this.state.isFormEmpty) {
+    if (isFormEmpty !== this.state.isFormEmpty || recipientsUpdated === true) {
       this.setState({ isFormEmpty });
     }
   };
@@ -173,6 +173,23 @@ class PostCreateForm extends React.Component {
     const defaultFeed = this.props.recipientFromUrl || this.props.defaultRecipient;
     const attachments = (this.props.createPostForm.attachments || []).map(attachmentId => this.props.attachments[attachmentId]);
 
+    // Submit button text
+    let submitButtonText;
+    const recipients = this.postRecipients && this.postRecipients.values;
+    const getRecipientName = (r) => (r === this.props.user.username ? 'my feed' : '@' + r);
+    if (!recipients || recipients.length === 0) {
+      submitButtonText = 'Post (recipient missing)';
+    } else if (recipients.length === 1) {
+      submitButtonText = 'Post to ' + getRecipientName(recipients[0]);
+    } else {
+      const pleasantList = recipients
+        .slice(0, -1)
+        .map(getRecipientName)
+        .join(', ')
+        .concat(' and ' + getRecipientName(recipients[recipients.length - 1]));
+      submitButtonText = 'Post to ' + pleasantList;
+    }
+
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
         <div>
@@ -237,7 +254,7 @@ class PostCreateForm extends React.Component {
 
           <button className="btn btn-default btn-xs"
             onClick={preventDefault(this.submitForm)}
-            disabled={this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading'}>Post</button>
+            disabled={this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading'}>{submitButtonText}</button>
         </div>
 
         {this.state.hasUploadFailed ? (

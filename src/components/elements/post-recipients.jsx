@@ -27,6 +27,10 @@ export default class PostRecipients extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.onChange(true);
+  }
+
   componentWillReceiveProps(nextProps) {
     let options = nextProps.feeds.map((item) => ({
       label: item.user.username,
@@ -46,6 +50,7 @@ export default class PostRecipients extends React.Component {
         options: options,
         showFeedsOption: !nextProps.defaultFeed
       });
+      this.props.onChange(true);
     } else {
       this.setState({
         options: options
@@ -70,7 +75,7 @@ export default class PostRecipients extends React.Component {
     this._values = values.map(item => item.value);
     let isWarningDisplayed = !this.isGroupsOrDirectsOnly(values);
     this.setState({ values, isWarningDisplayed });
-    this.props.onChange();
+    this.props.onChange(true);
   };
 
   toggleSendTo = () => {
