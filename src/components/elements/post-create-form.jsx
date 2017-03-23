@@ -179,15 +179,15 @@ class PostCreateForm extends React.Component {
     const getRecipientName = (r) => (r === this.props.user.username ? 'my feed' : '@' + r);
     if (!recipients || recipients.length === 0) {
       submitButtonText = 'Post (recipient missing)';
-    } else if (recipients.length === 1) {
-      submitButtonText = 'Post to ' + getRecipientName(recipients[0]);
+    } else if (recipients.length === 1 || recipients.length === 2) {
+      submitButtonText = 'Post to ' + recipients.map(getRecipientName).join(' and ');
+    } else if (recipients.length === 3) {
+      const niceList = recipients.map(getRecipientName);
+      submitButtonText = `Post to ${niceList[0]}, ${niceList[1]} and ${niceList[2]}`;
     } else {
-      const pleasantList = recipients
-        .slice(0, -1)
-        .map(getRecipientName)
-        .join(', ')
-        .concat(' and ' + getRecipientName(recipients[recipients.length - 1]));
-      submitButtonText = 'Post to ' + pleasantList;
+      const niceList = recipients.slice(0, 2).map(getRecipientName);
+      const remainder = recipients.length - niceList.length;
+      submitButtonText = `Post to ${niceList[0]}, ${niceList[1]} and ${remainder} more`;
     }
 
     return (
