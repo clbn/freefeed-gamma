@@ -23,9 +23,15 @@ class PostCreateForm extends React.Component {
     };
   }
 
+  //
+  // Refs
+
   refPostRecipients = (input) => { this.postRecipients = input; };
   refPostText = (input) => { this.postText = input; };
   refCommentsDisabled = (input) => { this.commentsDisabled = input; };
+
+  //
+  // Expanding and collapsing
 
   expand = () => {
     if (!this.state.isExpanded) {
@@ -37,11 +43,8 @@ class PostCreateForm extends React.Component {
     this.setState({ isMoreOpen: !this.state.isMoreOpen });
   };
 
-  cancelCreatingPost = () => {
-    if (this.isPostTextEmpty() || confirm('Discard changes and close the form?')) {
-      this.clearForm();
-    }
-  };
+  //
+  // Handling attachments
 
   handleDropzoneInit = (d) => {
     this.dropzoneObject = d;
@@ -64,6 +67,32 @@ class PostCreateForm extends React.Component {
     }
   };
 
+  removeAttachment = (attachmentId) => this.props.removeAttachment(null, attachmentId);
+
+  //
+  // Handling recipients, text typing and posting
+
+  checkCreatePostAvailability = (recipientsUpdated = false) => {
+    let isFormEmpty = this.isPostTextEmpty() || this.postRecipients.values.length === 0;
+
+    if (isFormEmpty !== this.state.isFormEmpty || recipientsUpdated === true) {
+      this.setState({ isFormEmpty });
+    }
+  };
+
+  isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
+
+  checkIfEnterPressed = (e) => {
+    const isEnter = e.keyCode === 13;
+    const isShiftPressed = e.shiftKey;
+    if (isEnter && !isShiftPressed) {
+      e.preventDefault();
+      if (!this.state.isFormEmpty && this.state.attachmentQueueLength === 0 && this.props.createPostForm.status !== 'loading') {
+        this.submitForm();
+      }
+    }
+  };
+
   submitForm = () => {
     // Get all the values
     const feeds = this.postRecipients.values;
@@ -75,6 +104,12 @@ class PostCreateForm extends React.Component {
 
     // Send to the server
     this.props.createPost(feeds, postText, attachmentIds, more);
+  };
+
+  cancelCreatingPost = () => {
+    if (this.isPostTextEmpty() || confirm('Discard changes and close the form?')) {
+      this.clearForm();
+    }
   };
 
   clearForm = () => {
@@ -93,28 +128,8 @@ class PostCreateForm extends React.Component {
     attachmentIds.forEach(this.removeAttachment);
   };
 
-  removeAttachment = (attachmentId) => this.props.removeAttachment(null, attachmentId);
-
-  isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
-
-  checkCreatePostAvailability = (recipientsUpdated = false) => {
-    let isFormEmpty = this.isPostTextEmpty() || this.postRecipients.values.length === 0;
-
-    if (isFormEmpty !== this.state.isFormEmpty || recipientsUpdated === true) {
-      this.setState({ isFormEmpty });
-    }
-  };
-
-  checkSave = (e) => {
-    const isEnter = e.keyCode === 13;
-    const isShiftPressed = e.shiftKey;
-    if (isEnter && !isShiftPressed) {
-      e.preventDefault();
-      if (!this.state.isFormEmpty && this.state.attachmentQueueLength === 0 && this.props.createPostForm.status !== 'loading') {
-        this.submitForm();
-      }
-    }
-  };
+  //
+  // Component lifecycle
 
   componentDidMount() {
     if (this.props.recipientFromUrl) {
@@ -151,6 +166,9 @@ class PostCreateForm extends React.Component {
   componentWillUnmount() {
     this.props.resetPostCreateForm();
   }
+
+  //
+  // Render
 
   render() {
     // DropzoneJS queue handlers
@@ -212,7 +230,7 @@ class PostCreateForm extends React.Component {
             className="form-control post-textarea"
             ref={this.refPostText}
             onFocus={this.expand}
-            onKeyDown={this.checkSave}
+            onKeyDown={this.checkIfEnterPressed}
             onChange={this.checkCreatePostAvailability}
             onPaste={this.handlePaste}
             minRows={3}
