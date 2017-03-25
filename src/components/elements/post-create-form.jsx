@@ -190,6 +190,7 @@ class PostCreateForm extends React.Component {
 
     const defaultFeed = this.props.recipientFromUrl || this.props.defaultRecipient;
     const attachments = (this.props.createPostForm.attachments || []).map(attachmentId => this.props.attachments[attachmentId]);
+    const isSubmitButtonDisabled = this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading';
 
     // Submit button text
     let submitButtonText;
@@ -272,7 +273,7 @@ class PostCreateForm extends React.Component {
 
           <button className="btn btn-default btn-xs"
             onClick={preventDefault(this.submitForm)}
-            disabled={this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading'}>{submitButtonText}</button>
+            disabled={isSubmitButtonDisabled}>{submitButtonText}</button>
         </div>
 
         {this.state.hasUploadFailed ? (
