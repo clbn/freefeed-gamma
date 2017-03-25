@@ -195,18 +195,22 @@ class PostCreateForm extends React.Component {
     // Submit button text
     let submitButtonText;
     const recipients = this.postRecipients && this.postRecipients.values;
-    const getRecipientName = (r) => (r === this.props.user.username ? 'my feed' : '@' + r);
+    const getRecipientName = (r) => (r === this.props.user.username ? <b>my feed</b> : <b>@{r}</b>);
     if (!recipients || recipients.length === 0) {
-      submitButtonText = 'Post (recipient missing)';
-    } else if (recipients.length === 1 || recipients.length === 2) {
-      submitButtonText = 'Post to ' + recipients.map(getRecipientName).join(' and ');
+      submitButtonText = <span>Post (recipient missing)</span>;
+    } else if (recipients.length === 1) {
+      const niceList = recipients.map(getRecipientName);
+      submitButtonText = <span>Post to {niceList[0]}</span>;
+    } else if (recipients.length === 2) {
+      const niceList = recipients.map(getRecipientName);
+      submitButtonText = <span>Post to {niceList[0]} and {niceList[1]}</span>;
     } else if (recipients.length === 3) {
       const niceList = recipients.map(getRecipientName);
-      submitButtonText = `Post to ${niceList[0]}, ${niceList[1]} and ${niceList[2]}`;
+      submitButtonText = <span>Post to {niceList[0]}, {niceList[1]} and {niceList[2]}</span>;
     } else {
       const niceList = recipients.slice(0, 2).map(getRecipientName);
       const remainder = recipients.length - niceList.length;
-      submitButtonText = `Post to ${niceList[0]}, ${niceList[1]} and ${remainder} more`;
+      submitButtonText = <span>Post to {niceList[0]}, {niceList[1]} and {remainder} more</span>;
     }
 
     return (
