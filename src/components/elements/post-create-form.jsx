@@ -194,23 +194,17 @@ class PostCreateForm extends React.Component {
 
     // Submit button text
     let submitButtonText;
-    const recipients = this.postRecipients && this.postRecipients.values;
     const getRecipientName = (r) => (r === this.props.user.username ? <b>my feed</b> : <b>@{r}</b>);
-    if (!recipients || recipients.length === 0) {
-      submitButtonText = <span>Post (recipient missing)</span>;
-    } else if (recipients.length === 1) {
-      const niceList = recipients.map(getRecipientName);
-      submitButtonText = <span>Post to {niceList[0]}</span>;
-    } else if (recipients.length === 2) {
-      const niceList = recipients.map(getRecipientName);
-      submitButtonText = <span>Post to {niceList[0]} and {niceList[1]}</span>;
-    } else if (recipients.length === 3) {
-      const niceList = recipients.map(getRecipientName);
-      submitButtonText = <span>Post to {niceList[0]}, {niceList[1]} and {niceList[2]}</span>;
-    } else {
-      const niceList = recipients.slice(0, 2).map(getRecipientName);
-      const remainder = recipients.length - niceList.length;
-      submitButtonText = <span>Post to {niceList[0]}, {niceList[1]} and {remainder} more</span>;
+    const recipients = this.postRecipients && this.postRecipients.values.map(getRecipientName) || [];
+    switch (recipients.length) {
+      case 0: submitButtonText = <span>Post (recipient missing)</span>; break;
+      case 1: submitButtonText = <span>Post to {recipients[0]}</span>; break;
+      case 2: submitButtonText = <span>Post to {recipients[0]} and {recipients[1]}</span>; break;
+      case 3: submitButtonText = <span>Post to {recipients[0]}, {recipients[1]} and {recipients[2]}</span>; break;
+      default:
+        const firstTwo = recipients.slice(0, 2);
+        const remainder = recipients.length - 2;
+        submitButtonText = <span>Post to {firstTwo[0]}, {firstTwo[1]} and {remainder} more</span>;
     }
 
     return (
