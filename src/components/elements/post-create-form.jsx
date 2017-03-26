@@ -197,7 +197,7 @@ class PostCreateForm extends React.Component {
     const getRecipientName = (r) => (r === this.props.user.username ? <b>my feed</b> : <b>@{r}</b>);
     const recipients = this.postRecipients && this.postRecipients.values.map(getRecipientName) || [];
     switch (recipients.length) {
-      case 0: submitButtonText = <span>Post (recipient missing)</span>; break;
+      case 0: submitButtonText = <span>Post <i>(recipient missing)</i></span>; break;
       case 1: submitButtonText = <span>Post to {recipients[0]}</span>; break;
       case 2: submitButtonText = <span>Post to {recipients[0]} and {recipients[1]}</span>; break;
       case 3: submitButtonText = <span>Post to {recipients[0]}, {recipients[1]} and {recipients[2]}</span>; break;
