@@ -4,15 +4,17 @@ import { preventDefault } from '../../utils';
 
 const MY_FEED_LABEL = 'My feed';
 
+const feedToOption = (feed) => ({
+  label: feed.user.username,
+  value: feed.user.username,
+  type: feed.user.type
+});
+
 export default class PostRecipients extends React.Component {
   constructor(props) {
     super(props);
 
-    let options = props.feeds.map((item) => ({
-      label: item.user.username,
-      value: item.user.username,
-      type: item.user.type
-    }));
+    let options = props.feeds.map(feedToOption);
 
     let myFeedUsername = props.user.username;
     options.unshift({ label: MY_FEED_LABEL, value: myFeedUsername, type: 'group' });
@@ -31,11 +33,7 @@ export default class PostRecipients extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let options = nextProps.feeds.map((item) => ({
-      label: item.user.username,
-      value: item.user.username,
-      type: item.user.type
-    }));
+    let options = nextProps.feeds.map(feedToOption);
 
     let myFeedUsername = nextProps.user.username;
     options.unshift({ label: MY_FEED_LABEL, value: myFeedUsername, type: 'group' });
