@@ -20,7 +20,6 @@ export default class PostRecipients extends React.Component {
     this._values = (props.defaultFeed ? [props.defaultFeed] : []);
 
     this.state = {
-      values: this._values,
       options: options,
       showFeedsOption: !props.defaultFeed,
       isWarningDisplayed: false
@@ -46,7 +45,6 @@ export default class PostRecipients extends React.Component {
     if (this.props.defaultFeed !== nextProps.defaultFeed) {
       this._values = (nextProps.defaultFeed ? [nextProps.defaultFeed] : []);
       this.setState({
-        values: this._values,
         options: options,
         showFeedsOption: !nextProps.defaultFeed
       });
@@ -79,7 +77,7 @@ export default class PostRecipients extends React.Component {
     });
 
     let isWarningDisplayed = !this.isGroupsOrDirectsOnly(values);
-    this.setState({ values, isWarningDisplayed });
+    this.setState({ isWarningDisplayed });
     this.props.onChange(true);
   };
 
@@ -89,7 +87,7 @@ export default class PostRecipients extends React.Component {
   };
 
   render() {
-    const defaultFeedLabel = (this.state.values[0] === this.props.user.username ? MY_FEED_LABEL : this.state.values[0]);
+    const defaultFeedLabel = (this._values[0] === this.props.user.username ? MY_FEED_LABEL : this._values[0]);
 
     return (
       <div className="send-to">
@@ -104,7 +102,7 @@ export default class PostRecipients extends React.Component {
             <Select
               name="select-feeds"
               placeholder="Select feeds..."
-              value={this.state.values}
+              value={this._values}
               options={this.state.options}
               onChange={this.selectChanged}
               multi={true}
