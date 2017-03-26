@@ -73,6 +73,11 @@ export default class PostRecipients extends React.Component {
 
   selectChanged = (values) => {
     this._values = values.map(item => item.value);
+    this._values.sort((a, b) => {
+      if (a === this.props.user.username) { return -1; }
+      if (b === this.props.user.username) { return 1; }
+    });
+
     let isWarningDisplayed = !this.isGroupsOrDirectsOnly(values);
     this.setState({ values, isWarningDisplayed });
     this.props.onChange(true);
