@@ -1,5 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
+import _ from 'lodash';
+
 import { preventDefault } from '../../utils';
 
 const MY_FEED_LABEL = 'My feed';
@@ -54,9 +56,14 @@ export default class PostRecipients extends React.Component {
     }
   }
 
-  // This getter is used in PostCreateForm
+  // This getters are used in PostCreateForm
   get values() {
+    // List of strings (selected usernames)
     return this._values;
+  }
+  get selectedOptions() {
+    // List of objects (selected users)
+    return _.filter(this.state.options, (o) => (this._values.indexOf(o.value) > -1));
   }
 
   isGroupsOrDirectsOnly = (values) => {
@@ -67,14 +74,14 @@ export default class PostRecipients extends React.Component {
     return Object.keys(types).length <= 1;
   };
 
-  selectChanged = (values) => {
-    this._values = values.map(item => item.value);
+  selectChanged = (selectedOptions) => {
+    this._values = selectedOptions.map(item => item.value);
     this._values.sort((a, b) => {
       if (a === this.props.user.username) { return -1; }
       if (b === this.props.user.username) { return 1; }
     });
 
-    let isWarningDisplayed = !this.isGroupsOrDirectsOnly(values);
+    let isWarningDisplayed = !this.isGroupsOrDirectsOnly(selectedOptions);
     this.setState({ isWarningDisplayed });
     this.props.onChange(true);
   };
