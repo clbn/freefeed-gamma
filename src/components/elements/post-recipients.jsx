@@ -9,7 +9,10 @@ const MY_FEED_LABEL = 'My feed';
 const feedToOption = (feed) => ({
   label: feed.user.username,
   value: feed.user.username,
-  type: feed.user.type
+  id: feed.user.id,
+  type: feed.user.type,
+  isPrivate: feed.user.isPrivate,
+  isProtected: feed.user.isProtected
 });
 
 export default class PostRecipients extends React.Component {
