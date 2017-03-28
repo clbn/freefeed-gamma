@@ -4,6 +4,7 @@ import Textarea from 'react-textarea-autosize';
 
 import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
+import PostVisibilityIcon from './post-visibility-icon';
 import PostAttachments from './post-attachments';
 import { preventDefault } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
@@ -207,6 +208,9 @@ class PostCreateForm extends React.Component {
         submitButtonText = <span>Post to {firstTwo[0]}, {firstTwo[1]} and {remainder} more</span>;
     }
 
+    // Visibility icon
+    const fatRecipients = this.postRecipients && this.postRecipients.selectedOptions || [];
+
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
         <div>
@@ -269,9 +273,11 @@ class PostCreateForm extends React.Component {
 
           <a className="post-cancel" onClick={this.cancelCreatingPost}>Cancel</a>
 
-          <button className="btn btn-default btn-xs"
-            onClick={preventDefault(this.submitForm)}
-            disabled={isSubmitButtonDisabled}>{submitButtonText}</button>
+          <button className="btn btn-default btn-xs" onClick={preventDefault(this.submitForm)} disabled={isSubmitButtonDisabled}>
+            {submitButtonText}
+          </button>
+
+          <PostVisibilityIcon recipients={fatRecipients} authorId={this.props.user.id}/>
         </div>
 
         {this.state.hasUploadFailed ? (
