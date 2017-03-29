@@ -190,26 +190,24 @@ class PostCreateForm extends React.Component {
     };
 
     const defaultFeed = this.props.recipientFromUrl || this.props.defaultRecipient;
+    const recipients = this.postRecipients && this.postRecipients.selectedOptions || [];
     const attachments = (this.props.createPostForm.attachments || []).map(attachmentId => this.props.attachments[attachmentId]);
     const isSubmitButtonDisabled = this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading';
 
     // Submit button text
     let submitButtonText;
-    const getRecipientName = (r) => (r === this.props.user.username ? <b>my feed</b> : <b>@{r}</b>);
-    const recipients = this.postRecipients && this.postRecipients.values.map(getRecipientName) || [];
-    switch (recipients.length) {
+    const getRecipientName = (r) => (r.value === this.props.user.username ? <b>my feed</b> : <b>@{r.value}</b>);
+    const recNames = recipients.map(getRecipientName);
+    switch (recNames.length) {
       case 0: submitButtonText = <span>Post <i>(recipient missing)</i></span>; break;
-      case 1: submitButtonText = <span>Post to {recipients[0]}</span>; break;
-      case 2: submitButtonText = <span>Post to {recipients[0]} and {recipients[1]}</span>; break;
-      case 3: submitButtonText = <span>Post to {recipients[0]}, {recipients[1]} and {recipients[2]}</span>; break;
+      case 1: submitButtonText = <span>Post to {recNames[0]}</span>; break;
+      case 2: submitButtonText = <span>Post to {recNames[0]} and {recNames[1]}</span>; break;
+      case 3: submitButtonText = <span>Post to {recNames[0]}, {recNames[1]} and {recNames[2]}</span>; break;
       default:
-        const firstTwo = recipients.slice(0, 2);
-        const remainder = recipients.length - 2;
+        const firstTwo = recNames.slice(0, 2);
+        const remainder = recNames.length - 2;
         submitButtonText = <span>Post to {firstTwo[0]}, {firstTwo[1]} and {remainder} more</span>;
     }
-
-    // Visibility icon
-    const fatRecipients = this.postRecipients && this.postRecipients.selectedOptions || [];
 
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
@@ -277,7 +275,7 @@ class PostCreateForm extends React.Component {
             {submitButtonText}
           </button>
 
-          <PostVisibilityIcon recipients={fatRecipients} authorId={this.props.user.id}/>
+          <PostVisibilityIcon recipients={recipients} authorId={this.props.user.id}/>
         </div>
 
         {this.state.hasUploadFailed ? (
