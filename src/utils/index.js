@@ -132,3 +132,24 @@ export function toggleSidebar(val = null) {
     [...elements].forEach(el => el.classList.toggle('mobile-sidebar-open')); // if class exists, then remove it, if not, add it
   }
 }
+
+import * as PostVisibilityLevels from './post-visibility-levels';
+
+export function getPostVisibilityLevel(recipients, authorId) {
+  // Calculate individual levels for recipients
+  const recipientLevels = recipients.map((recipient) => {
+    if (recipient.type === 'user' && recipient.id !== authorId) {
+      return PostVisibilityLevels.DIRECT;
+    }
+    if (recipient.isPrivate === '1') {
+      return PostVisibilityLevels.PRIVATE;
+    }
+    if (recipient.isProtected === '1') {
+      return PostVisibilityLevels.PROTECTED;
+    }
+    return PostVisibilityLevels.PUBLIC;
+  });
+
+  // Calculate combined level for post
+  return Math.min(...recipientLevels);
+}
