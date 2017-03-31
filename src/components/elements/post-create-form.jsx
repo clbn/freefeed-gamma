@@ -6,7 +6,8 @@ import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
 import PostVisibilityIcon from './post-visibility-icon';
 import PostAttachments from './post-attachments';
-import { preventDefault } from '../../utils';
+import * as PostVisibilityLevels from '../../utils/post-visibility-levels';
+import { preventDefault, getPostVisibilityLevel } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../../redux/action-creators';
@@ -197,16 +198,17 @@ class PostCreateForm extends React.Component {
     // Submit button text
     let submitButtonText;
     const getRecipientName = (r) => (r.value === this.props.user.username ? <b>my feed</b> : <b>@{r.value}</b>);
+    const submitAction = (getPostVisibilityLevel(recipients, this.props.user.id) === PostVisibilityLevels.DIRECT ? 'Send' : 'Post');
     const recNames = recipients.map(getRecipientName);
     switch (recNames.length) {
-      case 0: submitButtonText = <span>Post <i>(recipient missing)</i></span>; break;
-      case 1: submitButtonText = <span>Post to {recNames[0]}</span>; break;
-      case 2: submitButtonText = <span>Post to {recNames[0]} and {recNames[1]}</span>; break;
-      case 3: submitButtonText = <span>Post to {recNames[0]}, {recNames[1]} and {recNames[2]}</span>; break;
+      case 0: submitButtonText = <span>{submitAction} <i>(recipient missing)</i></span>; break;
+      case 1: submitButtonText = <span>{submitAction} to {recNames[0]}</span>; break;
+      case 2: submitButtonText = <span>{submitAction} to {recNames[0]} and {recNames[1]}</span>; break;
+      case 3: submitButtonText = <span>{submitAction} to {recNames[0]}, {recNames[1]} and {recNames[2]}</span>; break;
       default:
         const firstTwo = recNames.slice(0, 2);
         const remainder = recNames.length - 2;
-        submitButtonText = <span>Post to {firstTwo[0]}, {firstTwo[1]} and {remainder} more</span>;
+        submitButtonText = <span>{submitAction} to {firstTwo[0]}, {firstTwo[1]} and {remainder} more</span>;
     }
 
     return (
