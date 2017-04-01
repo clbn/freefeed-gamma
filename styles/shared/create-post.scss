@@ -26,6 +26,15 @@
     }
   }
 
+  button {
+    overflow: hidden;
+    max-width: 60%;
+
+    @media (max-width: 767px) { max-width: 50%; } // 540 - 767
+    @media (max-width: 539px) { max-width: 44%; } // 360 - 539
+    @media (max-width: 359px) { max-width: 38%; } // 320 - 359
+  }
+
   .alert-warning {
     margin: 10px 0;
   }
