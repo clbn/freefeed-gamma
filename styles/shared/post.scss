@@ -196,7 +196,8 @@ $line-height-post-body-single: 28px;
 
   .post-edit-options {
     float: left;
-    margin-bottom: 11px;
+    line-height: 22px;
+    margin-bottom: 8px;
 
     .post-edit-attachments {
       cursor: pointer;
@@ -212,7 +213,7 @@ $line-height-post-body-single: 28px;
     }
 
     .post-edit-more {
-      margin-top: 10px;
+      margin-top: 6px;
 
       .post-edit-more-checkbox {
         margin: 0 5px 0 1px;
