@@ -245,7 +245,8 @@ class PostCreateForm extends React.Component {
           <span className="post-edit-attachments dropzone-trigger">
             <i className="fa fa-cloud-upload"></i>
             {' '}
-            Add photos or files
+            <span className="xs-screen">Upload</span>
+            <span className="other-screens">Add photos or files</span>
           </span>
 
           <a className="post-edit-more-trigger" onClick={this.toggleMore}>More&nbsp;&#x25be;</a>

@@ -15,6 +15,17 @@
     }
   }
 
+  .post-edit-options {
+    .xs-screen { display: none; }
+    .other-screens { display: inline; }
+
+    @media (max-width: 767px) { font-size: 12px; }
+    @media (max-width: 539px) {
+      .xs-screen { display: inline; }
+      .other-screens { display: none; }
+    }
+  }
+
   .alert-warning {
     margin: 10px 0;
   }
