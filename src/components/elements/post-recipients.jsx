@@ -2,8 +2,6 @@ import React from 'react';
 import Select from 'react-select';
 import _ from 'lodash';
 
-import { preventDefault } from '../../utils';
-
 const MY_FEED_LABEL = 'My feed';
 
 const feedToOption = (feed) => ({
@@ -29,7 +27,6 @@ export default class PostRecipients extends React.Component {
 
     this.state = {
       options: options,
-      showFeedsOption: !props.defaultFeed,
       isWarningDisplayed: false
     };
   }
@@ -45,19 +42,13 @@ export default class PostRecipients extends React.Component {
     let myFeedUsername = nextProps.user.username;
     options.unshift({ label: MY_FEED_LABEL, value: myFeedUsername, type: 'group' });
 
-    // If defaultFeed gets updated (it happens after sign-in), we have to
-    // set values, options and showFeedsOption. Otherwise, only update options.
+    this.setState({ options });
+
+    // If defaultFeed gets updated (it happens after sign-in),
+    // we also need to set values.
     if (this.props.defaultFeed !== nextProps.defaultFeed) {
       this._values = (nextProps.defaultFeed ? [nextProps.defaultFeed] : []);
-      this.setState({
-        options: options,
-        showFeedsOption: !nextProps.defaultFeed
-      });
       this.props.onChange(true);
-    } else {
-      this.setState({
-        options: options
-      });
     }
   }
 
@@ -91,39 +82,23 @@ export default class PostRecipients extends React.Component {
     this.props.onChange(true);
   };
 
-  toggleSendTo = () => {
-    let newShowFeedsOption = !this.state.showFeedsOption;
-    this.setState({ showFeedsOption: newShowFeedsOption });
-  };
-
   render() {
-    const defaultFeedLabel = (this._values[0] === this.props.user.username ? MY_FEED_LABEL : this._values[0]);
-
     return (
       <div className="send-to">
-        {!this.state.showFeedsOption ? (
-          <div>
-            To:&nbsp;
-            <span className="Select-value-label-standalone">{defaultFeedLabel}</span>&nbsp;
-            <a onClick={preventDefault(_=>this.toggleSendTo())}>Add/Edit</a>
+        <Select
+          name="select-feeds"
+          placeholder="Select feeds..."
+          value={this._values}
+          options={this.state.options}
+          onChange={this.selectChanged}
+          multi={true}
+          clearable={false} />
+
+        {this.state.isWarningDisplayed ? (
+          <div className="alert alert-warning">
+            You are going to send a direct message and also post this message to a feed. This means that everyone who sees this feed will be able to see your message.
           </div>
-        ) : (
-          <div>
-            <Select
-              name="select-feeds"
-              placeholder="Select feeds..."
-              value={this._values}
-              options={this.state.options}
-              onChange={this.selectChanged}
-              multi={true}
-              clearable={false} />
-            {this.state.isWarningDisplayed ? (
-              <div className="alert alert-warning">
-                You are going to send a direct message and also post this message to a feed. This means that everyone who sees this feed will be able to see your message.
-              </div>
-            ) : false}
-          </div>
-        )}
+        ) : false}
       </div>
     );
   }
