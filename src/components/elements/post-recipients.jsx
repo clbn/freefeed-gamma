@@ -84,10 +84,13 @@ export default class PostRecipients extends React.Component {
 
   render() {
     return (
-      <div className="send-to">
+      <div className="post-recipients">
+        <div className="post-recipients-label">To:</div>
+
         <Select
           name="select-feeds"
-          placeholder="Select feeds..."
+          placeholder=""
+          autoBlur={true}
           value={this._values}
           options={this.state.options}
           onChange={this.selectChanged}

@@ -1,8 +1,46 @@
 // @import "../common/select2/4.0.0-rc.2/theme/classic/_defaults";
 // @import "../common/select2/4.0.0-rc.2/theme/classic/_multiple.scss";
 
-.send-to {
-  padding-bottom: 6px;
+.post-recipients {
+  // Position select component next to "To:"
+  .post-recipients-label {
+    float: left;
+    margin-top: 7px;
+  }
+  .Select {
+    margin-top: -5px; // because new borderless UI visually adds 5px to the top padding
+    margin-left: 20px; // room for "To:" on the left
+  }
+
+  // Remove border from select component
+  .Select-control {
+    border: none;
+    box-shadow: none !important; // to remove "outline" on focus
+  }
+
+  // Add custom visual trigger instead of "placeholder" prop,
+  // (the latter is only displayed when nothing is selected)
+  .Select-input:after {
+    content: 'Add/Edit...';
+    color: #ccc;
+    font-size: 0.9em; // 12.6px - same as font size in selected options
+    margin-left: -2px;
+  }
+  .is-focused .Select-input:after {
+    content: '';
+  }
+
+  // Move [x] icon in selected option from left to right
+  .Select-value-icon {
+    border-right: none !important;
+    border-left: 1px solid #c2e0ff;
+    float: right;
+  }
+
+  // Fix extra space in selected option title
+  .Select-aria-only {
+    display: none;
+  }
 }
 
 .select2-container--default {
@@ -45,7 +83,7 @@
   }
 }
 
-.send-to a {
+.post-recipients a {
   position: relative;
   vertical-align: middle;
   line-height: 33px;

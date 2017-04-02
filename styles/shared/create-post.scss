@@ -36,7 +36,11 @@
   }
 
   .alert-warning {
-    margin: 10px 0;
+    margin: 2px 0 10px 0;
+  }
+
+  textarea {
+    position: relative; // to fix the outline covered by "relative" post-recipients
   }
 
   .post-visibility-icon {
