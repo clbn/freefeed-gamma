@@ -27,8 +27,8 @@ export default class PostRecipients extends React.Component {
 
     const nestedOptions = [
       { label: MY_FEED_LABEL, value: props.user.username, type: 'group' },
-      { label: 'Groups', options: groupOptions },
-      { label: 'People', options: userOptions }
+      { label: `Groups (${groupOptions.length})`, options: groupOptions },
+      { label: `People (${userOptions.length})`, options: userOptions }
     ];
 
     this.state = {
@@ -54,8 +54,8 @@ export default class PostRecipients extends React.Component {
 
     const nestedOptions = [
       { label: MY_FEED_LABEL, value: nextProps.user.username, type: 'group' },
-      { label: 'Groups', options: groupOptions },
-      { label: 'People', options: userOptions }
+      { label: `Groups (${groupOptions.length})`, options: groupOptions },
+      { label: `People (${userOptions.length})`, options: userOptions }
     ];
 
     this.setState({ options: nestedOptions });
