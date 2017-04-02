@@ -12,6 +12,11 @@
     margin-left: 20px; // room for "To:" on the left
   }
 
+  // Override default react-select colors
+  .Select--multi .Select-value {
+    color: #555599;
+  }
+
   // Remove border from select component
   .Select-control {
     border: none;

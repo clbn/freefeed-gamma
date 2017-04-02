@@ -1,5 +1,5 @@
 import React from 'react';
-import Select from 'react-select';
+import Select from 'react-select-plus';
 import _ from 'lodash';
 
 const MY_FEED_LABEL = 'My feed';
