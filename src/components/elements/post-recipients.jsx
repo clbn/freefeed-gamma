@@ -20,6 +20,7 @@ export default class PostRecipients extends React.Component {
     super(props);
 
     let options = props.feeds.map(feedToOption);
+    options.sort((a, b) => a.value.localeCompare(b.value));
 
     let myFeedUsername = props.user.username;
     options.unshift({ label: MY_FEED_LABEL, value: myFeedUsername, type: 'group' });
@@ -39,6 +40,7 @@ export default class PostRecipients extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let options = nextProps.feeds.map(feedToOption);
+    options.sort((a, b) => a.value.localeCompare(b.value));
 
     let myFeedUsername = nextProps.user.username;
     options.unshift({ label: MY_FEED_LABEL, value: myFeedUsername, type: 'group' });
