@@ -17,18 +17,26 @@ export default class PostRecipients extends React.Component {
   constructor(props) {
     super(props);
 
-    let options = props.feeds.map(feedToOption);
-    options.sort((a, b) => a.value.localeCompare(b.value));
+    const options = props.feeds.map(feedToOption);
 
-    let myFeedUsername = props.user.username;
-    options.unshift({ label: MY_FEED_LABEL, value: myFeedUsername, type: 'group' });
+    const groupOptions = _.filter(options, (o) => (o.type === 'group'));
+    groupOptions.sort((a, b) => a.value.localeCompare(b.value));
 
-    this._values = (props.defaultFeed ? [props.defaultFeed] : []);
+    const userOptions = _.filter(options, (o) => (o.type === 'user'));
+    userOptions.sort((a, b) => a.value.localeCompare(b.value));
+
+    const nestedOptions = [
+      { label: MY_FEED_LABEL, value: props.user.username, type: 'group' },
+      { label: 'Groups', options: groupOptions },
+      { label: 'People', options: userOptions }
+    ];
 
     this.state = {
-      options: options,
+      options: nestedOptions,
       isWarningDisplayed: false
     };
+
+    this._values = (props.defaultFeed ? [props.defaultFeed] : []);
   }
 
   componentDidMount() {
@@ -36,13 +44,21 @@ export default class PostRecipients extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let options = nextProps.feeds.map(feedToOption);
-    options.sort((a, b) => a.value.localeCompare(b.value));
+    const options = nextProps.feeds.map(feedToOption);
 
-    let myFeedUsername = nextProps.user.username;
-    options.unshift({ label: MY_FEED_LABEL, value: myFeedUsername, type: 'group' });
+    const groupOptions = _.filter(options, (o) => (o.type === 'group'));
+    groupOptions.sort((a, b) => a.value.localeCompare(b.value));
 
-    this.setState({ options });
+    const userOptions = _.filter(options, (o) => (o.type === 'user'));
+    userOptions.sort((a, b) => a.value.localeCompare(b.value));
+
+    const nestedOptions = [
+      { label: MY_FEED_LABEL, value: nextProps.user.username, type: 'group' },
+      { label: 'Groups', options: groupOptions },
+      { label: 'People', options: userOptions }
+    ];
+
+    this.setState({ options: nestedOptions });
 
     // If defaultFeed gets updated (it happens after sign-in),
     // we also need to set values.
@@ -59,7 +75,12 @@ export default class PostRecipients extends React.Component {
   }
   get selectedOptions() {
     // List of objects (selected users)
-    return _.filter(this.state.options, (o) => (this._values.indexOf(o.value) > -1));
+    const flatList = [
+      this.state.options[0], // My feed
+      ...this.state.options[1].options, // Groups
+      ...this.state.options[2].options  // Users
+    ];
+    return _.filter(flatList, (o) => (this._values.indexOf(o.value) > -1));
   }
 
   isGroupsOrDirectsOnly = (values) => {
