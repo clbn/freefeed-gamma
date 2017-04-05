@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux';
+import FastClick from 'fastclick';
 import Autotrack from 'autotrack'; // eslint-disable-line no-unused-vars
 
 import configureStore from './redux/configure-store';
@@ -84,6 +85,9 @@ const getRouteHooks = (route) => ({
 history.listen(() => scrollTo(0, 0));
 history.listen(() => toggleSidebar(false));
 history.listen(() => store.dispatch(ActionCreators.updateUserCard({ isHovered: false, isOpen: false })));
+
+// Fix clicks for Safari on iOS
+FastClick.attach(document.body);
 
 ReactDOM.render(
   <Provider store={store}>
