@@ -124,12 +124,10 @@ export function isMobile() {
 }
 
 export function toggleSidebar(val = null) {
-  const elements = document.querySelectorAll('.sidebar-overlay, .mobile-sidebar-toggle');
-
   if (val === true || val === false) {
-    [...elements].forEach(el => el.classList.toggle('mobile-sidebar-open', val)); // if true, then add class, if not, remove class
+    document.body.classList.toggle('mobile-sidebar-open', val); // if true, then add class, if not, remove class
   } else {
-    [...elements].forEach(el => el.classList.toggle('mobile-sidebar-open')); // if class exists, then remove it, if not, add it
+    document.body.classList.toggle('mobile-sidebar-open'); // if class exists, then remove it, if not, add it
   }
 }
 

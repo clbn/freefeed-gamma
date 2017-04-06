@@ -52,7 +52,7 @@
     background-color: transparent;
     transition: background-color 0.3s;
 
-    &.mobile-sidebar-open {
+    .mobile-sidebar-open & {
       display: block;
       position: fixed;
       top: 0;

@@ -60,7 +60,7 @@ header {
 
     .fa-times { display: none; }
 
-    &.mobile-sidebar-open {
+    .mobile-sidebar-open & {
       .fa-bars { display: none; }
       .fa-times { display: inline-block; }
     }
