@@ -11,7 +11,7 @@ class SignIn extends React.Component {
   refPassword = (input) => { this.password = input; };
 
   submitForm = () => {
-    const username = this.username.value;
+    const username = this.username.value.trim();
     const password = this.password.value;
     this.props.signIn(username, password);
   };
