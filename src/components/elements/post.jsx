@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 import { makeGetPost } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
-import { fromNowOrNow, getFullDate } from '../../utils';
+import { getRelativeDate, getFullDate } from '../../utils';
 import PostAttachments from './post-attachments';
 import PostComments from './post-comments';
 import PostLikes from './post-likes';
@@ -59,7 +59,7 @@ class Post extends React.Component {
 
     const createdAtISO = moment(+props.createdAt).format();
     const createdAtHuman = getFullDate(+props.createdAt);
-    const createdAgo = fromNowOrNow(+props.createdAt);
+    const createdAgo = getRelativeDate(+props.createdAt);
 
     const toggleEditingPost = () => props.toggleEditingPost(props.id);
     const cancelEditingPost = () => props.cancelEditingPost(props.id);

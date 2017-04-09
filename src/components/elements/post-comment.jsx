@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { makeGetPostComment } from '../../redux/selectors';
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
-import { preventDefault, confirmFirst, fromNowOrNow, getFullDate } from '../../utils';
+import { preventDefault, confirmFirst, getRelativeDate, getFullDate } from '../../utils';
 import { postActions } from '../../redux/select-utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
@@ -59,7 +59,7 @@ class PostComment extends React.Component {
       'fa-stack': true
     });
 
-    const createdAgo = fromNowOrNow(+this.props.createdAt) + '\n' + getFullDate(+this.props.createdAt);
+    const createdAgo = getRelativeDate(+this.props.createdAt) + '\n' + getFullDate(+this.props.createdAt);
 
     return (
       <div className={`comment ${this.props.isHighlighted ? 'highlighted' : ''}`}>

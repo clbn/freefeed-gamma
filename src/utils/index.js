@@ -26,14 +26,53 @@ export function setCookie(name, value = '', expiresDays, path, domain) {
 
 import moment from 'moment';
 
-export function fromNowOrNow(date) {
-  var now = moment(date);
+export function getRelativeDate(timestamp) {
+  const m = moment(timestamp);
+  const now = moment();
+  const age = Math.abs(now.diff(m));
 
-  if (Math.abs(moment().diff(now)) < 1000) { // 1000 milliseconds
-    return 'just now';
+  // Just now (when age < 45s)
+  if (age < 45 * 1000) {
+    return 'Just now';
   }
 
-  return now.fromNow();
+  // 1-59 minutes ago (when 45s <= age < 59.5m)
+  if (age < 59.5 * 60 * 1000) {
+    const minutes = Math.round(age/60/1000);
+    return pluralForm(minutes, 'minute') + ' ago';
+  }
+
+  // 1, 1.5, 2-8 hours ago (when 59.5m <= age < 8.5h)
+  if (age < 8.5 * 3600 * 1000) {
+    let hours = Math.round(age/1800/1000) / 2;
+    if (hours > 2) {
+      hours = Math.round(hours);
+    }
+    return pluralForm(hours, 'hour') + ' ago';
+  }
+
+  // Today at 15:37 (when age >= 8.5 hrs and it's today)
+  if (m > now.startOf('day')) {
+    return m.format('[Today at] HH:mm');
+  }
+
+  // Yesterday at 15:37 (when age >= 8.5 hrs and it's yesterday)
+  if (m > now.subtract(1, 'days').startOf('day')) {
+    return m.format('[Yesterday at] HH:mm');
+  }
+
+  // Wed, 17 Feb (when yesterday < age < 14 days)
+  if (m > now.subtract(14, 'days')) {
+    return m.format('ddd, D MMM');
+  }
+
+  // 17 February (when age >= 14 days but it's still this year)
+  if (m > now.startOf('year')) {
+    return m.format('D MMMM');
+  }
+
+  // 17 Feb 2016 (for everything else)
+  return m.format('D MMM YYYY');
 }
 
 export function getFullDate(date) {

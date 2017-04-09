@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import { fromNowOrNow } from '../../utils';
+import { getRelativeDate } from '../../utils';
 
 const GROUPS_SIDEBAR_LIST_LENGTH = 4;
 
 const renderRecentGroup = recentGroup => {
-  const updatedAgo = fromNowOrNow(parseInt(recentGroup.updatedAt));
+  const updatedAgo = getRelativeDate(+recentGroup.updatedAt);
   return (
     <li key={recentGroup.id}>
       <Link to={`/${recentGroup.username}`}>
