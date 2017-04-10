@@ -242,11 +242,11 @@ class PostCreateForm extends React.Component {
         </div>
 
         <div className="post-edit-options">
-          <span className="post-edit-attachments dropzone-trigger">
-            <i className="fa fa-cloud-upload"></i>
+          <span className="post-edit-attachments dropzone-trigger needsclick">
+            <i className="fa fa-cloud-upload needsclick"></i>
             {' '}
-            <span className="xs-screen">Upload</span>
-            <span className="other-screens">Add photos or files</span>
+            <span className="xs-screen needsclick">Upload</span>
+            <span className="other-screens needsclick">Add photos or files</span>
           </span>
 
           <a className="post-edit-more-trigger" onClick={this.toggleMore}>More&nbsp;&#x25be;</a>
