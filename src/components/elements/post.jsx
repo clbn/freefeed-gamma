@@ -328,8 +328,8 @@ class Post extends React.Component {
               </div>
 
               <div className="post-edit-options">
-                <span className="post-edit-attachments dropzone-trigger needsclick">
-                  <i className="fa fa-cloud-upload needsclick"></i>
+                <span className="post-edit-attachments dropzone-trigger">
+                  <i className="fa fa-cloud-upload"></i>
                   {' '}
                   Add photos or files
                 </span>
