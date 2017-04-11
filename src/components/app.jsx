@@ -89,6 +89,11 @@ class App extends React.Component {
     }
   }
 
+  toggleSidebar(e) {
+    e.preventDefault();
+    toggleSidebar();
+  }
+
   componentDidMount() {
     window.addEventListener('dragenter', this.handleDragEnter);
     window.addEventListener('dragleave', this.handleDragLeave);
@@ -141,7 +146,7 @@ class App extends React.Component {
                   <SearchForm />
                 ) : false}
 
-                <div className="mobile-sidebar-toggle" onClick={toggleSidebar}>
+                <div className="mobile-sidebar-toggle" onTouchEnd={this.toggleSidebar} onClick={this.toggleSidebar}>
                   <i className="fa fa-bars" aria-hidden="true"></i>
                   <i className="fa fa-times" aria-hidden="true"></i>
                   {props.user.unreadDirectsNumber > 0 ? (
