@@ -57,9 +57,9 @@ class Post extends React.Component {
   render() {
     let props = this.props;
 
-    const createdAtISO = moment(+props.createdAt).format();
-    const createdAtHuman = getFullDate(+props.createdAt);
-    const createdAgo = getRelativeDate(+props.createdAt);
+    const dateISO = moment(+props.createdAt).format();
+    const dateFull = getFullDate(+props.createdAt);
+    const dateRelative = getRelativeDate(+props.createdAt);
 
     const toggleEditingPost = () => props.toggleEditingPost(props.id);
     const cancelEditingPost = () => props.cancelEditingPost(props.id);
@@ -378,7 +378,7 @@ class Post extends React.Component {
             <PostVisibilityIcon recipients={props.recipients} authorId={props.createdBy.id}/>
 
             <Link to={postUrl} className="post-timestamp">
-              <time dateTime={createdAtISO} title={createdAtHuman}>{createdAgo}</time>
+              <time dateTime={dateISO} title={dateFull}>{dateRelative}</time>
             </Link>
 
             {commentLink}
