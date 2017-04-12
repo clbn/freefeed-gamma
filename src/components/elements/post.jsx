@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import classnames from 'classnames';
 
 import { makeGetPost } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
-import { getRelativeDate, getFullDate } from '../../utils';
+import { getISODate, getRelativeDate, getFullDate } from '../../utils';
 import PostAttachments from './post-attachments';
 import PostComments from './post-comments';
 import PostLikes from './post-likes';
@@ -57,7 +56,7 @@ class Post extends React.Component {
   render() {
     let props = this.props;
 
-    const dateISO = moment(+props.createdAt).format();
+    const dateISO = getISODate(+props.createdAt);
     const dateFull = getFullDate(+props.createdAt);
     const dateRelative = getRelativeDate(+props.createdAt);
 

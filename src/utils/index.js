@@ -26,6 +26,10 @@ export function setCookie(name, value = '', expiresDays, path, domain) {
 
 import moment from 'moment';
 
+export function getISODate(timestamp) {
+  return moment(timestamp).format();
+}
+
 export function getRelativeDate(timestamp) {
   const m = moment(timestamp);
   const now = moment();
