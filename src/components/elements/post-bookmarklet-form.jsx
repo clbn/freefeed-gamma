@@ -13,22 +13,32 @@ export default class PostBookmarkletForm extends React.Component {
     };
   }
 
+  //
+  // Refs
+
   refPostRecipients = (input) => { this.postRecipients = input; };
   refPostText = (input) => { this.postText = input; };
   refCommentText = (input) => { this.commentText = input; };
 
+  //
+  // Handling attachments
+
   handleRemoveImage = (url) => () => this.props.removeImage(url);
 
-  checkCreatePostAvailability = () => {
-    const isPostTextEmpty = (this.postText.value == '' || /^\s+$/.test(this.postText.value));
-    let isFormEmpty = (isPostTextEmpty || this.postRecipients.values == 0);
+  //
+  // Handling recipients, text typing and posting
 
-    this.setState({
-      isFormEmpty
-    });
+  checkCreatePostAvailability = (recipientsUpdated = false) => {
+    let isFormEmpty = this.isPostTextEmpty() || this.postRecipients.values.length === 0;
+
+    if (isFormEmpty !== this.state.isFormEmpty || recipientsUpdated === true) {
+      this.setState({ isFormEmpty });
+    }
   };
 
-  checkSave = (e) => {
+  isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
+
+  checkIfEnterPressed = (e) => {
     const isEnter = e.keyCode === 13;
     const isShiftPressed = e.shiftKey;
     if (isEnter && !isShiftPressed) {
@@ -50,6 +60,19 @@ export default class PostBookmarkletForm extends React.Component {
     this.props.createPost(feeds, postText, imageUrls, commentText);
   };
 
+  //
+  // Component lifecycle
+
+  componentDidMount() {
+    setTimeout(this.checkCreatePostAvailability, 0);
+  }
+
+  // Height of bookmarklet contents might change, in this case we should
+  // inform the script outside the iframe to update iframe size accordingly
+  componentDidUpdate() {
+    window.parent.postMessage(document.documentElement.offsetHeight, '*');
+  }
+
   componentWillReceiveProps(newProps) {
     // If it was successful saving, clear the form
     if (this.props.createPostForm.status === 'loading' && newProps.createPostForm.status === 'success') {
@@ -59,15 +82,12 @@ export default class PostBookmarkletForm extends React.Component {
     }
   }
 
-  // Height of bookmarklet contents might change, in this case we should
-  // inform the script outside the iframe to update iframe size accordingly
-  componentDidUpdate() {
-    window.parent.postMessage(document.documentElement.offsetHeight, '*');
-  }
-
   componentWillUnmount() {
     this.props.resetPostCreateForm();
   }
+
+  //
+  // Render
 
   render() {
     if (this.state.isPostSaved) {
@@ -85,6 +105,8 @@ export default class PostBookmarkletForm extends React.Component {
         <img src={url} />
       </div>
     ));
+
+    const isSubmitButtonDisabled = this.state.isFormEmpty || this.props.createPostForm.status === 'loading';
 
     return (
       <div className="create-post post-editor expanded">
@@ -104,7 +126,7 @@ export default class PostBookmarkletForm extends React.Component {
           className="form-control post-textarea"
           ref={this.refPostText}
           defaultValue={this.props.postText}
-          onKeyDown={this.checkSave}
+          onKeyDown={this.checkIfEnterPressed}
           onChange={this.checkCreatePostAvailability}
           rows={3}
           maxLength="1500"/>
@@ -126,7 +148,7 @@ export default class PostBookmarkletForm extends React.Component {
               className="form-control comment-textarea"
               ref={this.refCommentText}
               defaultValue={this.props.commentText}
-              onKeyDown={this.checkSave}
+              onKeyDown={this.checkIfEnterPressed}
               onChange={this.checkCreatePostAvailability}
               rows={4}
               maxLength="1500"/>
@@ -142,7 +164,7 @@ export default class PostBookmarkletForm extends React.Component {
 
           <button className="btn btn-default"
             onClick={preventDefault(this.submitForm)}
-            disabled={this.state.isFormEmpty || this.props.createPostForm.status === 'loading'}>Post</button>
+            disabled={isSubmitButtonDisabled}>Post</button>
         </div>
       </div>
     );
