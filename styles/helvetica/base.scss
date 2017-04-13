@@ -4,6 +4,8 @@ body {
   min-height: 100%;
   margin: 0 !important;
 
+  overflow-anchor: none;
+
   &.mobile-sidebar-open {
     overflow: hidden;
   }
