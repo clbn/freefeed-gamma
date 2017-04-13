@@ -1,6 +1,10 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 import { frontendPreferences as frontendPrefsConfig } from '../../config/app';
+import * as PostVisibilityLevels from './post-visibility-levels';
+import defaultUserpic50Path from 'assets/images/default-userpic-50.png';
+import defaultUserpic75Path from 'assets/images/default-userpic-75.png';
 
 export function getCookie(name) {
   const begin = document.cookie.indexOf(name);
@@ -23,8 +27,6 @@ export function setCookie(name, value = '', expiresDays, path, domain) {
     (domain && domain !== 'localhost' ? `;domain=${domain}` : '');
   return document.cookie = cookie;
 }
-
-import moment from 'moment';
 
 export function getISODate(timestamp) {
   return moment(timestamp).format();
@@ -82,9 +84,6 @@ export function getRelativeDate(timestamp) {
 export function getFullDate(date) {
   return moment(date).format('YYYY-MM-DD HH:mm:ss [UTC]Z');
 }
-
-import defaultUserpic50Path from 'assets/images/default-userpic-50.png';
-import defaultUserpic75Path from 'assets/images/default-userpic-75.png';
 
 const userDefaults = {
   profilePictureMediumUrl: defaultUserpic50Path,
@@ -173,8 +172,6 @@ export function toggleSidebar(val = null) {
     document.body.classList.toggle('mobile-sidebar-open'); // if class exists, then remove it, if not, add it
   }
 }
-
-import * as PostVisibilityLevels from './post-visibility-levels';
 
 export function getPostVisibilityLevel(recipients, authorId) {
   // Calculate individual levels for recipients
