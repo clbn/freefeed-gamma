@@ -55,6 +55,15 @@
     word-wrap: break-word;
   }
 
+  .comment-timestamp {
+    color: #ccc;
+    white-space: nowrap;
+
+    a {
+      color: #bbb;
+    }
+  }
+
   .comment-textarea {
     @include editarea;
   }

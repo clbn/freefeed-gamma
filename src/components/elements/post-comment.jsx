@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import classnames from 'classnames';
@@ -6,7 +7,7 @@ import classnames from 'classnames';
 import { makeGetPostComment } from '../../redux/selectors';
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
-import { preventDefault, confirmFirst, getRelativeDate, getFullDate } from '../../utils';
+import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
 import { postActions } from '../../redux/select-utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
@@ -59,12 +60,14 @@ class PostComment extends React.Component {
       'fa-stack': true
     });
 
-    const createdAgo = getRelativeDate(+this.props.createdAt) + '\n' + getFullDate(+this.props.createdAt);
+    const dateISO = getISODate(+this.props.createdAt);
+    const dateFull = getFullDate(+this.props.createdAt);
+    const dateRelative = getRelativeDate(+this.props.createdAt);
 
     return (
       <div className={`comment ${this.props.isHighlighted ? 'highlighted' : ''}`}>
         <a className={iconClasses}
-           title={createdAgo}
+           title={dateRelative + '\n' + dateFull}
            id={`comment-${this.props.id}`}
            href={`${this.props.postUrl}#comment-${this.props.id}`}
            onClick={preventDefault(this.openAnsweringComment)}>
@@ -104,7 +107,9 @@ class PostComment extends React.Component {
               text={this.props.body}
               userHover={this.userHoverHandlers}
               arrowHover={this.arrowHoverHandlers}/>
+
             {' -'}&nbsp;
+
             <UserName user={this.props.createdBy}/>
             {this.props.isEditable ? (
               <span>
@@ -117,6 +122,13 @@ class PostComment extends React.Component {
                 {' '}(<a onClick={confirmFirst(_=>this.props.deleteComment(this.props.id))}>delete</a>)
               </span>
             ) : false}
+
+            <span className="comment-timestamp">
+              {' - '}
+              <Link to={`${this.props.postUrl}#comment-${this.props.id}`}>
+                <time dateTime={dateISO} title={dateFull}>{dateRelative}</time>
+              </Link>
+            </span>
           </div>
         )}
       </div>
