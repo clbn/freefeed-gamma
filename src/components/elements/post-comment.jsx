@@ -63,6 +63,7 @@ class PostComment extends React.Component {
     const dateISO = getISODate(+this.props.createdAt);
     const dateFull = getFullDate(+this.props.createdAt);
     const dateRelative = getRelativeDate(+this.props.createdAt);
+    const dateRelativeShort = getRelativeDate(+this.props.createdAt, false);
 
     return (
       <div className={`comment ${this.props.isHighlighted ? 'highlighted' : ''}`}>
@@ -126,7 +127,7 @@ class PostComment extends React.Component {
             <span className="comment-timestamp">
               {' - '}
               <Link to={`${this.props.postUrl}#comment-${this.props.id}`}>
-                <time dateTime={dateISO} title={dateFull}>{dateRelative}</time>
+                <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
               </Link>
             </span>
           </div>
