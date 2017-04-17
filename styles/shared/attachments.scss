@@ -12,10 +12,6 @@
     }
   }
 
-  .remove-attachment {
-    display: none;
-  }
-
   // Clearfix (http://www.cssmojo.com/latest_new_clearfix_so_far/)
   &:after {
     content: '';
@@ -78,7 +74,7 @@
 // Editing entries
 
 .image-attachments {
-  .attachment:hover .remove-attachment {
+  .attachment .remove-attachment {
     display: block;
     position: absolute;
     width: 32px;
@@ -89,7 +85,7 @@
     cursor: pointer;
     color: #000;
     font-size: 20px;
-    z-index: 100;
+    z-index: 10;
     background-color: silver;
     opacity: 0.7;
     border-bottom-left-radius: 5px;
@@ -112,15 +108,13 @@
 
 .audio-attachments,
 .general-attachments {
-  .attachment:hover .remove-attachment {
-    display: block;
-    position: absolute;
-    left: -3px;
-    bottom: 0;
+  .attachment .remove-attachment {
+    display: inline;
     cursor: pointer;
-    padding: 3px 4px 3px 5px;
-    background-color: #fff;
-    border-radius: 2px;
+    padding: 3px 6px 4px 6px;
+    margin: 0 0 0 5px;
+    background-color: #eee;
+    border-radius: 3px;
 
     &:hover {
       background-color: #ddd;
