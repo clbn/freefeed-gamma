@@ -218,6 +218,7 @@ class PostCreateForm extends React.Component {
             <PostRecipients ref={this.refPostRecipients}
               feeds={this.props.sendTo.feeds}
               defaultFeed={defaultFeed}
+              peopleFirst={this.props.peopleFirst}
               user={this.props.user}
               onChange={this.checkCreatePostAvailability}/>
           ) : false}

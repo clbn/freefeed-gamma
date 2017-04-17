@@ -9,7 +9,7 @@ import Feed from './elements/feed';
 import PaginatedView from './elements/paginated-view';
 
 const Discussions = (props) => {
-  const postCreateForm = <PostCreateForm defaultRecipient={props.defaultRecipient}/>;
+  const postCreateForm = <PostCreateForm defaultRecipient={props.defaultRecipient} peopleFirst={props.peopleFirst}/>;
 
   return (
     <div className="box">
@@ -38,8 +38,9 @@ function mapStateToProps(state, ownProps) {
 
   const currentRoute = getCurrentRouteName(ownProps);
   const defaultRecipient = (currentRoute === 'discussions' ? state.user.username : null);
+  const peopleFirst = (currentRoute !== 'discussions');
 
-  return { isLoading, authenticated, visibleEntries, boxHeader, defaultRecipient };
+  return { isLoading, authenticated, visibleEntries, boxHeader, defaultRecipient, peopleFirst };
 }
 
 export default connect(mapStateToProps)(Discussions);

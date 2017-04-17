@@ -22,7 +22,7 @@ const getOptgroup = (header, options) => ({
   options: options
 });
 
-const getNestedOptions = (feeds, username) => {
+const getNestedOptions = (feeds, username, peopleFirst = false) => {
   const options = feeds.map(feedToOption);
 
   const groupOptions = _.filter(options, (o) => (o.type === 'group'));
@@ -31,7 +31,11 @@ const getNestedOptions = (feeds, username) => {
   const userOptions = _.filter(options, (o) => (o.type === 'user'));
   userOptions.sort((a, b) => a.value.localeCompare(b.value));
 
-  return [ getMyFeedOption(username), getOptgroup('Groups', groupOptions), getOptgroup('People', userOptions) ];
+  if (peopleFirst) {
+    return [ getMyFeedOption(username), getOptgroup('People', userOptions), getOptgroup('Groups', groupOptions) ];
+  } else {
+    return [ getMyFeedOption(username), getOptgroup('Groups', groupOptions), getOptgroup('People', userOptions) ];
+  }
 };
 
 export default class PostRecipients extends React.Component {
@@ -39,7 +43,7 @@ export default class PostRecipients extends React.Component {
     super(props);
 
     this.state = {
-      options: getNestedOptions(props.feeds, props.user.username),
+      options: getNestedOptions(props.feeds, props.user.username, props.peopleFirst),
       isWarningDisplayed: false
     };
 
@@ -52,7 +56,7 @@ export default class PostRecipients extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      options: getNestedOptions(nextProps.feeds, nextProps.user.username)
+      options: getNestedOptions(nextProps.feeds, nextProps.user.username, nextProps.peopleFirst)
     });
 
     // If defaultFeed gets updated (it happens after sign-in),
