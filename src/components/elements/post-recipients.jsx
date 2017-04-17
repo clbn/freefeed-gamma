@@ -2,8 +2,6 @@ import React from 'react';
 import Select from 'react-select-plus';
 import _ from 'lodash';
 
-const MY_FEED_LABEL = 'My feed';
-
 const feedToOption = (feed) => ({
   label: feed.user.username,
   value: feed.user.username,
@@ -13,26 +11,35 @@ const feedToOption = (feed) => ({
   isProtected: feed.user.isProtected
 });
 
+const getMyFeedOption = (username) => ({
+  label: 'My feed',
+  value: username,
+  type: 'group'
+});
+
+const getOptgroup = (header, options) => ({
+  label: `${header} (${options.length})`,
+  options: options
+});
+
+const getNestedOptions = (feeds, username) => {
+  const options = feeds.map(feedToOption);
+
+  const groupOptions = _.filter(options, (o) => (o.type === 'group'));
+  groupOptions.sort((a, b) => a.value.localeCompare(b.value));
+
+  const userOptions = _.filter(options, (o) => (o.type === 'user'));
+  userOptions.sort((a, b) => a.value.localeCompare(b.value));
+
+  return [ getMyFeedOption(username), getOptgroup('Groups', groupOptions), getOptgroup('People', userOptions) ];
+};
+
 export default class PostRecipients extends React.Component {
   constructor(props) {
     super(props);
 
-    const options = props.feeds.map(feedToOption);
-
-    const groupOptions = _.filter(options, (o) => (o.type === 'group'));
-    groupOptions.sort((a, b) => a.value.localeCompare(b.value));
-
-    const userOptions = _.filter(options, (o) => (o.type === 'user'));
-    userOptions.sort((a, b) => a.value.localeCompare(b.value));
-
-    const nestedOptions = [
-      { label: MY_FEED_LABEL, value: props.user.username, type: 'group' },
-      { label: `Groups (${groupOptions.length})`, options: groupOptions },
-      { label: `People (${userOptions.length})`, options: userOptions }
-    ];
-
     this.state = {
-      options: nestedOptions,
+      options: getNestedOptions(props.feeds, props.user.username),
       isWarningDisplayed: false
     };
 
@@ -44,21 +51,9 @@ export default class PostRecipients extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const options = nextProps.feeds.map(feedToOption);
-
-    const groupOptions = _.filter(options, (o) => (o.type === 'group'));
-    groupOptions.sort((a, b) => a.value.localeCompare(b.value));
-
-    const userOptions = _.filter(options, (o) => (o.type === 'user'));
-    userOptions.sort((a, b) => a.value.localeCompare(b.value));
-
-    const nestedOptions = [
-      { label: MY_FEED_LABEL, value: nextProps.user.username, type: 'group' },
-      { label: `Groups (${groupOptions.length})`, options: groupOptions },
-      { label: `People (${userOptions.length})`, options: userOptions }
-    ];
-
-    this.setState({ options: nestedOptions });
+    this.setState({
+      options: getNestedOptions(nextProps.feeds, nextProps.user.username)
+    });
 
     // If defaultFeed gets updated (it happens after sign-in),
     // we also need to set values.
