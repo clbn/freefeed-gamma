@@ -14,7 +14,13 @@ const PostVisibilityIcon = (props) => {
       return <i className="post-visibility-icon fa fa-lock" title="This entry is private"></i>;
     }
     case PostVisibilityLevels.PROTECTED: {
-      return <i className="post-visibility-icon icon-protected" title="This entry is only visible to FreeFeed users"></i>;
+      return (
+        <i className="post-visibility-icon icon-protected" title="This entry is only visible to FreeFeed users">
+          <i className="icon-protected-bg fa fa-user"></i>
+          <i className="icon-protected-shadow fa fa-user-o fa-inverse"></i>
+          <i className="icon-protected-fg fa fa-user"></i>
+        </i>
+      );
     }
   }
   return <i className="post-visibility-icon fa fa-globe" title="This entry is public"></i>;
