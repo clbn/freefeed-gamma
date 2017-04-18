@@ -93,14 +93,23 @@
       color: #666;
       margin: 7px 0 0 87px;
       overflow: hidden;
+    }
+
+    .feed-status {
+      color: #666;
+      margin: 7px 0 0 87px;
 
       .icon-protected {
-        width: 12px;
-        margin-right: -1px;
+        width: 13px;
+        height: 10px;
+
+        .icon-protected-bg { top: 1px; left: 50%; }
+        .icon-protected-shadow { top: 1px; left: -4%; }
+        .icon-protected-fg { top: 1px; left: 2%; }
       }
     }
 
-    .status {
+    .relationship-status {
       color: #666;
       margin: 7px 0 6px 87px;
     }

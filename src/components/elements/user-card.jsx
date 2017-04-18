@@ -224,15 +224,15 @@ class UserCard extends React.Component {
             ) : false}
 
             {!props.isItMe ? (
-              <div className="description">
+              <div className="feed-status">
                 <UserFeedStatus {...props.user}/>
               </div>
             ) : false}
 
             {props.isItMe ? (
-              <div className="status">It's you!</div>
+              <div className="relationship-status">It's you!</div>
             ) : (
-              <div className="status">
+              <div className="relationship-status">
                 <UserRelationshipStatus type={props.user.type} {...props}/>
               </div>
             )}
