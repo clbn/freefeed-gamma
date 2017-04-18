@@ -17,7 +17,7 @@ const PostVisibilityIcon = (props) => {
       return <i className="post-visibility-icon icon-protected" title="This entry is only visible to FreeFeed users"></i>;
     }
   }
-  return false;
+  return <i className="post-visibility-icon fa fa-globe" title="This entry is public"></i>;
 };
 
 export default PostVisibilityIcon;
