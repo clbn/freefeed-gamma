@@ -127,7 +127,7 @@ class PostComment extends React.Component {
             {dateRelativeShort ? (
               <span className="comment-timestamp">
                 {' - '}
-                <Link to={`${this.props.postUrl}#comment-${this.props.id}`}>
+                <Link to={`${this.props.postUrl}#comment-${this.props.id}`} dir="auto">
                   <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
                 </Link>
               </span>
