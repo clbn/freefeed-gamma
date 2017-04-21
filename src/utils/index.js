@@ -35,7 +35,7 @@ export function getISODate(timestamp) {
 export function getRelativeDate(timestamp, long = true) {
   const m = moment(timestamp);
   const now = moment();
-  const age = Math.abs(now.diff(m));
+  const age = now.diff(m);
 
   // Just now (when age < 45s)
   if (age < 45 * 1000) {
