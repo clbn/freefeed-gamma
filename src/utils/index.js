@@ -193,7 +193,9 @@ export function toggleSidebar(val = null) {
     document.body.classList.toggle('mobile-sidebar-open'); // if class exists, then remove it, if not, add it
   }
 
-  document.querySelector('.sidebar').scrollTop = 0;
+  if (document.body.classList.contains('mobile-sidebar-open')) {
+    document.querySelector('.sidebar').scrollTop = 0;
+  }
 }
 
 export function getPostVisibilityLevel(recipients, authorId) {
