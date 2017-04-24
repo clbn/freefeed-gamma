@@ -114,6 +114,19 @@
     }
   }
 
+  &.hidden-comment {
+    .comment-body,
+    .comment-timestamp a,
+    .comment-icon {
+      color: #ccc;
+      font-style: italic;
+
+      .fa-comment {
+        color: #f4f4f4;
+      }
+    }
+  }
+
   &.highlighted {
     background-color: #deedff;
     border-radius: 3px;

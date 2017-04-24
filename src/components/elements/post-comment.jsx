@@ -54,6 +54,12 @@ class PostComment extends React.Component {
 
     const isCommentSpecial = this.props.isEditable || this.props.amISubscribedToAuthor;
 
+    const commentClasses = classnames({
+      'comment': true,
+      'hidden-comment': !!this.props.hideType,
+      'highlighted': this.props.isHighlighted,
+    });
+
     const iconClasses = classnames({
       'comment-icon': true,
       'comment-icon-special': isCommentSpecial,
@@ -66,7 +72,7 @@ class PostComment extends React.Component {
     const dateRelativeShort = getRelativeDate(+this.props.createdAt, false);
 
     return (
-      <div className={`comment ${this.props.isHighlighted ? 'highlighted' : ''}`}>
+      <div className={commentClasses}>
         <a className={iconClasses}
            title={dateRelative + '\n' + dateFull}
            id={`comment-${this.props.id}`}
@@ -75,7 +81,21 @@ class PostComment extends React.Component {
           <i className="fa fa-comment fa-stack-1x"></i>
           <i className="fa fa-comment-o fa-stack-1x"></i>
         </a>
-        {this.props.isEditing ? (
+
+        {this.props.hideType ? (
+          <div className="comment-body">
+            {this.props.body}
+
+            {dateRelativeShort ? (
+              <span className="comment-timestamp">
+                {' - '}
+                <Link to={`${this.props.postUrl}#comment-${this.props.id}`} dir="auto">
+                  <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
+                </Link>
+              </span>
+            ) : false}
+          </div>
+        ) : this.props.isEditing ? (
           <div className="comment-body">
             <div>
               <Textarea
