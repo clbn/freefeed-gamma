@@ -95,7 +95,7 @@ export const highlightedCommentsMiddleware = store => next => action => {
 
     const highlightedCommentIds = post.comments.filter(commentId => {
       const comment = state.comments[commentId];
-      const authorUsername = state.users[comment.createdBy].username;
+      const authorUsername = comment.createdBy && state.users[comment.createdBy].username;
       return isCommentHighlighted(commentId, authorUsername);
     });
 
