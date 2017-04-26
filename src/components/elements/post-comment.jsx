@@ -9,6 +9,7 @@ import PieceOfText from './piece-of-text';
 import UserName from './user-name';
 import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
 import { postActions } from '../../redux/select-utils';
+import * as CommentTypes from '../../utils/comment-types';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostComment extends React.Component {
@@ -66,6 +67,8 @@ class PostComment extends React.Component {
       'fa-stack': true
     });
 
+    const commentPlaceholderText = (this.props.hideType === CommentTypes.COMMENT_HIDDEN_ARCHIVED ? 'Comment in archive' : this.props.body);
+
     const dateISO = getISODate(+this.props.createdAt);
     const dateFull = getFullDate(+this.props.createdAt);
     const dateRelative = getRelativeDate(+this.props.createdAt);
@@ -84,7 +87,7 @@ class PostComment extends React.Component {
 
         {this.props.hideType ? (
           <div className="comment-body">
-            {this.props.body}
+            {commentPlaceholderText}
 
             {dateRelativeShort ? (
               <span className="comment-timestamp">
