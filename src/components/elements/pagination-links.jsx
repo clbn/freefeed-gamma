@@ -24,11 +24,13 @@ export default (props) => {
         </li>
       ) : false}
 
-      <li className="next">
-        <Link to={{ pathname: props.location.pathname, query: paramsForOlder }}>
-          Older entries {'\u2192'}
-        </Link>
-      </li>
+      {!props.isLastPage ? (
+        <li className="next">
+          <Link to={{ pathname: props.location.pathname, query: paramsForOlder }}>
+            Older entries {'\u2192'}
+          </Link>
+        </li>
+      ) : false}
     </ul>
   );
 };

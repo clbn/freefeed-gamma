@@ -8,7 +8,8 @@ const { response, fail } = ActionHelpers;
 const initFeed = {
   visibleEntries: [],
   hiddenEntries: [],
-  isHiddenRevealed: false
+  isHiddenRevealed: false,
+  isLastPage: false
 };
 
 const addPostToFeed = (state, postId) => {
@@ -55,10 +56,12 @@ export default function feedViewState(state = initFeed, action) {
     const visibleEntries = (action.payload.posts || []).filter(post => !post.isHidden).map(post => post.id);
     const hiddenEntries = (action.payload.posts || []).filter(post => post.isHidden).map(post => post.id);
     const isHiddenRevealed = false;
+    const isLastPage = action.payload.isLastPage;
     return {
       visibleEntries,
       hiddenEntries,
-      isHiddenRevealed
+      isHiddenRevealed,
+      isLastPage
     };
   }
   if (ActionHelpers.isFeedFail(action)) {
