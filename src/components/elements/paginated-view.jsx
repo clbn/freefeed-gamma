@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindRouteActions } from '../../redux/route-actions';
 import PaginationLinks from './pagination-links';
-import { getCurrentRouteName } from '../../utils';
 
 const PaginatedView = props => (
   <div className="box-body">
@@ -24,11 +23,10 @@ const PaginatedView = props => (
   </div>
 );
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const offset = +state.routing.locationBeforeTransitions.query.offset || 0;
-  const routename = getCurrentRouteName(ownProps);
   const isLastPage = state.feedViewState.isLastPage;
-  return { offset, routename, isLastPage };
+  return { offset, isLastPage };
 };
 
 const mapDispatchToProps = dispatch => ({
