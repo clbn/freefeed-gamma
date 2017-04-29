@@ -46,7 +46,7 @@ const Home = (props) => {
             {props.boxHeader.title}
 
             <div className="pull-right">
-              {!props.offset && props.authenticated ? <RealtimeSwitch/> : false}
+              {props.isFirstPage && props.authenticated ? <RealtimeSwitch/> : false}
 
               {props.boxHeader.page > 1 ? (
                 <span className="subheader">Page {props.boxHeader.page}</span>
@@ -78,14 +78,14 @@ function mapStateToProps(state) {
   const userRequestsCount = state.userRequests.length;
   const groupRequestsCount = state.groupRequests.length;
 
-  const offset = state.routing.locationBeforeTransitions.query.offset;
+  const isFirstPage = !state.routing.locationBeforeTransitions.query.offset;
 
   return {
     isLoading,
     authenticated,
     visibleEntries, hiddenEntries, isHiddenRevealed,
     boxHeader, userRequestsCount, groupRequestsCount,
-    offset
+    isFirstPage
   };
 }
 
