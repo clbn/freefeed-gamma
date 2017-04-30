@@ -16,7 +16,7 @@ const UserManageSubscribers = (props) => {
   const promoteToAdmin = (user) => props.promoteGroupAdmin(props.viewUser.username, user);
 
   const demoteFromAdmin = (user) => {
-    const isItMe = (props.user.id === user.id);
+    const isItMe = (props.myId === user.id);
     props.demoteGroupAdmin(props.viewUser.username, user, isItMe);
   };
 
@@ -68,6 +68,8 @@ const UserManageSubscribers = (props) => {
 };
 
 function mapStateToProps(state, ownProps) {
+  const myId = state.user.id;
+
   const isLoading = state.usernameSubscribers.isPending;
 
   const group = ownProps.viewUser;
@@ -85,7 +87,7 @@ function mapStateToProps(state, ownProps) {
     groupAdmins.length == 1
   );
 
-  return { isLoading, groupAdmins, users, amILastGroupAdmin };
+  return { myId, isLoading, groupAdmins, users, amILastGroupAdmin };
 }
 
 function mapDispatchToProps(dispatch) {
