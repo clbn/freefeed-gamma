@@ -67,7 +67,11 @@ class PostComment extends React.Component {
       'fa-stack': true
     });
 
-    const commentPlaceholderText = (this.props.hideType === CommentTypes.COMMENT_HIDDEN_ARCHIVED ? 'Comment in archive' : this.props.body);
+    let commentPlaceholderText = this.props.body;
+    switch (this.props.hideType) {
+      case CommentTypes.COMMENT_HIDDEN_BANNED: commentPlaceholderText = 'Comment from banned'; break;
+      case CommentTypes.COMMENT_HIDDEN_ARCHIVED: commentPlaceholderText = 'Comment in archive'; break;
+    }
 
     const dateISO = getISODate(+this.props.createdAt);
     const dateFull = getFullDate(+this.props.createdAt);
