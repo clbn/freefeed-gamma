@@ -48,6 +48,14 @@ class PostComment extends React.Component {
     leave: () => this.props.stopHighlightingComments()
   };
 
+  getCommentPlaceholder = () => {
+    switch (this.props.hideType) {
+      case CommentTypes.COMMENT_HIDDEN_BANNED: return 'Comment from banned';
+      case CommentTypes.COMMENT_HIDDEN_ARCHIVED: return 'Comment in archive';
+    }
+    return this.props.body;
+  };
+
   render() {
     if (this.props.notFound) {
       return false;
@@ -67,11 +75,7 @@ class PostComment extends React.Component {
       'fa-stack': true
     });
 
-    let commentPlaceholderText = this.props.body;
-    switch (this.props.hideType) {
-      case CommentTypes.COMMENT_HIDDEN_BANNED: commentPlaceholderText = 'Comment from banned'; break;
-      case CommentTypes.COMMENT_HIDDEN_ARCHIVED: commentPlaceholderText = 'Comment in archive'; break;
-    }
+    const commentPlaceholderText = this.getCommentPlaceholder();
 
     const dateISO = getISODate(+this.props.createdAt);
     const dateFull = getFullDate(+this.props.createdAt);
