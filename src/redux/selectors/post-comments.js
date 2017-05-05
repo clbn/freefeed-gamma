@@ -1,6 +1,60 @@
 import { createSelector } from 'reselect';
+import _ from 'lodash';
 
 const emptyArray = [];
+
+const _calcArchiveRevivalPosition = (postCreatedAt, postOmittedComments, postCommentIds, stateComments) => {
+  // Archive revival position is between old archive comments and the new stuff.
+  // Timestamp 1429542260000 means 2015-04-20 15:04:20 UTC, however any date
+  // between 10 Apr 2015 and 4 May 2015 would work.
+  const archiveRevivalTimestamp = 1429542260000;
+  let foundIndex = -1;
+
+  // Find the first new comment in an archive post
+  if (postCreatedAt < archiveRevivalTimestamp) {
+    const commentTimestamps = postCommentIds.map(commentId => stateComments[commentId].createdAt);
+    for (let i=0; i < commentTimestamps.length; i++) {
+      if (commentTimestamps[i] > archiveRevivalTimestamp) {
+        foundIndex = i;
+        break;
+      }
+    }
+  }
+
+  // For collapsed comments, only show revival icon if it's on the very first
+  // comment. Otherwise, it must be hidden under "N more comments".
+  if (postOmittedComments > 0 && foundIndex > 0) {
+    foundIndex = -1;
+  }
+
+  return foundIndex;
+};
+
+const _getMemoizedArchiveRevivalPosition = _.memoize(
+  // The function to have its output memoized
+  _calcArchiveRevivalPosition,
+
+  // The function to resolve the cache key
+  (postCreatedAt, postOmittedComments, postCommentIds, stateComments) => postCommentIds // eslint-disable-line no-unused-vars
+
+  // ^ So here we make the cache only rely on the list of comment IDs. It's
+  // safe to do, since we only use it here for comment timestamps, which are
+  // immutable. And it's important to keep this cache independent from
+  // state.comments, because this way adding a comment to some post doesn't
+  // cause re-rendering of other cached posts.
+);
+
+const getArchiveRevivalPosition = createSelector(
+  [
+    (state, props) => state.posts[props.postId].createdAt,
+    (state, props) => state.posts[props.postId].omittedComments || 0,
+    (state, props) => state.posts[props.postId].comments || emptyArray,
+    (state) => state.comments || emptyArray
+  ],
+  (postCreatedAt, postOmittedComments, postCommentIds, stateComments) => {
+    return _getMemoizedArchiveRevivalPosition(postCreatedAt, postOmittedComments, postCommentIds, stateComments);
+  }
+);
 
 const makeGetPostComments = () => createSelector(
   [
@@ -15,12 +69,15 @@ const makeGetPostComments = () => createSelector(
     (state, props) => state.postViews[props.postId].isSavingComment,
     (state, props) => state.postViews[props.postId].commentError,
 
-    (state, props) => (state.posts[props.postId].createdBy === state.user.id)
+    (state, props) => (state.posts[props.postId].createdBy === state.user.id),
+
+    getArchiveRevivalPosition
   ],
   (
     id, comments, omittedComments, commentsDisabled,
     isLoadingComments, isModeratingComments, isCommenting, isSavingComment, commentError,
-    isEditable
+    isEditable,
+    archiveRevivalPosition
   ) => {
     const granularPostData = {
       id,
@@ -34,7 +91,9 @@ const makeGetPostComments = () => createSelector(
       isSavingComment,
       commentError,
 
-      isEditable
+      isEditable,
+
+      archiveRevivalPosition
     };
 
     return {

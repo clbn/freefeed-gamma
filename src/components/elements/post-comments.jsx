@@ -56,15 +56,34 @@ class PostComments extends React.Component {
   render() {
     const props = this.props;
 
-    const firstComment = props.post.comments[0] ? this.getCommentById(props.post.comments[0]) : false;
-    const lastComments = props.post.comments.slice(1).map(this.getCommentById);
+    let firstComments = [], middleComments = [], lastComments = [];
+    if (props.post.comments.length > 0) {
+      if (props.post.omittedComments > 0) {
+        const i = 1;
+        middleComments = props.post.comments.slice(0, i).map(this.getCommentById);
+        lastComments = props.post.comments.slice(i).map(this.getCommentById);
+      } else {
+        const i = props.post.archiveRevivalPosition || 0;
+        firstComments = props.post.comments.slice(0, i).map(this.getCommentById);
+        middleComments = props.post.comments.slice(i).map(this.getCommentById);
+      }
+    }
 
+    const showArchiveRevival = props.post.archiveRevivalPosition > -1;
     const showOmittedNumber = props.post.omittedComments > 0;
     const canAddComment = (!props.post.commentsDisabled || props.post.isEditable);
 
     return (
       <div className="comments">
-        {firstComment}
+        {firstComments}
+
+        {showArchiveRevival ? (
+          <div className="comments-archive-revival">
+            <i className="fa fa-bolt fa-fw"></i>
+          </div>
+        ) : false}
+
+        {middleComments}
 
         {showOmittedNumber ? (
           <PostCommentsMore
