@@ -21,8 +21,8 @@ const _calcArchiveRevivalPosition = (postCreatedAt, postOmittedComments, postCom
     }
   }
 
-  // For collapsed comments, only show revival icon if it's on the very first
-  // comment. Otherwise, it must be hidden under "N more comments".
+  // For collapsed comments, only show revival icon (bolt) if it's on the very
+  // first comment. Otherwise, it must be hidden under "N more comments".
   if (postOmittedComments > 0 && foundIndex > 0) {
     foundIndex = -1;
   }
