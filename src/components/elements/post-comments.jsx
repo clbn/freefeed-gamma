@@ -63,7 +63,7 @@ class PostComments extends React.Component {
         middleComments = props.post.comments.slice(0, i).map(this.getCommentById);
         lastComments = props.post.comments.slice(i).map(this.getCommentById);
       } else {
-        const i = props.post.archiveRevivalPosition || 0;
+        const i = props.post.archiveRevivalPosition;
         firstComments = props.post.comments.slice(0, i).map(this.getCommentById);
         middleComments = props.post.comments.slice(i).map(this.getCommentById);
       }
