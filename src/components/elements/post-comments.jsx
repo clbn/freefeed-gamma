@@ -79,7 +79,7 @@ class PostComments extends React.Component {
 
         {showArchiveRevival ? (
           <div className="comments-archive-revival">
-            <i className="fa fa-bolt fa-fw"></i>
+            <i className="fa fa-bolt fa-fw" title="This comment bumped the post from archive"></i>
           </div>
         ) : false}
 
