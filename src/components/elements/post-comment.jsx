@@ -65,6 +65,7 @@ class PostComment extends React.Component {
 
     const commentClasses = classnames({
       'comment': true,
+      'comment-from-archive': (+this.props.createdAt < 1429542260000),
       'hidden-comment': !!this.props.hideType,
       'highlighted': this.props.isHighlighted,
     });

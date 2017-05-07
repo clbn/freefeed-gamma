@@ -114,6 +114,11 @@
     }
   }
 
+  &.comment-from-archive {
+    -webkit-filter: contrast(90%) sepia(40%);
+    filter: contrast(90%) sepia(40%);
+  }
+
   &.hidden-comment {
     .comment-body,
     .comment-timestamp a,
