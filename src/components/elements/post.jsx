@@ -97,7 +97,8 @@ class Post extends React.Component {
       'post': true,
       'single-post': props.isSinglePost,
       'timeline-post': !props.isSinglePost,
-      'direct-post': props.isDirect
+      'direct-post': props.isDirect,
+      'post-from-archive': (+props.createdAt < 1429542260000),
     });
 
     // Userpics(s)
