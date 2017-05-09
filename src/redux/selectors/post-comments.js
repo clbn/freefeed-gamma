@@ -1,20 +1,19 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 
+import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
+
 const emptyArray = [];
 
 const _calcArchiveRevivalPosition = (postCreatedAt, postOmittedComments, postCommentIds, stateComments) => {
   // Archive revival position is between old archive comments and the new stuff.
-  // Timestamp 1429542260000 means 2015-04-20 15:04:20 UTC, however any date
-  // between 10 Apr 2015 and 4 May 2015 would work.
-  const archiveRevivalTimestamp = 1429542260000;
   let foundIndex = -1;
 
   // Find the first new comment in an archive post
-  if (postCreatedAt < archiveRevivalTimestamp) {
+  if (postCreatedAt < ARCHIVE_WATERSHED_TIMESTAMP) {
     const commentTimestamps = postCommentIds.map(commentId => stateComments[commentId].createdAt);
     for (let i=0; i < commentTimestamps.length; i++) {
-      if (commentTimestamps[i] > archiveRevivalTimestamp) {
+      if (commentTimestamps[i] > ARCHIVE_WATERSHED_TIMESTAMP) {
         foundIndex = i;
         break;
       }

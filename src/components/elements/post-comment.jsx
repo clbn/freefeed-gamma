@@ -10,6 +10,7 @@ import UserName from './user-name';
 import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
 import { postActions } from '../../redux/select-utils';
 import * as CommentTypes from '../../utils/comment-types';
+import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostComment extends React.Component {
@@ -65,7 +66,7 @@ class PostComment extends React.Component {
 
     const commentClasses = classnames({
       'comment': true,
-      'comment-from-archive': (+this.props.createdAt < 1429542260000),
+      'comment-from-archive': (+this.props.createdAt < ARCHIVE_WATERSHED_TIMESTAMP),
       'hidden-comment': !!this.props.hideType,
       'highlighted': this.props.isHighlighted,
     });

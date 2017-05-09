@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import { makeGetPost } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
 import { getISODate, getRelativeDate, getFullDate } from '../../utils';
+import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
 import PostAttachments from './post-attachments';
 import PostComments from './post-comments';
 import PostLikes from './post-likes';
@@ -98,7 +99,7 @@ class Post extends React.Component {
       'single-post': props.isSinglePost,
       'timeline-post': !props.isSinglePost,
       'direct-post': props.isDirect,
-      'post-from-archive': (+props.createdAt < 1429542260000),
+      'post-from-archive': (+props.createdAt < ARCHIVE_WATERSHED_TIMESTAMP),
     });
 
     // Userpics(s)
