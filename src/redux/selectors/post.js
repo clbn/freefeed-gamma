@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 
+import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
+
 const emptyArray = [];
 
 const _getMemoizedPostAttachments = _.memoize(
@@ -61,12 +63,15 @@ const makeGetPost = () => createSelector(
       });
     const isDirect = (directRecipients.length > 0);
 
+    const isArchive = (+post.createdAt < ARCHIVE_WATERSHED_TIMESTAMP);
+
     return {
       ...post,
       ...postView,
       createdBy,
       recipients,
       isDirect,
+      isArchive,
       attachments
     };
   }
