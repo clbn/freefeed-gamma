@@ -299,7 +299,7 @@ class Post extends React.Component {
         </div>
 
         {props.isArchive ? (
-          <i className="post-archive-marker fa fa-archive"></i>
+          <i className="post-archive-marker fa fa-archive" title="Post from FriendFeed archive"></i>
         ) : false}
 
         <div className="post-top">
