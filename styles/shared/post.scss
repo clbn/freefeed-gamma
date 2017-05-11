@@ -315,9 +315,45 @@ $line-height-post-body-single: 28px;
 }
 
 .post-from-archive {
+  position: relative;
+  overflow: hidden;
+
   .post-top, .audio-attachments, .general-attachments, .post-footer, .likes {
     -webkit-filter: contrast(90%) sepia(40%);
     filter: contrast(90%) sepia(40%);
+  }
+}
+
+.post-archive-marker {
+  position: absolute;
+
+  color: #704214;
+  opacity: 0.2;
+  font-size: 37px;
+
+  // For big screens, put it below userpic
+  top: 73px;
+  left: 8px;
+
+  @media (max-width: 767px) {
+    // For small screens, put in the top right corner
+    opacity: 0.1;
+    left: inherit;
+    top: 12px;
+    right: 0;
+  }
+
+  // Make it bigger on single post page
+  .single-post & {
+    font-size: 56px;
+    top: 102px;
+    left: 11px;
+
+    @media (max-width: 767px) {
+      left: inherit;
+      top: 11px;
+      right: -1px;
+    }
   }
 }
 

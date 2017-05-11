@@ -298,6 +298,10 @@ class Post extends React.Component {
           {secondaryUserpics}
         </div>
 
+        {props.isArchive ? (
+          <i className="post-archive-marker fa fa-archive"></i>
+        ) : false}
+
         <div className="post-top">
           <div className="post-header">
             <UserName className="post-author" user={props.createdBy}/>
