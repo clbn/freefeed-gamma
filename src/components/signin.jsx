@@ -26,7 +26,7 @@ class SignIn extends React.Component {
             <form onSubmit={preventDefault(this.submitForm)}>
               <div className="form-group">
                 <label htmlFor="username-input">Username</label>
-                <input id="username-input" className="form-control" type="text" ref={this.refUsername}/>
+                <input id="username-input" className="form-control" type="text" ref={this.refUsername} autoFocus={true}/>
               </div>
               <div className="form-group">
                 <label htmlFor="password-input">Password</label>
