@@ -14,6 +14,10 @@ import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostComment extends React.Component {
+  refCommentContainer = (element) => {
+    this.commentContainer = element;
+  };
+
   refCommentText = (input) => {
     this.commentText = input;
   };
@@ -57,6 +61,24 @@ class PostComment extends React.Component {
     return this.props.body;
   };
 
+  scrollToTargeted = () => {
+    if (this.props.isTargeted) {
+      setTimeout(() => {
+        if (this.commentContainer) {
+          this.commentContainer.scrollIntoView();
+        }
+      }, 0);
+    }
+  };
+
+  componentDidMount() {
+    this.scrollToTargeted();
+  }
+
+  componentDidUpdate() {
+    this.scrollToTargeted();
+  }
+
   render() {
     if (this.props.notFound) {
       return false;
@@ -85,10 +107,9 @@ class PostComment extends React.Component {
     const dateRelativeShort = getRelativeDate(+this.props.createdAt, false);
 
     return (
-      <div className={commentClasses}>
+      <div className={commentClasses} id={`comment-${this.props.id}`} ref={this.refCommentContainer}>
         <a className={iconClasses}
            title={dateRelative + '\n' + dateFull}
-           id={`comment-${this.props.id}`}
            href={`${this.props.postUrl}#comment-${this.props.id}`}
            onClick={preventDefault(this.openAnsweringComment)}>
           <i className="fa fa-comment fa-stack-1x"></i>
