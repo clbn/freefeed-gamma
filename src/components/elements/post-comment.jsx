@@ -91,6 +91,7 @@ class PostComment extends React.Component {
       'comment-from-archive': (+this.props.createdAt < ARCHIVE_WATERSHED_TIMESTAMP),
       'hidden-comment': !!this.props.hideType,
       'highlighted': this.props.isHighlighted,
+      'targeted-comment': this.props.isTargeted
     });
 
     const iconClasses = classnames({

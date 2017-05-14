@@ -139,6 +139,14 @@
     padding: 4px 7px 5px 7px;
     margin: 4px -7px -5px -7px;
   }
+
+  &.targeted-comment {
+    background-color: #ffa;
+    border-radius: 3px;
+
+    padding: 4px 7px 5px 7px;
+    margin: 4px -7px -5px -7px;
+  }
 }
 
 .comments-archive-revival {
