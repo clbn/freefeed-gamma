@@ -81,7 +81,7 @@ const getRouteHooks = (route) => ({
   onChange: (prev, next) => boundRouteActions(route)(next)
 });
 
-history.listen(() => scrollTo(0, 0));
+history.listen(() => window.location.hash || scrollTo(0, 0)); // Only scroll to the top if there's no #hash in URL
 history.listen(() => toggleSidebar(false));
 history.listen(() => store.dispatch(ActionCreators.updateUserCard({ isHovered: false, isOpen: false })));
 
