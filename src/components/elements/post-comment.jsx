@@ -75,10 +75,6 @@ class PostComment extends React.Component {
     this.scrollToTargeted();
   }
 
-  componentDidUpdate() {
-    this.scrollToTargeted();
-  }
-
   render() {
     if (this.props.notFound) {
       return false;
