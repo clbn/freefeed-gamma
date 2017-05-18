@@ -133,7 +133,7 @@
   }
 
   &.highlighted {
-    background-color: #deedff;
+    background-color: #deedff !important; // Should override color in .targeted-comment
     border-radius: 3px;
 
     padding: 4px 7px 5px 7px;
