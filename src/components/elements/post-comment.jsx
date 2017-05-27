@@ -49,6 +49,7 @@ class PostComment extends React.Component {
   };
 
   arrowHoverHandlers = {
+    click: (arrows) => this.props.startHighlightingComments({ postId: this.props.postId, baseCommentId: this.props.id, arrows, isClicked: true }),
     hover: (arrows) => this.props.startHighlightingComments({ postId: this.props.postId, baseCommentId: this.props.id, arrows }),
     leave: () => this.props.stopHighlightingComments()
   };
@@ -73,6 +74,12 @@ class PostComment extends React.Component {
 
   componentDidMount() {
     this.scrollToTargeted();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.isTargeted && this.props.isTargeted) {
+      this.scrollToTargeted();
+    }
   }
 
   render() {

@@ -91,6 +91,11 @@ export const highlightedCommentsMiddleware = store => next => action => {
     const targetedCommentIndex = (baseCommentIndex + post.omittedComments) - arrows;
     const targetedCommentId = post.comments[targetedCommentIndex < baseCommentIndex ? targetedCommentIndex : -1];
 
+    if (action.payload.isClicked && targetedCommentId) {
+      browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${targetedCommentId}`);
+      return;
+    }
+
     const isCommentHighlighted = (commentId, authorUsername) => (authorUsername === username || commentId === targetedCommentId);
 
     const highlightedCommentIds = post.comments.filter(commentId => {

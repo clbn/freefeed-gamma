@@ -46,7 +46,7 @@ class Linkify extends React.Component {
       }
       case ARROW: {
         props['className'] = 'reference-arrow';
-        props['onClick'] = () => this.arrowHover.hover(displayedLink.length);
+        props['onClick'] = () => this.arrowHover.click(displayedLink.length);
         props['onMouseEnter'] = () => this.arrowHover.hover(displayedLink.length);
         props['onMouseLeave'] = this.arrowHover.leave;
         return React.createElement('span', props, displayedLink);
