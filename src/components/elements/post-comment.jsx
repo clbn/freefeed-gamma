@@ -64,7 +64,13 @@ class PostComment extends React.Component {
 
   scrollToComment = () => {
     if (this.commentContainer) {
-      this.commentContainer.scrollIntoView();
+      const rect = this.commentContainer.getBoundingClientRect();
+      if (rect.top < 0) {
+        this.commentContainer.scrollIntoView();
+      }
+      if (rect.bottom > window.innerHeight) {
+        this.commentContainer.scrollIntoView(false);
+      }
     }
   };
 
