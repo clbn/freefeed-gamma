@@ -62,23 +62,21 @@ class PostComment extends React.Component {
     return this.props.body;
   };
 
-  scrollToTargeted = () => {
-    if (this.props.isTargeted) {
-      setTimeout(() => {
-        if (this.commentContainer) {
-          this.commentContainer.scrollIntoView();
-        }
-      }, 0);
+  scrollToComment = () => {
+    if (this.commentContainer) {
+      this.commentContainer.scrollIntoView();
     }
   };
 
   componentDidMount() {
-    this.scrollToTargeted();
+    if (this.props.isTargeted) {
+      setTimeout(this.scrollToComment, 0);
+    }
   }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isTargeted && this.props.isTargeted) {
-      this.scrollToTargeted();
+      setTimeout(this.scrollToComment, 0);
     }
   }
 
