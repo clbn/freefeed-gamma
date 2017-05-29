@@ -92,6 +92,7 @@ export const highlightedCommentsMiddleware = store => next => action => {
     const targetedCommentId = post.comments[targetedCommentIndex < baseCommentIndex ? targetedCommentIndex : -1];
 
     if (action.payload.isClicked && targetedCommentId) {
+      browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${baseCommentId}`);
       browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${targetedCommentId}`);
       return;
     }
