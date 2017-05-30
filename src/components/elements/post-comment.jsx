@@ -49,7 +49,10 @@ class PostComment extends React.Component {
   };
 
   arrowHoverHandlers = {
-    click: (arrows) => this.props.startHighlightingComments({ postId: this.props.postId, baseCommentId: this.props.id, arrows, isClicked: true }),
+    click: (arrows) => {
+      this.props.stopHighlightingComments();
+      this.props.startHighlightingComments({ postId: this.props.postId, baseCommentId: this.props.id, arrows, isClicked: true });
+    },
     hover: (arrows) => this.props.startHighlightingComments({ postId: this.props.postId, baseCommentId: this.props.id, arrows }),
     leave: () => this.props.stopHighlightingComments()
   };
