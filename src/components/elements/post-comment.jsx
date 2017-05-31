@@ -28,10 +28,10 @@ class PostComment extends React.Component {
     }
   };
 
-  checkSave = (event) => {
-    const isEnter = event.keyCode === 13;
-    const isShiftPressed = event.shiftKey;
-    if (isEnter && !isShiftPressed) {
+  handleKeyDown = (event) => {
+    const enterPressed = (event.keyCode === 13);
+    const shiftPressed = event.shiftKey;
+    if (enterPressed && !shiftPressed) {
       event.preventDefault();
       setTimeout(this.saveComment, 0);
     }
@@ -146,7 +146,7 @@ class PostComment extends React.Component {
                 className="form-control comment-textarea"
                 defaultValue={this.props.body}
                 autoFocus={true}
-                onKeyDown={this.checkSave}
+                onKeyDown={this.handleKeyDown}
                 minRows={2}
                 maxRows={10}
                 maxLength="1500"/>
