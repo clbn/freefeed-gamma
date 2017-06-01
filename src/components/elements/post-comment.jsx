@@ -153,7 +153,7 @@ class PostComment extends React.Component {
             </div>
             <span>
               <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Post</button>
-              <a className="comment-cancel" onClick={preventDefault(_=>this.props.toggleEditingComment(this.props.id))}>Cancel</a>
+              <a className="comment-cancel" onClick={_=>this.props.toggleEditingComment(this.props.id)}>Cancel</a>
             </span>
             {this.props.isSaving ? (
               <span className="comment-throbber">
@@ -177,7 +177,7 @@ class PostComment extends React.Component {
             <UserName user={this.props.createdBy}/>
             {this.props.isEditable ? (
               <span>
-                {' '}(<a onClick={preventDefault(_=>this.props.toggleEditingComment(this.props.id))}>edit</a>
+                {' '}(<a onClick={_=>this.props.toggleEditingComment(this.props.id)}>edit</a>
                 &nbsp;|&nbsp;
                 <a onClick={confirmFirst(_=>this.props.deleteComment(this.props.id))}>delete</a>)
               </span>
