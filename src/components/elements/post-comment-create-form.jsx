@@ -9,6 +9,12 @@ export default class PostCommentCreateForm extends React.Component {
     this.props.bindTextarea(this._textarea);
   };
 
+  startCommenting = () => {
+    if (!this.props.post.isCommenting) {
+      this.props.toggleCommenting();
+    }
+  };
+
   cancelCommenting = () => {
     if (!this._textarea.value) {
       this.props.toggleCommenting();
@@ -53,7 +59,7 @@ export default class PostCommentCreateForm extends React.Component {
 
     return (
       <div className="comment">
-        <a className="comment-icon comment-icon-add fa-stack" onClick={this.props.toggleCommenting}>
+        <a className="comment-icon comment-icon-add fa-stack" onClick={this.startCommenting}>
           <i className="fa fa-comment-o fa-stack-1x"></i>
           <i className="fa fa-square fa-inverse fa-stack-1x"></i>
           <i className="fa fa-plus fa-stack-1x"></i>
@@ -94,11 +100,11 @@ export default class PostCommentCreateForm extends React.Component {
               className="form-control comment-textarea"
               rows={2}
               defaultValue=""
-              onFocus={this.props.toggleCommenting}/>
+              onFocus={this.startCommenting}/>
           </div>
         ) : (
           <div>
-            <a className="add-comment-link" onClick={this.props.toggleCommenting}>Add comment</a>
+            <a className="add-comment-link" onClick={this.startCommenting}>Add comment</a>
             {this.props.post.commentsDisabled && this.props.post.isEditable
               ? <i> - disabled for others</i>
               : false}
