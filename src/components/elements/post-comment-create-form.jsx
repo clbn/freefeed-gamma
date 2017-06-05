@@ -16,9 +16,7 @@ export default class PostCommentCreateForm extends React.Component {
   };
 
   cancelCommenting = () => {
-    if (!this._textarea.value) {
-      this.props.toggleCommenting();
-    } else if (confirm('Discard changes and close the form?')) {
+    if (!this._textarea.value || confirm('Discard changes and close the form?')) {
       this.props.toggleCommenting();
     }
   };
