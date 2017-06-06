@@ -504,16 +504,9 @@ export function revokeSentRequest(payload) {
   };
 }
 
-export function startHighlightingComments(payload) {
+export function updateHighlightedComments(payload) {
   return {
-    type: ActionTypes.START_HIGHLIGHTING_COMMENTS,
-    payload
-  };
-}
-
-export function stopHighlightingComments(payload) {
-  return {
-    type: ActionTypes.STOP_HIGHLIGHTING_COMMENTS,
+    type: ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS,
     payload
   };
 }

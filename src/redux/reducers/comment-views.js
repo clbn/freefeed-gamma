@@ -74,18 +74,14 @@ export default function commentViews(state={}, action) {
       return updateCommentViews(state, action.comments || []);
     }
 
-    case ActionTypes.START_HIGHLIGHTING_COMMENTS: {
+    case ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS: {
       const newState = { ...state };
-      action.payload.forEach(commentId => {
-        newState[commentId] = { ...newState[commentId], isHighlighted: true };
-      });
-      return newState;
-    }
-
-    case ActionTypes.STOP_HIGHLIGHTING_COMMENTS: {
-      const newState = { ...state };
-      action.payload.forEach(commentId => {
-        newState[commentId] = { ...newState[commentId], isHighlighted: false };
+      _.forEach(newState, (view, commentId) => {
+        const prev = !!newState[commentId].isHighlighted; // "!!" is NOT redundant here, it casts undefined to false for proper comparison
+        const next = (action.payload.comments.indexOf(commentId) > -1);
+        if (prev !== next) {
+          newState[commentId] = { ...newState[commentId], isHighlighted: next };
+        }
       });
       return newState;
     }

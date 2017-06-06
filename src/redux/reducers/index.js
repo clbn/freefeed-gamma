@@ -135,18 +135,6 @@ export function usernameBlockedByMe(state = {}, action) {
   );
 }
 
-export function highlightedComments(state = [], action) {
-  switch (action.type) {
-    case ActionTypes.START_HIGHLIGHTING_COMMENTS: {
-      return action.payload;
-    }
-    case ActionTypes.STOP_HIGHLIGHTING_COMMENTS: {
-      return [];
-    }
-  }
-  return state;
-}
-
 import attachments from './attachments';
 import authenticated from './authenticated';
 import boxHeader from './box-header';

@@ -17,7 +17,7 @@ import {
   // Comment actions
   toggleCommenting, addComment,
   toggleEditingComment, saveEditingComment,
-  startHighlightingComments, stopHighlightingComments,
+  updateHighlightedComments,
   deleteComment
 } from '../redux/action-creators';
 
@@ -51,8 +51,7 @@ export function postActions(dispatch) {
       toggleEditingComment: (commentId) => dispatch(toggleEditingComment(commentId)),
       saveEditingComment: (commentId, newValue) => dispatch(saveEditingComment(commentId, newValue)),
       deleteComment: (commentId) => dispatch(deleteComment(commentId)),
-      startHighlightingComments: (...args) => dispatch(startHighlightingComments(...args)),
-      stopHighlightingComments: (...args) => dispatch(stopHighlightingComments(...args))
+      updateHighlightedComments: (...args) => dispatch(updateHighlightedComments(...args))
     },
   };
 }

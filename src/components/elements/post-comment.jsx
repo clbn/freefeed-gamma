@@ -48,17 +48,14 @@ class PostComment extends React.Component {
   };
 
   userHoverHandlers = {
-    hover: (username) => this.props.startHighlightingComments({ postId: this.props.postId, username }),
-    leave: () => this.props.stopHighlightingComments()
+    hover: (username) => this.props.updateHighlightedComments({ reason: 'hover-author', postId: this.props.postId, username }),
+    leave: () => this.props.updateHighlightedComments()
   };
 
   arrowHoverHandlers = {
-    click: (arrows) => {
-      this.props.stopHighlightingComments();
-      this.props.startHighlightingComments({ postId: this.props.postId, baseCommentId: this.props.id, arrows, isClicked: true });
-    },
-    hover: (arrows) => this.props.startHighlightingComments({ postId: this.props.postId, baseCommentId: this.props.id, arrows }),
-    leave: () => this.props.stopHighlightingComments()
+    click: (arrows) => this.props.updateHighlightedComments({ reason: 'click-arrows', postId: this.props.postId, baseCommentId: this.props.id, arrows }),
+    hover: (arrows) => this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.postId, baseCommentId: this.props.id, arrows }),
+    leave: () => this.props.updateHighlightedComments()
   };
 
   getCommentPlaceholder = () => {

@@ -75,50 +75,50 @@ export const authMiddleware = store => next => action => {
 
 export const highlightedCommentsMiddleware = store => next => action => {
 
-  // When we got raw HIGHLIGHT_COMMENTS with payload like {postId, baseCommentId, username, arrows},
-  // we replace it with payload like [commentId, commentId, commentId, ...]
-  if (action.type === ActionTypes.START_HIGHLIGHTING_COMMENTS && action.payload.postId) {
+  // When we get raw UPDATE_HIGHLIGHTED_COMMENTS with payload like { reason, postId, baseCommentId, username, arrows }
+  // or null, we replace it with payload like { processed, comments: [commentId, commentId, commentId, ...] }
+  if (action.type === ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS && !(action.payload || {}).processed) {
     const state = store.getState();
 
     if (!state.user.frontendPreferences.comments.highlightComments) {
       return;
     }
 
-    const { postId, baseCommentId, username, arrows } = action.payload;
+    const { reason, postId, baseCommentId, username, arrows } = action.payload || {};
     const post = state.posts[postId];
 
-    const baseCommentIndex = post.comments.indexOf(baseCommentId);
-    const targetedCommentIndex = (baseCommentIndex + post.omittedComments) - arrows;
-    const targetedCommentId = post.comments[targetedCommentIndex < baseCommentIndex ? targetedCommentIndex : -1];
+    const baseCommentIndex = post && post.comments.indexOf(baseCommentId);
+    const targetedCommentIndex = post && (baseCommentIndex + post.omittedComments) - arrows;
+    const targetedCommentId = post && post.comments[targetedCommentIndex < baseCommentIndex ? targetedCommentIndex : -1];
 
-    if (action.payload.isClicked && targetedCommentId) {
-      browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${baseCommentId}`);
-      browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${targetedCommentId}`);
-      return;
+    let highlightedCommentIds;
+
+    switch (reason) {
+      case 'hover-author':
+        highlightedCommentIds = post.comments.filter(commentId => {
+          const comment = state.comments[commentId];
+          const authorUsername = comment.createdBy && state.users[comment.createdBy].username;
+          return (authorUsername === username);
+        });
+        break;
+
+      case 'hover-arrows':
+        highlightedCommentIds = [ targetedCommentId ];
+        break;
+
+      case 'click-arrows':
+        highlightedCommentIds = [];
+        if (targetedCommentId) {
+          browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${baseCommentId}`);
+          browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${targetedCommentId}`);
+        }
+        break;
+
+      default:
+        highlightedCommentIds = []; // clear highlighting if params/payload is empty (previously known as STOP_HIGHLIGHTING_COMMENTS)
     }
 
-    const isCommentHighlighted = (commentId, authorUsername) => (authorUsername === username || commentId === targetedCommentId);
-
-    const highlightedCommentIds = post.comments.filter(commentId => {
-      const comment = state.comments[commentId];
-      const authorUsername = comment.createdBy && state.users[comment.createdBy].username;
-      return isCommentHighlighted(commentId, authorUsername);
-    });
-
-    return store.dispatch({ type: ActionTypes.START_HIGHLIGHTING_COMMENTS, payload: highlightedCommentIds });
-  }
-
-  // When we got raw STOP_HIGHLIGHTING_COMMENTS with empty payload,
-  // we replace it with payload like [commentId, commentId, commentId, ...]
-  if (action.type === ActionTypes.STOP_HIGHLIGHTING_COMMENTS && !action.payload) {
-    const state = store.getState();
-
-    if (!state.user.frontendPreferences.comments.highlightComments) {
-      return;
-    }
-
-    const highlightedCommentIds = state.highlightedComments;
-    return store.dispatch({ type: ActionTypes.STOP_HIGHLIGHTING_COMMENTS, payload: highlightedCommentIds });
+    return store.dispatch({ type: ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS, payload: { processed: true, comments: highlightedCommentIds } });
   }
 
   return next(action);
