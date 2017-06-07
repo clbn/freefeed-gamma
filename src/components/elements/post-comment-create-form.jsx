@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 
+import { postActions } from '../../redux/select-utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 
-export default class PostCommentCreateForm extends React.Component {
+class PostCommentCreateForm extends React.Component {
   bindTextarea = (textarea) => {
     this._textarea = textarea;
     this.props.bindTextarea(this._textarea);
@@ -18,6 +20,7 @@ export default class PostCommentCreateForm extends React.Component {
   cancelCommenting = () => {
     if (!this._textarea.value || confirm('Discard changes and close the form?')) {
       this.props.toggleCommenting();
+      this.props.updateHighlightedComments();
     }
   };
 
@@ -31,9 +34,17 @@ export default class PostCommentCreateForm extends React.Component {
     }
   };
 
+  handleChangeText = () => {
+    const arrowsFound = this._textarea.value.match(/\^+/);
+    if (arrowsFound !== null) {
+      this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.post.id, baseCommentId: null, arrows: arrowsFound[0].length });
+    }
+  };
+
   saveComment = () => {
     if (!this.props.post.isSavingComment) {
       this.props.saveEditingComment(this.props.post.id, this._textarea.value);
+      this.props.updateHighlightedComments();
     }
   };
 
@@ -72,6 +83,7 @@ export default class PostCommentCreateForm extends React.Component {
                 defaultValue=""
                 autoFocus={true}
                 onKeyDown={this.handleKeyDown}
+                onChange={this.handleChangeText}
                 minRows={2}
                 maxRows={10}
                 maxLength="1500"/>
@@ -112,3 +124,11 @@ export default class PostCommentCreateForm extends React.Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateHighlightedComments: postActions(dispatch).commentEdit.updateHighlightedComments
+  };
+}
+
+export default connect(null, mapDispatchToProps)(PostCommentCreateForm);

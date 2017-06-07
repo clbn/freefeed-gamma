@@ -87,7 +87,7 @@ export const highlightedCommentsMiddleware = store => next => action => {
     const { reason, postId, baseCommentId, username, arrows } = action.payload || {};
     const post = state.posts[postId];
 
-    const baseCommentIndex = post && post.comments.indexOf(baseCommentId);
+    const baseCommentIndex = post && (baseCommentId ? post.comments.indexOf(baseCommentId) : post.comments.length); // For a new comment, baseCommentId is null
     const targetedCommentIndex = post && (baseCommentIndex + post.omittedComments) - arrows;
     const targetedCommentId = post && post.comments[targetedCommentIndex < baseCommentIndex ? targetedCommentIndex : -1];
 
