@@ -22,9 +22,12 @@ class PostComment extends React.Component {
     this.commentText = input;
   };
 
+  typedArrows = 0; // Number of arrows (^^^) user typing in the textarea
+
   toggleEditing = () => {
     this.props.toggleEditingComment(this.props.id);
     this.props.updateHighlightedComments();
+    this.typedArrows = 0;
   };
 
   deleteAfterConfirmation = confirmFirst(() => this.props.deleteComment(this.props.id));
@@ -46,15 +49,24 @@ class PostComment extends React.Component {
 
   handleChangeText = () => {
     const arrowsFound = this.commentText.value.match(/\^+/);
-    if (arrowsFound !== null) {
-      this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.postId, baseCommentId: this.props.id, arrows: arrowsFound[0].length });
+    const arrows = (arrowsFound ? arrowsFound[0].length : 0);
+
+    if (this.typedArrows !== arrows) {
+      this.typedArrows = arrows;
+      if (arrows > 0) {
+        this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.postId, baseCommentId: this.props.id, arrows: this.typedArrows });
+      } else {
+        this.props.updateHighlightedComments();
+      }
     }
   };
 
   saveComment = () => {
     if (!this.props.isSaving) {
       this.props.saveEditingComment(this.props.id, this.commentText.value);
+
       this.props.updateHighlightedComments();
+      this.typedArrows = 0;
     }
   };
 
