@@ -22,7 +22,10 @@ class PostComment extends React.Component {
     this.commentText = input;
   };
 
-  toggleEditing = () => this.props.toggleEditingComment(this.props.id);
+  toggleEditing = () => {
+    this.props.toggleEditingComment(this.props.id);
+    this.props.updateHighlightedComments();
+  };
 
   deleteAfterConfirmation = confirmFirst(() => this.props.deleteComment(this.props.id));
 
@@ -41,9 +44,17 @@ class PostComment extends React.Component {
     }
   };
 
+  handleChangeText = () => {
+    const arrowsFound = this.commentText.value.match(/\^+/);
+    if (arrowsFound !== null) {
+      this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.postId, baseCommentId: this.props.id, arrows: arrowsFound[0].length });
+    }
+  };
+
   saveComment = () => {
     if (!this.props.isSaving) {
       this.props.saveEditingComment(this.props.id, this.commentText.value);
+      this.props.updateHighlightedComments();
     }
   };
 
@@ -148,6 +159,7 @@ class PostComment extends React.Component {
                 defaultValue={this.props.body}
                 autoFocus={true}
                 onKeyDown={this.handleKeyDown}
+                onChange={this.handleChangeText}
                 minRows={2}
                 maxRows={10}
                 maxLength="1500"/>
