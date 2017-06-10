@@ -11,7 +11,7 @@ class PostCommentCreateForm extends React.Component {
     this.props.bindTextarea(this._textarea);
   };
 
-  typedArrows = 0; // Number of arrows (^^^) user typing in the textarea
+  typedArrows = []; // Array of arrows (^^^) lengths, that user typing in the textarea
 
   startCommenting = () => {
     if (!this.props.post.isCommenting) {
@@ -23,7 +23,7 @@ class PostCommentCreateForm extends React.Component {
     if (!this._textarea.value || confirm('Discard changes and close the form?')) {
       this.props.toggleCommenting();
       this.props.updateHighlightedComments();
-      this.typedArrows = 0;
+      this.typedArrows = [];
     }
   };
 
@@ -38,13 +38,13 @@ class PostCommentCreateForm extends React.Component {
   };
 
   handleChangeText = () => {
-    const arrowsFound = this._textarea.value.match(/\^+/);
-    const arrows = (arrowsFound ? arrowsFound[0].length : 0);
+    const arrowsFound = this._textarea.value.match(/\^+/g);
+    const arrows = (arrowsFound ? arrowsFound.map(a => a.length) : []);
 
-    if (this.typedArrows !== arrows) {
+    if (this.typedArrows.length !== arrows.length || !this.typedArrows.every((v, i) => (v === arrows[i]))) { // just comparing two arrays
       this.typedArrows = arrows;
-      if (arrows > 0) {
-        this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.post.id, baseCommentId: null, arrows: this.typedArrows });
+      if (arrows.length > 0) {
+        this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.post.id, baseCommentId: null, arrows });
       } else {
         this.props.updateHighlightedComments();
       }
@@ -55,7 +55,7 @@ class PostCommentCreateForm extends React.Component {
     if (!this.props.post.isSavingComment) {
       this.props.saveEditingComment(this.props.post.id, this._textarea.value);
       this.props.updateHighlightedComments();
-      this.typedArrows = 0;
+      this.typedArrows = [];
     }
   };
 

@@ -84,12 +84,17 @@ export const highlightedCommentsMiddleware = store => next => action => {
       return;
     }
 
-    const { reason, postId, baseCommentId, username, arrows } = action.payload || {};
+    let { reason, postId, baseCommentId, username, arrows } = action.payload || {};
+
+    if (!Array.isArray(arrows)) {
+      arrows = [ arrows ];
+    }
+
     const post = state.posts[postId];
 
     const baseCommentIndex = post && (baseCommentId ? post.comments.indexOf(baseCommentId) : post.comments.length); // For a new comment, baseCommentId is null
-    const targetedCommentIndex = post && (baseCommentIndex + post.omittedComments) - arrows;
-    const targetedCommentId = post && post.comments[targetedCommentIndex < baseCommentIndex ? targetedCommentIndex : -1];
+    const targetedCommentIndices = post && arrows.map(a => baseCommentIndex + post.omittedComments - a);
+    const targetedCommentIds = post && targetedCommentIndices.map(i => post.comments[i < baseCommentIndex ? i : -1]);
 
     let highlightedCommentIds;
 
@@ -103,14 +108,14 @@ export const highlightedCommentsMiddleware = store => next => action => {
         break;
 
       case 'hover-arrows':
-        highlightedCommentIds = [ targetedCommentId ];
+        highlightedCommentIds = targetedCommentIds;
         break;
 
       case 'click-arrows':
         highlightedCommentIds = [];
-        if (targetedCommentId) {
+        if (targetedCommentIds[0]) {
           browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${baseCommentId}`);
-          browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${targetedCommentId}`);
+          browserHistory.push(`/${state.users[post.createdBy].username}/${postId}#comment-${targetedCommentIds[0]}`);
         }
         break;
 
