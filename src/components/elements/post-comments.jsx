@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { makeGetPostComments } from '../../redux/selectors';
-import { showMoreComments, toggleCommenting, addComment } from '../../redux/action-creators';
+import { showMoreComments, toggleCommenting } from '../../redux/action-creators';
 import PostComment from './post-comment';
 import PostCommentsMore from './post-comments-more';
 import PostCommentCreateForm from './post-comment-create-form';
@@ -100,7 +100,6 @@ class PostComments extends React.Component {
             post={props.post}
             isSinglePost={props.isSinglePost}
             otherCommentsNumber={props.post.comments.length}
-            saveEditingComment={props.addComment}
             toggleCommenting={this.toggleCommenting}
             bindTextarea={this.bindNewCommentTextarea}/>
         ) : false}
@@ -122,8 +121,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
   return {
     showMoreComments: (...args) => dispatch(showMoreComments(...args)),
-    toggleCommenting: (...args) => dispatch(toggleCommenting(...args)),
-    addComment: (...args) => dispatch(addComment(...args))
+    toggleCommenting: (...args) => dispatch(toggleCommenting(...args))
   };
 }
 

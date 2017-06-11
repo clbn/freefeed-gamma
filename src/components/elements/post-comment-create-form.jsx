@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 
-import { postActions } from '../../redux/select-utils';
+import { addComment, updateHighlightedComments } from '../../redux/action-creators';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostCommentCreateForm extends React.Component {
@@ -53,7 +53,7 @@ class PostCommentCreateForm extends React.Component {
 
   saveComment = () => {
     if (!this.props.post.isSavingComment) {
-      this.props.saveEditingComment(this.props.post.id, this._textarea.value);
+      this.props.addComment(this.props.post.id, this._textarea.value);
       this.props.updateHighlightedComments();
       this.typedArrows = [];
     }
@@ -138,7 +138,8 @@ class PostCommentCreateForm extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateHighlightedComments: postActions(dispatch).commentEdit.updateHighlightedComments
+    addComment: (...args) => dispatch(addComment(...args)),
+    updateHighlightedComments: (...args) => dispatch(updateHighlightedComments(...args))
   };
 }
 
