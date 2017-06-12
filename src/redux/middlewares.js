@@ -90,13 +90,15 @@ export const highlightedCommentsMiddleware = store => next => action => {
       arrows = [ arrows ];
     }
 
+    let baseCommentIndex, targetedCommentIndices, targetedCommentIds, highlightedCommentIds;
+
     const post = state.posts[postId];
 
-    const baseCommentIndex = post && (baseCommentId ? post.comments.indexOf(baseCommentId) : post.comments.length); // For a new comment, baseCommentId is null
-    const targetedCommentIndices = post && arrows.map(a => baseCommentIndex + post.omittedComments - a);
-    const targetedCommentIds = post && targetedCommentIndices.map(i => post.comments[i < baseCommentIndex ? i : -1]);
-
-    let highlightedCommentIds;
+    if (post) {
+      baseCommentIndex = (baseCommentId ? post.comments.indexOf(baseCommentId) : post.comments.length); // For a new comment, baseCommentId is null
+      targetedCommentIndices = arrows.map(a => baseCommentIndex + post.omittedComments - a);
+      targetedCommentIds = targetedCommentIndices.map(i => post.comments[i < baseCommentIndex ? i : -1]);
+    }
 
     switch (reason) {
       case 'hover-author':
