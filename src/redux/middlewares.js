@@ -96,8 +96,27 @@ export const highlightedCommentsMiddleware = store => next => action => {
 
     if (post) {
       baseCommentIndex = (baseCommentId ? post.comments.indexOf(baseCommentId) : post.comments.length); // For a new comment, baseCommentId is null
-      targetedCommentIndices = arrows.map(a => baseCommentIndex + post.omittedComments - a);
-      targetedCommentIds = targetedCommentIndices.map(i => post.comments[i < baseCommentIndex ? i : -1]);
+
+      const getTargetedCommentIndex = (a) => {
+        // Comment(s) below "N more comments"
+        if (baseCommentIndex - a > 0) {
+          return baseCommentIndex - a;
+        }
+        // Comment above "N more comments"
+        if (baseCommentIndex - a === -post.omittedComments) {
+          return 0;
+        }
+        // Everything else is inside the collapsed comments and shouldn't be highlighted
+        return -1;
+
+        // N.B. This algorithm assumes exactly one comment above the fold
+        // and arbitrary number of comments below the fold. Expanded comments
+        // (i.e. omittedComments = 0) is just the particular case of this
+        // general method.
+      };
+
+      targetedCommentIndices = arrows.map(getTargetedCommentIndex);
+      targetedCommentIds = targetedCommentIndices.map(i => post.comments[i]);
     }
 
     switch (reason) {
