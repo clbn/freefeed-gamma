@@ -39,16 +39,18 @@ class SearchForm extends React.Component {
 
   render() {
     const formClasses = classnames({
-      'search-form-in-header': true,
-      'form-inline': true,
+      'search-form': true,
+      [this.props.position]: !!this.props.position,
       'focused': this.state.isFocused
     });
+
+    const buttonText = this.props.buttonText || <i className="fa fa-search"></i>;
 
     return (
       <form className={formClasses} action="/search" onSubmit={preventDefault(this.submitForm)}>
         <input className="form-control" type="text" name="q" ref={this.refSearchQuery} defaultValue={this.props.query} onFocus={this.focusForm} onBlur={this.blurForm}/>
         <button className="btn btn-default" type="submit">
-          <i className="fa fa-search"></i>
+          {buttonText}
         </button>
       </form>
     );

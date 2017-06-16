@@ -143,7 +143,7 @@ class App extends React.Component {
             {props.authenticated ? (
               <div>
                 {props.routeName !== 'search' ? (
-                  <SearchForm />
+                  <SearchForm position="in-header"/>
                 ) : false}
 
                 <div className="mobile-sidebar-toggle" onTouchEnd={this.toggleSidebar} onClick={this.toggleSidebar}>

@@ -28,7 +28,7 @@ const Sidebar = ({ user, signOut }) => (
         </div>
       </div>
 
-      <SearchForm />
+      <SearchForm position="in-sidebar"/>
 
       <div className="box">
         <div className="box-header">

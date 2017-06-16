@@ -1,28 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 
 import { getVisibleEntriesWithHidden } from '../redux/selectors';
-import { preventDefault } from '../utils';
+import SearchForm from './elements/search-form';
 import PaginatedView from './elements/paginated-view';
 import Feed from './elements/feed';
 
 class Search extends React.Component {
-  refSearchQuery = (input) => {
-    this.searchQuery = input;
-  };
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.query !== this.props.query) {
-      this.searchQuery.value = newProps.query;
-    }
-  }
-
-  submitForm = () => {
-    const query = this.searchQuery.value;
-    browserHistory.push(`/search?q=${encodeURIComponent(query)}`);
-  };
-
   render() {
     const props = this.props;
 
@@ -38,16 +22,7 @@ class Search extends React.Component {
           ) : false}
         </div>
 
-        <form className="search-form" onSubmit={preventDefault(this.submitForm)}>
-          <div className="row">
-            <div className="col-xs-9">
-              <input className="form-control" type="text" name="q" ref={this.refSearchQuery} defaultValue={props.query}/>
-            </div>
-            <div className="col-xs-3">
-              <button className="btn btn-default" type="submit">Search</button>
-            </div>
-          </div>
-        </form>
+        <SearchForm position="in-results" buttonText="Search"/>
 
         {props.query ? (
           props.isLoading || props.visibleEntries.length ? (
