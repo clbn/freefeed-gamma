@@ -367,7 +367,7 @@ class Post extends React.Component {
             </div>
           ) : (
             <div className="post-text">
-              <PieceOfText text={props.body}/>
+              <PieceOfText text={props.body} isExpanded={props.isSinglePost}/>
             </div>
           )}
         </div>
