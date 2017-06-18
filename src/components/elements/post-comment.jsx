@@ -14,6 +14,14 @@ import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostComment extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isExpanded: false
+    };
+  }
+
   refCommentContainer = (element) => {
     this.commentContainer = element;
   };
@@ -67,6 +75,8 @@ class PostComment extends React.Component {
 
       this.props.updateHighlightedComments();
       this.typedArrows = [];
+
+      this.setState({ isExpanded: true });
     }
   };
 
@@ -194,6 +204,7 @@ class PostComment extends React.Component {
           <div className="comment-body">
             <PieceOfText
               text={this.props.body}
+              isExpanded={this.state.isExpanded}
               userHover={this.userHoverHandlers}
               arrowHover={this.arrowHoverHandlers}/>
 
