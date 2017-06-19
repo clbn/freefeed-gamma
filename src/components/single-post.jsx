@@ -22,14 +22,14 @@ const SinglePost = (props) => {
 
   if (props.isPostInStore) {
     postBody = (
-      <Post id={props.postId} isSinglePost={true} />
+      <Post id={props.postId} isSinglePost={true}/>
     );
   }
 
   return (
     <div className="box">
       <div className="box-body">
-       {postBody}
+        {postBody}
       </div>
     </div>
   );
