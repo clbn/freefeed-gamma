@@ -79,7 +79,7 @@ export default function commentViews(state={}, action) {
     case ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS: {
       const newState = { ...state };
       _.forEach(newState, (view, commentId) => {
-        const prev = !!newState[commentId].isHighlighted; // "!!" is NOT redundant here, it casts undefined to false for proper comparison
+        const prev = !!view.isHighlighted; // "!!" is NOT redundant here, it casts undefined to false for proper comparison
         const next = (action.payload.comments.indexOf(commentId) > -1);
         if (prev !== next) {
           newState[commentId] = { ...newState[commentId], isHighlighted: next };
