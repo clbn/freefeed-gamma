@@ -84,6 +84,22 @@ class PostCreateForm extends React.Component {
 
   isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
 
+  getSubmitButtonText(recipients) {
+    const getRecipientName = (r) => (r.value === this.props.user.username ? <b>my feed</b> : <b>@{r.value}</b>);
+    const submitAction = (getPostVisibilityLevel(recipients, this.props.user.id) === PostVisibilityLevels.DIRECT ? 'Send' : 'Post');
+    const recNames = recipients.map(getRecipientName);
+    switch (recNames.length) {
+      case 0: return <span>{submitAction} <i>(recipient missing)</i></span>;
+      case 1: return <span>{submitAction} to {recNames[0]}</span>;
+      case 2: return <span>{submitAction} to {recNames[0]} and {recNames[1]}</span>;
+      case 3: return <span>{submitAction} to {recNames[0]}, {recNames[1]} and {recNames[2]}</span>;
+      default:
+        const firstTwo = recNames.slice(0, 2);
+        const remainder = recNames.length - 2;
+        return <span>{submitAction} to {firstTwo[0]}, {firstTwo[1]} and {remainder} more</span>;
+    }
+  }
+
   checkIfEnterPressed = (e) => {
     const isEnter = e.keyCode === 13;
     const isShiftPressed = e.shiftKey;
@@ -194,22 +210,7 @@ class PostCreateForm extends React.Component {
     const recipients = this.postRecipients && this.postRecipients.selectedOptions || [];
     const attachments = (this.props.createPostForm.attachments || []).map(attachmentId => this.props.attachments[attachmentId]);
     const isSubmitButtonDisabled = this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading';
-
-    // Submit button text
-    let submitButtonText;
-    const getRecipientName = (r) => (r.value === this.props.user.username ? <b>my feed</b> : <b>@{r.value}</b>);
-    const submitAction = (getPostVisibilityLevel(recipients, this.props.user.id) === PostVisibilityLevels.DIRECT ? 'Send' : 'Post');
-    const recNames = recipients.map(getRecipientName);
-    switch (recNames.length) {
-      case 0: submitButtonText = <span>{submitAction} <i>(recipient missing)</i></span>; break;
-      case 1: submitButtonText = <span>{submitAction} to {recNames[0]}</span>; break;
-      case 2: submitButtonText = <span>{submitAction} to {recNames[0]} and {recNames[1]}</span>; break;
-      case 3: submitButtonText = <span>{submitAction} to {recNames[0]}, {recNames[1]} and {recNames[2]}</span>; break;
-      default:
-        const firstTwo = recNames.slice(0, 2);
-        const remainder = recNames.length - 2;
-        submitButtonText = <span>{submitAction} to {firstTwo[0]}, {firstTwo[1]} and {remainder} more</span>;
-    }
+    const submitButtonText = this.getSubmitButtonText(recipients);
 
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
