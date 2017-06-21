@@ -74,7 +74,7 @@ class PostCreateForm extends React.Component {
   //
   // Handling recipients, text typing and posting
 
-  checkCreatePostAvailability = (recipientsUpdated = false) => {
+  updateEmptinessState = (recipientsUpdated = false) => {
     let isFormEmpty = this.isPostTextEmpty() || this.postRecipients.values.length === 0;
 
     if (isFormEmpty !== this.state.isFormEmpty || recipientsUpdated === true) {
@@ -225,7 +225,7 @@ class PostCreateForm extends React.Component {
               defaultFeed={defaultFeed}
               peopleFirst={this.props.peopleFirst}
               user={this.props.user}
-              onChange={this.checkCreatePostAvailability}/>
+              onChange={this.updateEmptinessState}/>
           ) : false}
 
           <PostDropzone
@@ -240,7 +240,7 @@ class PostCreateForm extends React.Component {
             ref={this.refPostText}
             onFocus={this.expand}
             onKeyDown={this.checkIfEnterPressed}
-            onChange={this.checkCreatePostAvailability}
+            onChange={this.updateEmptinessState}
             onPaste={this.handlePaste}
             minRows={3}
             maxRows={10}
