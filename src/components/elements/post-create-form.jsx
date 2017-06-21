@@ -85,9 +85,13 @@ class PostCreateForm extends React.Component {
   isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
 
   getSubmitButtonText(recipients) {
+    // If visibility level is direct OR it's empty list on "Direct messages" page, then "Send", otherwise "Post"
+    const submitAction = (getPostVisibilityLevel(recipients, this.props.user.id) === PostVisibilityLevels.DIRECT ||
+      (recipients.length === 0 && this.props.defaultRecipient === null) ? 'Send' : 'Post');
+
     const getRecipientName = (r) => (r.value === this.props.user.username ? <b>my feed</b> : <b>@{r.value}</b>);
-    const submitAction = (getPostVisibilityLevel(recipients, this.props.user.id) === PostVisibilityLevels.DIRECT ? 'Send' : 'Post');
     const recNames = recipients.map(getRecipientName);
+
     switch (recNames.length) {
       case 0: return <span>{submitAction} <i>(recipient missing)</i></span>;
       case 1: return <span>{submitAction} to {recNames[0]}</span>;
