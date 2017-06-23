@@ -28,7 +28,7 @@ export default class PostBookmarkletForm extends React.Component {
   //
   // Handling recipients, text typing and posting
 
-  checkCreatePostAvailability = (recipientsUpdated = false) => {
+  updateEmptinessState = (recipientsUpdated = false) => {
     let isFormEmpty = this.isPostTextEmpty() || this.postRecipients.values.length === 0;
 
     if (isFormEmpty !== this.state.isFormEmpty || recipientsUpdated === true) {
@@ -64,7 +64,7 @@ export default class PostBookmarkletForm extends React.Component {
   // Component lifecycle
 
   componentDidMount() {
-    setTimeout(this.checkCreatePostAvailability, 0);
+    setTimeout(this.updateEmptinessState, 0);
   }
 
   // Height of bookmarklet contents might change, in this case we should
@@ -120,14 +120,14 @@ export default class PostBookmarkletForm extends React.Component {
           feeds={this.props.sendTo.feeds}
           defaultFeed={this.props.sendTo.defaultFeed}
           user={this.props.user}
-          onChange={this.checkCreatePostAvailability}/>
+          onChange={this.updateEmptinessState}/>
 
         <textarea
           className="form-control post-textarea"
           ref={this.refPostText}
           defaultValue={this.props.postText}
           onKeyDown={this.checkIfEnterPressed}
-          onChange={this.checkCreatePostAvailability}
+          onChange={this.updateEmptinessState}
           rows={3}
           maxLength="1500"/>
 
@@ -149,7 +149,7 @@ export default class PostBookmarkletForm extends React.Component {
               ref={this.refCommentText}
               defaultValue={this.props.commentText}
               onKeyDown={this.checkIfEnterPressed}
-              onChange={this.checkCreatePostAvailability}
+              onChange={this.updateEmptinessState}
               rows={4}
               maxLength="1500"/>
           </div>
