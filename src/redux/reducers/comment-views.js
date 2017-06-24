@@ -68,9 +68,9 @@ export default function commentViews(state={}, action) {
       };
     }
     case ActionTypes.REALTIME_COMMENT_DESTROY: {
-      return { ...state,
-        [action.commentId]: undefined
-      };
+      const newState = { ...state };
+      delete newState[action.commentId];
+      return newState;
     }
     case ActionTypes.REALTIME_POST_NEW: {
       return updateCommentViews(state, action.comments || []);
