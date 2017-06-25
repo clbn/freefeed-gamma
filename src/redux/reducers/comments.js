@@ -21,14 +21,18 @@ export default function comments(state = {}, action) {
       return { ...state, [action.payload.comments.id]: { ...state[action.payload.comments.id], ...action.payload.comments } };
     }
     case response(ActionTypes.DELETE_COMMENT): {
-      return { ...state, [action.request.commentId]: undefined };
+      const newState = { ...state };
+      delete newState[action.request.commentId];
+      return newState;
     }
     case ActionTypes.REALTIME_COMMENT_NEW:
     case ActionTypes.REALTIME_COMMENT_UPDATE: {
       return mergeByIds(state, [action.comment]);
     }
     case ActionTypes.REALTIME_COMMENT_DESTROY: {
-      return { ...state, [action.commentId]: undefined };
+      const newState = { ...state };
+      delete newState[action.commentId];
+      return newState;
     }
     case response(ActionTypes.ADD_COMMENT): {
       return { ...state,
