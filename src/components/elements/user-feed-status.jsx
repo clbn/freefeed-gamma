@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const UserFeedStatus = (props) => (
   <span>
@@ -19,10 +20,10 @@ const UserFeedStatus = (props) => (
 );
 
 UserFeedStatus.propTypes = {
-  isPrivate: React.PropTypes.string.isRequired,
-  isProtected: React.PropTypes.string.isRequired,
-  isRestricted: React.PropTypes.string,
-  type: React.PropTypes.string.isRequired
+  isPrivate: PropTypes.string.isRequired,
+  isProtected: PropTypes.string.isRequired,
+  isRestricted: PropTypes.string,
+  type: PropTypes.string.isRequired
 };
 
 export default UserFeedStatus;

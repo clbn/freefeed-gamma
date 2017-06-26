@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const UserRelationshipStatus = (props) => (
   <span>
@@ -27,12 +28,12 @@ const UserRelationshipStatus = (props) => (
 );
 
 UserRelationshipStatus.propTypes = {
-  isBlocked: React.PropTypes.bool.isRequired,
-  hasRequestBeenSent: React.PropTypes.bool.isRequired,
-  amISubscribedToUser: React.PropTypes.bool.isRequired,
-  isUserSubscribedToMe: React.PropTypes.bool.isRequired,
-  amIGroupAdmin: React.PropTypes.bool.isRequired,
-  type: React.PropTypes.string.isRequired
+  isBlocked: PropTypes.bool.isRequired,
+  hasRequestBeenSent: PropTypes.bool.isRequired,
+  amISubscribedToUser: PropTypes.bool.isRequired,
+  isUserSubscribedToMe: PropTypes.bool.isRequired,
+  amIGroupAdmin: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired
 };
 
 export default UserRelationshipStatus;
