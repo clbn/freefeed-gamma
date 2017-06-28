@@ -322,7 +322,7 @@ class Post extends React.Component {
 
               <div>
                 <Textarea
-                  ref={this.refPostText}
+                  inputRef={this.refPostText}
                   className="form-control post-textarea"
                   defaultValue={props.body}
                   autoFocus={true}

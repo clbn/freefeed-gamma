@@ -176,7 +176,7 @@ class PostComment extends React.Component {
           <div className="comment-body">
             <div>
               <Textarea
-                ref={this.refCommentText}
+                inputRef={this.refCommentText}
                 className="form-control comment-textarea"
                 defaultValue={this.props.body}
                 autoFocus={true}

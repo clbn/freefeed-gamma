@@ -89,7 +89,7 @@ class PostCommentCreateForm extends React.Component {
           <div className="comment-body">
             <div>
               <Textarea
-                ref={this.bindTextarea}
+                inputRef={this.bindTextarea}
                 className="form-control comment-textarea"
                 defaultValue=""
                 autoFocus={true}
@@ -117,7 +117,7 @@ class PostCommentCreateForm extends React.Component {
           </div>
         ) : singlePost ? (
           <div className="comment-body">
-            <Textarea
+            <textarea
               className="form-control comment-textarea"
               rows={2}
               defaultValue=""
