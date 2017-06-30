@@ -117,7 +117,7 @@ class App extends React.Component {
       'dragover': this.state.isDragOver,
     });
 
-    const titlePrefix = (props.user.unreadDirectsNumber > 0 ? '(' + props.user.unreadDirectsNumber + ') ' : '');
+    const titlePrefix = (props.unreadDirectsNumber > 0 ? '(' + props.unreadDirectsNumber + ') ' : '');
     const title = titlePrefix + props.title;
 
     return (
@@ -149,8 +149,8 @@ class App extends React.Component {
                 <div className="mobile-sidebar-toggle" onTouchEnd={this.toggleSidebar} onClick={this.toggleSidebar}>
                   <i className="fa fa-bars" aria-hidden="true"></i>
                   <i className="fa fa-times" aria-hidden="true"></i>
-                  {props.user.unreadDirectsNumber > 0 ? (
-                    <span className="direct-messages-badge">{props.user.unreadDirectsNumber}</span>
+                  {props.unreadDirectsNumber > 0 ? (
+                    <span className="direct-messages-badge">{props.unreadDirectsNumber}</span>
                   ) : false}
                 </div>
               </div>
@@ -181,7 +181,7 @@ class App extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.user,
+    unreadDirectsNumber: state.user.unreadDirectsNumber,
     authenticated: state.authenticated,
     isLoading: state.routeLoadingState,
     routeName: getCurrentRouteName(ownProps),
