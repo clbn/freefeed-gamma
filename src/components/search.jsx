@@ -52,14 +52,13 @@ class Search extends React.Component {
 
 function mapStateToProps(state) {
   const isLoading = state.routeLoadingState;
-  const user = state.user;
   const authenticated = state.authenticated;
   const visibleEntries = getVisibleEntriesWithHidden(state);
   const boxHeader = state.boxHeader;
 
   const query = state.routing.locationBeforeTransitions.query.q || state.routing.locationBeforeTransitions.query.qs || '';
 
-  return { isLoading, user, authenticated, visibleEntries, boxHeader, query };
+  return { isLoading, authenticated, visibleEntries, boxHeader, query };
 }
 
 export default connect(mapStateToProps)(Search);
