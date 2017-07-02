@@ -86,10 +86,10 @@ class PostCreateForm extends React.Component {
 
   getSubmitButtonText(recipients) {
     // If visibility level is direct OR it's empty list on "Direct messages" page, then "Send", otherwise "Post"
-    const submitAction = (getPostVisibilityLevel(recipients, this.props.user.id) === PostVisibilityLevels.DIRECT ||
+    const submitAction = (getPostVisibilityLevel(recipients, this.props.me.id) === PostVisibilityLevels.DIRECT ||
       (recipients.length === 0 && this.props.defaultRecipient === null) ? 'Send' : 'Post');
 
-    const getRecipientName = (r) => (r.value === this.props.user.username ? <b>my feed</b> : <b>@{r.value}</b>);
+    const getRecipientName = (r) => (r.value === this.props.me.username ? <b>my feed</b> : <b>@{r.value}</b>);
     const recNames = recipients.map(getRecipientName);
 
     switch (recNames.length) {
@@ -224,7 +224,7 @@ class PostCreateForm extends React.Component {
               feeds={this.props.sendTo.feeds}
               defaultFeed={defaultFeed}
               peopleFirst={this.props.peopleFirst}
-              user={this.props.user}
+              user={this.props.me}
               onChange={this.updateEmptinessState}/>
           ) : false}
 
@@ -284,7 +284,7 @@ class PostCreateForm extends React.Component {
             {submitButtonText}
           </button>
 
-          <PostVisibilityIcon recipients={recipients} authorId={this.props.user.id}/>
+          <PostVisibilityIcon recipients={recipients} authorId={this.props.me.id}/>
         </div>
 
         {this.state.hasUploadFailed ? (
@@ -315,7 +315,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     createPostForm: state.createPostForm,
     attachments: state.attachments,
-    user: state.user,
+    me: state.user,
     sendTo: state.sendTo,
     defaultRecipient: (ownProps.defaultRecipient !== undefined ? ownProps.defaultRecipient : state.user.username),
     recipientFromUrl: state.routing.locationBeforeTransitions.query.to
