@@ -15,18 +15,18 @@ const RealtimeSwitch = (props) => (
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.user.id,
+    myId: state.user.id,
     frontendPreferences: state.user.frontendPreferences
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    toggle: (userId, frontendPreferences) => {
+    toggle: (myId, frontendPreferences) => {
       const realtimeActive = !frontendPreferences.realtimeActive;
 
       // Submit new preferences
-      dispatch(updateFrontendPreferences(userId, { ...frontendPreferences, realtimeActive }));
+      dispatch(updateFrontendPreferences(myId, { ...frontendPreferences, realtimeActive }));
 
       // Reload home feed if realtime activated
       if (realtimeActive) {
@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch) => {
 const mergeProps = (stateProps, dispatchProps) => {
   return {
     ...stateProps,
-    handleClick: () => dispatchProps.toggle(stateProps.userId, stateProps.frontendPreferences)
+    handleClick: () => dispatchProps.toggle(stateProps.myId, stateProps.frontendPreferences)
   };
 };
 
