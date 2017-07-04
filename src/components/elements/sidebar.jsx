@@ -8,17 +8,17 @@ import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
 
-const Sidebar = ({ user, signOut }) => (
+const Sidebar = ({ me, signOut }) => (
   <div className="col-md-3 sidebar-overlay" onClick={toggleSidebar}>
     <div className="sidebar" onClick={stopPropagation}>
       <div className="logged-in">
         <div className="userpic">
-          <Link to={`/${user.username}`} ><img src={user.profilePictureMediumUrl} width="50" height="50"/></Link>
+          <Link to={`/${me.username}`} ><img src={me.profilePictureMediumUrl} width="50" height="50"/></Link>
         </div>
 
         <div className="user">
           <div className="author">
-            <UserName user={user} display={user.screenName}/>
+            <UserName user={me} display={me.screenName}/>
           </div>
           <div>
             <Link to="/settings">settings</Link>
@@ -46,10 +46,10 @@ const Sidebar = ({ user, signOut }) => (
               My discussions
             </Link></li>
 
-            <li><Link to="/filter/direct" style={user.unreadDirectsNumber > 0 ? { fontWeight: 'bold' } : {}}>
+            <li><Link to="/filter/direct" style={me.unreadDirectsNumber > 0 ? { fontWeight: 'bold' } : {}}>
               <i className="fa fa-envelope fa-fw"></i>
               Direct messages
-              {user.unreadDirectsNumber > 0 ? ` (${user.unreadDirectsNumber})` : false}
+              {me.unreadDirectsNumber > 0 ? ` (${me.unreadDirectsNumber})` : false}
             </Link></li>
           </ul>
         </div>
@@ -119,7 +119,7 @@ const Sidebar = ({ user, signOut }) => (
 
 function makeMapStateToProps(state) {
   return {
-    user: state.user
+    me: state.user
   };
 }
 
