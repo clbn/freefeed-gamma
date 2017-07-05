@@ -86,7 +86,7 @@ class Bookmarklet extends React.Component {
         {props.authenticated ? (
           <PostBookmarkletForm
             sendTo={props.sendTo}
-            user={props.user}
+            user={props.me}
             postText={props.location.query.title + ' - ' + props.location.query.url}
             imageUrls={this.state.imageUrls}
             commentText={props.location.query.comment}
@@ -108,7 +108,7 @@ class Bookmarklet extends React.Component {
 function mapStateToProps(state) {
   return {
     authenticated: state.authenticated,
-    user: state.user,
+    me: state.user,
     sendTo: { ...state.sendTo, defaultFeed: state.user.username },
     createPostForm: joinCreatePostData(state)
   };
