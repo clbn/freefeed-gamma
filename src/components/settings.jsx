@@ -16,7 +16,7 @@ const Settings = (props) => (
         <br/>
 
         <UserSettingsForm
-          user={props.user}
+          user={props.me}
           updateUser={props.updateUser}
           resetUserSettingsForm={props.resetUserSettingsForm}
           {...props.userSettingsForm}/>
@@ -24,15 +24,15 @@ const Settings = (props) => (
         <hr/>
 
         <UserPictureForm
-          user={props.user}
+          user={props.me}
           updateUserPicture={props.updateUserPicture}
           {...props.userPictureForm}/>
 
         <hr/>
 
         <UserFrontendPreferencesForm
-          userId={props.user.id}
-          preferences={props.user.frontendPreferences}
+          userId={props.me.id}
+          preferences={props.me.frontendPreferences}
           updateFrontendPreferences={props.updateFrontendPreferences}
           {...props.frontendPreferencesForm}/>
 
@@ -48,7 +48,7 @@ const Settings = (props) => (
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    me: state.user,
     userSettingsForm: state.userSettingsForm,
     userPictureForm: state.userPictureForm,
     frontendPreferencesForm: state.frontendPreferencesForm,
