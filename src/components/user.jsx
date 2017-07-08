@@ -38,7 +38,7 @@ const User = (props) => {
 };
 
 function mapStateToProps(state, ownProps) {
-  const user = state.user;
+  const me = state.user;
   const authenticated = state.authenticated;
   const visibleEntries = getVisibleEntriesWithHidden(state);
   const boxHeader = state.boxHeader;
@@ -62,13 +62,13 @@ function mapStateToProps(state, ownProps) {
     isLoading: state.routeLoadingState,
     requestedUsername,
     isUserFound: !!foundUser,
-    isItMe: (foundUser ? foundUser.username === user.username : false),
+    isItMe: (foundUser ? foundUser.username === me.username : false),
     userView: (foundUser && state.userViews[foundUser.id] || {}),
     amIGroupAdmin,
-    amISubscribedToUser: authenticated && foundUser && (user.subscriptions.indexOf(foundUser.id) > -1),
-    isUserSubscribedToMe: authenticated && foundUser && (_.findIndex(user.subscribers, { id: foundUser.id }) > -1),
-    isBlocked: authenticated && foundUser && (user.banIds.indexOf(foundUser.id) > -1),
-    hasRequestBeenSent: authenticated && foundUser && ((user.pendingSubscriptionRequests || []).indexOf(foundUser.id) > -1)
+    amISubscribedToUser: authenticated && foundUser && (me.subscriptions.indexOf(foundUser.id) > -1),
+    isUserSubscribedToMe: authenticated && foundUser && (_.findIndex(me.subscribers, { id: foundUser.id }) > -1),
+    isBlocked: authenticated && foundUser && (me.banIds.indexOf(foundUser.id) > -1),
+    hasRequestBeenSent: authenticated && foundUser && ((me.pendingSubscriptionRequests || []).indexOf(foundUser.id) > -1)
   };
 
   statusExtension.canISeeSubsList = statusExtension.isUserFound &&
