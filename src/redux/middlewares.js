@@ -80,7 +80,7 @@ export const highlightedCommentsMiddleware = store => next => action => {
   if (action.type === ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS && !(action.payload || {}).processed) {
     const state = store.getState();
 
-    if (!state.user.frontendPreferences.comments.highlightComments) {
+    if (!state.me.frontendPreferences.comments.highlightComments) {
       return;
     }
 
@@ -237,11 +237,11 @@ const isPostEligibleForBump = (post, action, state) => {
   // already, and the app shouldn't bump it for this particular like.
 
   // 1. Is the post authored by me?
-  if (post.posts.createdBy === state.user.id) {
+  if (post.posts.createdBy === state.me.id) {
     return false;
   }
 
-  const areFriendsInList = list => list.filter(item => state.user.subscriptions.indexOf(item) > -1).length > 0;
+  const areFriendsInList = list => list.filter(item => state.me.subscriptions.indexOf(item) > -1).length > 0;
 
   // 2. Has the post been commented by my subscriptions?
   const commentAuthorIds = (post.comments || []).map(comment => comment.createdBy); // This check is lame if there are omitted comments :(
@@ -292,7 +292,7 @@ const bindHandlers = store => ({
     if (isFirstPage) {
 
       const isHomeFeed = state.routing.locationBeforeTransitions.pathname === '/';
-      const useRealtimePreference = state.user.frontendPreferences.realtimeActive;
+      const useRealtimePreference = state.me.frontendPreferences.realtimeActive;
 
       if (!isHomeFeed || (useRealtimePreference && isHomeFeed)) {
         return store.dispatch({ ...data, type: ActionTypes.REALTIME_POST_NEW, post: data.posts });
@@ -336,7 +336,7 @@ export const realtimeMiddleware = store => {
         realtimeConnection = init(handlers);
       }
       realtimeConnection.subscribe({
-        user: [state.user.id],
+        user: [state.me.id],
         timeline: [action.payload.timelines.id]
       });
     }
@@ -346,7 +346,7 @@ export const realtimeMiddleware = store => {
         realtimeConnection = init(handlers);
       }
       realtimeConnection.subscribe({
-        user: [state.user.id],
+        user: [state.me.id],
         post: [action.payload.posts.id]
       });
     }

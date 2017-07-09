@@ -38,7 +38,7 @@ const User = (props) => {
 };
 
 function mapStateToProps(state, ownProps) {
-  const me = state.user;
+  const me = state.me;
   const authenticated = state.authenticated;
   const visibleEntries = getVisibleEntriesWithHidden(state);
   const boxHeader = state.boxHeader;
@@ -51,7 +51,7 @@ function mapStateToProps(state, ownProps) {
     authenticated &&
     foundUser &&
     foundUser.type === 'group' &&
-    ((foundUser.administrators || []).indexOf(state.user.id) > -1)
+    ((foundUser.administrators || []).indexOf(me.id) > -1)
   );
 
   const currentRoute = getCurrentRouteName(ownProps);

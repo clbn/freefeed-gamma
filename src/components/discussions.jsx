@@ -37,7 +37,7 @@ function mapStateToProps(state, ownProps) {
   const boxHeader = state.boxHeader;
 
   const currentRoute = getCurrentRouteName(ownProps);
-  const defaultRecipient = (currentRoute === 'discussions' ? state.user.username : null);
+  const defaultRecipient = (currentRoute === 'discussions' ? state.me.username : null);
   const peopleFirst = (currentRoute !== 'discussions');
 
   return { isLoading, authenticated, visibleEntries, boxHeader, defaultRecipient, peopleFirst };

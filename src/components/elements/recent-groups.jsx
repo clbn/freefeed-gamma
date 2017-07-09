@@ -34,7 +34,7 @@ const RecentGroups = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const recentGroups = (state.user.subscriptions || [])
+  const recentGroups = (state.me.subscriptions || [])
     .map((id) => state.users[id] || {})
     .filter((u) => u.type === 'group')
     .sort((a, b) => parseInt(b.updatedAt) - parseInt(a.updatedAt))

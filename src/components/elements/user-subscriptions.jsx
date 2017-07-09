@@ -32,14 +32,14 @@ const UserSubscriptions = (props) => {
 };
 
 function mapStateToProps(state, ownProps) {
-  const isItMe = (state.user.username === ownProps.params.userName);
+  const isItMe = (state.me.username === ownProps.params.userName);
   let users = [];
   let sorting = null;
 
   if (isItMe) {
     // Subscriptions are the list of IDs, not users.
     // Subscriptions are in chronological order, so we need to reverse them.
-    users = (state.user.subscriptions || [])
+    users = (state.me.subscriptions || [])
       .map((id) => state.users[id] || {})
       .filter((u) => !!u.type)
       .reverse();

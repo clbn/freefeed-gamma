@@ -418,7 +418,7 @@ function makeMapStateToProps() {
 
   return (state, ownProps) => {
     const post = getPost(state, ownProps);
-    const myId = state.user.id;
+    const myId = state.me.id;
 
     return { ...post, myId };
   };

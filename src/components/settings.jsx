@@ -48,7 +48,7 @@ const Settings = (props) => (
 
 function mapStateToProps(state) {
   return {
-    me: state.user,
+    me: state.me,
     userSettingsForm: state.userSettingsForm,
     userPictureForm: state.userPictureForm,
     frontendPreferencesForm: state.frontendPreferencesForm,

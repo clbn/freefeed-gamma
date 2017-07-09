@@ -64,7 +64,7 @@ const userSubscriptionsActions = (next) => {
 };
 
 const friendsActions = () => {
-  const username = store.getState().user.username;
+  const username = store.getState().me.username;
   store.dispatch(ActionCreators.blockedByMe(username));
 };
 

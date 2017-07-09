@@ -13,7 +13,7 @@ const initUser = () => ({
   ...getPersistedUser()
 });
 
-export default function user(state = initUser(), action) {
+export default function me(state = initUser(), action) {
   if (ActionHelpers.isUserChangeResponse(action)) {
     const subscriptions = _.uniq((action.payload.subscriptions || []).map(sub => sub.user));
     return { ...state, ...userParser(action.payload.users), subscriptions };

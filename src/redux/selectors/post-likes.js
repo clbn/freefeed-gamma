@@ -38,7 +38,7 @@ const makeGetPostLikes = () => createSelector(
     (state, props) => state.posts[props.postId].likes || emptyArray,
     (state, props) => state.posts[props.postId].omittedLikes || 0,
     (state, props) => state.postViews[props.postId].isLoadingLikes || false,
-    (state) => state.user.id,
+    (state) => state.me.id,
     getUsers
   ],
   (userIds, omittedLikes, isLoadingLikes, myId, unsortedUsers) => {

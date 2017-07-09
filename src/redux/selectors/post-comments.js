@@ -68,7 +68,7 @@ const makeGetPostComments = () => createSelector(
     (state, props) => state.postViews[props.postId].isSavingComment,
     (state, props) => state.postViews[props.postId].commentError,
 
-    (state, props) => (state.posts[props.postId].createdBy === state.user.id),
+    (state, props) => (state.posts[props.postId].createdBy === state.me.id),
 
     getArchiveRevivalPosition
   ],

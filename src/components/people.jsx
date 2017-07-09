@@ -50,14 +50,14 @@ function mapStateToProps(state) {
 
   // Subscriptions are the list of IDs, not users.
   // Subscriptions are in chronological order, so we need to reverse them.
-  const subscriptionsList = (state.user.subscriptions || [])
+  const subscriptionsList = (state.me.subscriptions || [])
     .map((id) => state.users[id] || {})
     .filter((u) => u.type === 'user')
     .reverse();
 
   // Subscribers are the list of users, not IDs.
   // Subscribers are in reverse chronological order, so we don't need to sort them.
-  const subscribersList = (state.user.subscribers || [])
+  const subscribersList = (state.me.subscribers || [])
     .map((u) => state.users[u.id] || {})
     .filter((u) => u.type === 'user');
 

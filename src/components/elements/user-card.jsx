@@ -296,7 +296,7 @@ class UserCard extends React.Component {
 const mapStateToProps = (state) => {
   const userCardView = state.userCardView;
 
-  const me = state.user;
+  const me = state.me;
 
   const user = (_.find(state.users, { username: userCardView.username }) || {});
   if (!user.id) {

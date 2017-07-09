@@ -108,8 +108,8 @@ class Bookmarklet extends React.Component {
 function mapStateToProps(state) {
   return {
     authenticated: state.authenticated,
-    me: state.user,
-    sendTo: { ...state.sendTo, defaultFeed: state.user.username },
+    me: state.me,
+    sendTo: { ...state.sendTo, defaultFeed: state.me.username },
     createPostForm: joinCreatePostData(state)
   };
 }

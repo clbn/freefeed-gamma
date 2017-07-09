@@ -315,9 +315,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     createPostForm: state.createPostForm,
     attachments: state.attachments,
-    me: state.user,
+    me: state.me,
     sendTo: state.sendTo,
-    defaultRecipient: (ownProps.defaultRecipient !== undefined ? ownProps.defaultRecipient : state.user.username),
+    defaultRecipient: (ownProps.defaultRecipient !== undefined ? ownProps.defaultRecipient : state.me.username),
     recipientFromUrl: state.routing.locationBeforeTransitions.query.to
   };
 };

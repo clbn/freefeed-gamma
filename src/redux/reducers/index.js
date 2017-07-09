@@ -143,6 +143,7 @@ import commentViews from './comment-views';
 import createPostForm from './create-post-form';
 import feedViewState from './feed-view';
 import { groupCreateForm, groupSettingsForm, groupPictureForm } from './group-forms';
+import me from './me';
 import posts from './posts';
 import postViews from './post-views';
 import { groupRequests, userRequests, sentRequests } from './requests';
@@ -152,7 +153,6 @@ import signUpForm from './sign-up-form';
 import subscribers from './subscribers';
 import subscriptions from './subscriptions';
 import title from './title';
-import user from './user';
 import userCardView from './user-card-view';
 import { userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm } from './user-forms';
 import users from './users';
@@ -167,6 +167,7 @@ export {
   createPostForm,
   feedViewState,
   groupCreateForm, groupSettingsForm, groupPictureForm,
+  me,
   posts,
   postViews,
   groupRequests, userRequests, sentRequests,
@@ -176,7 +177,6 @@ export {
   subscribers,
   subscriptions,
   title,
-  user,
   userCardView,
   userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm,
   users,

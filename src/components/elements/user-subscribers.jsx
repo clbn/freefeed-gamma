@@ -54,7 +54,7 @@ const UserSubscribers = (props) => {
 };
 
 function mapStateToProps(state, ownProps) {
-  const isItMe = (state.user.username === ownProps.params.userName);
+  const isItMe = (state.me.username === ownProps.params.userName);
   let groupAdmins = [];
   let users = [];
   let sorting = null;
@@ -62,7 +62,7 @@ function mapStateToProps(state, ownProps) {
   if (isItMe) {
     // Subscribers are the list of users, not IDs.
     // Subscribers are in reverse chronological order, so we don't need to sort them.
-    users = (state.user.subscribers || [])
+    users = (state.me.subscribers || [])
       .map((u) => state.users[u.id] || {})
       .filter((u) => u.type === 'user');
 

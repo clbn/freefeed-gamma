@@ -68,7 +68,7 @@ const UserManageSubscribers = (props) => {
 };
 
 function mapStateToProps(state, ownProps) {
-  const myId = state.user.id;
+  const myId = state.me.id;
 
   const isLoading = state.usernameSubscribers.isPending;
 
@@ -83,7 +83,7 @@ function mapStateToProps(state, ownProps) {
   const users = _.sortBy(usersWhoAreNotAdmins, 'username');
 
   const amILastGroupAdmin = (
-    groupAdmins.find(u => u.username === state.user.username) != null &&
+    groupAdmins.find(u => u.username === state.me.username) != null &&
     groupAdmins.length == 1
   );
 

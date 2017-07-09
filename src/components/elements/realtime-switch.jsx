@@ -15,8 +15,8 @@ const RealtimeSwitch = (props) => (
 
 const mapStateToProps = (state) => {
   return {
-    myId: state.user.id,
-    frontendPreferences: state.user.frontendPreferences
+    myId: state.me.id,
+    frontendPreferences: state.me.frontendPreferences
   };
 };
 

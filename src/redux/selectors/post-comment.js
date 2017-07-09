@@ -15,8 +15,8 @@ const makeGetPostComment = () => createSelector(
       return state.users[authorId] || { id: authorId };
     },
     (state, props) => state.posts[props.postId].createdBy,
-    (state) => state.user.subscriptions,
-    (state) => state.user.id,
+    (state) => state.me.subscriptions,
+    (state) => state.me.id,
     (state, props) => state.routing.locationBeforeTransitions.hash === '#comment-' + props.id
   ],
   (comment, commentView, createdBy, postAuthorId, mySubscriptions, myId, isTargeted) => {

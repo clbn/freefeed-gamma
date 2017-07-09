@@ -181,7 +181,7 @@ class App extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    unreadDirectsNumber: state.user.unreadDirectsNumber,
+    unreadDirectsNumber: state.me.unreadDirectsNumber,
     authenticated: state.authenticated,
     isLoading: state.routeLoadingState,
     routeName: getCurrentRouteName(ownProps),

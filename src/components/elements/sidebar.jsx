@@ -119,7 +119,7 @@ const Sidebar = ({ me, signOut }) => (
 
 function makeMapStateToProps(state) {
   return {
-    me: state.user
+    me: state.me
   };
 }
 

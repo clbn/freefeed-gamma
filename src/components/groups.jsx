@@ -69,9 +69,9 @@ const Groups = (props) => {
 function mapStateToProps(state) {
   const groupRequests = state.groupRequests;
 
-  const me = state.user;
+  const me = state.me;
 
-  const groups = state.user.subscriptions
+  const groups = me.subscriptions
     .map((id) => state.users[id] || {})
     .filter((u) => u.type === 'group');
 
