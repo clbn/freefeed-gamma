@@ -38,11 +38,10 @@ function mapStateToProps(state, ownProps) {
 
   if (isItMe) {
     // Subscriptions are the list of IDs, not users.
-    // Subscriptions are in chronological order, so we need to reverse them.
+    // Subscriptions are in reverse chronological order, so we don't need to sort them.
     users = (state.me.subscriptions || [])
       .map((id) => state.users[id] || {})
-      .filter((u) => !!u.type)
-      .reverse();
+      .filter((u) => !!u.type);
 
     sorting = [
       { 'key': null, 'label': 'date you subscribed (most recent first)' },
