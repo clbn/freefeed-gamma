@@ -17,8 +17,11 @@ export default function users(state = {}, action) {
     case response(ActionTypes.GET_USER_INFO): {
       let newState = state;
 
-      // Add some users from "subscribers"
+      // Add some users from "subscribers" (that's actually your subscriPTIONs, both people and groups)
       newState = mergeByIds(newState, (action.payload.subscribers || []).map(userParser));
+
+      // Add some users from "users.subscribers" (that's real subscribers, people only)
+      newState = mergeByIds(newState, (action.payload.users.subscribers || []).map(userParser));
 
       // Add some users from "admins"
       newState = mergeByIds(newState, (action.payload.admins || []).map(userParser));
