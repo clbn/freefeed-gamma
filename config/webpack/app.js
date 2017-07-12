@@ -124,6 +124,8 @@ module.exports = function(opts) {
         silent: false
       }),
 
+      new webpack.optimize.ModuleConcatenationPlugin(),
+
       opts.uglify && new webpack.optimize.UglifyJsPlugin()
     ])
   };
