@@ -17,7 +17,7 @@ export default class UserFrontendPreferencesForm extends React.Component {
         displayOption: parseInt(event.target.value, 10)
       }
     });
-  }
+  };
 
   changeUseYou = (event) => {
     this.setState({
@@ -26,7 +26,7 @@ export default class UserFrontendPreferencesForm extends React.Component {
         useYou: event.target.checked
       }
     });
-  }
+  };
 
   changeHighlightComments = (event) => {
     this.setState({
@@ -35,13 +35,13 @@ export default class UserFrontendPreferencesForm extends React.Component {
         highlightComments: event.target.checked
       }
     });
-  }
+  };
 
   savePreferences = () => {
     if (this.props.status !== 'loading') {
       this.props.updateFrontendPreferences(this.props.userId, this.state);
     }
-  }
+  };
 
   render() {
     return (
