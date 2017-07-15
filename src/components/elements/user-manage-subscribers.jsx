@@ -49,7 +49,7 @@ const UserManageSubscribers = (props) => {
               removeAdminRights={demoteFromAdmin}/>
           )}
 
-          {props.users.length == 0 ? (
+          {props.users.length === 0 ? (
             <div>
               <h3>Other subscribers</h3>
               <div>There are none. You might want to invite a few friends.</div>
@@ -83,8 +83,8 @@ function mapStateToProps(state, ownProps) {
   const users = _.sortBy(usersWhoAreNotAdmins, 'username');
 
   const amILastGroupAdmin = (
-    groupAdmins.find(u => u.username === state.me.username) != null &&
-    groupAdmins.length == 1
+    groupAdmins.find(u => u.username === state.me.username) !== undefined &&
+    groupAdmins.length === 1
   );
 
   return { myId, isLoading, groupAdmins, users, amILastGroupAdmin };
