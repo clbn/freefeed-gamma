@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const UserRelationshipStatus = (props) => (
   <span>
-    {props.isBlocked ? (
+    {props.isUserBlockedByMe ? (
       <span><i className="fa fa-ban"></i> You've blocked the user</span>
     ) : props.hasRequestBeenSent ? (
       <span><i className="fa fa-clock-o"></i> You've sent sub request</span>
@@ -28,7 +28,7 @@ const UserRelationshipStatus = (props) => (
 );
 
 UserRelationshipStatus.propTypes = {
-  isBlocked: PropTypes.bool.isRequired,
+  isUserBlockedByMe: PropTypes.bool.isRequired,
   hasRequestBeenSent: PropTypes.bool.isRequired,
   amISubscribedToUser: PropTypes.bool.isRequired,
   isUserSubscribedToMe: PropTypes.bool.isRequired,

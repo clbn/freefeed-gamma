@@ -84,7 +84,7 @@ export default class UserProfile extends React.Component {
                   </div>
                 )}
               </div>
-              {props.statistics && !props.isBlocked ? (
+              {props.statistics && !props.isUserBlockedByMe ? (
                 <div className="col-sm-3 col-xs-12">
                   <div className="profile-stats">
                     {this.getProfileStatsItem('subscriber')}
@@ -117,7 +117,7 @@ export default class UserProfile extends React.Component {
               </div>
 
               <div className="col-sm-6 col-xs-12">
-                {props.isBlocked ? (
+                {props.isUserBlockedByMe ? (
                   <div className="profile-controls">
                     {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
 

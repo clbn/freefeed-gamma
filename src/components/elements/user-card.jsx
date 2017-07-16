@@ -238,7 +238,7 @@ class UserCard extends React.Component {
             )}
           </div>
 
-          {props.isBlocked ? (
+          {props.isUserBlockedByMe ? (
             <div className="user-card-actions">
               {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
 
@@ -317,7 +317,7 @@ const mapStateToProps = (state) => {
     amISubscribedToUser: ((me.subscriptions || []).indexOf(user.id) > -1),
     isUserSubscribedToMe: (_.findIndex(me.subscribers, { id: user.id }) > -1),
     hasRequestBeenSent: ((me.pendingSubscriptionRequests || []).indexOf(user.id) > -1),
-    isBlocked: ((me.banIds || []).indexOf(user.id) > -1),
+    isUserBlockedByMe: ((me.banIds || []).indexOf(user.id) > -1),
     amIGroupAdmin: (user.type === 'group' && (user.administrators || []).indexOf(me.id) > -1)
   };
 };

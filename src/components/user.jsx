@@ -67,7 +67,7 @@ function mapStateToProps(state, ownProps) {
     amIGroupAdmin,
     amISubscribedToUser: authenticated && foundUser && (me.subscriptions.indexOf(foundUser.id) > -1),
     isUserSubscribedToMe: authenticated && foundUser && (_.findIndex(me.subscribers, { id: foundUser.id }) > -1),
-    isBlocked: authenticated && foundUser && (me.banIds.indexOf(foundUser.id) > -1),
+    isUserBlockedByMe: authenticated && foundUser && (me.banIds.indexOf(foundUser.id) > -1),
     hasRequestBeenSent: authenticated && foundUser && ((me.pendingSubscriptionRequests || []).indexOf(foundUser.id) > -1)
   };
 
