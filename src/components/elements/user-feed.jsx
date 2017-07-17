@@ -9,6 +9,10 @@ export default (props) => (
       <div className="box-body feed-message">
         <p>You have blocked <b>{props.viewUser.screenName}</b>, so all of their posts and comments are invisible to you.</p>
       </div>
+    ) : props.viewUser.amIBlockedByUser ? (
+      <div className="box-body feed-message">
+        <p>No entries here yet. Either <b>{props.viewUser.screenName}</b> never posted to their feed, or they have blocked you.</p>
+      </div>
     ) : props.viewUser.isPrivate === '1' && !props.viewUser.amISubscribedToUser && !props.viewUser.isItMe ? (
       <div className="box-body feed-message">
         <p><b>{props.viewUser.screenName}</b> has a private feed.</p>

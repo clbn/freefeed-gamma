@@ -42,6 +42,7 @@ function mapStateToProps(state, ownProps) {
   const authenticated = state.authenticated;
   const visibleEntries = getVisibleEntriesWithHidden(state);
   const boxHeader = state.boxHeader;
+  const offset = +state.routing.locationBeforeTransitions.query.offset || 0;
   const requestedUsername = ownProps.params.userName;
   const foundUser = Object.getOwnPropertyNames(state.users)
     .map(key => state.users[key] || state.subscribers[key])
@@ -70,6 +71,10 @@ function mapStateToProps(state, ownProps) {
     isUserBlockedByMe: authenticated && foundUser && (me.banIds.indexOf(foundUser.id) > -1),
     hasRequestBeenSent: authenticated && foundUser && ((me.pendingSubscriptionRequests || []).indexOf(foundUser.id) > -1)
   };
+
+  statusExtension.amIBlockedByUser = authenticated && statusExtension.isUserFound &&
+    !statusExtension.isItMe && !statusExtension.isLoading &&
+    foundUser.isPrivate === '0' && foundUser.statistics.posts !== '0' && visibleEntries.length === 0 && offset === 0;
 
   statusExtension.canISeeSubsList = statusExtension.isUserFound &&
     (foundUser.isPrivate === '0' || statusExtension.amISubscribedToUser || statusExtension.isItMe);
