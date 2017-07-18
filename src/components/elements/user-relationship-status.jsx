@@ -5,6 +5,8 @@ const UserRelationshipStatus = (props) => (
   <span>
     {props.isUserBlockedByMe ? (
       <span><i className="fa fa-ban"></i> You've blocked the user</span>
+    ) : props.amIBlockedByUser ? (
+      <span><i className="fa fa-question-circle"></i> User may have blocked you</span>
     ) : props.hasRequestBeenSent ? (
       <span><i className="fa fa-clock-o"></i> You've sent sub request</span>
     ) : props.amISubscribedToUser ? (
@@ -29,6 +31,7 @@ const UserRelationshipStatus = (props) => (
 
 UserRelationshipStatus.propTypes = {
   isUserBlockedByMe: PropTypes.bool.isRequired,
+  amIBlockedByUser: PropTypes.bool,
   hasRequestBeenSent: PropTypes.bool.isRequired,
   amISubscribedToUser: PropTypes.bool.isRequired,
   isUserSubscribedToMe: PropTypes.bool.isRequired,
