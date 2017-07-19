@@ -36,7 +36,7 @@ UserRelationshipStatus.propTypes = {
   amISubscribedToUser: PropTypes.bool.isRequired,
   isUserSubscribedToMe: PropTypes.bool.isRequired,
   amIGroupAdmin: PropTypes.bool.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.oneOf(['user', 'group']).isRequired
 };
 
 export default UserRelationshipStatus;
