@@ -20,10 +20,10 @@ const UserFeedStatus = (props) => (
 );
 
 UserFeedStatus.propTypes = {
-  isPrivate: PropTypes.string.isRequired,
-  isProtected: PropTypes.string.isRequired,
-  isRestricted: PropTypes.string,
-  type: PropTypes.string.isRequired
+  isPrivate: PropTypes.oneOf(['0', '1']).isRequired,
+  isProtected: PropTypes.oneOf(['0', '1']).isRequired,
+  isRestricted: PropTypes.oneOf(['0', '1']),
+  type: PropTypes.oneOf(['user', 'group']).isRequired
 };
 
 export default UserFeedStatus;
