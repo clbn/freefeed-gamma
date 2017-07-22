@@ -45,13 +45,13 @@ class UserName extends React.Component {
       });
     }
     this.props.updateUserCard({ isHovered: true, username: this.props.user.username, rects, x: event.pageX, y: event.pageY });
-  }
+  };
 
   leaveUserName = () => {
     if (isMobile()) { return; }
 
     this.props.updateUserCard({ isHovered: false });
-  }
+  };
 
   render() {
     return (
