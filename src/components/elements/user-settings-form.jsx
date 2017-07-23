@@ -56,7 +56,7 @@ class FeedVisibilitySelector extends React.Component {
       </div>
     );
   };
-};
+}
 
 export default class UserSettingsForm extends React.Component {
   constructor(props) {
@@ -88,7 +88,7 @@ export default class UserSettingsForm extends React.Component {
     this.setState({
       [name]: event.target.value
     });
-  }
+  };
 
   changeVisibility = (newState) => {
     this.setState(newState);
@@ -101,7 +101,7 @@ export default class UserSettingsForm extends React.Component {
         this.state.description, this.state.isPrivate, this.state.isProtected
       );
     }
-  }
+  };
 
   componentWillUnmount() {
     this.props.resetUserSettingsForm();
