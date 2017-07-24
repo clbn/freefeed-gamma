@@ -48,10 +48,10 @@ export function routeLoadingState(state = false, action) {
   if (ActionHelpers.isFeedResponse(action) || ActionHelpers.isFeedFail(action)) {
     return false;
   }
-  if (action.type == request(ActionTypes.GET_SINGLE_POST)) {
+  if (action.type === request(ActionTypes.GET_SINGLE_POST)) {
     return true;
   }
-  if (action.type == response(ActionTypes.GET_SINGLE_POST) || action.type == fail(ActionTypes.GET_SINGLE_POST)) {
+  if (action.type === response(ActionTypes.GET_SINGLE_POST) || action.type === fail(ActionTypes.GET_SINGLE_POST)) {
     return false;
   }
   switch (action.type) {
@@ -66,14 +66,14 @@ export function singlePostId(state = null, action) {
   if (ActionHelpers.isFeedRequest(action)) {
     return null;
   }
-  if (action.type == request(ActionTypes.GET_SINGLE_POST)) {
+  if (action.type === request(ActionTypes.GET_SINGLE_POST)) {
     return action.payload.postId;
   }
   return state;
 }
 
 const handleUsers = (state, action, type, errorString) => {
-  if (action.type == request(type)) {
+  if (action.type === request(type)) {
     return {
       payload: [],
       isPending: true,
@@ -81,7 +81,7 @@ const handleUsers = (state, action, type, errorString) => {
     };
   }
 
-  if (action.type == response(type)) {
+  if (action.type === response(type)) {
     return {
       payload: (action.payload.subscribers || []).map(userParser),
       isPending: false,
@@ -89,7 +89,7 @@ const handleUsers = (state, action, type, errorString) => {
     };
   }
 
-  if (action.type == fail(type)) {
+  if (action.type === fail(type)) {
     return {
       payload: [],
       isPending: false,
@@ -101,7 +101,7 @@ const handleUsers = (state, action, type, errorString) => {
 };
 
 export function usernameSubscribers(state = {}, action) {
-  if (action.type == response(ActionTypes.UNSUBSCRIBE_FROM_GROUP)) {
+  if (action.type === response(ActionTypes.UNSUBSCRIBE_FROM_GROUP)) {
     const userName = action.request.userName;
     return {
       ...state,
