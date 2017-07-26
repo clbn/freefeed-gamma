@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { tileUserListFactory, PLAIN } from './tile-user-list';
-import throbber100 from 'assets/images/throbber.gif';
+import DummyTileList from './dummy-tile-list';
 
 const TileList = tileUserListFactory({ type: PLAIN });
 
@@ -23,7 +23,7 @@ const UserSubscriptions = (props) => {
       </h4>
 
       {props.isLoading ? (
-        <img width="100" height="100" src={throbber100}/>
+        <DummyTileList/>
       ) : (
         <TileList users={props.users} sorting={props.sorting}/>
       )}
