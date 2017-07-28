@@ -54,6 +54,18 @@ export function routeLoadingState(state = false, action) {
   if (action.type === response(ActionTypes.GET_SINGLE_POST) || action.type === fail(ActionTypes.GET_SINGLE_POST)) {
     return false;
   }
+  if (action.type === request(ActionTypes.GET_USER_SUBSCRIBERS)) {
+    return true;
+  }
+  if (action.type === response(ActionTypes.GET_USER_SUBSCRIBERS) || action.type === fail(ActionTypes.GET_USER_SUBSCRIBERS)) {
+    return false;
+  }
+  if (action.type === request(ActionTypes.GET_USER_SUBSCRIPTIONS)) {
+    return true;
+  }
+  if (action.type === response(ActionTypes.GET_USER_SUBSCRIPTIONS) || action.type === fail(ActionTypes.GET_USER_SUBSCRIPTIONS)) {
+    return false;
+  }
   switch (action.type) {
     case ActionTypes.UNAUTHENTICATED: {
       return false;
