@@ -63,7 +63,7 @@ const userSubscriptionsActions = (next) => {
   store.dispatch(ActionCreators.getUserSubscriptions(username));
 };
 
-const friendsActions = () => {
+const peopleActions = () => {
   const username = store.getState().me.username;
   store.dispatch(ActionCreators.blockedByMe(username));
 };
@@ -103,7 +103,7 @@ ReactDOM.render(
         <Route path="signup" component={Signup} onEnter={enterStaticPage('Sign up')}/>
 
         <Route path="settings" component={Settings} onEnter={enterStaticPage('Settings')}/>
-        <Route name="people" path="/people" component={People} onEnter={friendsActions}/>
+        <Route name="people" path="/people" component={People} onEnter={peopleActions}/>
         <Route name="friends" path="/friends" onEnter={redirectFriendsToPeople}/>
         <Route name="groups" path="/groups" component={Groups} onEnter={enterStaticPage('Groups')}/>
         <Route name="groupCreate" path="/groups/create" component={GroupCreate} onEnter={enterStaticPage('Create a group')}/>
