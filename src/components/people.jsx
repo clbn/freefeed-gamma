@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { pluralForm } from '../utils';
 import { acceptUserRequest, rejectUserRequest, revokeSentRequest } from '../redux/action-creators';
 import { tileUserListFactory, PLAIN, WITH_REQUEST_HANDLES, WITH_REVOKE_SENT_REQUEST } from './elements/tile-user-list';
+import DummyTileList from './elements/dummy-tile-list';
 
 const TileList = tileUserListFactory({ type: PLAIN, displayQuantity: true });
 const TileListWithAcceptAndReject = tileUserListFactory({ type: WITH_REQUEST_HANDLES, displayQuantity: true });
@@ -20,30 +21,49 @@ const People = (props) => {
         People
       </div>
       <div className="box-body">
-        <TileListWithAcceptAndReject
-          header={feedRequestsHeader}
-          users={props.feedRequests}
-          acceptRequest={props.acceptUserRequest}
-          rejectRequest={props.rejectUserRequest}/>
+        {props.isLoading.subs ? (
+          <DummyTileList/>
+        ) : (
+          <div>
+            <TileListWithAcceptAndReject
+              header={feedRequestsHeader}
+              users={props.feedRequests}
+              acceptRequest={props.acceptUserRequest}
+              rejectRequest={props.rejectUserRequest}/>
 
-        <TileListWithRevoke
-          header={sentRequestsHeader}
-          users={props.sentRequests}
-          revokeSentRequest={props.revokeSentRequest}/>
+            <TileListWithRevoke
+              header={sentRequestsHeader}
+              users={props.sentRequests}
+              revokeSentRequest={props.revokeSentRequest}/>
 
-        <TileList {...props.mutualSubscriptions}/>
+            <TileList {...props.mutualSubscriptions}/>
 
-        <TileList {...props.otherSubscriptions}/>
+            <TileList {...props.otherSubscriptions}/>
 
-        <TileList {...props.otherSubscribers}/>
+            <TileList {...props.otherSubscribers}/>
+          </div>
+        )}
 
-        <TileList {...props.blockedByMe}/>
+        {props.isLoading.blocked ? (
+          <DummyTileList/>
+        ) : (
+          <TileList {...props.blockedByMe}/>
+        )}
       </div>
     </div>
   );
 };
 
 function mapStateToProps(state) {
+  // Loading state(s)
+
+  const isLoading = {
+    'subs': state.me.isPending,
+    'blocked': state.usernameBlockedByMe.isPending
+  };
+
+  // Data
+
   const feedRequests = state.userRequests;
 
   const sentRequests = state.sentRequests;
@@ -100,7 +120,7 @@ function mapStateToProps(state) {
     users: state.usernameBlockedByMe.payload
   };
 
-  return { feedRequests, sentRequests, mutualSubscriptions, otherSubscriptions, otherSubscribers, blockedByMe };
+  return { isLoading, feedRequests, sentRequests, mutualSubscriptions, otherSubscriptions, otherSubscribers, blockedByMe };
 }
 
 function mapDispatchToProps(dispatch) {

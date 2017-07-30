@@ -16,9 +16,12 @@ const initUser = () => ({
 export default function me(state = initUser(), action) {
   if (ActionHelpers.isUserChangeResponse(action)) {
     const subscriptions = _.uniq((action.payload.subscriptions || []).map(sub => sub.user));
-    return { ...state, ...userParser(action.payload.users), subscriptions };
+    return { ...state, ...userParser(action.payload.users), subscriptions, isPending: false };
   }
   switch (action.type) {
+    case request(ActionTypes.WHO_AM_I): {
+      return { ...state, isPending: true };
+    }
     case response(ActionTypes.SEND_SUBSCRIPTION_REQUEST): {
       return { ...state,
         pendingSubscriptionRequests: [...(state.pendingSubscriptionRequests || []),
