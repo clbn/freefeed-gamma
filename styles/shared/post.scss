@@ -294,13 +294,13 @@ $line-height-post-body-single: 28px;
 
   color: desaturate(lighten(#1d66bf, 17%), 20%);
   opacity: 0.17; // To make it eventually the same color as the inside of a friend cloud icon
-  font-size: 65px;
-  top: 5px;
+  font-size: 90px;
+  top: 2px;
   right: 0;
 
   // Make it bigger on single post page
   .single-post & {
-    font-size: 98px;
+    font-size: 135px;
     top: 12px;
   }
 }
