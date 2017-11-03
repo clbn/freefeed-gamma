@@ -3,6 +3,7 @@ import {
   home,
   discussions,
   direct,
+  getSummary,
 
   // Public (content depends on URL params)
   getSearchResults,
@@ -26,6 +27,7 @@ export const routeActions = {
   'discussions': next => discussions(getOffset(next)),
   'direct': next => direct(getOffset(next)),
 
+  'summary': next => getSummary(next.params.days),
   'search': next => getSearchResults(getSearchQuery(next), getOffset(next)),
   'getUserInfo': next => getUserInfo(getUserName(next)),
   'userFeed': next => getUserFeed(next.params.userName, getOffset(next)),

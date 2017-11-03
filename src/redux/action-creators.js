@@ -525,6 +525,14 @@ export function updateUserCard(payload) {
   };
 }
 
+export function getSummary(days) {
+  return {
+    type: ActionTypes.GET_SUMMARY,
+    apiRequest: Api.getSummary,
+    payload: { days }
+  };
+}
+
 export function getSearchResults(query, offset) {
   return {
     type: ActionTypes.GET_SEARCH_RESULTS,
@@ -547,3 +555,4 @@ export function markDirectsAsRead() {
     apiRequest: Api.markDirectsAsRead
   };
 }
+

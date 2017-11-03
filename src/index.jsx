@@ -16,6 +16,7 @@ import { toggleSidebar } from './utils';
 import App from './components/app';
 import Home from './components/home';
 import Discussions from './components/discussions';
+import Summary from './components/summary';
 import Search from './components/search';
 import About from './components/about';
 import Terms from './components/terms';
@@ -110,6 +111,7 @@ ReactDOM.render(
 
         <Route name="direct" path="filter/direct" component={Discussions} {...getRouteHooks('direct')}/>
         <Route name="discussions" path="filter/discussions" component={Discussions} {...getRouteHooks('discussions')}/>
+        <Route name="summary" path="/summary/:days" component={Summary} {...getRouteHooks('summary')}/>
         <Route name="search" path="/search" component={Search} {...getRouteHooks('search')}/>
 
         <Route name="userFeed" path="/:userName" component={User} {...getRouteHooks('userFeed')}/>
