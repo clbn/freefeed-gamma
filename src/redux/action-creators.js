@@ -533,6 +533,15 @@ export function getSummary(days) {
   };
 }
 
+export function getUserSummary(username, days) {
+  return {
+    type: ActionTypes.GET_USER_SUMMARY,
+    apiRequest: Api.getUserSummary,
+    nonAuthRequest: true,
+    payload: { username, days }
+  };
+}
+
 export function getSearchResults(query, offset) {
   return {
     type: ActionTypes.GET_SEARCH_RESULTS,

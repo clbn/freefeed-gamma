@@ -16,7 +16,8 @@ export default function boxHeader(state = "", action) {
     case request(ActionTypes.DIRECT): {
       return { title: 'Direct messages', page: getPageByOffset(action.payload.offset) };
     }
-    case request(ActionTypes.GET_SUMMARY): {
+    case request(ActionTypes.GET_SUMMARY):
+    case request(ActionTypes.GET_USER_SUMMARY): {
       return { title: `Best of ${action.payload.days} days` };
     }
     case request(ActionTypes.GET_SEARCH_RESULTS): {

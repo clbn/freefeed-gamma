@@ -115,6 +115,7 @@ ReactDOM.render(
         <Route name="search" path="/search" component={Search} {...getRouteHooks('search')}/>
 
         <Route name="userFeed" path="/:userName" component={User} {...getRouteHooks('userFeed')}/>
+        <Route name="userSummary" path="/:userName/summary/:days" component={User} {...getRouteHooks('userSummary')}/>
         <Route name="userSubscribers" path="/:userName/subscribers" component={User} onEnter={userSubscribersActions}/>
         <Route name="userSubscriptions" path="/:userName/subscriptions" component={User} onEnter={userSubscriptionsActions}/>
         <Route name="userComments" path="/:userName/comments" component={User} {...getRouteHooks('userComments')}/>

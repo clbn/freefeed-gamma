@@ -471,6 +471,10 @@ export function getSummary({ days }) {
   return fetch(`${apiConfig.host}/v2/summary/${days}`, getRequestOptions());
 }
 
+export function getUserSummary({ username, days }) {
+  return fetch(`${apiConfig.host}/v2/summary/${username}/${days}`, getRequestOptions());
+}
+
 export function getSearchResults({ query, offset }) {
   // For empty query, just mock the call to API without actual request/response
   if (!query) {
