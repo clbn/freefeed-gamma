@@ -18,7 +18,13 @@ export default function boxHeader(state = "", action) {
     }
     case request(ActionTypes.GET_SUMMARY):
     case request(ActionTypes.GET_USER_SUMMARY): {
-      return { title: `Best of ${action.payload.days} days` };
+      let period = action.payload.days + ' days';
+      switch (+action.payload.days) {
+        case 1: period = 'day'; break;
+        case 7: period = 'week'; break;
+        case 30: period = 'month'; break;
+      }
+      return { title: `Best of ${period}` };
     }
     case request(ActionTypes.GET_SEARCH_RESULTS): {
       const query = (action.payload.query ? ': ' + action.payload.query : '');
