@@ -142,6 +142,17 @@ class PostComment extends React.Component {
       'fa-stack': true
     });
 
+    const clikesIconClasses = classnames({
+      'clikes-icon': true,
+      'clikes-icon-liked': this.props.hasOwnLike,
+      'fa-stack': true
+    });
+
+    const clikesNumberClasses = classnames({
+      'clikes-number': true,
+      'clikes-number-liked': this.props.hasOwnLike
+    });
+
     const commentPlaceholderText = this.getCommentPlaceholder();
 
     const dateISO = getISODate(+this.props.createdAt);
@@ -229,6 +240,19 @@ class PostComment extends React.Component {
                 <Link to={`${this.props.postUrl}#comment-${this.props.id}`} dir="auto">
                   <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
                 </Link>
+              </span>
+            ) : false}
+
+            {this.props.likes ? (
+              <span className="comment-likes">
+                {' - '}
+                <span className={clikesIconClasses}>
+                  <i className="fa fa-heart fa-stack-1x"></i>
+                  <i className="fa fa-heart-o fa-stack-1x"></i>
+                </span>
+                <span className={clikesNumberClasses}>
+                  {this.props.likes}
+                </span>
               </span>
             ) : false}
           </div>
