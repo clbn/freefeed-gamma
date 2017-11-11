@@ -60,6 +60,7 @@ const makeGetPostComments = () => createSelector(
     (state, props) => state.posts[props.postId].id,
     (state, props) => state.posts[props.postId].comments || emptyArray,
     (state, props) => state.posts[props.postId].omittedComments || 0,
+    (state, props) => state.posts[props.postId].omittedCommentLikes || 0,
     (state, props) => state.posts[props.postId].commentsDisabled,
 
     (state, props) => state.postViews[props.postId].isLoadingComments,
@@ -73,7 +74,7 @@ const makeGetPostComments = () => createSelector(
     getArchiveRevivalPosition
   ],
   (
-    id, comments, omittedComments, commentsDisabled,
+    id, comments, omittedComments, omittedCommentLikes, commentsDisabled,
     isLoadingComments, isModeratingComments, isCommenting, isSavingComment, commentError,
     isEditable,
     archiveRevivalPosition
@@ -82,6 +83,7 @@ const makeGetPostComments = () => createSelector(
       id,
       comments,
       omittedComments,
+      omittedCommentLikes,
       commentsDisabled,
 
       isLoadingComments,

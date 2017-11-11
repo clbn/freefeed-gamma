@@ -2,6 +2,9 @@ import React from 'react';
 
 import { preventDefault } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
+import { pluralForm } from "../../utils/index";
+
+const getOmittedClikes = (n) => (n ? ' with ' + pluralForm(n, 'like') : '');
 
 export default (props) => (
   <div className="comment">
@@ -13,7 +16,8 @@ export default (props) => (
     <a className="more-comments-link"
        href={props.postUrl}
        onClick={preventDefault(props.showMoreComments)}>
-      {`${props.omittedComments}`} more comments
+      {props.omittedComments} more comments
     </a>
+    <span className="more-comments-clikes">{getOmittedClikes(props.omittedCommentLikes)}</span>
   </div>
 );

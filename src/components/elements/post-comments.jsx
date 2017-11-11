@@ -88,6 +88,7 @@ class PostComments extends React.Component {
         {showOmittedNumber ? (
           <PostCommentsMore
             omittedComments={props.post.omittedComments}
+            omittedCommentLikes={props.post.omittedCommentLikes}
             showMoreComments={this.showMoreComments}
             postUrl={props.postUrl}
             isLoading={props.post.isLoadingComments}/>
