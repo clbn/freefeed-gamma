@@ -3,6 +3,15 @@ import * as ActionHelpers from '../action-helpers';
 
 const { response, fail } = ActionHelpers;
 
+const getSummaryPeriod = (days) => {
+  switch (+days) {
+    case 1: return 'day';
+    case 7: return 'week';
+    case 30: return 'month';
+    default: return days + ' days';
+  }
+};
+
 export default function title(state = '', action) {
   switch (action.type) {
     case response(ActionTypes.HOME): {
@@ -13,6 +22,10 @@ export default function title(state = '', action) {
     }
     case response(ActionTypes.DISCUSSIONS): {
       return 'My discussions - FreeFeed';
+    }
+    case response(ActionTypes.GET_SUMMARY): {
+      const period = getSummaryPeriod(action.request.days);
+      return `Best of ${period} - FreeFeed`;
     }
     case response(ActionTypes.GET_SEARCH_RESULTS): {
       if (action.request.query) {
@@ -25,6 +38,14 @@ export default function title(state = '', action) {
       const user = (action.payload.users || []).filter(user => user.username === action.request.username)[0];
       const author = user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
       return `${author} - FreeFeed`;
+    }
+    case response(ActionTypes.GET_USER_SUMMARY): {
+      const period = getSummaryPeriod(action.request.days);
+      const user = (action.payload.users || []).filter(user => user.username === action.request.username)[0];
+      const author = user
+        ? user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '')
+        : action.request.username;
+      return `Best of ${period} - ${author} - FreeFeed`;
     }
     case response(ActionTypes.GET_SINGLE_POST): {
       const text = (action.payload.posts.body || '').substr(0, 60);
