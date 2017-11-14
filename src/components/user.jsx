@@ -87,13 +87,14 @@ function mapStateToProps(state, ownProps) {
   statusExtension.canIPostHere = statusExtension.isUserFound && isInUserPostFeed &&
     (statusExtension.isItMe || (foundUser.type === 'group' && canIPostToGroup));
 
+  const showSummaryHeader = (currentRoute === 'userSummary');
   const showPaginationHeader = !isInUserPostFeed || boxHeader.page > 1;
 
   const viewUser = { ...(foundUser), ...statusExtension };
 
   const defaultRecipient = (foundUser ? foundUser.username : null);
 
-  return { visibleEntries, boxHeader, viewUser, currentRoute, isInUserPostFeed, showPaginationHeader, defaultRecipient };
+  return { visibleEntries, boxHeader, viewUser, currentRoute, isInUserPostFeed, showSummaryHeader, showPaginationHeader, defaultRecipient };
 }
 
 function mapDispatchToProps(dispatch) {
