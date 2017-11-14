@@ -497,3 +497,7 @@ export function getUnreadDirects() {
 export function markDirectsAsRead() {
   return fetch(`${apiConfig.host}/v2/users/markAllDirectsAsRead`, getRequestOptions());
 }
+
+export function getCommentLikes({ commentId }) {
+  return fetch(`${apiConfig.host}/v2/comments/${commentId}/likes`, getRequestOptions());
+}

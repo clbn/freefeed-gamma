@@ -18,6 +18,7 @@ import {
   toggleCommenting, addComment,
   toggleEditingComment, saveEditingComment,
   updateHighlightedComments,
+  getCommentLikes,
   deleteComment
 } from '../redux/action-creators';
 
@@ -50,8 +51,9 @@ export function postActions(dispatch) {
     commentEdit: {
       toggleEditingComment: (commentId) => dispatch(toggleEditingComment(commentId)),
       saveEditingComment: (commentId, newValue) => dispatch(saveEditingComment(commentId, newValue)),
-      deleteComment: (commentId) => dispatch(deleteComment(commentId)),
-      updateHighlightedComments: (...args) => dispatch(updateHighlightedComments(...args))
+      updateHighlightedComments: (...args) => dispatch(updateHighlightedComments(...args)),
+      getCommentLikes: (commentId) => dispatch(getCommentLikes(commentId)),
+      deleteComment: (commentId) => dispatch(deleteComment(commentId))
     },
   };
 }

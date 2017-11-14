@@ -152,6 +152,7 @@ import authenticated from './authenticated';
 import boxHeader from './box-header';
 import comments from './comments';
 import commentViews from './comment-views';
+import commentLikesViews from './comment-likes-views';
 import createPostForm from './create-post-form';
 import feedViewState from './feed-view';
 import { groupCreateForm, groupSettingsForm, groupPictureForm } from './group-forms';
@@ -176,6 +177,7 @@ export {
   boxHeader,
   comments,
   commentViews,
+  commentLikesViews,
   createPostForm,
   feedViewState,
   groupCreateForm, groupSettingsForm, groupPictureForm,

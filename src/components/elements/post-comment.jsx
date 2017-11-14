@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import { makeGetPostComment } from '../../redux/selectors';
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
+import PostCommentLikes from './post-comment-likes';
 import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
 import { postActions } from '../../redux/select-utils';
 import * as CommentTypes from '../../utils/comment-types';
@@ -142,17 +143,6 @@ class PostComment extends React.Component {
       'fa-stack': true
     });
 
-    const clikesIconClasses = classnames({
-      'clikes-icon': true,
-      'clikes-icon-liked': this.props.hasOwnLike,
-      'fa-stack': true
-    });
-
-    const clikesNumberClasses = classnames({
-      'clikes-number': true,
-      'clikes-number-liked': this.props.hasOwnLike
-    });
-
     const commentPlaceholderText = this.getCommentPlaceholder();
 
     const dateISO = getISODate(+this.props.createdAt);
@@ -243,18 +233,7 @@ class PostComment extends React.Component {
               </span>
             ) : false}
 
-            {this.props.likes ? (
-              <span className="comment-likes">
-                {' - '}
-                <span className={clikesIconClasses}>
-                  <i className="fa fa-heart fa-stack-1x"></i>
-                  <i className="fa fa-heart-o fa-stack-1x"></i>
-                </span>
-                <span className={clikesNumberClasses}>
-                  {this.props.likes}
-                </span>
-              </span>
-            ) : false}
+            <PostCommentLikes commentId={this.props.id} likes={this.props.likes} hasOwnLike={this.props.hasOwnLike}/>
           </div>
         )}
       </div>

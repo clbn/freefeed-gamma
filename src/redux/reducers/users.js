@@ -72,6 +72,7 @@ export default function users(state = {}, action) {
     }
     case response(ActionTypes.SHOW_MORE_COMMENTS):
     case response(ActionTypes.SHOW_MORE_LIKES_ASYNC):
+    case response(ActionTypes.GET_COMMENT_LIKES):
     case response(ActionTypes.GET_SINGLE_POST): {
       return mergeByIds(state, (action.payload.users || []).map(userParser));
     }
