@@ -111,11 +111,11 @@ ReactDOM.render(
 
         <Route name="direct" path="filter/direct" component={Discussions} {...getRouteHooks('direct')}/>
         <Route name="discussions" path="filter/discussions" component={Discussions} {...getRouteHooks('discussions')}/>
-        <Route name="summary" path="/summary/:days" component={Summary} {...getRouteHooks('summary')}/>
+        <Route name="summary" path="/summary(/:days)" component={Summary} {...getRouteHooks('summary')}/>
         <Route name="search" path="/search" component={Search} {...getRouteHooks('search')}/>
 
         <Route name="userFeed" path="/:userName" component={User} {...getRouteHooks('userFeed')}/>
-        <Route name="userSummary" path="/:userName/summary/:days" component={User} {...getRouteHooks('userSummary')}/>
+        <Route name="userSummary" path="/:userName/summary(/:days)" component={User} {...getRouteHooks('userSummary')}/>
         <Route name="userSubscribers" path="/:userName/subscribers" component={User} onEnter={userSubscribersActions}/>
         <Route name="userSubscriptions" path="/:userName/subscriptions" component={User} onEnter={userSubscriptionsActions}/>
         <Route name="userComments" path="/:userName/comments" component={User} {...getRouteHooks('userComments')}/>
