@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import { getVisibleEntriesWithHidden } from '../redux/selectors';
+import { getSummaryPeriod } from "../utils/index";
 import Feed from './elements/feed';
 
 class Summary extends React.Component {
@@ -23,6 +24,8 @@ class Summary extends React.Component {
             {+props.params.days === 30 ? <b>month</b> : <Link to={`/summary/30`}>month</Link>}
           </div>
         </div>
+
+        <div className="box-subheader">The most popular entries among your friends in the past {getSummaryPeriod(props.params.days)}</div>
 
         {props.isLoading || props.visibleEntries.length ? (
           <Feed {...props}/>

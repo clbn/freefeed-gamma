@@ -37,7 +37,7 @@
     float: right;
     font-size: 14px;
     font-weight: normal;
-    line-height: 28px;
+    line-height: 30px;
 
     @media (max-width: 512px) {
       text-transform: capitalize;
@@ -47,6 +47,11 @@
       }
     }
   }
+}
+
+.box-subheader {
+  font-style: italic;
+  margin-bottom: 7px;
 }
 
 .box-message {
