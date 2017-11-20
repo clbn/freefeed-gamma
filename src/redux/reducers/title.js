@@ -1,16 +1,8 @@
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
+import { getSummaryPeriod } from '../../utils';
 
 const { response, fail } = ActionHelpers;
-
-const getSummaryPeriod = (days) => {
-  switch (+days) {
-    case 1: return 'day';
-    case 7: return 'week';
-    case 30: return 'month';
-    default: return days + ' days';
-  }
-};
 
 export default function title(state = '', action) {
   switch (action.type) {

@@ -1,5 +1,6 @@
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
+import { getSummaryPeriod } from '../../utils';
 
 const { request } = ActionHelpers;
 
@@ -18,12 +19,7 @@ export default function boxHeader(state = "", action) {
     }
     case request(ActionTypes.GET_SUMMARY):
     case request(ActionTypes.GET_USER_SUMMARY): {
-      let period = action.payload.days + ' days';
-      switch (+action.payload.days) {
-        case 1: period = 'day'; break;
-        case 7: period = 'week'; break;
-        case 30: period = 'month'; break;
-      }
+      const period = getSummaryPeriod(action.payload.days);
       return { title: `Best of ${period}` };
     }
     case request(ActionTypes.GET_SEARCH_RESULTS): {

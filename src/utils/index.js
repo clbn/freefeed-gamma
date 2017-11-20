@@ -216,3 +216,12 @@ export function getPostVisibilityLevel(recipients, authorId) {
   // Calculate combined level for post
   return Math.min(...recipientLevels);
 }
+
+export function getSummaryPeriod(days) {
+  switch (+days) {
+    case 1: return 'day';
+    case 7: return 'week';
+    case 30: return 'month';
+    default: return days + ' days';
+  }
+}
