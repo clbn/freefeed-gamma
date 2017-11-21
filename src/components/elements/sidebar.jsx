@@ -51,6 +51,11 @@ const Sidebar = ({ me, signOut }) => (
               Direct messages
               {me.unreadDirectsNumber > 0 ? ` (${me.unreadDirectsNumber})` : false}
             </Link></li>
+
+            <li><Link to="/summary/1">
+              <i className="fa fa-heart fa-fw"></i>
+              Best of day
+            </Link></li>
           </ul>
         </div>
         <div className="box-footer">
