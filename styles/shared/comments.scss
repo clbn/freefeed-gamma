@@ -133,6 +133,11 @@
 
   .more-comments-link {
     font-style: italic;
+    text-decoration: none;
+
+    &:hover .more-comments-core {
+      text-decoration: underline;
+    }
   }
 
   .more-comments-clikes {

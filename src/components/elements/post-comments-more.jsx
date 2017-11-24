@@ -16,8 +16,10 @@ export default (props) => (
     <a className="more-comments-link"
        href={props.postUrl}
        onClick={preventDefault(props.showMoreComments)}>
-      {props.omittedComments} more comments
+
+      <span className="more-comments-core">{props.omittedComments} more comments</span>
+
+      <span className="more-comments-clikes">{getOmittedClikes(props.omittedCommentLikes)}</span>
     </a>
-    <span className="more-comments-clikes">{getOmittedClikes(props.omittedCommentLikes)}</span>
   </div>
 );
