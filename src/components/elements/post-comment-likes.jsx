@@ -50,7 +50,7 @@ class PostCommentLikes extends React.Component {
 
     return (this.props.likes ? (
       <span className="comment-likes">
-        {' - '}
+        {'-\u00a0'}
         <Tooltip
           animation="fade"
           arrow={true}
