@@ -309,6 +309,8 @@ const bindHandlers = store => ({
   'comment:destroy': data => store.dispatch({ type: ActionTypes.REALTIME_COMMENT_DESTROY, commentId: data.commentId, postId: data.postId }),
   'like:new': data => maybeGetRespectivePost(store, data.meta.postId, { type: ActionTypes.REALTIME_LIKE_NEW, postId: data.meta.postId, users: [data.users] }),
   'like:remove': data => store.dispatch({ type: ActionTypes.REALTIME_LIKE_REMOVE, postId: data.meta.postId, userId: data.meta.userId }),
+  'comment_like:new': data => store.dispatch({ type: ActionTypes.REALTIME_COMMENT_UPDATE, comment: data.comments }),
+  'comment_like:remove': data => store.dispatch({ type: ActionTypes.REALTIME_COMMENT_UPDATE, comment: data.comments }),
 });
 
 export const realtimeMiddleware = store => {
