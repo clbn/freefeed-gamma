@@ -69,6 +69,13 @@
     white-space: nowrap;
     cursor: pointer;
 
+    [data-tooltipped] {
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
     .clikes-icon {
       opacity: 0.8;
       $clike-icon-color: #ffb914;

@@ -58,7 +58,7 @@
     "react-router-redux": "^4.0.4",
     "react-select-plus": "^1.0.0-rc.5",
     "react-textarea-autosize": "^5.0.7",
-    "react-tippy": "^1.2.2",
+    "react-tippy": "clbn/react-tippy",
     "redux": "^3.7.1",
     "reselect": "^2.5.4",
     "sass-loader": "^6.0.6",

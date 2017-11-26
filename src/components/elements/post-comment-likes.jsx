@@ -22,6 +22,24 @@ const renderClike = (item, i, items) => (
 );
 
 class PostCommentLikes extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpen: false
+    };
+  }
+
+  handleClick = () => {
+    if (!this.state.isOpen) {
+      this.setState({ isOpen: true });
+    }
+  };
+
+  handleRequestClose = () => {
+    this.setState({ isOpen: false });
+  };
+
   handleShowTooltip = () => {
     this.props.getCommentLikes(this.props.commentId);
   };
@@ -56,19 +74,23 @@ class PostCommentLikes extends React.Component {
           arrow={true}
           html={clikesList}
           interactive={true}
+          onRequestClose={this.handleRequestClose}
           onShow={this.handleShowTooltip}
+          open={this.state.isOpen}
           position="bottom-start"
           theme="gamma"
-          trigger="click"
+          trigger="manual"
           unmountHTMLWhenHide={true}
           useContext={true}>
 
-          <span className={iconClasses}>
-            <i className="fa fa-heart fa-stack-1x"></i>
-            <i className="fa fa-heart-o fa-stack-1x"></i>
-          </span>
-          <span className={numberClasses}>
-            {this.props.likes}
+          <span onClick={this.handleClick}>
+            <span className={iconClasses}>
+              <i className="fa fa-heart fa-stack-1x"></i>
+              <i className="fa fa-heart-o fa-stack-1x"></i>
+            </span>
+            <span className={numberClasses}>
+              {this.props.likes}
+            </span>
           </span>
 
         </Tooltip>
