@@ -237,7 +237,7 @@ class PostComment extends React.Component {
 
             {' '}
 
-            <PostCommentLikes commentId={this.props.id} likes={this.props.likes} hasOwnLike={this.props.hasOwnLike}/>
+            <PostCommentLikes commentId={this.props.id}/>
           </div>
         )}
       </div>

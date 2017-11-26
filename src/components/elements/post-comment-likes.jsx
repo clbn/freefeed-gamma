@@ -58,7 +58,7 @@ class PostCommentLikes extends React.Component {
 
     const clikesList = (
       !this.props.status || this.props.status === 'loading' ? (
-        <div className="clikes-loading">Loading {this.props.likes} likes...</div>
+        <div className="clikes-loading">Loading {this.props.quantity} likes...</div>
       ) : this.props.status === 'error' ? (
         <div className="clikes-error">{this.props.errorMessage}</div>
       ) : (
@@ -66,7 +66,7 @@ class PostCommentLikes extends React.Component {
       )
     );
 
-    return (this.props.likes ? (
+    return (this.props.quantity ? (
       <span className="comment-likes">
         {'-\u00a0'}
         <Tooltip
@@ -89,7 +89,7 @@ class PostCommentLikes extends React.Component {
               <i className="fa fa-heart-o fa-stack-1x"></i>
             </span>
             <span className={numberClasses}>
-              {this.props.likes}
+              {this.props.quantity}
             </span>
           </span>
 

@@ -35,12 +35,16 @@ const getUsers = createSelector(
 
 const makeGetClikes = () => createSelector(
   [
+    (state, props) => state.comments[props.commentId] && state.comments[props.commentId].likes || 0,
+    (state, props) => state.comments[props.commentId] && state.comments[props.commentId].hasOwnLike || false,
     (state, props) => state.commentLikesViews[props.commentId] && state.commentLikesViews[props.commentId].status || false,
     (state, props) => state.commentLikesViews[props.commentId] && state.commentLikesViews[props.commentId].errorMessage || false,
     getUsers
   ],
-  (status, errorMessage, users) => {
+  (quantity, hasOwnLike, status, errorMessage, users) => {
     return {
+      quantity,
+      hasOwnLike,
       status,
       errorMessage,
       users
