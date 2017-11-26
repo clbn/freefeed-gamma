@@ -51,17 +51,20 @@ export default function commentViews(state={}, action) {
       return newState;
     }
     case response(ActionTypes.ADD_COMMENT): {
+      const id = action.payload.comments.id;
       return { ...state,
-        [action.payload.comments.id]: {
+        [id]: { ...state[id],
           id: action.payload.comments.id,
           isEditing: false
         }
       };
     }
+
     case ActionTypes.REALTIME_COMMENT_NEW:
     case ActionTypes.REALTIME_COMMENT_UPDATE: {
+      const id = action.comment.id;
       return { ...state,
-        [action.comment.id]: {
+        [id]: { ...state[id],
           id: action.comment.id,
           isEditing: false
         }
