@@ -136,34 +136,8 @@ export default function postViews(state = {}, action) {
         }
       };
     }
-    case request(ActionTypes.LIKE_POST): {
-      const post = state[action.payload.postId];
-      return { ...state,
-        [post.id]: {
-          ...post,
-          isLiking: true
-        } };
-    }
-    case response(ActionTypes.LIKE_POST): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: {
-          ...post,
-          isLiking: false
-        }
-      };
-    }
-    case fail(ActionTypes.LIKE_POST): {
-      const post = state[action.request.postId];
-      const errorString = 'Something went wrong while liking the post...';
-      return { ...state,
-        [post.id]: {
-          ...post,
-          isLiking: false,
-          likeError: errorString
-        }
-      };
-    }
+
+    case request(ActionTypes.LIKE_POST):
     case request(ActionTypes.UNLIKE_POST): {
       const post = state[action.payload.postId];
       return { ...state,
@@ -172,6 +146,7 @@ export default function postViews(state = {}, action) {
           isLiking: true
         } };
     }
+    case response(ActionTypes.LIKE_POST):
     case response(ActionTypes.UNLIKE_POST): {
       const post = state[action.request.postId];
       return { ...state,
@@ -181,9 +156,10 @@ export default function postViews(state = {}, action) {
         }
       };
     }
+    case fail(ActionTypes.LIKE_POST):
     case fail(ActionTypes.UNLIKE_POST): {
       const post = state[action.request.postId];
-      const errorString = 'Something went wrong while un-liking the post...';
+      const errorString = 'Something went wrong while liking the post...';
       return { ...state,
         [post.id]: {
           ...post,
