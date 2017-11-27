@@ -103,8 +103,6 @@ class PostCommentLikes extends React.Component {
           useContext={true}>
 
           <span className="clikes-trigger" onClick={this.handleClick}>
-            <img className="clikes-throbber" width="14" height="14" src={throbber16}/>
-
             <span className="clikes-icon fa-stack">
               <i className="fa fa-heart fa-stack-1x"></i>
               <i className="fa fa-heart-o fa-stack-1x"></i>
@@ -118,6 +116,8 @@ class PostCommentLikes extends React.Component {
               <i className="fa fa-plus"></i>
               <i className="fa fa-minus"></i>
             </span>
+
+            <img className="clikes-throbber" width="12" height="12" src={throbber16}/>
           </span>
 
         </Tooltip>

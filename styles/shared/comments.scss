@@ -79,11 +79,6 @@
       user-select: none;
     }
 
-    .clikes-throbber {
-      display: none;
-      margin: -1px 0 0 -1px;
-    }
-
     .clikes-icon {
       opacity: 0.8;
 
@@ -122,6 +117,11 @@
       .fa-minus { display: none; }
     }
 
+    .clikes-throbber {
+      display: none;
+      margin: -2px -1px 0 0;
+    }
+
     &.clikes-zero {
       color: #ddd;
 
@@ -147,8 +147,8 @@
     }
 
     &.clikes-liking {
+      .clikes-sign { display: none !important; }
       .clikes-throbber { display: inherit; }
-      .clikes-icon { display: none; }
     }
 
     &.clikes-liked {
