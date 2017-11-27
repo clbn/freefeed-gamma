@@ -26,6 +26,16 @@ export default function commentLikesView(state = {}, action) {
         },
       };
     }
+
+    case response(ActionTypes.LIKE_COMMENT):
+    case response(ActionTypes.UNLIKE_COMMENT): {
+      const view = state[action.request.commentId] || {};
+      return { ...state,
+        [action.request.commentId]: { ...view,
+          userIds: action.payload.likes && action.payload.likes.map(l => l.userId) || []
+        }
+      };
+    }
   }
   return state;
 }
