@@ -99,7 +99,7 @@ class PostCommentLikes extends React.Component {
           unmountHTMLWhenHide={true}
           useContext={true}>
 
-          <span onClick={this.handleClick}>
+          <span className="clikes-trigger" onClick={this.handleClick}>
             <img className="clikes-throbber" width="14" height="14" src={throbber16}/>
 
             <span className="clikes-icon fa-stack">
