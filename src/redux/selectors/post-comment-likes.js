@@ -37,15 +37,20 @@ const makeGetClikes = () => createSelector(
   [
     (state, props) => state.comments[props.commentId] && state.comments[props.commentId].likes || 0,
     (state, props) => state.comments[props.commentId] && state.comments[props.commentId].hasOwnLike || false,
+
+    (state, props) => state.comments[props.commentId] && state.comments[props.commentId].createdBy || false,
+    (state) => state.me.id,
+
     (state, props) => state.commentViews[props.commentId] && state.commentViews[props.commentId].isLiking || false,
     (state, props) => state.commentLikesViews[props.commentId] && state.commentLikesViews[props.commentId].status || false,
     (state, props) => state.commentLikesViews[props.commentId] && state.commentLikesViews[props.commentId].errorMessage || false,
     getUsers
   ],
-  (quantity, hasOwnLike, isLiking, status, errorMessage, users) => {
+  (quantity, hasOwnLike, authorId, myId, isLiking, status, errorMessage, users) => {
     return {
       quantity,
       hasOwnLike,
+      isLikable: myId && (myId !== authorId),
       isLiking,
       status,
       errorMessage,

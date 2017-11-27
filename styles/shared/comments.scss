@@ -116,6 +116,14 @@
       }
     }
 
+    &.clikes-likable [data-tooltipped] {
+      background-color: #eee;
+      border-radius: 2px;
+
+      padding: 1px 3px;
+      margin: -1px -3px;
+    }
+
     &.clikes-liking {
       .clikes-throbber { display: inherit; }
       .clikes-icon { display: none; }

@@ -32,6 +32,10 @@ class PostCommentLikes extends React.Component {
   }
 
   toggleLike = () => {
+    if (!this.props.isLikable) {
+      return;
+    }
+
     if (this.props.isLiking) {
       return;
     }
@@ -62,6 +66,7 @@ class PostCommentLikes extends React.Component {
   render() {
     const classes = classnames({
       'comment-likes': true,
+      'clikes-likable': this.props.isLikable && this.state.isOpen,
       'clikes-liking': this.props.isLiking,
       'clikes-liked': this.props.hasOwnLike
     });
