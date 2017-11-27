@@ -60,6 +60,36 @@ export default function commentViews(state={}, action) {
       };
     }
 
+    case request(ActionTypes.LIKE_COMMENT):
+    case request(ActionTypes.UNLIKE_COMMENT): {
+      const id = action.payload.commentId;
+      return { ...state,
+        [id]: { ...state[id],
+          isLiking: true
+        }
+      };
+    }
+    case response(ActionTypes.LIKE_COMMENT):
+    case response(ActionTypes.UNLIKE_COMMENT): {
+      const id = action.request.commentId;
+      return { ...state,
+        [id]: { ...state[id],
+          isLiking: false
+        }
+      };
+    }
+    case fail(ActionTypes.LIKE_COMMENT):
+    case fail(ActionTypes.UNLIKE_COMMENT): {
+      const id = action.request.commentId;
+      const errorString = 'Something went wrong while liking the comment...';
+      return { ...state,
+        [id]: { ...state[id],
+          isLiking: false,
+          likeError: errorString
+        }
+      };
+    }
+
     case ActionTypes.REALTIME_COMMENT_NEW:
     case ActionTypes.REALTIME_COMMENT_UPDATE: {
       const id = action.comment.id;

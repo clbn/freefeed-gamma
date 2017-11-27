@@ -6,6 +6,7 @@ import { Tooltip } from 'react-tippy';
 import { makeGetClikes } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
 import UserName from './user-name';
+import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderClike = (item, i, items) => (
   <li key={item.id}>
@@ -57,6 +58,7 @@ class PostCommentLikes extends React.Component {
   render() {
     const classes = classnames({
       'comment-likes': true,
+      'clikes-liking': this.props.isLiking,
       'clikes-liked': this.props.hasOwnLike
     });
 
@@ -89,6 +91,8 @@ class PostCommentLikes extends React.Component {
           useContext={true}>
 
           <span onClick={this.handleClick}>
+            <img className="clikes-throbber" width="14" height="14" src={throbber16}/>
+
             <span className="clikes-icon fa-stack">
               <i className="fa fa-heart fa-stack-1x"></i>
               <i className="fa fa-heart-o fa-stack-1x"></i>
