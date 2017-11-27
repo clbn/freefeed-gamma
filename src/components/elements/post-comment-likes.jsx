@@ -30,9 +30,19 @@ class PostCommentLikes extends React.Component {
     };
   }
 
+  toggleLike = () => {
+    if (!this.props.hasOwnLike) {
+      this.props.likeComment(this.props.commentId);
+    } else {
+      this.props.unlikeComment(this.props.commentId);
+    }
+  };
+
   handleClick = () => {
     if (!this.state.isOpen) {
       this.setState({ isOpen: true });
+    } else {
+      this.toggleLike();
     }
   };
 
@@ -111,7 +121,9 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getCommentLikes: postActions(dispatch).commentEdit.getCommentLikes
+    getCommentLikes: postActions(dispatch).commentEdit.getCommentLikes,
+    likeComment: postActions(dispatch).commentEdit.likeComment,
+    unlikeComment: postActions(dispatch).commentEdit.unlikeComment
   };
 }
 

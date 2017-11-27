@@ -573,3 +573,19 @@ export function getCommentLikes(commentId) {
     payload: { commentId }
   };
 }
+
+export function likeComment(commentId) {
+  return {
+    type: ActionTypes.LIKE_COMMENT,
+    apiRequest: Api.likeComment,
+    payload: { commentId }
+  };
+}
+
+export function unlikeComment(commentId) {
+  return {
+    type: ActionTypes.UNLIKE_COMMENT,
+    apiRequest: Api.unlikeComment,
+    payload: { commentId }
+  };
+}
