@@ -55,15 +55,9 @@ class PostCommentLikes extends React.Component {
   };
 
   render() {
-    const iconClasses = classnames({
-      'clikes-icon': true,
-      'clikes-icon-liked': this.props.hasOwnLike,
-      'fa-stack': true
-    });
-
-    const numberClasses = classnames({
-      'clikes-number': true,
-      'clikes-number-liked': this.props.hasOwnLike
+    const classes = classnames({
+      'comment-likes': true,
+      'clikes-liked': this.props.hasOwnLike
     });
 
     const clikesList = (
@@ -77,8 +71,9 @@ class PostCommentLikes extends React.Component {
     );
 
     return (this.props.quantity ? (
-      <span className="comment-likes">
+      <span className={classes}>
         {'-\u00a0'}
+
         <Tooltip
           animation="fade"
           arrow={true}
@@ -94,11 +89,12 @@ class PostCommentLikes extends React.Component {
           useContext={true}>
 
           <span onClick={this.handleClick}>
-            <span className={iconClasses}>
+            <span className="clikes-icon fa-stack">
               <i className="fa fa-heart fa-stack-1x"></i>
               <i className="fa fa-heart-o fa-stack-1x"></i>
             </span>
-            <span className={numberClasses}>
+
+            <span className="clikes-number">
               {this.props.quantity}
             </span>
           </span>

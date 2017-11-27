@@ -69,6 +69,8 @@
     white-space: nowrap;
     cursor: pointer;
 
+    $clike-icon-color: #ffb914;
+
     [data-tooltipped] {
       -moz-user-select: none;
       -webkit-user-select: none;
@@ -78,7 +80,6 @@
 
     .clikes-icon {
       opacity: 0.8;
-      $clike-icon-color: #ffb914;
 
       height: 13px;
       width: 13px;
@@ -94,9 +95,6 @@
       .fa-heart-o {
         font-weight: bold;
       }
-      &.clikes-icon-liked .fa-heart {
-        color: $clike-icon-color;
-      }
     }
 
     .clikes-number {
@@ -111,6 +109,10 @@
       .clikes-number {
         text-decoration: underline;
       }
+    }
+
+    &.clikes-liked .fa-heart {
+      color: $clike-icon-color;
     }
   }
 
