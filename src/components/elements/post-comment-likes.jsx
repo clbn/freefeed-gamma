@@ -32,6 +32,10 @@ class PostCommentLikes extends React.Component {
   }
 
   toggleLike = () => {
+    if (this.props.isLiking) {
+      return;
+    }
+
     if (!this.props.hasOwnLike) {
       this.props.likeComment(this.props.commentId);
     } else {
