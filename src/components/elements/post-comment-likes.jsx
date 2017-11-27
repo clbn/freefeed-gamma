@@ -113,6 +113,11 @@ class PostCommentLikes extends React.Component {
             <span className="clikes-number">
               {this.props.quantity}
             </span>
+
+            <span className="clikes-sign">
+              <i className="fa fa-plus"></i>
+              <i className="fa fa-minus"></i>
+            </span>
           </span>
 
         </Tooltip>

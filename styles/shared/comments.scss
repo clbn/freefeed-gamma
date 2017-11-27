@@ -111,6 +111,17 @@
       margin-left: 2px;
     }
 
+    .clikes-sign {
+      display: none;
+      color: $clike-icon-color;
+      font-size: 12px;
+      line-height: 1em;
+      margin-left: 2px;
+
+      .fa-plus { display: inherit; }
+      .fa-minus { display: none; }
+    }
+
     &.clikes-zero {
       color: #ddd;
 
@@ -124,14 +135,15 @@
     }
 
     &.clikes-likable .clikes-trigger {
-      background-color: #eee;
+      background-color: #f2f2f2;
       border-radius: 2px;
 
       padding: 1px 3px;
       margin: -1px -3px;
 
       .clikes-icon { opacity: 1; }
-      .clikes-number { opacity: 1; color: #666; }
+      .clikes-number { display: none; }
+      .clikes-sign { display: inherit; }
     }
 
     &.clikes-liking {
@@ -139,8 +151,10 @@
       .clikes-icon { display: none; }
     }
 
-    &.clikes-liked .fa-heart {
-      color: $clike-icon-color;
+    &.clikes-liked {
+      .fa-heart { color: $clike-icon-color; }
+      .fa-plus { display: none; }
+      .fa-minus { display: inherit; }
     }
   }
 
