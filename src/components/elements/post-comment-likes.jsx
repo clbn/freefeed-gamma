@@ -86,7 +86,7 @@ class PostCommentLikes extends React.Component {
 
     return (
       <span className={classes}>
-        {'-\u00a0'}
+        {'-'}
 
         <Tooltip
           animation="fade"

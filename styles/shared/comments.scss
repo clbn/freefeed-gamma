@@ -71,6 +71,12 @@
     $clike-icon-color: #ffb914;
 
     .clikes-trigger {
+      display: inline-block;
+      min-width: 31px;
+      height: 18px;
+      padding: 0 3px;
+      margin-left: 1px;
+
       cursor: pointer;
 
       -moz-user-select: none;
@@ -137,9 +143,6 @@
     &.clikes-likable .clikes-trigger {
       background-color: #f2f2f2;
       border-radius: 2px;
-
-      padding: 1px 3px;
-      margin: -1px -3px;
 
       .clikes-icon { opacity: 1; }
       .clikes-number { display: none; }
