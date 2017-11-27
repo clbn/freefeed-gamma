@@ -111,6 +111,18 @@
       margin-left: 2px;
     }
 
+    &.clikes-zero {
+      color: #ddd;
+
+      .clikes-icon {
+        -webkit-filter: grayscale(100%) brightness(115%);
+        filter: grayscale(100%) brightness(115%);
+      }
+      .clikes-number {
+        display: none;
+      }
+    }
+
     &.clikes-likable .clikes-trigger {
       background-color: #eee;
       border-radius: 2px;
@@ -246,6 +258,9 @@
 }
 .clikes-error {
   color: #b22;
+}
+.clikes-empty-list {
+  color: #666;
 }
 .clikes-list {
   list-style: none;

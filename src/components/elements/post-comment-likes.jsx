@@ -66,6 +66,7 @@ class PostCommentLikes extends React.Component {
   render() {
     const classes = classnames({
       'comment-likes': true,
+      'clikes-zero': !this.props.quantity,
       'clikes-likable': this.props.isLikable && this.state.isOpen,
       'clikes-liking': this.props.isLiking,
       'clikes-liked': this.props.hasOwnLike
@@ -76,12 +77,14 @@ class PostCommentLikes extends React.Component {
         <div className="clikes-loading">Loading {this.props.quantity} likes...</div>
       ) : this.props.status === 'error' ? (
         <div className="clikes-error">{this.props.errorMessage}</div>
+      ) : this.props.users.length === 0 ? (
+        <div className="clikes-empty-list">No likes here yet</div>
       ) : (
         <ul className="clikes-list">{this.props.users.map(renderClike)}</ul>
       )
     );
 
-    return (this.props.quantity ? (
+    return (
       <span className={classes}>
         {'-\u00a0'}
 
@@ -114,7 +117,7 @@ class PostCommentLikes extends React.Component {
 
         </Tooltip>
       </span>
-    ) : false);
+    );
   }
 }
 
