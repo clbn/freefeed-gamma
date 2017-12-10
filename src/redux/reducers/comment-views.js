@@ -20,11 +20,17 @@ const deleteRecord = (state, id) => {
 
 export default function commentViews(state={}, action) {
   switch (action.type) {
+    case response(ActionTypes.ADD_COMMENT): {
+      const id = action.payload.comments.id;
+      return updateRecord(state, id, { isEditing: false });
+    }
+
     case ActionTypes.TOGGLE_EDITING_COMMENT: {
       const id = action.commentId;
       const currentValue = (state[id] || {}).isEditing;
       return updateRecord(state, id, { isEditing: !currentValue, errorMessage: null });
     }
+
     case request(ActionTypes.SAVE_EDITING_COMMENT): {
       const id = action.payload.commentId;
       return updateRecord(state, id, { isSaving: true });
@@ -38,13 +44,14 @@ export default function commentViews(state={}, action) {
       const error = (action.payload || {}).err;
       return updateRecord(state, id, { isEditing: true, isSaving: false, errorMessage: error });
     }
+
     case response(ActionTypes.DELETE_COMMENT): {
       const id = action.request.commentId;
       return deleteRecord(state, id);
     }
-    case response(ActionTypes.ADD_COMMENT): {
-      const id = action.payload.comments.id;
-      return updateRecord(state, id, { isEditing: false });
+    case ActionTypes.REALTIME_COMMENT_DESTROY: {
+      const id = action.commentId;
+      return deleteRecord(state, id);
     }
 
     case request(ActionTypes.LIKE_COMMENT):
@@ -62,11 +69,6 @@ export default function commentViews(state={}, action) {
       const id = action.request.commentId;
       const error = 'Something went wrong while liking the comment...';
       return updateRecord(state, id, { isLiking: false, likeError: error });
-    }
-
-    case ActionTypes.REALTIME_COMMENT_DESTROY: {
-      const id = action.commentId;
-      return deleteRecord(state, id);
     }
 
     case ActionTypes.UPDATE_HIGHLIGHTED_COMMENTS: {
