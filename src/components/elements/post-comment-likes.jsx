@@ -1,7 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import { Tooltip } from 'react-tippy';
+import tippy from 'tippy.js';
 
 import { makeGetClikes } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
@@ -22,6 +23,28 @@ const renderClike = (item, i, items) => (
   </li>
 );
 
+const renderTooltipContent = (props) => (
+  !props.status || props.status === 'loading' ? (
+    <div className="clikes-loading">Loading {props.quantity} likes...</div>
+  ) : props.status === 'error' ? (
+    <div className="clikes-error">{props.errorMessage}</div>
+  ) : props.users.length === 0 ? (
+    <div className="clikes-empty-list">No likes here yet</div>
+  ) : (
+    <ul className="clikes-list">{props.users.map(renderClike)}</ul>
+  )
+);
+
+const tippyOptions = {
+  animation: 'fade',
+  arrow: true,
+  interactive: true,
+  placement: 'bottom-start',
+  theme: 'gamma',
+  trigger: 'manual',
+  zIndex: 9
+};
+
 class PostCommentLikes extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +53,80 @@ class PostCommentLikes extends React.Component {
       isOpen: false
     };
   }
+
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.status !== this.props.status || prevProps.users.length !== this.props.users.length) {
+      this.updateTooltipContent();
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+
+    if (this.triggerElement._tippy) {
+      this.triggerElement._tippy.hide();
+    }
+  }
+
+  refTrigger = (element) => {
+    this.triggerElement = element;
+  };
+
+  handleClick = () => {
+    if (this.state.isOpen) {
+      this.toggleLike();
+    } else {
+      this.setState({ isOpen: true });
+
+      this.updateTooltipContent();
+
+      setTimeout(() => {
+        this.createAndShowTooltip();
+      }, 0);
+    }
+  };
+
+  createAndShowTooltip = () => {
+    tippy(this.triggerElement, {
+      ...tippyOptions,
+      html: this.tooltipContainer,
+      onShow: this.handleShowTooltip,
+      onHide: this.handleHideTooltip,
+      onHidden: this.handleHiddenTooltip
+    });
+
+    this.triggerElement._tippy.show();
+  };
+
+  handleShowTooltip = () => {
+    this.props.getCommentLikes(this.props.commentId);
+  };
+
+  handleHideTooltip = () => {
+    if (this._isMounted) { // because this can be called on/after unmount from Tippy
+      this.setState({ isOpen: false });
+    }
+  };
+
+  handleHiddenTooltip = () => {
+    if (this.triggerElement) {
+      this.triggerElement._tippy.destroy();
+    }
+  };
+
+  updateTooltipContent = () => {
+    if (!this.tooltipContainer) {
+      this.tooltipContainer = document.createElement('div');
+    }
+
+    const tooltipContent = renderTooltipContent(this.props);
+
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, tooltipContent, this.tooltipContainer);
+  };
 
   toggleLike = () => {
     if (!this.props.isLikable) {
@@ -47,22 +144,6 @@ class PostCommentLikes extends React.Component {
     }
   };
 
-  handleClick = () => {
-    if (!this.state.isOpen) {
-      this.setState({ isOpen: true });
-    } else {
-      this.toggleLike();
-    }
-  };
-
-  handleRequestClose = () => {
-    this.setState({ isOpen: false });
-  };
-
-  handleShowTooltip = () => {
-    this.props.getCommentLikes(this.props.commentId);
-  };
-
   render() {
     const classes = classnames({
       'comment-likes': true,
@@ -72,55 +153,27 @@ class PostCommentLikes extends React.Component {
       'clikes-liked': this.props.hasOwnLike
     });
 
-    const clikesList = (
-      !this.props.status || this.props.status === 'loading' ? (
-        <div className="clikes-loading">Loading {this.props.quantity} likes...</div>
-      ) : this.props.status === 'error' ? (
-        <div className="clikes-error">{this.props.errorMessage}</div>
-      ) : this.props.users.length === 0 ? (
-        <div className="clikes-empty-list">No likes here yet</div>
-      ) : (
-        <ul className="clikes-list">{this.props.users.map(renderClike)}</ul>
-      )
-    );
-
     return (
       <span className={classes}>
         {'-'}
 
-        <Tooltip
-          animation="fade"
-          arrow={true}
-          html={clikesList}
-          interactive={true}
-          onRequestClose={this.handleRequestClose}
-          onShow={this.handleShowTooltip}
-          open={this.state.isOpen}
-          position="bottom-start"
-          theme="gamma"
-          trigger="manual"
-          unmountHTMLWhenHide={true}
-          useContext={true}>
-
-          <span className="clikes-trigger" onClick={this.handleClick}>
-            <span className="clikes-icon fa-stack">
-              <i className="fa fa-heart fa-stack-1x"></i>
-              <i className="fa fa-heart-o fa-stack-1x"></i>
-            </span>
-
-            <span className="clikes-number">
-              {this.props.quantity}
-            </span>
-
-            <span className="clikes-sign">
-              <i className="fa fa-plus"></i>
-              <i className="fa fa-minus"></i>
-            </span>
-
-            <img className="clikes-throbber" width="12" height="12" src={throbber16}/>
+        <span className="clikes-trigger" ref={this.refTrigger} onClick={this.handleClick} title="Comment likes">
+          <span className="clikes-icon fa-stack">
+            <i className="fa fa-heart fa-stack-1x"></i>
+            <i className="fa fa-heart-o fa-stack-1x"></i>
           </span>
 
-        </Tooltip>
+          <span className="clikes-number">
+            {this.props.quantity}
+          </span>
+
+          <span className="clikes-sign">
+            <i className="fa fa-plus"></i>
+            <i className="fa fa-minus"></i>
+          </span>
+
+          <img className="clikes-throbber" width="12" height="12" src={throbber16}/>
+        </span>
       </span>
     );
   }
