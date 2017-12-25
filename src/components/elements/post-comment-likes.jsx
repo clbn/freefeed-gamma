@@ -25,7 +25,7 @@ const renderClike = (item, i, items) => (
 
 const renderTooltipContent = (props) => (
   !props.status || props.status === 'loading' ? (
-    <div className="clikes-loading">Loading {props.quantity} likes...</div>
+    <div className="clikes-loading">Loading likes...</div>
   ) : props.status === 'error' ? (
     <div className="clikes-error">{props.errorMessage}</div>
   ) : props.users.length === 0 ? (
