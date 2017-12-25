@@ -169,10 +169,10 @@ class PostCommentLikes extends React.Component {
 
           <span className="clikes-sign">
             <i className="fa fa-plus"></i>
-            <i className="fa fa-minus"></i>
+            <i className="fa fa-times"></i>
           </span>
 
-          <img className="clikes-throbber" width="12" height="12" src={throbber16}/>
+          <img className="clikes-throbber" width="11" height="11" src={throbber16}/>
         </span>
       </span>
     );
