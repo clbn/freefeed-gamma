@@ -72,7 +72,7 @@
 
     .clikes-trigger {
       display: inline-block;
-      min-width: 29px;
+      min-width: 32px;
       height: 18px;
       padding: 0 3px;
       margin-left: 1px;
@@ -93,7 +93,7 @@
 
       color: $clike-icon-color;
       font-size: 12px;
-      line-height: 1em;
+      line-height: 11px;
 
       .fa-heart {
         color: lighten($clike-icon-color, 40%);
@@ -104,11 +104,14 @@
     }
 
     .clikes-number {
+      display: inline-block;
+      height: 13px;
+      line-height: 11px;
+      vertical-align: middle;
+
       opacity: 0.7;
       color: #9d9d9d;
-      border-radius: 1px;
       font-size: 10px;
-      vertical-align: top;
       margin-left: 2px;
     }
 
