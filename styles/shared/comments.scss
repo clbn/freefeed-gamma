@@ -117,21 +117,16 @@
 
     .clikes-sign {
       display: none;
+      height: 13px;
+      line-height: 11px;
+      vertical-align: middle;
+
       color: $clike-icon-color;
       font-size: 11px;
-      line-height: 1em;
-      margin-left: 2px;
+      margin-left: 3px;
 
-      .fa-plus {
-        display: inherit;
-        font-size: 10px;
-        vertical-align: text-top;
-      }
-      .fa-times {
-        display: none;
-        color: #ccc;
-        vertical-align: text-top;
-      }
+      .fa-plus { display: inherit; font-size: 10px; }
+      .fa-times { display: none; color: #ccc; }
     }
 
     .clikes-throbber {
@@ -157,7 +152,7 @@
 
       .clikes-icon { opacity: 1; }
       .clikes-number { display: none; }
-      .clikes-sign { display: inherit; }
+      .clikes-sign { display: inline-block; }
     }
 
     &.clikes-liking {
