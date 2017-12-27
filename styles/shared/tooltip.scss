@@ -16,7 +16,7 @@
     height: 10px;
     background: inherit;
     transform: rotate(45deg);
-    box-shadow: -2px -2px 5px -1px rgba(0, 0, 0, 0.5);
+    box-shadow: -2px -2px 3px -1px rgba(0, 0, 0, 0.5);
   }
 
   .tippy-popper[x-placement^=bottom] & .tippy-arrow {
@@ -27,7 +27,7 @@
     border-top-color: #fff;
 
     &:before {
-      box-shadow: 2px 2px 5px -1px rgba(0, 0, 0, 0.5);
+      box-shadow: 2px 2px 3px -1px rgba(0, 0, 0, 0.5);
       top: -12px;
     }
   }
