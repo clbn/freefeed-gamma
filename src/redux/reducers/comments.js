@@ -20,6 +20,14 @@ export default function comments(state = {}, action) {
     case response(ActionTypes.SAVE_EDITING_COMMENT): {
       return { ...state, [action.payload.comments.id]: { ...state[action.payload.comments.id], ...action.payload.comments } };
     }
+    case response(ActionTypes.LIKE_COMMENT): {
+      const id = action.request.commentId;
+      return { ...state, [id]: { ...state[id], hasOwnLike: true, likes: action.payload.likes.length } };
+    }
+    case response(ActionTypes.UNLIKE_COMMENT): {
+      const id = action.request.commentId;
+      return { ...state, [id]: { ...state[id], hasOwnLike: false, likes: action.payload.likes.length } };
+    }
     case response(ActionTypes.DELETE_COMMENT): {
       const newState = { ...state };
       delete newState[action.request.commentId];
