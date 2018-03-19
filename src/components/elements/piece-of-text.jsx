@@ -55,29 +55,23 @@ const brAndTrim = (text) => {
   return injectSeparator(lines, <br/>);
 };
 
+function pilcrifyText(text, expandFn) {
+  return injectSeparator(text.split(/\s*\n\s*/g), <span className="pilcrow" onClick={expandFn}> ¶ </span>);
+}
+
 const getCollapsedText = (text, expandText) => {
   const trimmedText = text.trim();
-  const normalizedText = trimmedText.replace(/\s*\n\s*/g, ' ¶ ').replace(/\s+/g, ' ');
+  const normalizedText = trimmedText.replace(/[^\S\n]+/g, ' ');
 
   if (normalizedText.length <= thresholdTextLength) {
-    if (!/\n/.test(trimmedText)) {
-      // The text is short and has no newlines
-      return normalizedText;
-    }
-
-    // The text is short but has some newlines
-    return [
-      <span key="text">{normalizedText}</span>,
-      ' ',
-      <a key="read-more" className="read-more" onClick={expandText}>Expand</a>
-    ];
+    // The text is short enough, just add pilcrows if needed
+    return pilcrifyText(normalizedText, expandText);
   }
 
-  // The text is long
+  // The text is too long, needs 'Read more'
   const shortenedText = shortenText(normalizedText, shortenedTextLength);
-
   return [
-    <span key="text">{shortenedText}</span>,
+    ...pilcrifyText(shortenedText, expandText),
     ' ',
     <a key="read-more" className="read-more" onClick={expandText}>Read more</a>
   ];

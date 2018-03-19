@@ -46,6 +46,17 @@ $line-height-post-body-single: 28px;
     height: 0.35em;
   }
 
+  .pilcrow {
+    cursor: pointer;
+
+    &:hover {
+      padding: 1px;
+      margin: -1px;
+      border-radius: 2px;
+      background-color: #d9ebff;
+    }
+  }
+
   // Left part of post.
   // Includes userpic(s).
   .post-userpic {
