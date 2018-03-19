@@ -57,7 +57,7 @@ const brAndTrim = (text) => {
 
 const getCollapsedText = (text, expandText) => {
   const trimmedText = text.trim();
-  const normalizedText = trimmedText.replace(/\s+/g, ' ');
+  const normalizedText = trimmedText.replace(/\s*\n\s*/g, ' ¶ ').replace(/\s+/g, ' ');
 
   if (normalizedText.length <= thresholdTextLength) {
     if (!/\n/.test(trimmedText)) {
