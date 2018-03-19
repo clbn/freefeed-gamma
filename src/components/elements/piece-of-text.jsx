@@ -55,25 +55,29 @@ const brAndTrim = (text) => {
   return injectSeparator(lines, <br/>);
 };
 
+// Replace single and double newlines with a clickable pilcrow
 function pilcrifyText(text, expandFn) {
   return injectSeparator(text.split(/\s*\n\s*/g), <span className="pilcrow" onClick={expandFn}> ¶ </span>);
 }
 
-const getCollapsedText = (text, expandText) => {
+const getCollapsedText = (text, expandFn) => {
+  // Remove whitespace characters in the beginning and the end
   const trimmedText = text.trim();
+
+  // Replace repeated whitespace characters (except newline) with one space
   const normalizedText = trimmedText.replace(/[^\S\n]+/g, ' ');
 
   if (normalizedText.length <= thresholdTextLength) {
     // The text is short enough, just add pilcrows if needed
-    return pilcrifyText(normalizedText, expandText);
+    return pilcrifyText(normalizedText, expandFn);
   }
 
-  // The text is too long, needs 'Read more'
+  // The text is too long, shorten it and complete with 'Read more'
   const shortenedText = shortenText(normalizedText, shortenedTextLength);
   return [
-    ...pilcrifyText(shortenedText, expandText),
+    ...pilcrifyText(shortenedText, expandFn),
     ' ',
-    <a key="read-more" className="read-more" onClick={expandText}>Read more</a>
+    <a key="read-more" className="read-more" onClick={expandFn}>Read more</a>
   ];
 };
 
