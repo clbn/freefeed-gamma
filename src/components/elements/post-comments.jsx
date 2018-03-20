@@ -56,34 +56,38 @@ class PostComments extends React.Component {
   render() {
     const props = this.props;
 
-    let firstComments = [], middleComments = [], lastComments = [];
+    let firstComment = [], middleComments = [], lastComments = [];
+
     if (props.post.comments.length > 0) {
-      if (props.post.omittedComments > 0) {
-        const i = 1;
-        middleComments = props.post.comments.slice(0, i).map(this.getCommentById);
-        lastComments = props.post.comments.slice(i).map(this.getCommentById);
+      firstComment = props.post.comments.slice(0, 1).map(this.getCommentById);
+
+      const i = props.post.archiveRevivalPosition;
+      if (i < 2) {
+        // The revival position is -1 (doesn't exist), or 0 (set on the top comment),
+        // or 1 (set on the second comment overall / the first of omitted).
+        // For these cases the omitted comments form one group:
+        lastComments = props.post.comments.slice(1).map(this.getCommentById);
       } else {
-        const i = props.post.archiveRevivalPosition;
-        firstComments = props.post.comments.slice(0, i).map(this.getCommentById);
-        middleComments = props.post.comments.slice(i).map(this.getCommentById);
+        // The revival position is located after the first of omitted comments.
+        // It means the omitted have to be divided into two groups:
+        middleComments = props.post.comments.slice(1, i).map(this.getCommentById);
+        lastComments = props.post.comments.slice(i).map(this.getCommentById);
       }
     }
 
-    const showArchiveRevival = props.post.archiveRevivalPosition > -1;
+    const archiveRevivalIcon = (
+      <div className="comments-archive-revival">
+        <i className="fa fa-bolt fa-fw" title="This comment bumped the post from archive"></i>
+      </div>
+    );
     const showOmittedNumber = props.post.omittedComments > 0;
     const canAddComment = (!props.post.commentsDisabled || props.post.isEditable);
 
     return (
       <div className="comments">
-        {firstComments}
+        {props.post.archiveRevivalPosition === 0 ? archiveRevivalIcon : false}
 
-        {showArchiveRevival ? (
-          <div className="comments-archive-revival">
-            <i className="fa fa-bolt fa-fw" title="This comment bumped the post from archive"></i>
-          </div>
-        ) : false}
-
-        {middleComments}
+        {firstComment}
 
         {showOmittedNumber ? (
           <PostCommentsMore
@@ -93,6 +97,10 @@ class PostComments extends React.Component {
             postUrl={props.postUrl}
             isLoading={props.post.isLoadingComments}/>
         ) : false}
+
+        {middleComments}
+
+        {props.post.archiveRevivalPosition > 0 ? archiveRevivalIcon : false}
 
         {lastComments}
 
