@@ -34,6 +34,11 @@
     line-height: 30px;
     text-align: center;
 
+    a {
+      cursor: -webkit-grab;
+      cursor: grab;
+    }
+
     img {
       max-width: 525px;
       max-height: 175px;
@@ -135,9 +140,16 @@
   a {
     display: block;
 
+    pointer-events: auto;
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+
     border: 1px solid silver;
     padding: 1px;
     background-color: #fff;
+
+    -webkit-transform: rotate(3deg);
+    transform: rotate(3deg);
   }
 
   .remove-attachment {
