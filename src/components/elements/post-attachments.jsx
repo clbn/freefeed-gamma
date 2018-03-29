@@ -1,9 +1,29 @@
 import React from 'react';
+import _ from 'lodash';
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { PhotoSwipe } from 'react-photoswipe';
 
 import ImageAttachment from './post-attachment-image';
 import AudioAttachment from './post-attachment-audio';
 import GeneralAttachment from './post-attachment-general';
+
+const SortableImageAttachment = SortableElement(ImageAttachment);
+
+const SortableImageList = SortableContainer(({ items, removeAttachment }) => {
+  return (
+    <div>
+      {items.map((attachment, index) => (
+        <SortableImageAttachment
+          key={`item-${attachment.id}`}
+          index={index}
+          isEditing={true}
+          removeAttachment={removeAttachment}
+          {...attachment}
+        />
+      ))}
+    </div>
+  );
+});
 
 export default class PostAttachments extends React.Component {
   constructor(props) {
@@ -36,8 +56,29 @@ export default class PostAttachments extends React.Component {
     this.attachmentsContainer = element;
   };
 
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    const attachments = arrayMove(this.props.attachments, oldIndex, newIndex);
+    this.props.update(attachments);
+  };
+  removeAttachment = (attachmentId) => {
+    const attachments = _.reject(this.props.attachments, { id: attachmentId });
+    this.props.update(attachments);
+  };
+
   getImageAttachments(images) {
     let showToggle = false;
+
+    if (this.props.isEditing) {
+      return (
+        <SortableImageList
+          items={images}
+          axis={'xy'}
+          onSortEnd={this.onSortEnd}
+          useDragHandle={true}
+          helperClass="dragged-attachment"
+          removeAttachment={this.removeAttachment}/>
+      );
+    }
 
     if (
       images.length > 1 &&
@@ -53,9 +94,8 @@ export default class PostAttachments extends React.Component {
       .map((attachment, i) => (
         <ImageAttachment
           key={attachment.id}
-          isEditing={this.props.isEditing}
+          isEditing={false}
           handleClick={this.handleClickThumbnail(i)}
-          removeAttachment={this.props.removeAttachment}
           {...attachment}/>
       ));
 
@@ -193,8 +233,7 @@ export default class PostAttachments extends React.Component {
   }
 
   render() {
-    const props = this.props;
-    const attachments = props.attachments || [];
+    const attachments = this.props.attachments;
 
     const imageList = attachments.filter(attachment => attachment.mediaType === 'image');
     const imageAttachments = this.getImageAttachments(imageList);
@@ -206,7 +245,7 @@ export default class PostAttachments extends React.Component {
         <AudioAttachment
           key={attachment.id}
           isEditing={this.props.isEditing}
-          removeAttachment={this.props.removeAttachment}
+          removeAttachment={this.removeAttachment}
           {...attachment}/>
       ));
 
@@ -216,7 +255,7 @@ export default class PostAttachments extends React.Component {
         <GeneralAttachment
           key={attachment.id}
           isEditing={this.props.isEditing}
-          removeAttachment={this.props.removeAttachment}
+          removeAttachment={this.removeAttachment}
           {...attachment}/>
       ));
 

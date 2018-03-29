@@ -1,7 +1,10 @@
 import React from 'react';
 import numeral from 'numeral';
+import { SortableHandle } from 'react-sortable-hoc';
 
 import { preventDefault } from '../../utils';
+
+const DragHandle = SortableHandle((props) => props.children);
 
 export default (props) => {
   const formattedFileSize = numeral(props.fileSize).format('0.[0] b');
@@ -54,7 +57,10 @@ export default (props) => {
 
   return (
     <div className="attachment">
-      {attachmentBody}
+      <DragHandle>
+        {attachmentBody}
+      </DragHandle>
+
       {removeButton}
     </div>
   );

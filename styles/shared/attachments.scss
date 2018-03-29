@@ -130,3 +130,17 @@
     background-color: #bfb;
   }
 }
+
+.dragged-attachment {
+  a {
+    display: block;
+
+    border: 1px solid silver;
+    padding: 1px;
+    background-color: #fff;
+  }
+
+  .remove-attachment {
+    display: none;
+  }
+}

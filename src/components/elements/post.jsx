@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import _ from 'lodash';
 
 import { makeGetPost } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
@@ -21,6 +22,7 @@ class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      transientAttachments: props.attachments || [], // for attachments during editing process, before the changes are permanent
       hasUploadFailed: false,
       attachmentQueueLength: 0
     };
@@ -51,7 +53,30 @@ class Post extends React.Component {
     }
   };
 
-  removeAttachment = (attachmentId) => this.props.removeAttachment(this.props.id, attachmentId)
+  updateAttachments = (attachments) => {
+    this.setState({
+      transientAttachments: attachments
+    });
+  };
+
+  componentDidUpdate(prevProps) {
+    // Sync attachment edits when adding items
+    // (Because adding goes through Redux store now. TODO: make it work via local state as reorder/remove does.)
+    if ((prevProps.attachments !== this.props.attachments) && this.props.isEditing) {
+      const addedAttachments = _.differenceWith(this.props.attachments, prevProps.attachments, (a, b) => (a.id === b.id));
+      const newAttachments = this.state.transientAttachments.concat(addedAttachments) || [];
+      this.setState({
+        transientAttachments: newAttachments
+      });
+    }
+
+    // Reset attachment edits when cancelling editing
+    if (prevProps.isEditing && !this.props.isEditing) {
+      this.setState({
+        transientAttachments: this.props.attachments || []
+      });
+    }
+  }
 
   render() {
     let props = this.props;
@@ -64,7 +89,7 @@ class Post extends React.Component {
     const cancelEditingPost = () => props.cancelEditingPost(props.id);
     const saveEditingPost = () => {
       if (!props.isSaving) {
-        let attachmentIds = props.attachments.map(item => item.id) || [];
+        let attachmentIds = this.state.transientAttachments.map(item => item.id);
         props.saveEditingPost(props.id, { body: this.postText.value, attachments: attachmentIds });
       }
     };
@@ -374,9 +399,9 @@ class Post extends React.Component {
 
         <div className="post-bottom">
           <PostAttachments
-            attachments={props.attachments}
+            attachments={this.state.transientAttachments}
             isEditing={props.isEditing}
-            removeAttachment={this.removeAttachment}/>
+            update={this.updateAttachments}/>
 
           <div className="dropzone-previews"></div>
 
