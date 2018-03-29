@@ -53,6 +53,19 @@ class Post extends React.Component {
     }
   };
 
+  getTransientAttachments = () => {
+    // Without pre-sorting, indexes of sortable images might be different from their apparent positions.
+    //
+    // For example: for [image, image, audio, audio, image], a user won't be able to move the last image,
+    // because Sortable will move item with index 2, while the component that operates with all the attachments
+    // will move the first audio for that index.
+    //
+    // With pre-sorting transientAttachments, we make sure that "global" and "local" image indexes are the same.
+
+    const mt = { image: 0, audio: 1, general: 2 };
+    return _.sortBy(this.state.transientAttachments, (a) => mt[a.mediaType]);
+  };
+
   updateAttachments = (attachments) => {
     this.setState({
       transientAttachments: attachments
@@ -64,7 +77,7 @@ class Post extends React.Component {
     // (Because adding goes through Redux store now. TODO: make it work via local state as reorder/remove does.)
     if ((prevProps.attachments !== this.props.attachments) && this.props.isEditing) {
       const addedAttachments = _.differenceWith(this.props.attachments, prevProps.attachments, (a, b) => (a.id === b.id));
-      const newAttachments = this.state.transientAttachments.concat(addedAttachments) || [];
+      const newAttachments = this.getTransientAttachments().concat(addedAttachments) || [];
       this.setState({
         transientAttachments: newAttachments
       });
@@ -89,7 +102,7 @@ class Post extends React.Component {
     const cancelEditingPost = () => props.cancelEditingPost(props.id);
     const saveEditingPost = () => {
       if (!props.isSaving) {
-        let attachmentIds = this.state.transientAttachments.map(item => item.id);
+        let attachmentIds = this.getTransientAttachments().map(item => item.id);
         props.saveEditingPost(props.id, { body: this.postText.value, attachments: attachmentIds });
       }
     };
@@ -399,7 +412,7 @@ class Post extends React.Component {
 
         <div className="post-bottom">
           <PostAttachments
-            attachments={this.state.transientAttachments}
+            attachments={this.getTransientAttachments()}
             isEditing={props.isEditing}
             update={this.updateAttachments}/>
 
