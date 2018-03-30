@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
+import _ from 'lodash';
 
 import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
@@ -20,6 +21,7 @@ class PostCreateForm extends React.Component {
       isExpanded: !!props.recipientFromUrl,
       isFormEmpty: true,
       isMoreOpen: false,
+      transientAttachments: (props.createPostForm.attachments || []).map(id => props.attachments[id]), // for attachments during editing process, before the changes are permanent
       hasUploadFailed: false,
       attachmentQueueLength: 0
     };
@@ -69,7 +71,24 @@ class PostCreateForm extends React.Component {
     }
   };
 
-  removeAttachment = (attachmentId) => this.props.removeAttachment(null, attachmentId);
+  getTransientAttachments = () => {
+    // Without pre-sorting, indexes of sortable images might be different from their apparent positions.
+    //
+    // For example: for [image, image, audio, audio, image], a user won't be able to move the last image,
+    // because Sortable will move item with index 2, while the component that operates with all the attachments
+    // will move the first audio for that index.
+    //
+    // With pre-sorting transientAttachments, we make sure that "global" and "local" image indexes are the same.
+
+    const mt = { image: 0, audio: 1, general: 2 };
+    return _.sortBy(this.state.transientAttachments, (a) => mt[a.mediaType]);
+  };
+
+  updateAttachments = (attachments) => {
+    this.setState({
+      transientAttachments: attachments
+    });
+  };
 
   //
   // Handling recipients, text typing and posting
@@ -119,7 +138,7 @@ class PostCreateForm extends React.Component {
     // Get all the values
     const feeds = this.postRecipients.values;
     const postText = this.postText.value;
-    const attachmentIds = this.props.createPostForm.attachments || [];
+    const attachmentIds = this.getTransientAttachments().map(item => item.id);
     const more = {
       commentsDisabled: (this.commentsDisabled && this.commentsDisabled.checked)
     };
@@ -142,12 +161,13 @@ class PostCreateForm extends React.Component {
       isExpanded: false,
       isFormEmpty: true,
       isMoreOpen: false,
+      transientAttachments: [],
       hasUploadFailed: false,
       attachmentQueueLength: 0
     });
 
     const attachmentIds = this.props.createPostForm.attachments || [];
-    attachmentIds.forEach(this.removeAttachment);
+    attachmentIds.forEach(id => this.props.removeAttachment(null, id));
   };
 
   //
@@ -185,6 +205,19 @@ class PostCreateForm extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    // Sync attachment edits when adding items
+    // (Because adding goes through Redux store now. TODO: make it work via local state as reorder/remove does.)
+    if ((prevProps.createPostForm.attachments !== this.props.createPostForm.attachments) && this.state.isExpanded) {
+      const addedAttachments = _.difference(this.props.createPostForm.attachments, prevProps.createPostForm.attachments)
+        .map(id => this.props.attachments[id]);
+      const newAttachments = this.getTransientAttachments().concat(addedAttachments) || [];
+      this.setState({
+        transientAttachments: newAttachments
+      });
+    }
+  }
+
   componentWillUnmount() {
     this.props.resetPostCreateForm();
   }
@@ -212,7 +245,6 @@ class PostCreateForm extends React.Component {
 
     const defaultFeed = this.props.recipientFromUrl || this.props.defaultRecipient;
     const recipients = this.postRecipients && this.postRecipients.selectedOptions || [];
-    const attachments = (this.props.createPostForm.attachments || []).map(attachmentId => this.props.attachments[attachmentId]);
     const isSubmitButtonDisabled = this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading';
     const submitButtonText = this.getSubmitButtonText(recipients);
 
@@ -300,10 +332,9 @@ class PostCreateForm extends React.Component {
         ) : false}
 
         <PostAttachments
-          attachments={attachments}
+          attachments={this.getTransientAttachments()}
           isEditing={true}
-          isExpanded={true}
-          removeAttachment={this.removeAttachment}/>
+          update={this.updateAttachments}/>
 
         <div className="dropzone-previews"></div>
       </div>
