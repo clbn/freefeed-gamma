@@ -22,7 +22,7 @@ class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      transientAttachments: props.attachments || [], // for attachments during editing process, before the changes are permanent
+      transientAttachments: [], // for attachments during editing process, before the changes are permanent
       hasUploadFailed: false,
       attachmentQueueLength: 0
     };
@@ -53,7 +53,11 @@ class Post extends React.Component {
     }
   };
 
-  getTransientAttachments = () => {
+  getAttachments = () => {
+    if (!this.props.isEditing) {
+      return this.props.attachments;
+    }
+
     // Without pre-sorting, indexes of sortable images might be different from their apparent positions.
     //
     // For example: for [image, image, audio, audio, image], a user won't be able to move the last image,
@@ -63,31 +67,28 @@ class Post extends React.Component {
     // With pre-sorting transientAttachments, we make sure that "global" and "local" image indexes are the same.
 
     const mt = { image: 0, audio: 1, general: 2 };
+
     return _.sortBy(this.state.transientAttachments, (a) => mt[a.mediaType]);
   };
 
-  updateAttachments = (attachments) => {
+  updateTransientAttachments = (attachments) => {
     this.setState({
       transientAttachments: attachments
     });
   };
 
   componentDidUpdate(prevProps) {
+    // Set transient attachments when starting editing
+    if (!prevProps.isEditing && this.props.isEditing) {
+      this.updateTransientAttachments(this.props.attachments);
+    }
+
     // Sync attachment edits when adding items
     // (Because adding goes through Redux store now. TODO: make it work via local state as reorder/remove does.)
     if ((prevProps.attachments !== this.props.attachments) && this.props.isEditing) {
       const addedAttachments = _.differenceWith(this.props.attachments, prevProps.attachments, (a, b) => (a.id === b.id));
-      const newAttachments = this.getTransientAttachments().concat(addedAttachments) || [];
-      this.setState({
-        transientAttachments: newAttachments
-      });
-    }
-
-    // Reset attachment edits when cancelling editing
-    if (prevProps.isEditing && !this.props.isEditing) {
-      this.setState({
-        transientAttachments: this.props.attachments || []
-      });
+      const newAttachments = this.getAttachments().concat(addedAttachments) || [];
+      this.updateTransientAttachments(newAttachments);
     }
   }
 
@@ -102,7 +103,7 @@ class Post extends React.Component {
     const cancelEditingPost = () => props.cancelEditingPost(props.id);
     const saveEditingPost = () => {
       if (!props.isSaving) {
-        let attachmentIds = this.getTransientAttachments().map(item => item.id);
+        let attachmentIds = this.getAttachments().map(item => item.id);
         props.saveEditingPost(props.id, { body: this.postText.value, attachments: attachmentIds });
       }
     };
@@ -412,9 +413,9 @@ class Post extends React.Component {
 
         <div className="post-bottom">
           <PostAttachments
-            attachments={this.getTransientAttachments()}
+            attachments={this.getAttachments()}
             isEditing={props.isEditing}
-            update={this.updateAttachments}/>
+            update={this.updateTransientAttachments}/>
 
           <div className="dropzone-previews"></div>
 
