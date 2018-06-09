@@ -64,7 +64,12 @@
   .box-body {
     background-color: #fff;
 
-    @include clearfix;
+    // Clearfix (http://www.cssmojo.com/latest_new_clearfix_so_far/)
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+    }
   }
 }
 
@@ -80,7 +85,12 @@
     margin-bottom: 3px;
     background-color: #fff;
 
-    @include clearfix;
+    // Clearfix (http://www.cssmojo.com/latest_new_clearfix_so_far/)
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+    }
 
     a {
       color: #000;

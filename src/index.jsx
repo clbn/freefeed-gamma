@@ -1,5 +1,5 @@
 import 'styles/common/common.scss';
-import 'styles/helvetica/app.scss';
+import 'styles/app.scss';
 import 'index.jade';
 
 import React from 'react';

@@ -71,7 +71,7 @@ module.exports = function(opts) {
         { test: /[/]styles[/]common[/].*[.]scss$/,
           loader: styleLoader('css-loader?-mergeIdents&-mergeRules&-uniqueSelectors!sass-loader', cssCommonExtractor)
         },
-        { test: /[/]styles[/]helvetica[/].*[.]scss$/,
+        { test: /[/]styles[/]app[.]scss$/,
           loader: styleLoader('css-loader?-mergeIdents&-mergeRules&-uniqueSelectors!sass-loader', cssAppExtractor)
         },
         { test: /[.]html$/,
