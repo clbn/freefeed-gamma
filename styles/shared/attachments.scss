@@ -63,7 +63,11 @@
     display: block;
     margin: 0 8px 8px 0;
 
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
     i {
+      display: inline;
       color: #666666;
       padding: 0 1px;
       margin-right: 4px;
