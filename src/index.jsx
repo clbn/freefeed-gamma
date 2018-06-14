@@ -1,4 +1,3 @@
-import 'styles/common/common.scss';
 import 'styles/app.scss';
 import 'index.jade';
 

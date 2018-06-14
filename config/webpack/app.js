@@ -7,11 +7,6 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 const gitCommitDate = require('child_process').execSync('git show -s --format="%ci"').toString();
 
 module.exports = function(opts) {
-  const cssCommonExtractor = new ExtractTextPlugin({
-    filename: opts.hash ? 'common-[contenthash].css' : 'common-dev.css',
-    allChunks: true
-  });
-
   const cssAppExtractor = new ExtractTextPlugin({
     filename: opts.hash ? 'app-[contenthash].css' : 'app-dev.css',
     allChunks: true
@@ -68,9 +63,6 @@ module.exports = function(opts) {
           ],
           enforce: 'pre'
         },
-        { test: /[/]styles[/]common[/].*[.]scss$/,
-          loader: styleLoader('css-loader?-mergeIdents&-mergeRules&-uniqueSelectors!sass-loader', cssCommonExtractor)
-        },
         { test: /[/]styles[/]app[.]scss$/,
           loader: styleLoader('css-loader?-mergeIdents&-mergeRules&-uniqueSelectors!sass-loader', cssAppExtractor)
         },
@@ -115,7 +107,6 @@ module.exports = function(opts) {
         'process.env.NODE_ENV': opts.dev ? '"development"' : '"production"'
       }),
 
-      cssCommonExtractor,
       cssAppExtractor,
 
       new PathRewriter({
