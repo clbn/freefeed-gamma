@@ -85,6 +85,10 @@ export default function feedViewState(state = initFeed, action) {
       return addPostToFeed(state, action.payload.posts.id);
     }
     case ActionTypes.REALTIME_POST_NEW: {
+      // It might be a previously hidden post, brought here by a new third-party comment
+      if (action.post.isHidden) {
+        return hidePostInFeed(state, action.post.id);
+      }
       return addPostToFeed(state, action.post.id);
     }
     case response(ActionTypes.DELETE_POST): {
