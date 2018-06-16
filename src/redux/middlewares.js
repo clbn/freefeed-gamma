@@ -263,8 +263,10 @@ const isPostEligibleForBump = (post, action, state) => {
 const maybeGetRespectivePost = async (store, postId, action) => {
   const state = store.getState();
 
-  // If the post is in the store and it's visible, just pass on the original action (comment:new or like:new)
-  if (state.posts[postId] && state.feedViewState.visibleEntries.indexOf(postId) > -1) {
+  // If the post is in the store and on the page (visible or hidden),
+  // just pass on the original action (comment:new or like:new)
+  const isPostOnThePage = (state.feedViewState.visibleEntries.indexOf(postId) > -1 || state.feedViewState.hiddenEntries.indexOf(postId) > -1);
+  if (state.posts[postId] && isPostOnThePage) {
     return store.dispatch(action);
   }
 
