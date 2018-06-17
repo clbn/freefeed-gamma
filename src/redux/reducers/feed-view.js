@@ -25,25 +25,41 @@ const addPostToFeed = (state, postId) => {
 };
 
 const hidePostInFeed = (state, postId) => {
-  // Add it to hiddenEntries, but don't remove from visibleEntries just yet
-  // (for the sake of "Undo"). And check first if it's already in hiddenEntries,
-  // since realtime event might come first.
-  const itsAlreadyThere = (state.hiddenEntries.indexOf(postId) > -1);
-  if (itsAlreadyThere) {
+  // Check if it's even in the currently visible entries, since it might be
+  // a realtime event for a non-present post. So then there's no post to hide.
+  const itsNotInVisible = (state.visibleEntries.indexOf(postId) === -1);
+  if (itsNotInVisible) {
     return state;
   }
+
+  // Check if it's already in hiddenEntries, since realtime event might come
+  // first. So then it's done already.
+  const itsAlreadyInHidden = (state.hiddenEntries.indexOf(postId) > -1);
+  if (itsAlreadyInHidden) {
+    return state;
+  }
+
+  // Add it to hiddenEntries, but don't remove from visibleEntries just yet
+  // (for the sake of "Undo").
   return { ...state,
     hiddenEntries: [postId, ...state.hiddenEntries]
   };
 };
 
 const unhidePostInFeed = (state, postId) => {
+  // Check if it's even in the currently hidden entries, since it might be
+  // a realtime event for a non-present post. So then there's no post to un-hide.
+  const itsNotInHidden = (state.hiddenEntries.indexOf(postId) === -1);
+  if (itsNotInHidden) {
+    return state;
+  }
+
   // Remove it from hiddenEntries and add to visibleEntries
   // (but check first if it's already in there, since this might be an "Undo" happening,
   // and/or realtime event might come first).
-  const itsStillThere = (state.visibleEntries.indexOf(postId) > -1);
+  const itsAlreadyInVisible = (state.visibleEntries.indexOf(postId) > -1);
   return { ...state,
-    visibleEntries: (itsStillThere ? state.visibleEntries : [...state.visibleEntries, postId]),
+    visibleEntries: (itsAlreadyInVisible ? state.visibleEntries : [...state.visibleEntries, postId]),
     hiddenEntries: _.without(state.hiddenEntries, postId)
   };
 };
