@@ -43,9 +43,11 @@
     position: relative; // to fix the outline covered by "relative" post-recipients
   }
 
-  .post-visibility-icon {
-    position: absolute;
-    margin: -30px 0 0 -22px;
-    color: #666;
+  .post-edit-actions {
+    [class^="icon-"], [class*=" icon-"] {
+      position: absolute;
+      margin: -30px 0 0 -22.1px; // ".1" is needed to fix a weird issue in Chrome causing wrongly rounded width on this element
+      color: #666;
+    }
   }
 }

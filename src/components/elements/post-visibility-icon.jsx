@@ -8,22 +8,16 @@ const PostVisibilityIcon = (props) => {
 
   switch (postLevel) {
     case PostVisibilityLevels.DIRECT: {
-      return <i className="post-visibility-icon fa fa-envelope" title="This is direct message"></i>;
+      return <svg className="icon-envelope"><title>This is direct message</title><use xlinkHref="#icon-envelope"></use></svg>;
     }
     case PostVisibilityLevels.PRIVATE: {
-      return <i className="post-visibility-icon fa fa-lock" title="This entry is private"></i>;
+      return <svg className="icon-lock"><title>This entry is private</title><use xlinkHref="#icon-lock"></use></svg>;
     }
     case PostVisibilityLevels.PROTECTED: {
-      return (
-        <i className="post-visibility-icon icon-protected" title="This entry is only visible to FreeFeed users">
-          <i className="icon-protected-bg fa fa-user"></i>
-          <i className="icon-protected-shadow fa fa-user-o fa-inverse"></i>
-          <i className="icon-protected-fg fa fa-user"></i>
-        </i>
-      );
+      return <svg className="icon-users"><title>This entry is only visible to FreeFeed users</title><use xlinkHref="#icon-users"></use></svg>;
     }
   }
-  return <i className="post-visibility-icon fa fa-globe" title="This entry is public"></i>;
+  return <svg className="icon-globe"><title>This entry is public</title><use xlinkHref="#icon-globe"></use></svg>;
 };
 
 export default PostVisibilityIcon;
