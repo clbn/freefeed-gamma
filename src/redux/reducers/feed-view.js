@@ -53,8 +53,14 @@ export default function feedViewState(state = initFeed, action) {
     return initFeed;
   }
   if (ActionHelpers.isFeedResponse(action)) {
-    const visibleEntries = (action.payload.posts || []).filter(post => !post.isHidden).map(post => post.id);
-    const hiddenEntries = (action.payload.posts || []).filter(post => post.isHidden).map(post => post.id);
+    let visibleEntries, hiddenEntries;
+    if (action.type === response(ActionTypes.HOME)) {
+      visibleEntries = (action.payload.posts || []).filter(post => !post.isHidden).map(post => post.id);
+      hiddenEntries = (action.payload.posts || []).filter(post => post.isHidden).map(post => post.id);
+    } else {
+      visibleEntries = (action.payload.posts || []).map(post => post.id);
+      hiddenEntries = [];
+    }
     const isHiddenRevealed = false;
     const isLastPage = action.payload.isLastPage;
     return {
