@@ -138,9 +138,8 @@ export default class PostBookmarkletForm extends React.Component {
         )}
 
         <div className="comment">
-          <a className="comment-icon comment-icon-special fa-stack">
-            <i className="fa fa-comment fa-stack-1x"></i>
-            <i className="fa fa-comment-o fa-stack-1x"></i>
+          <a className="comment-icon comment-icon-special">
+            <svg className="icon-comment-plus"><use xlinkHref="#icon-comment-plus"></use></svg>
           </a>
 
           <div className="comment-body">
