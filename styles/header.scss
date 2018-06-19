@@ -25,7 +25,16 @@ header {
 
     .gamma {
       color: #1d66bf;
-      margin-left: 5px;
+
+      width: 0.39em;
+      height: 0.56em;
+      margin: 0 0 0.23em .15em;
+
+      fill: currentColor;
+      stroke: currentColor;
+      stroke-width: 1px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .tagline {

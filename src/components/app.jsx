@@ -157,7 +157,10 @@ class App extends React.Component {
               {props.isLoading ? (
                 <span className="loading"><img src={throbber100} width="30" height="30"/></span>
               ) : (
-                <sup className="gamma" title="Gamma">&gamma;</sup>
+                <svg className="gamma" viewBox="0 0 40 58" xmlns="http://www.w3.org/2000/svg">
+                  <title>Gamma</title>
+                  <path d="M39.1 1a116.6 116.6 0 0 1-10.7 34.3c-1.6 3-3.3 6-5.1 8.6V57h-9V46c0-3.2-.5-6.8-1.3-10.9A120.4 120.4 0 0 0 .5 1h10a135.5 135.5 0 0 1 8.9 22.1l1.7 7.5h.2A79.6 79.6 0 0 0 29.7 1H39z"/>
+                </svg>
               )}
 
               <div className="tagline">The Greek letter for the rest of us</div>
