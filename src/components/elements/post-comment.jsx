@@ -139,8 +139,7 @@ class PostComment extends React.Component {
 
     const iconClasses = classnames({
       'comment-icon': true,
-      'comment-icon-special': isCommentSpecial,
-      'fa-stack': true
+      'comment-icon-special': isCommentSpecial
     });
 
     const commentPlaceholderText = this.getCommentPlaceholder();
@@ -156,8 +155,7 @@ class PostComment extends React.Component {
            title={dateRelative + '\n' + dateFull}
            href={`${this.props.postUrl}#comment-${this.props.id}`}
            onClick={preventDefault(this.openAnsweringComment)}>
-          <i className="fa fa-comment fa-stack-1x"></i>
-          <i className="fa fa-comment-o fa-stack-1x"></i>
+          <svg className="icon-comment"><use xlinkHref="#icon-comment"></use></svg>
         </a>
 
         {this.props.hideType ? (
