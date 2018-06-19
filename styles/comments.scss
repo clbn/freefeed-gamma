@@ -25,19 +25,13 @@
       fill: desaturate(lighten(#1d66bf, 50%), 20%);
     }
 
-    &.comment-icon-add {
-      margin-top: 1px;
+    .icon-comment-plus {
+      color: #999;
+      fill: #fff;
+    }
 
-      .fa-plus,
-      .fa-square {
-        font-size: 60%;
-        top: 3px;
-        left: 4px;
-      }
-      .fa-plus {
-        top: 3px;
-        left: 4px;
-      }
+    &.comment-icon-add {
+      margin-top: 2px;
     }
   }
 

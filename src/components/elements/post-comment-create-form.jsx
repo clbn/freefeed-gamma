@@ -79,10 +79,8 @@ class PostCommentCreateForm extends React.Component {
 
     return (
       <div className="comment">
-        <a className="comment-icon comment-icon-add fa-stack" onClick={this.startCommenting}>
-          <i className="fa fa-comment-o fa-stack-1x"></i>
-          <i className="fa fa-square fa-inverse fa-stack-1x"></i>
-          <i className="fa fa-plus fa-stack-1x"></i>
+        <a className="comment-icon comment-icon-add" onClick={this.startCommenting}>
+          <svg className="icon-comment-plus"><use xlinkHref="#icon-comment-plus"></use></svg>
         </a>
 
         {writingComment ? (
