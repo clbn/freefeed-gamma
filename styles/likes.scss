@@ -5,23 +5,17 @@
     float: left;
     height: 16px;
     width: 16px;
-    margin-top: 2px;
-    margin-right: 3px;
+    margin: 2px 2px 0 1px;
 
-    color: #ffb914;
     line-height: 1em;
 
-    .fa-heart {
-      color: lighten(#ffb914, 40%);
-    }
-    .fa-heart-o {
-      font-weight: bold;
+    .icon-heart {
+      color: #ffb914;
+      fill: lighten(#ffb914, 40%);
     }
 
-    &.likes-icon-liked {
-      .fa-heart {
-        color: #ffb914;
-      }
+    &.likes-icon-liked .icon-heart {
+      fill: #ffb914;
     }
   }
 

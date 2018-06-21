@@ -54,15 +54,13 @@ const PostLikes = (props) => {
 
   const iconClasses = classnames({
     'likes-icon': true,
-    'likes-icon-liked': props.didILikePost,
-    'fa-stack': true
+    'likes-icon-liked': props.didILikePost
   });
 
   return (
     <div className="likes">
       <div className={iconClasses}>
-        <i className="fa fa-heart fa-stack-1x"></i>
-        <i className="fa fa-heart-o fa-stack-1x"></i>
+        <svg className="icon-heart"><use xlinkHref="#icon-heart"></use></svg>
       </div>
       <ul>{renderedLikes}</ul>
     </div>
