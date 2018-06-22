@@ -59,7 +59,7 @@
 
     .clikes-trigger {
       display: inline-block;
-      min-width: 32px;
+      min-width: 31px;
       height: 18px;
       padding: 0 2px 0 4px;
       margin-left: 0;
@@ -79,15 +79,12 @@
       vertical-align: top;
 
       opacity: 0.8;
-      color: $clike-icon-color;
       font-size: 12px;
-      width: 13px;
 
-      .fa-heart {
-        color: lighten($clike-icon-color, 40%);
-      }
-      .fa-heart-o {
-        font-weight: bold;
+      .icon-heart {
+        color: $clike-icon-color;
+        fill: lighten($clike-icon-color, 40%);
+        margin-bottom: -1px;
       }
     }
 
@@ -111,8 +108,8 @@
       font-size: 11px;
       margin-left: 3px;
 
-      .fa-plus { display: inherit; font-size: 10px; }
-      .fa-times { display: none; color: #ccc; }
+      .icon-plus { display: inherit; }
+      .icon-times { display: none; color: #ccc; }
     }
 
     .clikes-throbber {
@@ -147,9 +144,9 @@
     }
 
     &.clikes-liked {
-      .fa-heart { color: $clike-icon-color; }
-      .fa-plus { display: none; }
-      .fa-times { display: inherit; }
+      .icon-heart { fill: $clike-icon-color; }
+      .icon-plus { display: none; }
+      .icon-times { display: inherit; }
     }
   }
 

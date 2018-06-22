@@ -158,9 +158,8 @@ class PostCommentLikes extends React.Component {
         {'-'}
 
         <span className="clikes-trigger" ref={this.refTrigger} onClick={this.handleClick} title="Comment likes">
-          <span className="clikes-icon fa-stack">
-            <i className="fa fa-heart fa-stack-1x"></i>
-            <i className="fa fa-heart-o fa-stack-1x"></i>
+          <span className="clikes-icon">
+            <svg className="icon-heart"><use xlinkHref="#icon-heart"></use></svg>
           </span>
 
           <span className="clikes-number">
@@ -168,8 +167,8 @@ class PostCommentLikes extends React.Component {
           </span>
 
           <span className="clikes-sign">
-            <i className="fa fa-plus"></i>
-            <i className="fa fa-times"></i>
+            <svg className="icon-plus"><use xlinkHref="#icon-plus"></use></svg>
+            <svg className="icon-times"><use xlinkHref="#icon-times"></use></svg>
           </span>
 
           <img className="clikes-throbber" width="11" height="11" src={throbber16}/>
