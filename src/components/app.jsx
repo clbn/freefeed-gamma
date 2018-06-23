@@ -125,6 +125,9 @@ class App extends React.Component {
         <Helmet title={title} />
 
         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ display: 'none' }}>
+          <symbol id="icon-bars" viewBox="0 0 12 14">
+            <path d="M12 10.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1c0-.27.23-.5.5-.5h11c.27 0 .5.23.5.5zm0-4v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1c0-.27.23-.5.5-.5h11c.27 0 .5.23.5.5zm0-4v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1c0-.27.23-.5.5-.5h11c.27 0 .5.23.5.5z"/>
+          </symbol>
           <symbol id="icon-comment" viewBox="0 0 14 14">
             <path fill="currentColor" d="M14 6.16c0 2.84-3.15 5.16-7 5.16l-1.03-.04a8.17 8.17 0 0 1-3.83 1.94c-.16.04-.43.06-.55.06-.26 0-.57-.13-.63-.5-.06-.3.1-.46.24-.67a4.4 4.4 0 0 0 1.3-2C.97 9.2 0 7.81 0 6.16 0 3.31 3.15 1 7 1s7 2.3 7 5.16z"/>
             <path d="M7 2.5C4.37 2.47 1.51 4 1.5 6.17c0 1.1.8 2.06 1.92 2.72l.78.54-.23.91-.29.74a6 6 0 0 0 1.23-.81l.61-.54 1.48.1c2.86 0 5.5-1.62 5.5-3.66 0-1.82-2.36-3.63-5.5-3.67z"/>
@@ -185,8 +188,8 @@ class App extends React.Component {
                 ) : false}
 
                 <div className="mobile-sidebar-toggle" onTouchEnd={this.toggleSidebar} onClick={this.toggleSidebar}>
-                  <i className="fa fa-bars" aria-hidden="true"></i>
-                  <i className="fa fa-times" aria-hidden="true"></i>
+                  <svg className="icon-bars"><use xlinkHref="#icon-bars"></use></svg>
+                  <svg className="icon-times"><use xlinkHref="#icon-times"></use></svg>
                   {props.unreadDirectsNumber > 0 ? (
                     <span className="direct-messages-badge">{props.unreadDirectsNumber}</span>
                   ) : false}

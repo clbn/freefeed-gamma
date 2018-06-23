@@ -52,13 +52,12 @@ header {
 
     position: fixed;
     width: 46px;
+    height: 46px;
     z-index: 1000;
 
     cursor: pointer;
-    color: rgba(29, 102, 191, 0.5);
-    font-size: 32px;
-    line-height: 36px;
-    padding: 5px 0;
+    color: desaturate(lighten(#1d66bf, 25%), 25%);
+    font-size: 30px;
     text-align: center;
 
     margin: 15px 0 10px -46px;
@@ -67,11 +66,15 @@ header {
     background-color: #eee;
     border-radius: 5px;
 
-    .fa-times { display: none; }
+    [class^="icon-"], [class*=" icon-"] {
+      margin: 8px 0 0 0;
+    }
+
+    .icon-times { display: none; }
 
     .mobile-sidebar-open & {
-      .fa-bars { display: none; }
-      .fa-times { display: inline-block; }
+      .icon-bars { display: none; }
+      .icon-times { display: inline-block; }
     }
 
     .direct-messages-badge {
