@@ -44,7 +44,7 @@ class SearchForm extends React.Component {
       'focused': this.state.isFocused
     });
 
-    const buttonText = this.props.buttonText || <i className="fa fa-search"></i>;
+    const buttonText = this.props.buttonText || <svg className="icon-search"><use xlinkHref="#icon-search"></use></svg>;
 
     return (
       <form className={formClasses} action="/search" onSubmit={preventDefault(this.submitForm)}>
