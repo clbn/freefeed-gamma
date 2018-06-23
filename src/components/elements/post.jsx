@@ -374,7 +374,7 @@ class Post extends React.Component {
 
               <div className="post-edit-options">
                 <span className="post-edit-attachments dropzone-trigger">
-                  <i className="fa fa-cloud-upload"></i>
+                  <svg className="icon-cloud-upload"><use xlinkHref="#icon-cloud-upload"></use></svg>
                   {' '}
                   Add photos or files
                 </span>
