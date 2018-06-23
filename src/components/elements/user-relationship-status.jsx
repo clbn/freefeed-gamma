@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 
 const UserRelationshipStatus = (props) => (
   props.isUserBlockedByMe ? (
-    <span><i className="fa fa-ban"></i> You've blocked the user</span>
+    <span><svg className="icon-ban"><use xlinkHref="#icon-ban"></use></svg> You've blocked the user</span>
   ) : props.amIBlockedByUser ? (
-    <span><i className="fa fa-question-circle"></i> User may have blocked you</span>
+    <span><svg className="icon-question-circle"><use xlinkHref="#icon-question-circle"></use></svg> User may have blocked you</span>
   ) : props.hasRequestBeenSent ? (
-    <span><i className="fa fa-clock-o"></i> You've sent sub request</span>
+    <span><svg className="icon-clock"><use xlinkHref="#icon-clock"></use></svg> You've sent sub request</span>
   ) : props.amISubscribedToUser ? (
     props.type === 'user' ? (
       props.isUserSubscribedToMe ? (
-        <span><i className="fa fa-check-circle"></i> Mutually subscribed</span>
+        <span><svg className="icon-check-circle"><use xlinkHref="#icon-check-circle"></use></svg> Mutually subscribed</span>
       ) : (
-        <span><i className="fa fa-check-circle"></i> You are subscribed</span>
+        <span><svg className="icon-check-circle"><use xlinkHref="#icon-check-circle"></use></svg> You are subscribed</span>
       )
     ) : props.amIGroupAdmin ? (
-      <span><i className="fa fa-check-square"></i> You are an admin</span>
+      <span><svg className="icon-check-square"><use xlinkHref="#icon-check-square"></use></svg> You are an admin</span>
     ) : (
-      <span><i className="fa fa-check-square"></i> You are a member</span>
+      <span><svg className="icon-check-square"><use xlinkHref="#icon-check-square"></use></svg> You are a member</span>
     )
   ) : props.isUserSubscribedToMe ? (
-    <span><i className="fa fa-check-circle-o"></i> User subscribed to you</span>
+    <span><svg className="icon-check-circle-o"><use xlinkHref="#icon-check-circle-o"></use></svg> User subscribed to you</span>
   ) : (
     false
   )
