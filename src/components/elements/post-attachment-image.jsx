@@ -52,7 +52,9 @@ export default (props) => {
   const removeAttachment = () => props.removeAttachment(props.id);
 
   const removeButton = (
-    <a className="remove-attachment fa fa-times" title="Remove image" onClick={removeAttachment}></a>
+    <a className="remove-attachment" title="Remove image" onClick={removeAttachment}>
+      <svg className="icon-times"><use xlinkHref="#icon-times"></use></svg>
+    </a>
   );
 
   return (

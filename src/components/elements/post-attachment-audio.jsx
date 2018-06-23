@@ -22,12 +22,14 @@ export default (props) => {
       </div>
       <div>
         <a href={props.url} title={artistAndTitle} target="_blank" rel="noopener">
-          <i className="fa fa-file-audio-o"></i>
+          <svg className="icon-file-audio"><use xlinkHref="#icon-file-audio"></use></svg>
           <span>{artistAndTitle}</span>
         </a>
 
         {props.isEditing ? (
-          <i className="remove-attachment fa fa-times" title="Remove audio file" onClick={removeAttachment}></i>
+          <span className="remove-attachment" title="Remove audio file" onClick={removeAttachment}>
+            <svg className="icon-times"><use xlinkHref="#icon-times"></use></svg>
+          </span>
         ) : false}
       </div>
     </div>

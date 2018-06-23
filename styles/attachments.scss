@@ -66,11 +66,11 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
 
-    i {
+    [class^="icon-"], [class*=" icon-"] {
       display: inline;
-      color: #666666;
-      padding: 0 1px;
-      margin-right: 4px;
+      color: #666;
+      margin-left: 1px;
+      margin-right: 5px;
     }
   }
 }
@@ -98,6 +98,12 @@
     &:hover {
       opacity: 1;
     }
+
+    .icon-times {
+      width: 14px;
+      height: 14px / 10 * 14;
+      margin: 6px 0 0 0;
+    }
   }
 
   .attachment.removed {
@@ -116,7 +122,7 @@
   .attachment .remove-attachment {
     display: inline;
     cursor: pointer;
-    padding: 3px 6px 4px 6px;
+    padding: 3px 6px;
     margin: 0 0 0 5px;
     background-color: #eee;
     border-radius: 3px;

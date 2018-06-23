@@ -10,12 +10,14 @@ export default (props) => {
   return (
     <div className="attachment">
       <a href={props.url} title={nameAndSize} target="_blank" rel="noopener">
-        <i className="fa fa-file-o"></i>
+        <svg className="icon-file"><use xlinkHref="#icon-file"></use></svg>
         <span>{nameAndSize}</span>
       </a>
 
       {props.isEditing ? (
-        <i className="remove-attachment fa fa-times" title="Remove file" onClick={removeAttachment}></i>
+        <i className="remove-attachment" title="Remove file" onClick={removeAttachment}>
+          <svg className="icon-times"><use xlinkHref="#icon-times"></use></svg>
+        </i>
       ) : false}
     </div>
   );
