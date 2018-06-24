@@ -2,6 +2,9 @@ import React from 'react';
 
 const IconDefinitions = () => (
   <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ display: 'none' }}>
+    <symbol id="icon-archive" viewBox="0 0 14 14">
+      <path d="M8.5 6.5c0-.3-.2-.5-.5-.5H6c-.3 0-.5.2-.5.5s.2.5.5.5h2c.3 0 .5-.2.5-.5zM13 5v7.5c0 .3-.2.5-.5.5h-11a.5.5 0 0 1-.5-.5V5c0-.3.2-.5.5-.5h11c.3 0 .5.2.5.5zm.5-3.5v2c0 .3-.2.5-.5.5H1a.5.5 0 0 1-.5-.5v-2c0-.3.2-.5.5-.5h12c.3 0 .5.2.5.5z"/>
+    </symbol>
     <symbol id="icon-ban" viewBox="0 0 12 14">
       <path d="M10.3 7c0-.9-.3-1.6-.7-2.3l-6 5.9c.8.4 1.5.7 2.4.7 2.4 0 4.2-2 4.3-4.3zM2.3 9.3l6-5.9C7.6 3 6.8 2.8 6 2.8A4.2 4.2 0 0 0 1.7 7c0 .9.3 1.7.7 2.3zM12 7a6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6z"/>
     </symbol>

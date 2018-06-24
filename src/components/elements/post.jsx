@@ -339,7 +339,7 @@ class Post extends React.Component {
         </div>
 
         {props.isArchive ? (
-          <i className="post-archive-marker fa fa-archive" title="Post from FriendFeed archive"></i>
+          <Icon name="archive" title="Post from FriendFeed archive" className="post-archive-marker"/>
         ) : props.isDirect ? (
           <i className={'post-direct-marker fa fa-envelope' + (props.isSinglePost ? '-open' : '') + '-o'} title="Direct message"></i>
         ) : false}
