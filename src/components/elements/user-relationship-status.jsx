@@ -1,27 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Icon from "./icon";
+
 const UserRelationshipStatus = (props) => (
   props.isUserBlockedByMe ? (
-    <span><svg className="icon-ban"><use xlinkHref="#icon-ban"></use></svg> You've blocked the user</span>
+    <span><Icon name="ban"/> You've blocked the user</span>
   ) : props.amIBlockedByUser ? (
-    <span><svg className="icon-question-circle"><use xlinkHref="#icon-question-circle"></use></svg> User may have blocked you</span>
+    <span><Icon name="question-circle"/> User may have blocked you</span>
   ) : props.hasRequestBeenSent ? (
-    <span><svg className="icon-clock"><use xlinkHref="#icon-clock"></use></svg> You've sent sub request</span>
+    <span><Icon name="clock"/> You've sent sub request</span>
   ) : props.amISubscribedToUser ? (
     props.type === 'user' ? (
       props.isUserSubscribedToMe ? (
-        <span><svg className="icon-check-circle"><use xlinkHref="#icon-check-circle"></use></svg> Mutually subscribed</span>
+        <span><Icon name="check-circle"/> Mutually subscribed</span>
       ) : (
-        <span><svg className="icon-check-circle"><use xlinkHref="#icon-check-circle"></use></svg> You are subscribed</span>
+        <span><Icon name="check-circle"/> You are subscribed</span>
       )
     ) : props.amIGroupAdmin ? (
-      <span><svg className="icon-check-square"><use xlinkHref="#icon-check-square"></use></svg> You are an admin</span>
+      <span><Icon name="check-square"/> You are an admin</span>
     ) : (
-      <span><svg className="icon-check-square"><use xlinkHref="#icon-check-square"></use></svg> You are a member</span>
+      <span><Icon name="check-square"/> You are a member</span>
     )
   ) : props.isUserSubscribedToMe ? (
-    <span><svg className="icon-check-circle-o"><use xlinkHref="#icon-check-circle-o"></use></svg> User subscribed to you</span>
+    <span><Icon name="check-circle-o"/> User subscribed to you</span>
   ) : (
     false
   )

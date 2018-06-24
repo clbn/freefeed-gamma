@@ -7,6 +7,7 @@ import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
 import PostVisibilityIcon from './post-visibility-icon';
 import PostAttachments from './post-attachments';
+import Icon from "./icon";
 import * as PostVisibilityLevels from '../../utils/post-visibility-levels';
 import { preventDefault, getPostVisibilityLevel } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
@@ -281,7 +282,7 @@ class PostCreateForm extends React.Component {
 
         <div className="post-edit-options">
           <span className="post-edit-attachments dropzone-trigger">
-            <svg className="icon-cloud-upload"><use xlinkHref="#icon-cloud-upload"></use></svg>
+            <Icon name="cloud-upload"/>
             {' '}
             <span className="xs-screen">Upload</span>
             <span className="other-screens">Add photos or files</span>

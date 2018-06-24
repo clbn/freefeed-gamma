@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 
 import { addComment, updateHighlightedComments } from '../../redux/action-creators';
+import Icon from "./icon";
 import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostCommentCreateForm extends React.Component {
@@ -80,7 +81,7 @@ class PostCommentCreateForm extends React.Component {
     return (
       <div className="comment">
         <a className="comment-icon comment-icon-add" onClick={this.startCommenting}>
-          <svg className="icon-comment-plus"><use xlinkHref="#icon-comment-plus"></use></svg>
+          <Icon name="comment-plus"/>
         </a>
 
         {writingComment ? (

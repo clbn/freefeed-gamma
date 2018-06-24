@@ -4,8 +4,9 @@ import classnames from 'classnames';
 
 import { makeGetPostLikes } from '../../redux/selectors';
 import { showMoreLikes } from '../../redux/action-creators';
-import UserName from './user-name';
 import { preventDefault } from '../../utils';
+import UserName from './user-name';
+import Icon from "./icon";
 import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderLike = (item, i, items) => (
@@ -60,7 +61,7 @@ const PostLikes = (props) => {
   return (
     <div className="likes">
       <div className={iconClasses}>
-        <svg className="icon-heart"><use xlinkHref="#icon-heart"></use></svg>
+        <Icon name="heart"/>
       </div>
       <ul>{renderedLikes}</ul>
     </div>

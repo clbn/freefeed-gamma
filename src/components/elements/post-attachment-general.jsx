@@ -1,6 +1,8 @@
 import React from 'react';
 import numeral from 'numeral';
 
+import Icon from "./icon";
+
 export default (props) => {
   const formattedFileSize = numeral(props.fileSize).format('0.[0] b');
   const nameAndSize = props.fileName + ' (' + formattedFileSize + ')';
@@ -10,13 +12,13 @@ export default (props) => {
   return (
     <div className="attachment">
       <a href={props.url} title={nameAndSize} target="_blank" rel="noopener">
-        <svg className="icon-file"><use xlinkHref="#icon-file"></use></svg>
+        <Icon name="file"/>
         <span>{nameAndSize}</span>
       </a>
 
       {props.isEditing ? (
         <i className="remove-attachment" title="Remove file" onClick={removeAttachment}>
-          <svg className="icon-times"><use xlinkHref="#icon-times"></use></svg>
+          <Icon name="times"/>
         </i>
       ) : false}
     </div>

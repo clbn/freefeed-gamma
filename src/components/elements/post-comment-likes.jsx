@@ -7,6 +7,7 @@ import tippy from 'tippy.js';
 import { makeGetClikes } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
 import UserName from './user-name';
+import Icon from "./icon";
 import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderClike = (item, i, items) => (
@@ -159,7 +160,7 @@ class PostCommentLikes extends React.Component {
 
         <span className="clikes-trigger" ref={this.refTrigger} onClick={this.handleClick} title="Comment likes">
           <span className="clikes-icon">
-            <svg className="icon-heart"><use xlinkHref="#icon-heart"></use></svg>
+            <Icon name="heart"/>
           </span>
 
           <span className="clikes-number">
@@ -167,8 +168,8 @@ class PostCommentLikes extends React.Component {
           </span>
 
           <span className="clikes-sign">
-            <svg className="icon-plus"><use xlinkHref="#icon-plus"></use></svg>
-            <svg className="icon-times"><use xlinkHref="#icon-times"></use></svg>
+            <Icon name="plus"/>
+            <Icon name="times"/>
           </span>
 
           <img className="clikes-throbber" width="11" height="11" src={throbber16}/>

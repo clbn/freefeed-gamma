@@ -1,7 +1,9 @@
 import React from 'react';
+
 import { preventDefault } from '../../utils';
-import throbber16 from 'assets/images/throbber-16.gif';
 import PostRecipients from './post-recipients';
+import Icon from "./icon";
+import throbber16 from 'assets/images/throbber-16.gif';
 
 export default class PostBookmarkletForm extends React.Component {
   constructor(props) {
@@ -139,7 +141,7 @@ export default class PostBookmarkletForm extends React.Component {
 
         <div className="comment">
           <a className="comment-icon comment-icon-special">
-            <svg className="icon-comment-plus"><use xlinkHref="#icon-comment-plus"></use></svg>
+            <Icon name="comment-plus"/>
           </a>
 
           <div className="comment-body">

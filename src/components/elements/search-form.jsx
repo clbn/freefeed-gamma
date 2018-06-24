@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 import classnames from 'classnames';
 
 import { preventDefault } from '../../utils';
+import Icon from "./icon";
 
 class SearchForm extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class SearchForm extends React.Component {
       'focused': this.state.isFocused
     });
 
-    const buttonText = this.props.buttonText || <svg className="icon-search"><use xlinkHref="#icon-search"></use></svg>;
+    const buttonText = this.props.buttonText || <Icon name="search"/>;
 
     return (
       <form className={formClasses} action="/search" onSubmit={preventDefault(this.submitForm)}>

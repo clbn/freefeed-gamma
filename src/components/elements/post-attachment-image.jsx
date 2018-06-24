@@ -3,6 +3,7 @@ import numeral from 'numeral';
 import { SortableHandle } from 'react-sortable-hoc';
 
 import { preventDefault } from '../../utils';
+import Icon from "./icon";
 
 const DragHandle = SortableHandle((props) => props.children);
 
@@ -53,7 +54,7 @@ export default (props) => {
 
   const removeButton = (
     <a className="remove-attachment" title="Remove image" onClick={removeAttachment}>
-      <svg className="icon-times"><use xlinkHref="#icon-times"></use></svg>
+      <Icon name="times"/>
     </a>
   );
 

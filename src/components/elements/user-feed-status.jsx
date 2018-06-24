@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Icon from "./icon";
 
 const UserFeedStatus = (props) => (
   <span>
     {props.isPrivate === '1' ? (
-      <span><svg className="icon-lock"><use xlinkHref="#icon-lock"></use></svg> Private</span>
+      <span><Icon name="lock"/> Private</span>
     ) : props.isProtected === '1' ? (
-      <span><svg className="icon-users"><use xlinkHref="#icon-users"></use></svg> Protected</span>
+      <span><Icon name="users"/> Protected</span>
     ) : (
-      <span><svg className="icon-globe"><use xlinkHref="#icon-globe"></use></svg> Public</span>
+      <span><Icon name="globe"/> Public</span>
     )}
     {props.isRestricted === '1' ? ' restricted' : false}
     {props.type === 'user' ? ' feed' : ' group'}

@@ -1,6 +1,8 @@
 import React from 'react';
 import numeral from 'numeral';
 
+import Icon from "./icon";
+
 export default (props) => {
   const formattedFileSize = numeral(props.fileSize).format('0.[0] b');
 
@@ -22,13 +24,13 @@ export default (props) => {
       </div>
       <div>
         <a href={props.url} title={artistAndTitle} target="_blank" rel="noopener">
-          <svg className="icon-file-audio"><use xlinkHref="#icon-file-audio"></use></svg>
+          <Icon name="file-audio"/>
           <span>{artistAndTitle}</span>
         </a>
 
         {props.isEditing ? (
           <span className="remove-attachment" title="Remove audio file" onClick={removeAttachment}>
-            <svg className="icon-times"><use xlinkHref="#icon-times"></use></svg>
+            <Icon name="times"/>
           </span>
         ) : false}
       </div>

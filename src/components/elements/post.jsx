@@ -17,6 +17,7 @@ import throbber16 from 'assets/images/throbber-16.gif';
 import PostDropzone from './post-dropzone';
 import PostMoreMenu from './post-more-menu';
 import PostVisibilityIcon from './post-visibility-icon';
+import Icon from "./icon";
 
 class Post extends React.Component {
   constructor(props) {
@@ -374,7 +375,7 @@ class Post extends React.Component {
 
               <div className="post-edit-options">
                 <span className="post-edit-attachments dropzone-trigger">
-                  <svg className="icon-cloud-upload"><use xlinkHref="#icon-cloud-upload"></use></svg>
+                  <Icon name="cloud-upload"/>
                   {' '}
                   Add photos or files
                 </span>

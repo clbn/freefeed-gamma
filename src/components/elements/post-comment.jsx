@@ -8,6 +8,7 @@ import { makeGetPostComment } from '../../redux/selectors';
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
 import PostCommentLikes from './post-comment-likes';
+import Icon from "./icon";
 import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
 import { postActions } from '../../redux/select-utils';
 import * as CommentTypes from '../../utils/comment-types';
@@ -155,7 +156,7 @@ class PostComment extends React.Component {
            title={dateRelative + '\n' + dateFull}
            href={`${this.props.postUrl}#comment-${this.props.id}`}
            onClick={preventDefault(this.openAnsweringComment)}>
-          <svg className="icon-comment"><use xlinkHref="#icon-comment"></use></svg>
+          <Icon name="comment"/>
         </a>
 
         {this.props.hideType ? (
