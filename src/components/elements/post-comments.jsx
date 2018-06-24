@@ -6,6 +6,7 @@ import { showMoreComments, toggleCommenting } from '../../redux/action-creators'
 import PostComment from './post-comment';
 import PostCommentsMore from './post-comments-more';
 import PostCommentCreateForm from './post-comment-create-form';
+import Icon from "./icon";
 
 class PostComments extends React.Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class PostComments extends React.Component {
 
     const archiveRevivalIcon = (
       <div className="comments-archive-revival">
-        <i className="fa fa-bolt fa-fw" title="This comment bumped the post from archive"></i>
+        <Icon name="bolt" title="This comment bumped the post from archive"/>
       </div>
     );
     const showOmittedNumber = props.post.omittedComments > 0;
