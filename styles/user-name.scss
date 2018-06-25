@@ -89,6 +89,10 @@
           cursor: pointer;
           background-color: #eee;
         }
+
+        [class^="icon-"], [class*=" icon-"] {
+          margin-bottom: -0.1em;
+        }
       }
     }
 

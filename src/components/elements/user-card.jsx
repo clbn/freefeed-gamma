@@ -10,6 +10,7 @@ import { confirmFirst, isMobile } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 import UserFeedStatus from './user-feed-status';
 import UserRelationshipStatus from './user-relationship-status';
+import Icon from "./icon";
 
 const USERCARD_SHOW_DELAY = 1000;
 const USERCARD_HIDE_DELAY = 500;
@@ -185,7 +186,7 @@ class UserCard extends React.Component {
         <div className={cardClasses} style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
           <div className="user-card-info">
             <div className="userpic userpic-large userpic-error">
-              <i className="fa fa-exclamation"></i>
+              <Icon name="exclamation"/>
             </div>
             <div className="username">@{props.user.username}</div>
             <div className="description">{props.user.errorMessage}</div>
@@ -214,8 +215,9 @@ class UserCard extends React.Component {
             <div className="username">
               @{props.user.username}
               {props.user.description ? (
-                <i className={'description-trigger fa ' + (this.state.isDescriptionOpen ? 'fa-chevron-up' : 'fa-chevron-down')}
-                   onClick={this.toggleDescription}></i>
+                <span className="description-trigger" onClick={this.toggleDescription}>
+                  <Icon name={this.state.isDescriptionOpen ? 'chevron-up' : 'chevron-down'}/>
+                </span>
               ) : false}
             </div>
 
