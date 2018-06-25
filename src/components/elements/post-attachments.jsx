@@ -6,6 +6,7 @@ import { PhotoSwipe } from 'react-photoswipe';
 import ImageAttachment from './post-attachment-image';
 import AudioAttachment from './post-attachment-audio';
 import GeneralAttachment from './post-attachment-general';
+import Icon from "./icon";
 
 const SortableImageAttachment = SortableElement(ImageAttachment);
 
@@ -101,10 +102,9 @@ export default class PostAttachments extends React.Component {
 
     if (showToggle) {
       images.push(
-        <a key="show-more-images"
-           className="show-more-images fa"
-           title="Show more"
-           onClick={this.handleExpandImages}></a>
+        <a key="show-more-images" className="show-more-images" title="Show more" onClick={this.handleExpandImages}>
+          <Icon name="chevron-circle-right"/>
+        </a>
       );
     }
 
