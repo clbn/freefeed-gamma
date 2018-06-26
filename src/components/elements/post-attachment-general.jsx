@@ -17,9 +17,9 @@ export default (props) => {
       </a>
 
       {props.isEditing ? (
-        <i className="remove-attachment" title="Remove file" onClick={removeAttachment}>
+        <span className="remove-attachment" title="Remove file" onClick={removeAttachment}>
           <Icon name="times"/>
-        </i>
+        </span>
       ) : false}
     </div>
   );
