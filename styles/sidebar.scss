@@ -2,7 +2,7 @@
   a {
     color: #000;
 
-    i,
+    [class^="icon-"], [class*=" icon-"],
     .userpic {
       display: none;
     }
@@ -109,9 +109,10 @@
           background-color: #eee;
         }
 
-        i {
+        [class^="icon-"], [class*=" icon-"] {
           display: inline-block;
           color: #333;
+          width: 20px;
           margin-right: 6px;
         }
 

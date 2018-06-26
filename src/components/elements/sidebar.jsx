@@ -7,6 +7,7 @@ import { toggleSidebar, confirmFirst, preventDefault, stopPropagation } from '..
 import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
+import Icon from "./icon";
 
 const Sidebar = ({ me, signOut }) => (
   <div className="col-md-3 sidebar-overlay" onClick={toggleSidebar}>
@@ -37,23 +38,23 @@ const Sidebar = ({ me, signOut }) => (
         <div className="box-body">
           <ul>
             <li><Link to="/">
-              <i className="fa fa-home fa-fw"></i>
+              <Icon name="home"/>
               Home
             </Link></li>
 
             <li><Link to="/filter/discussions">
-              <i className="fa fa-comments fa-fw"></i>
+              <Icon name="comments"/>
               My discussions
             </Link></li>
 
             <li><Link to="/filter/direct" style={me.unreadDirectsNumber > 0 ? { fontWeight: 'bold' } : {}}>
-              <i className="fa fa-envelope fa-fw"></i>
+              <Icon name="envelope"/>
               Direct messages
               {me.unreadDirectsNumber > 0 ? ` (${me.unreadDirectsNumber})` : false}
             </Link></li>
 
             <li><Link to="/summary/1">
-              <i className="fa fa-heart fa-fw"></i>
+              <Icon name="heartbeat"/>
               Best of day
             </Link></li>
           </ul>
