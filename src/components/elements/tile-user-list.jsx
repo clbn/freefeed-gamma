@@ -6,6 +6,7 @@ import _ from 'lodash';
 import UserName from './user-name';
 import { confirmFirst } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
+import Icon from "./icon";
 
 class UserTile extends React.Component {
   handleAcceptRequest = () => this.props.user.acceptRequest(this.props.user.username);
@@ -47,40 +48,40 @@ class UserTile extends React.Component {
           <div className="user-actions">
             {type === WITH_REQUEST_HANDLES ? (
               <a className="user-action user-action-good" onClick={this.handleAcceptRequest}>
-                <i className="fa fa-thumbs-up"></i>
+                <Icon name="thumbs-up"/>
                 <span>Accept</span>
               </a>
             ) : false}
             {type === WITH_REQUEST_HANDLES ? (
               <a className="user-action user-action-bad" onClick={this.handleRejectRequest}>
-                <i className="fa fa-thumbs-down fa-flip-horizontal"></i>
+                <Icon name="thumbs-down"/>
                 <span>Reject</span>
               </a>
             ) : false}
 
             {type == WITH_REVOKE_SENT_REQUEST ? (
               <a className="user-action user-action-bad" onClick={this.handleRevokeSentRequest} title="Revoke sent request">
-                <i className="fa fa-times"></i>
+                <Icon name="times"/>
                 <span>Revoke</span>
               </a>
             ) : false}
 
             {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
               <a className="user-action user-action-good" onClick={this.handlePromote} title="Promote user to admin">
-                <i className="fa fa-level-up fa-flip-horizontal"></i>
+                <Icon name="level-up"/>
                 <span>Promote</span>
               </a>
             ) : false}
             {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
               <a className="user-action user-action-bad" onClick={this.handleUnsubscribe} title="Unsubscribe user from the group">
-                <i className="fa fa-times"></i>
+                <Icon name="times"/>
                 <span>Unsubscribe</span>
               </a>
             ) : false}
 
             {type == WITH_REMOVE_ADMIN_RIGHTS ? (
               <a className="user-action user-action-bad" onClick={this.handleDemote} title="Demote user from admin">
-                <i className="fa fa-level-down fa-flip-horizontal"></i>
+                <Icon name="level-down"/>
                 <span>Demote</span>
               </a>
             ) : false}
