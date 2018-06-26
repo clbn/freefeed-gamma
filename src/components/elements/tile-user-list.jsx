@@ -59,27 +59,27 @@ class UserTile extends React.Component {
               </a>
             ) : false}
 
-            {type == WITH_REVOKE_SENT_REQUEST ? (
+            {type === WITH_REVOKE_SENT_REQUEST ? (
               <a className="user-action user-action-bad" onClick={this.handleRevokeSentRequest} title="Revoke sent request">
                 <Icon name="times"/>
                 <span>Revoke</span>
               </a>
             ) : false}
 
-            {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
+            {type === WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
               <a className="user-action user-action-good" onClick={this.handlePromote} title="Promote user to admin">
                 <Icon name="level-up"/>
                 <span>Promote</span>
               </a>
             ) : false}
-            {type == WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
+            {type === WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
               <a className="user-action user-action-bad" onClick={this.handleUnsubscribe} title="Unsubscribe user from the group">
                 <Icon name="times"/>
                 <span>Unsubscribe</span>
               </a>
             ) : false}
 
-            {type == WITH_REMOVE_ADMIN_RIGHTS ? (
+            {type === WITH_REMOVE_ADMIN_RIGHTS ? (
               <a className="user-action user-action-bad" onClick={this.handleDemote} title="Demote user from admin">
                 <Icon name="level-down"/>
                 <span>Demote</span>
