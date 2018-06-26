@@ -77,10 +77,6 @@ module.exports = function(opts) {
             loader: 'jade-html-loader?' + JSON.stringify({ pretty: true, opts: opts })
           })
         },
-        // Font Awesome assets
-        { test: /fontawesome\-webfont\.(eot|svg|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'file-loader?name=assets/fonts/font-awesome/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
-        },
         // PhotoSwipe assets
         { test: /photoswipe.+\.(png|svg|gif)$/,
           loader: 'file-loader?name=assets/images/photoswipe/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
