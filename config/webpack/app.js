@@ -113,7 +113,7 @@ module.exports = function(opts) {
 
       new webpack.optimize.ModuleConcatenationPlugin(),
 
-      opts.uglify && new webpack.optimize.UglifyJsPlugin()
+      opts.uglify && new webpack.optimize.UglifyJsPlugin({ sourceMap: true })
     ])
   };
 };
