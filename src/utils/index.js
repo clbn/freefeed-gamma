@@ -1,5 +1,9 @@
 import _ from 'lodash';
-import { format, differenceInMilliseconds, startOfDay, startOfYear, subDays } from 'date-fns';
+import format from 'date-fns/format';
+import differenceInMilliseconds from 'date-fns/difference_in_milliseconds';
+import startOfDay from 'date-fns/start_of_day';
+import startOfYear from 'date-fns/start_of_year';
+import subDays from 'date-fns/sub_days';
 
 import { frontendPreferences as frontendPrefsConfig } from '../../config/config';
 import * as PostVisibilityLevels from './post-visibility-levels';
