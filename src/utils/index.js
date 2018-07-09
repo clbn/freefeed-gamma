@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import moment from 'moment';
+import { format, differenceInMilliseconds, startOfDay, startOfYear, subDays } from 'date-fns';
 
 import { frontendPreferences as frontendPrefsConfig } from '../../config/config';
 import * as PostVisibilityLevels from './post-visibility-levels';
@@ -27,13 +27,13 @@ export function setCookie(name, value = '', expiresDays, path, domain) {
 }
 
 export function getISODate(timestamp) {
-  return moment(timestamp).format();
+  return format(new Date(timestamp));
 }
 
 export function getRelativeDate(timestamp, long = true) {
-  const m = moment(timestamp);
-  const now = moment();
-  const age = now.diff(m);
+  const m = new Date(timestamp);
+  const now = new Date();
+  const age = differenceInMilliseconds(now, m);
 
   // Just now (when age < 45s)
   if (age < 45 * 1000) {
@@ -65,43 +65,43 @@ export function getRelativeDate(timestamp, long = true) {
   }
 
   // Today at 15:37 (when age >= 8.5 hrs and it's today)
-  if (m > now.startOf('day')) {
+  if (m > startOfDay(now)) {
     return (long
-      ? m.format('[Today at] HH:mm')
-      : m.format('HH:mm')
+      ? format(m, '[Today at] HH:mm')
+      : format(m, 'HH:mm')
     );
   }
 
   // Yesterday at 15:37 (when age >= 8.5 hrs and it's yesterday)
-  if (m > now.subtract(1, 'days').startOf('day')) {
+  if (m > startOfDay(subDays(now, 1))) {
     return (long
-      ? m.format('[Yesterday at] HH:mm')
-      : m.format('[Yest] HH:mm')
+      ? format(m, '[Yesterday at] HH:mm')
+      : format(m, '[Yest] HH:mm')
     );
   }
 
   // Wed, 17 Feb (when yesterday < age < 14 days)
-  if (m > now.subtract(14, 'days')) {
+  if (m > subDays(now, 14)) {
     return (long
-      ? m.format('ddd, D MMM')
-      : m.format('D MMM')
+      ? format(m, 'ddd, D MMM')
+      : format(m, 'D MMM')
     );
   }
 
   // 17 February (when age >= 14 days but it's still this year)
-  if (m > now.startOf('year')) {
+  if (m > startOfYear(now)) {
     return (long
-      ? m.format('D MMMM')
-      : m.format('D MMM')
+      ? format(m, 'D MMMM')
+      : format(m, 'D MMM')
     );
   }
 
   // 17 Feb 2016 (for everything else)
-  return m.format('D MMM YYYY');
+  return format(m, 'D MMM YYYY');
 }
 
-export function getFullDate(date) {
-  return moment(date).format('YYYY-MM-DD HH:mm:ss [UTC]Z');
+export function getFullDate(timestamp) {
+  return format(new Date(timestamp), 'YYYY-MM-DD HH:mm:ss [UTC]Z');
 }
 
 export function userParser(user) {
