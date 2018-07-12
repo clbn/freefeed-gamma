@@ -128,7 +128,7 @@ class PostComment extends React.Component {
       return false;
     }
 
-    const isCommentSpecial = this.props.isEditable || this.props.amISubscribedToAuthor;
+    const isCommentSpecial = this.props.canIEdit || this.props.amISubscribedToAuthor;
 
     const commentClasses = classnames({
       'comment': true,
@@ -211,7 +211,7 @@ class PostComment extends React.Component {
             {' -'}&nbsp;
 
             <UserName user={this.props.createdBy}/>
-            {this.props.isEditable ? (
+            {this.props.canIEdit ? (
               <span>
                 {' '}(<a onClick={this.toggleEditing}>edit</a>
                 &nbsp;|&nbsp;
