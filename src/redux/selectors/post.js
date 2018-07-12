@@ -37,11 +37,12 @@ const makeGetPost = () => createSelector(
       const authorId = state.posts[props.id].createdBy;
       return state.users[authorId] || { id: authorId };
     },
+    (state) => state.me.id,
     (state) => state.subscriptions,
     (state) => state.subscribers,
     getPostAttachments
   ],
-  (post, postView, createdBy, subscriptions, subscribers, attachments) => {
+  (post, postView, createdBy, myId, subscriptions, subscribers, attachments) => {
     if (!post) {
       return {};
     }
@@ -65,6 +66,10 @@ const makeGetPost = () => createSelector(
 
     const isArchive = (+post.createdAt < ARCHIVE_WATERSHED_TIMESTAMP);
 
+    const canIEdit = (createdBy.id === myId);
+    const canILike = !!myId && !canIEdit;
+    const haveILiked = ((post.likes || []).indexOf(myId) > -1);
+
     return {
       ...post,
       ...postView,
@@ -72,7 +77,11 @@ const makeGetPost = () => createSelector(
       recipients,
       isDirect,
       isArchive,
-      attachments
+      attachments,
+      myId,
+      canIEdit,
+      canILike,
+      haveILiked
     };
   }
 );

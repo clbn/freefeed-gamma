@@ -250,9 +250,8 @@ class Post extends React.Component {
 
     // "Comment" / "Comments disabled"
     let commentLink;
-    const isEditable = (props.createdBy.id === props.myId);
     if (props.commentsDisabled) {
-      if (isEditable) {
+      if (props.canIEdit) {
         commentLink = (
           <span>
             {' - '}
@@ -279,12 +278,14 @@ class Post extends React.Component {
     }
 
     // "Like" / "Un-like"
-    const amIAuthenticated = !!props.myId;
-    const didILikePost = ((props.likes || []).indexOf(props.myId) > -1);
-    const likeLink = (amIAuthenticated && !isEditable ? (
+    const likeLink = (props.canILike ? (
       <span>
         {' - '}
-        <a onClick={didILikePost ? unlikePost : likePost}>{didILikePost ? 'Un-like' : 'Like'}</a>
+        {props.haveILiked ? (
+          <a onClick={unlikePost}>Un-like</a>
+        ) : (
+          <a onClick={likePost}>Like</a>
+        )}
         {props.isLiking ? (
           <span className="post-like-throbber">
             <img width="16" height="16" src={throbber16}/>
@@ -307,7 +308,7 @@ class Post extends React.Component {
     ) : false);
 
     // "More" menu
-    const moreLink = (isEditable ? (
+    const moreLink = (props.canIEdit ? (
       <span>
         {' - '}
         <PostMoreMenu
@@ -460,10 +461,9 @@ function makeMapStateToProps() {
   const getPost = makeGetPost();
 
   return (state, ownProps) => {
-    const post = getPost(state, ownProps);
-    const myId = state.me.id;
-
-    return { ...post, myId };
+    return {
+      ...getPost(state, ownProps)
+    };
   };
 }
 
