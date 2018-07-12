@@ -125,7 +125,7 @@ class PostCommentCreateForm extends React.Component {
         ) : (
           <div>
             <a className="add-comment-link" onClick={this.startCommenting}>Add comment</a>
-            {this.props.post.commentsDisabled && this.props.post.isEditable
+            {this.props.post.commentsDisabled && this.props.post.canIEdit
               ? <i> - disabled for others</i>
               : false}
           </div>

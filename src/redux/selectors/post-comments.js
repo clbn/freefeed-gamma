@@ -76,7 +76,7 @@ const makeGetPostComments = () => createSelector(
   (
     id, comments, omittedComments, omittedCommentLikes, commentsDisabled,
     isLoadingComments, isModeratingComments, isCommenting, isSavingComment, commentError,
-    isEditable,
+    canIEdit,
     archiveRevivalPosition
   ) => {
     const granularPostData = {
@@ -92,7 +92,7 @@ const makeGetPostComments = () => createSelector(
       isSavingComment,
       commentError,
 
-      isEditable,
+      canIEdit,
 
       archiveRevivalPosition
     };
