@@ -1,8 +1,7 @@
-import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 
 import * as middlewares from './middlewares';
-import * as reducers from './reducers';
+import reducer from './reducers';
 
 // Order matters: we need to check for authentication before API calls
 const middlewareChain = [
@@ -27,8 +26,6 @@ if (isDevelopment && window.devToolsExtension) {
 
 const storeEnhancer = compose(...enhancers);
 const createStoreWithMiddleware = storeEnhancer(createStore);
-
-const reducer = combineReducers({ ...reducers, routing: routerReducer });
 
 export default function configureStore(initialState) {
   return createStoreWithMiddleware(reducer, initialState);

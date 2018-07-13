@@ -1,3 +1,6 @@
+import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
+
 import attachments from './attachments';
 import authenticated from './authenticated';
 import boxHeader from './box-header';
@@ -24,7 +27,9 @@ import userViews from './user-views';
 import { serverError, userErrors, groupSettings, routeLoadingState, singlePostId,
   usernameSubscribers, usernameSubscriptions, usernameBlockedByMe } from './miscellanea';
 
-export {
+export default combineReducers({
+  routing: routerReducer,
+
   attachments,
   authenticated,
   boxHeader,
@@ -58,4 +63,4 @@ export {
   usernameSubscribers,
   usernameSubscriptions,
   usernameBlockedByMe
-};
+});
