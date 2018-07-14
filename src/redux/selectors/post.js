@@ -38,29 +38,29 @@ const makeGetPost = () => createSelector(
       return state.users[authorId] || { id: authorId };
     },
     (state) => state.me.id,
-    (state) => state.subscriptions,
+    (state) => state.feeds,
     (state) => state.subscribers,
     getPostAttachments
   ],
-  (post, postView, createdBy, myId, subscriptions, subscribers, attachments) => {
+  (post, postView, createdBy, myId, feeds, subscribers, attachments) => {
     if (!post) {
       return {};
     }
 
     const recipients = post.postedTo
-      .map((subscriptionId) => {
-        const userId = (subscriptions[subscriptionId] || {}).user;
-        const subscriptionType = (subscriptions[subscriptionId] || {}).name;
-        const isDirectToSelf = (userId === post.createdBy && subscriptionType === 'Directs');
+      .map((feedId) => {
+        const userId = (feeds[feedId] || {}).user;
+        const feedType = (feeds[feedId] || {}).name;
+        const isDirectToSelf = (userId  === post.createdBy && feedType === 'Directs');
         return !isDirectToSelf ? userId : false;
       })
       .map(userId => subscribers[userId])
       .filter(user => user);
 
     const directRecipients = post.postedTo
-      .filter((subscriptionId) => {
-        let subscriptionType = (subscriptions[subscriptionId] || {}).name;
-        return (subscriptionType === 'Directs');
+      .filter((feedId) => {
+        let feedType = (feeds[feedId] || {}).name;
+        return (feedType === 'Directs');
       });
     const isDirect = (directRecipients.length > 0);
 

@@ -8,6 +8,7 @@ import comments from './comments';
 import commentViews from './comment-views';
 import commentLikesViews from './comment-likes-views';
 import createPostForm from './create-post-form';
+import feeds from './feeds';
 import feedViewState from './feed-view';
 import { groupCreateForm, groupSettingsForm, groupPictureForm } from './group-forms';
 import me from './me';
@@ -18,7 +19,6 @@ import sendTo from './send-to';
 import signInForm from './sign-in-form';
 import signUpForm from './sign-up-form';
 import subscribers from './subscribers';
-import subscriptions from './subscriptions';
 import title from './title';
 import userCardView from './user-card-view';
 import { userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm } from './user-forms';
@@ -47,7 +47,7 @@ export default combineReducers({
   signInForm,
   signUpForm,
   subscribers,
-  subscriptions,
+  feeds,
   title,
   userCardView,
   userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm,

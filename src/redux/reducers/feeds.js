@@ -7,7 +7,7 @@ const { response } = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
 const mergeByIds = (state, array) => ({ ...state, ...indexById(array) });
 
-export default function subscriptions(state = {}, action) {
+export default function feeds(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
     return mergeByIds(state, action.payload.subscriptions);
   }
