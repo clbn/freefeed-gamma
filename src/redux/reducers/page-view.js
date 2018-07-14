@@ -1,16 +1,20 @@
+import _ from 'lodash';
+
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 import { getSummaryPeriod } from '../../utils';
 
 const { request, response } = ActionHelpers;
 
-const getPageByOffset = (offset) => (offset ? Math.floor(offset / 30 + 1) : 1);
-
 const initialState = {
   title: 'FreeFeed'
 };
 
 export default function pageView(state = initialState, action) {
+  const getPageByOffset = (offset) => (offset ? Math.floor(offset / 30 + 1) : 1);
+  const getUserOnResponse = () => _.find(action.payload.users, { username: action.request.username });
+  const getFormattedName = (user) => user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
+
   switch (action.type) {
     case request(ActionTypes.HOME): {
       return {
@@ -60,8 +64,8 @@ export default function pageView(state = initialState, action) {
       };
     }
     case response(ActionTypes.GET_USER_FEED): {
-      const user = (action.payload.users || []).filter(user => user.username === action.request.username)[0];
-      const author = user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
+      const user = getUserOnResponse();
+      const author = getFormattedName(user);
       return { ...state,
         title: `${author} - FreeFeed`
       };
@@ -77,8 +81,8 @@ export default function pageView(state = initialState, action) {
     }
     case response(ActionTypes.GET_USER_SUMMARY): {
       const period = getSummaryPeriod(action.request.days);
-      const user = (action.payload.users || []).filter(user => user.username === action.request.username)[0];
-      const author = user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
+      const user = getUserOnResponse();
+      const author = getFormattedName(user);
       return { ...state,
         title: `Best of ${period} - ${author} - FreeFeed`
       };
@@ -121,7 +125,7 @@ export default function pageView(state = initialState, action) {
     case response(ActionTypes.GET_SINGLE_POST): {
       const text = (action.payload.posts.body || '').substr(0, 60);
       const user = (action.payload.users || [])[0];
-      const author = user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
+      const author = getFormattedName(user);
       return { ...state,
         title: `${text} - ${author} - FreeFeed`
       };
