@@ -10,7 +10,8 @@ const mergeByIds = (state, array) => _.merge(state, indexById(array));
 
 export default function users(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
-    return mergeByIds(state, (action.payload.users || []).map(userParser));
+    const combinedUsers = (action.payload.users || []).concat(action.payload.subscribers || []);
+    return mergeByIds(state, combinedUsers.map(userParser));
   }
   switch (action.type) {
     case response(ActionTypes.WHO_AM_I):
@@ -35,6 +36,9 @@ export default function users(state = {}, action) {
       };
     }
     case response(ActionTypes.GET_USER_SUBSCRIBERS): {
+      return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
+    }
+    case response(ActionTypes.CREATE_POST): {
       return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
     }
     case response(ActionTypes.CREATE_GROUP): {
@@ -74,15 +78,17 @@ export default function users(state = {}, action) {
     case response(ActionTypes.SHOW_MORE_LIKES_ASYNC):
     case response(ActionTypes.GET_COMMENT_LIKES):
     case response(ActionTypes.GET_SINGLE_POST): {
-      return mergeByIds(state, (action.payload.users || []).map(userParser));
+      const combinedUsers = (action.payload.users || []).concat(action.payload.subscribers || []);
+      return mergeByIds(state, combinedUsers.map(userParser));
     }
     case ActionTypes.REALTIME_POST_NEW:
     case ActionTypes.REALTIME_LIKE_NEW:
     case ActionTypes.REALTIME_COMMENT_NEW: {
-      if (!action.users || !action.users.length) {
+      const combinedUsers = (action.users || []).concat(action.subscribers || []);
+      if (!combinedUsers.length) {
         return state;
       }
-      const newUsers = action.users.filter(user => !state[user.id]);
+      const newUsers = combinedUsers.filter(user => !state[user.id]);
       if (!newUsers.length) {
         return state;
       }

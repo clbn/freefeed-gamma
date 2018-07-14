@@ -44,9 +44,7 @@ function mapStateToProps(state, ownProps) {
   const boxHeader = state.boxHeader;
   const offset = +state.routing.locationBeforeTransitions.query.offset || 0;
   const requestedUsername = ownProps.params.userName;
-  const foundUser = Object.getOwnPropertyNames(state.users)
-    .map(key => state.users[key] || state.subscribers[key])
-    .filter(user => user.username === requestedUsername)[0];
+  const foundUser = _.find(state.users, { username: requestedUsername });
 
   const amIGroupAdmin = (
     authenticated &&

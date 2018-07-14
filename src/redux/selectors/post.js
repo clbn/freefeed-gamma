@@ -39,10 +39,10 @@ const makeGetPost = () => createSelector(
     },
     (state) => state.me.id,
     (state) => state.feeds,
-    (state) => state.subscribers,
+    (state) => state.users,
     getPostAttachments
   ],
-  (post, postView, createdBy, myId, feeds, subscribers, attachments) => {
+  (post, postView, createdBy, myId, feeds, users, attachments) => {
     if (!post) {
       return {};
     }
@@ -54,7 +54,7 @@ const makeGetPost = () => createSelector(
         const isDirectToSelf = (userId  === post.createdBy && feedType === 'Directs');
         return !isDirectToSelf ? userId : false;
       })
-      .map(userId => subscribers[userId])
+      .map(userId => users[userId])
       .filter(user => user);
 
     const directRecipients = post.postedTo
