@@ -13,7 +13,7 @@ class Summary extends React.Component {
     return (
       <div className="box">
         <div className="box-header-timeline">
-          {props.boxHeader.title}
+          {props.pageView.header}
 
           <div className="sidelinks">
             <span>View best of: </span>
@@ -42,9 +42,9 @@ class Summary extends React.Component {
 function mapStateToProps(state) {
   const isLoading = state.routeLoadingState;
   const visibleEntries = getVisibleEntriesWithHidden(state);
-  const boxHeader = state.boxHeader;
+  const pageView = state.pageView;
 
-  return { isLoading, visibleEntries, boxHeader };
+  return { isLoading, visibleEntries, pageView };
 }
 
 export default connect(mapStateToProps)(Summary);

@@ -3,7 +3,6 @@ import { routerReducer } from 'react-router-redux';
 
 import attachments from './attachments';
 import authenticated from './authenticated';
-import boxHeader from './box-header';
 import comments from './comments';
 import commentViews from './comment-views';
 import commentLikesViews from './comment-likes-views';
@@ -12,6 +11,7 @@ import feeds from './feeds';
 import feedViewState from './feed-view';
 import { groupCreateForm, groupSettingsForm, groupPictureForm } from './group-forms';
 import me from './me';
+import pageView from './page-view';
 import posts from './posts';
 import postViews from './post-views';
 import { groupRequests, userRequests, sentRequests } from './requests';
@@ -31,7 +31,6 @@ export default combineReducers({
 
   attachments,
   authenticated,
-  boxHeader,
   comments,
   commentViews,
   commentLikesViews,
@@ -39,6 +38,7 @@ export default combineReducers({
   feedViewState,
   groupCreateForm, groupSettingsForm, groupPictureForm,
   me,
+  pageView,
   posts,
   postViews,
   groupRequests, userRequests, sentRequests,

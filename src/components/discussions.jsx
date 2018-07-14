@@ -14,11 +14,11 @@ const Discussions = (props) => {
   return (
     <div className="box">
       <div className="box-header-timeline">
-        {props.boxHeader.title}
+        {props.pageView.header}
 
-        {props.boxHeader.page > 1 ? (
+        {props.pageView.number > 1 ? (
           <div className="pull-right">
-            <span className="subheader">Page {props.boxHeader.page}</span>
+            <span className="subheader">Page {props.pageView.number}</span>
           </div>
         ) : false}
       </div>
@@ -34,13 +34,13 @@ function mapStateToProps(state, ownProps) {
   const isLoading = state.routeLoadingState;
   const authenticated = state.authenticated;
   const visibleEntries = getVisibleEntriesWithHidden(state);
-  const boxHeader = state.boxHeader;
+  const pageView = state.pageView;
 
   const currentRoute = getCurrentRouteName(ownProps);
   const defaultRecipient = (currentRoute === 'discussions' ? state.me.username : null);
   const peopleFirst = (currentRoute !== 'discussions');
 
-  return { isLoading, authenticated, visibleEntries, boxHeader, defaultRecipient, peopleFirst };
+  return { isLoading, authenticated, visibleEntries, pageView, defaultRecipient, peopleFirst };
 }
 
 export default connect(mapStateToProps)(Discussions);

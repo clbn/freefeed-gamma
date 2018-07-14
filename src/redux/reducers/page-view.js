@@ -6,40 +6,69 @@ const { request } = ActionHelpers;
 
 const getPageByOffset = (offset) => (offset ? Math.floor(offset / 30 + 1) : 1);
 
-export default function boxHeader(state = "", action) {
+export default function pageView(state = {}, action) {
   switch (action.type) {
     case request(ActionTypes.HOME): {
-      return { title: 'Home', page: getPageByOffset(action.payload.offset) };
+      return {
+        header: 'Home',
+        number: getPageByOffset(action.payload.offset)
+      };
     }
     case request(ActionTypes.DISCUSSIONS): {
-      return { title: 'My discussions', page: getPageByOffset(action.payload.offset) };
+      return {
+        header: 'My discussions',
+        number: getPageByOffset(action.payload.offset)
+      };
     }
     case request(ActionTypes.DIRECT): {
-      return { title: 'Direct messages', page: getPageByOffset(action.payload.offset) };
+      return {
+        header: 'Direct messages',
+        number: getPageByOffset(action.payload.offset)
+      };
     }
     case request(ActionTypes.GET_SUMMARY):
     case request(ActionTypes.GET_USER_SUMMARY): {
       const period = getSummaryPeriod(action.payload.days);
-      return { title: `Best of ${period}` };
+      return {
+        header: `Best of ${period}`
+      };
     }
     case request(ActionTypes.GET_SEARCH_RESULTS): {
       const query = (action.payload.query ? ': ' + action.payload.query : '');
-      return { title: 'Search' + query, page: getPageByOffset(action.payload.offset) };
+      return {
+        header: 'Search' + query,
+        number: getPageByOffset(action.payload.offset)
+      };
     }
     case request(ActionTypes.GET_USER_FEED): {
-      return { title: 'Posts', page: getPageByOffset(action.payload.offset) };
+      return {
+        header: 'Posts',
+        number: getPageByOffset(action.payload.offset)
+      };
     }
     case request(ActionTypes.GET_USER_SUBSCRIBERS): {
-      return { title: 'Subscribers', page: 1 };
+      return {
+        header: 'Subscribers',
+        number: 1
+      };
     }
     case request(ActionTypes.GET_USER_SUBSCRIPTIONS): {
-      return { title: 'Subscriptions', page: 1 };
+      return {
+        header: 'Subscriptions',
+        number: 1
+      };
     }
     case request(ActionTypes.GET_USER_COMMENTS): {
-      return { title: 'Comments', page: getPageByOffset(action.payload.offset) };
+      return {
+        header: 'Comments',
+        number: getPageByOffset(action.payload.offset)
+      };
     }
     case request(ActionTypes.GET_USER_LIKES): {
-      return { title: 'Likes', page: getPageByOffset(action.payload.offset) };
+      return {
+        header: 'Likes',
+        number: getPageByOffset(action.payload.offset)
+      };
     }
     case request(ActionTypes.GET_SINGLE_POST): {
       return {};

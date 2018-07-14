@@ -41,7 +41,7 @@ function mapStateToProps(state, ownProps) {
   const me = state.me;
   const authenticated = state.authenticated;
   const visibleEntries = getVisibleEntriesWithHidden(state);
-  const boxHeader = state.boxHeader;
+  const pageView = state.pageView;
   const offset = +state.routing.locationBeforeTransitions.query.offset || 0;
   const requestedUsername = ownProps.params.userName;
   const foundUser = _.find(state.users, { username: requestedUsername });
@@ -78,7 +78,7 @@ function mapStateToProps(state, ownProps) {
     (foundUser.isPrivate === '0' || statusExtension.amISubscribedToUser || statusExtension.isItMe);
 
   statusExtension.showProfileControls = authenticated && statusExtension.isUserFound &&
-    !statusExtension.isItMe && isInUserPostFeed && boxHeader.page < 2;
+    !statusExtension.isItMe && isInUserPostFeed && pageView.number < 2;
 
   const canIPostToGroup = statusExtension.amISubscribedToUser && (foundUser.isRestricted === '0' || amIGroupAdmin);
 
@@ -86,13 +86,13 @@ function mapStateToProps(state, ownProps) {
     (statusExtension.isItMe || (foundUser.type === 'group' && canIPostToGroup));
 
   const showSummaryHeader = (currentRoute === 'userSummary');
-  const showPaginationHeader = !isInUserPostFeed || boxHeader.page > 1;
+  const showPaginationHeader = !isInUserPostFeed || pageView.number > 1;
 
   const viewUser = { ...(foundUser), ...statusExtension };
 
   const defaultRecipient = (foundUser ? foundUser.username : null);
 
-  return { visibleEntries, boxHeader, viewUser, currentRoute, isInUserPostFeed, showSummaryHeader, showPaginationHeader, defaultRecipient };
+  return { visibleEntries, pageView, viewUser, currentRoute, isInUserPostFeed, showSummaryHeader, showPaginationHeader, defaultRecipient };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -20,7 +20,7 @@ const UserSubscribers = (props) => {
   return (
     <div className="box-body">
       <h4 className="user-subheader">
-        {props.boxHeader.title}
+        {props.pageView.header}
 
         {props.viewUser.amIGroupAdmin ? (
           <div className="user-subheader-sidelinks">

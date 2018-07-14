@@ -9,7 +9,7 @@ const PaginatedView = props => (
   <div className="box-body">
     {props.showSummaryHeader ? (
       <h4 className="user-subheader">
-        {props.boxHeader.title}
+        {props.pageView.header}
 
         <div className="user-subheader-sidelinks">
           {'View best of: '}
@@ -22,10 +22,10 @@ const PaginatedView = props => (
       </h4>
     ) : props.showPaginationHeader ? (
       <h4 className="user-subheader">
-        {props.boxHeader.title}
+        {props.pageView.header}
 
-        {props.boxHeader.page > 1 ? (
-          <div className="user-subheader-page-number">Page {props.boxHeader.page}</div>
+        {props.pageView.number > 1 ? (
+          <div className="user-subheader-page-number">Page {props.pageView.number}</div>
         ) : false}
       </h4>
     ) : false}

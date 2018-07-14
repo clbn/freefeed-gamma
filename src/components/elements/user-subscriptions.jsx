@@ -19,7 +19,7 @@ const UserSubscriptions = (props) => {
   return (
     <div className="box-body">
       <h4 className="user-subheader">
-        {props.boxHeader.title}
+        {props.pageView.header}
       </h4>
 
       {props.isLoading ? (

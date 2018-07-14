@@ -43,13 +43,13 @@ const Home = (props) => {
       {props.authenticated ? (
         <div>
           <div className="box-header-timeline">
-            {props.boxHeader.title}
+            {props.pageView.header}
 
             <div className="pull-right">
               {props.isFirstPage && props.authenticated ? <RealtimeSwitch/> : false}
 
-              {props.boxHeader.page > 1 ? (
-                <span className="subheader">Page {props.boxHeader.page}</span>
+              {props.pageView.number > 1 ? (
+                <span className="subheader">Page {props.pageView.number}</span>
               ) : false}
             </div>
           </div>
@@ -74,7 +74,7 @@ function mapStateToProps(state) {
   const hiddenEntries = getHiddenEntriesWithHidden(state);
   const isHiddenRevealed = state.feedViewState.isHiddenRevealed;
 
-  const boxHeader = state.boxHeader;
+  const pageView = state.pageView;
   const userRequestsCount = state.userRequests.length;
   const groupRequestsCount = state.groupRequests.length;
 
@@ -84,7 +84,7 @@ function mapStateToProps(state) {
     isLoading,
     authenticated,
     visibleEntries, hiddenEntries, isHiddenRevealed,
-    boxHeader, userRequestsCount, groupRequestsCount,
+    pageView, userRequestsCount, groupRequestsCount,
     isFirstPage
   };
 }
