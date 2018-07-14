@@ -18,7 +18,6 @@ import { groupRequests, userRequests, sentRequests } from './requests';
 import sendTo from './send-to';
 import signInForm from './sign-in-form';
 import signUpForm from './sign-up-form';
-import title from './title';
 import userCardView from './user-card-view';
 import { userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm } from './user-forms';
 import users from './users';
@@ -46,7 +45,6 @@ export default combineReducers({
   signInForm,
   signUpForm,
   feeds,
-  title,
   userCardView,
   userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm,
   users,

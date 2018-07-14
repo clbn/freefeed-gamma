@@ -193,7 +193,7 @@ function mapStateToProps(state, ownProps) {
     isLoading: state.routeLoadingState,
     routeName: getCurrentRouteName(ownProps),
     offset: state.routing.locationBeforeTransitions.query.offset,
-    title: state.title
+    title: state.pageView.title
   };
 }
 
