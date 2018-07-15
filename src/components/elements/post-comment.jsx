@@ -217,7 +217,7 @@ class PostComment extends React.Component {
                 &nbsp;|&nbsp;
                 <a onClick={this.deleteAfterConfirmation}>delete</a>)
               </span>
-            ) : (this.props.isDeletable && this.props.isModeratingComments) ? (
+            ) : (this.props.isModeratingComments) ? (
               <span>
                 {' '}(<a onClick={this.deleteAfterConfirmation}>delete</a>)
               </span>

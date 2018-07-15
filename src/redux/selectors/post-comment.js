@@ -28,7 +28,6 @@ const makeGetPostComment = () => createSelector(
     }
 
     const canIEdit = (comment.createdBy === myId);
-    const isDeletable = (postAuthorId === myId);
     const amISubscribedToAuthor = ((mySubscriptions || emptyArray).indexOf(comment.createdBy) > -1);
 
     return {
@@ -36,7 +35,6 @@ const makeGetPostComment = () => createSelector(
       ...commentView,
       createdBy,
       canIEdit,
-      isDeletable,
       amISubscribedToAuthor,
       isTargeted
     };
