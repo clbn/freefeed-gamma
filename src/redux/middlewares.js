@@ -187,7 +187,7 @@ export const groupPictureLogicMiddleware = store => next => action => {
 
 export const redirectionMiddleware = store => next => action => {
   //go to home if single post has been removed
-  if (action.type === response(ActionTypes.DELETE_POST) && store.getState().singlePostId) {
+  if (action.type === response(ActionTypes.DELETE_POST) && !action.payload.postStillAvailable && store.getState().singlePostId) {
     return browserHistory.push('/');
   }
 

@@ -114,6 +114,10 @@ export default function feedViewState(state = initFeed, action) {
       return addPostToFeed(state, action.post.id);
     }
     case response(ActionTypes.DELETE_POST): {
+      // It might be deleting from the group (moderation)
+      if (action.payload.postStillAvailable) {
+        return state;
+      }
       const postId = action.request.postId;
       return { ...state,
         visibleEntries: _.without(state.visibleEntries, postId),

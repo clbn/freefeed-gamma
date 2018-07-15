@@ -262,6 +262,7 @@ export default function posts(state = {}, action) {
           body: newPost.body,
           attachments: newPost.attachments || [],
           commentsDisabled: newPost.commentsDisabled,
+          postedTo: newPost.postedTo,
           updatedAt: newPost.updatedAt
         }
       };
