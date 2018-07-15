@@ -26,7 +26,9 @@ export default class PostMoreMenu extends React.Component {
 
     return (
       <DropdownMenu {...menuOptions}>
-        <li className="dd-menu-item"><a className="dd-menu-item-link" onClick={this.props.toggleEditingPost}>Edit</a></li>
+        {this.props.post.canIEdit ? (
+          <li className="dd-menu-item"><a className="dd-menu-item-link" onClick={this.props.toggleEditingPost}>Edit</a></li>
+        ) : false}
 
         {this.props.post.isModeratingComments
           ? <li className="dd-menu-item"><a className="dd-menu-item-link" onClick={this.props.toggleModeratingComments}>Stop moderating comments</a></li>

@@ -70,6 +70,10 @@ const makeGetPost = () => createSelector(
     const canILike = !!myId && !canIEdit;
     const haveILiked = ((post.likes || []).indexOf(myId) > -1);
 
+    const managedGroups = _.filter(users, u => (u.type === 'group' && u.administrators.indexOf(myId) > -1));
+    const recipientsIAdmin = _.intersectionWith(recipients, managedGroups, (a, b) => (a.id === b.id));
+    const canIModerate = canIEdit || (recipientsIAdmin.length > 0);
+
     return {
       ...post,
       ...postView,
@@ -81,7 +85,8 @@ const makeGetPost = () => createSelector(
       myId,
       canIEdit,
       canILike,
-      haveILiked
+      haveILiked,
+      canIModerate
     };
   }
 );

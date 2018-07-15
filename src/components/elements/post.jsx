@@ -251,7 +251,7 @@ class Post extends React.Component {
     // "Comment" / "Comments disabled"
     let commentLink;
     if (props.commentsDisabled) {
-      if (props.canIEdit) {
+      if (props.canIModerate) {
         commentLink = (
           <span>
             {' - '}
@@ -308,7 +308,7 @@ class Post extends React.Component {
     ) : false);
 
     // "More" menu
-    const moreLink = (props.canIEdit ? (
+    const moreLink = (props.canIModerate ? (
       <span>
         {' - '}
         <PostMoreMenu
