@@ -5,6 +5,63 @@ import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
 
 const emptyArray = [];
 
+const _getMemoizedRecipientsRelatedThings = _.memoize(
+  // The function to have its output memoized
+  (postedTo, authorId, myId, feeds, users) => {
+    const recipients = postedTo
+      .map(feedId => {
+        const userId = (feeds[feedId] || {}).user;
+        const feedType = (feeds[feedId] || {}).name;
+        const isDirectToSelf = (userId === authorId && feedType === 'Directs');
+        return isDirectToSelf ? false : users[userId];
+      })
+      .filter(user => user);
+
+    const directRecipients = postedTo
+      .filter(feedId => {
+        let feedType = (feeds[feedId] || {}).name;
+        return (feedType === 'Directs');
+      });
+    const isDirect = (directRecipients.length > 0);
+
+    const canIEdit = (authorId === myId);
+
+    const managedGroups = _.filter(users, u => (u.type === 'group' && u.administrators.indexOf(myId) > -1));
+    const recipientsIAdmin = _.intersectionWith(recipients, managedGroups, (a, b) => (a.id === b.id));
+    const canIModerate = canIEdit || (recipientsIAdmin.length > 0);
+
+    return {
+      recipients,
+      isDirect,
+      canIEdit,
+      canIModerate
+    };
+  },
+
+  // The function to resolve the cache key
+  (postedTo, authorId, myId, feeds, users) => postedTo // eslint-disable-line no-unused-vars
+
+  // ^ So here we make the cache only rely on the list of feed IDs (recipients).
+  // It's not really safe to do, since any particular feed subscription might
+  // be changed. However, it's important to keep this cache independent from
+  // state.feeds and state.users, because this way updating global user pool
+  // doesn't cause re-rendering of cached posts. Let's test it for some time
+  // in the hope this trade-off is worth it.
+);
+
+const getRecipientsRelatedThings = createSelector(
+  [
+    (state, props) => state.posts[props.id].postedTo,
+    (state, props) => state.posts[props.id].createdBy,
+    (state) => state.me.id,
+    (state) => state.feeds,
+    (state) => state.users
+  ],
+  (postedTo, authorId, myId, feeds, users) => {
+    return _getMemoizedRecipientsRelatedThings(postedTo, authorId, myId, feeds, users);
+  }
+);
+
 const _getMemoizedPostAttachments = _.memoize(
   // The function to have its output memoized
   (postAttachmentIds, stateAttachments) => postAttachmentIds.map(attachmentId => stateAttachments[attachmentId]),
@@ -38,55 +95,38 @@ const makeGetPost = () => createSelector(
       return state.users[authorId] || { id: authorId };
     },
     (state) => state.me.id,
-    (state) => state.feeds,
-    (state) => state.users,
+    getRecipientsRelatedThings,
     getPostAttachments
   ],
-  (post, postView, createdBy, myId, feeds, users, attachments) => {
+  (post, postView, createdBy, myId, recipientsRelatedThings, attachments) => {
     if (!post) {
       return {};
     }
 
-    const recipients = post.postedTo
-      .map((feedId) => {
-        const userId = (feeds[feedId] || {}).user;
-        const feedType = (feeds[feedId] || {}).name;
-        const isDirectToSelf = (userId  === post.createdBy && feedType === 'Directs');
-        return !isDirectToSelf ? userId : false;
-      })
-      .map(userId => users[userId])
-      .filter(user => user);
-
-    const directRecipients = post.postedTo
-      .filter((feedId) => {
-        let feedType = (feeds[feedId] || {}).name;
-        return (feedType === 'Directs');
-      });
-    const isDirect = (directRecipients.length > 0);
+    const { recipients, isDirect, canIEdit, canIModerate } = recipientsRelatedThings;
 
     const isArchive = (+post.createdAt < ARCHIVE_WATERSHED_TIMESTAMP);
 
-    const canIEdit = (createdBy.id === myId);
     const canILike = !!myId && !canIEdit;
-    const haveILiked = ((post.likes || []).indexOf(myId) > -1);
 
-    const managedGroups = _.filter(users, u => (u.type === 'group' && u.administrators.indexOf(myId) > -1));
-    const recipientsIAdmin = _.intersectionWith(recipients, managedGroups, (a, b) => (a.id === b.id));
-    const canIModerate = canIEdit || (recipientsIAdmin.length > 0);
+    const haveILiked = ((post.likes || []).indexOf(myId) > -1);
 
     return {
       ...post,
       ...postView,
       createdBy,
+      myId,
+
       recipients,
       isDirect,
-      isArchive,
-      attachments,
-      myId,
       canIEdit,
+      canIModerate,
+
+      isArchive,
       canILike,
       haveILiked,
-      canIModerate
+
+      attachments
     };
   }
 );
