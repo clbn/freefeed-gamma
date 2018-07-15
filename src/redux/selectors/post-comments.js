@@ -70,13 +70,14 @@ const makeGetPostComments = () => createSelector(
     (state, props) => state.postViews[props.postId].commentError,
 
     (state, props) => (state.posts[props.postId].createdBy === state.me.id),
+    (state, props) => props.canIModerate,
 
     getArchiveRevivalPosition
   ],
   (
     id, comments, omittedComments, omittedCommentLikes, commentsDisabled,
     isLoadingComments, isModeratingComments, isCommenting, isSavingComment, commentError,
-    canIEdit,
+    canIEdit, canIModerate,
     archiveRevivalPosition
   ) => {
     const granularPostData = {
@@ -93,6 +94,7 @@ const makeGetPostComments = () => createSelector(
       commentError,
 
       canIEdit,
+      canIModerate,
 
       archiveRevivalPosition
     };

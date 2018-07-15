@@ -442,7 +442,8 @@ class Post extends React.Component {
           <PostComments
             postId={props.id}
             postUrl={postUrl}
-            isSinglePost={props.isSinglePost}/>
+            isSinglePost={props.isSinglePost}
+            canIModerate={props.canIModerate}/>
         </div>
       </div>
     ));

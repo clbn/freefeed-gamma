@@ -82,7 +82,7 @@ class PostComments extends React.Component {
       </div>
     );
     const showOmittedNumber = props.post.omittedComments > 0;
-    const canAddComment = (!props.post.commentsDisabled || props.post.canIEdit);
+    const canAddComment = (!props.post.commentsDisabled || props.post.canIModerate);
 
     return (
       <div className="comments">
