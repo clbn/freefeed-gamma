@@ -120,9 +120,9 @@
     &.clikes-zero {
       color: #ddd;
 
-      .clikes-icon {
-        -webkit-filter: grayscale(100%) brightness(115%);
-        filter: grayscale(100%) brightness(115%);
+      .clikes-icon .icon-heart {
+        color: #dcdcdc;
+        fill: #fff;
       }
       .clikes-number {
         display: none;
@@ -215,11 +215,6 @@
     }
   }
 
-  &.comment-from-archive {
-    -webkit-filter: contrast(90%) sepia(40%);
-    filter: contrast(90%) sepia(40%);
-  }
-
   &.hidden-comment {
     .comment-body,
     .comment-timestamp a,
@@ -244,6 +239,72 @@
 
     padding: 4px 7px 5px 7px;
     margin: 4px -7px -5px -7px;
+  }
+
+  &.comment-from-archive {
+    .comment-icon {
+      .icon-comment {
+        color: #aca393 !important;
+        fill: #fbf3df !important;
+      }
+      &.comment-icon-special .icon-comment {
+        color: #8e9cab !important;
+        fill: #fbf3ef !important;
+      }
+    }
+
+    .comment-body {
+      color: #777166 !important;
+
+      a {
+        color: #6a6588 !important;
+      }
+
+      .comment-timestamp {
+        color: #e0d4bf !important;
+
+        a {
+          color: #cec4b0 !important;
+        }
+      }
+    }
+
+    &.hidden-comment {
+      .comment-icon .icon-comment {
+        color: #e0d4bf !important;
+        fill: #fffbe2 !important;
+      }
+
+      .comment-body {
+        color: #e0d4bf !important;
+
+        .comment-timestamp a {
+          color: #e0d4bf !important;
+        }
+      }
+    }
+
+    .comment-likes {
+      color: #e0d4bf !important;
+
+      .clikes-icon .icon-heart {
+        color: #f6c361 !important;
+        fill: #fffdd6 !important;
+      }
+
+      &.clikes-zero {
+        color: #f1e5ce !important;
+
+        .clikes-icon .icon-heart {
+          color: #f2e4ca !important;
+          fill: #ffffea !important;
+        }
+      }
+
+      .clikes-number {
+        color: #b0a796 !important;
+      }
+    }
   }
 }
 

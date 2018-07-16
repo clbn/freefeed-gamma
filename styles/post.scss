@@ -312,16 +312,36 @@ $line-height-post-body-single: 28px;
 }
 
 .post-from-archive {
+  // For post-archive-marker positioning
   position: relative;
   overflow: hidden;
 
-  .post-top, .audio-attachments, .general-attachments, .post-footer, .likes {
-    -webkit-filter: contrast(90%) sepia(40%);
-    filter: contrast(90%) sepia(40%);
+  .post-header a {
+    color: #226 !important;
   }
 
   .post-text {
-    color: darken(#704214, 15%) !important;
+    color: #432910 !important;
+
+    a {
+      color: #226 !important;
+    }
+  }
+
+  .post-footer {
+    color: #777166 !important;
+
+    .post-timestamp {
+      color: #777166 !important;
+    }
+
+    a {
+      color: #6a6588 !important;
+    }
+  }
+
+  .likes a {
+    color: #6a6588 !important;
   }
 }
 
