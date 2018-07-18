@@ -34,17 +34,6 @@ const scrollCompensator = dispatchAction => (...actionParams) => {
   }
 };
 
-const bindSocketLog = socket => eventName => socket.on(eventName, data => console.log(`socket ${eventName}`, data));
-
-const bindSocketActionsLog = socket => events => events.forEach(bindSocketLog(socket));
-
-const eventsToLog = [
-  'connect',
-  'error',
-  'disconnect',
-  'reconnect',
-];
-
 const bindSocketEventHandlers = socket => eventHandlers => {
   Object.keys(eventHandlers).forEach((event) => socket.on(event, scrollCompensator(eventHandlers[event])));
 };
@@ -56,22 +45,18 @@ export function init(eventHandlers) {
 
   bindSocketEventHandlers(socket)(eventHandlers);
 
-  bindSocketActionsLog(socket)(eventsToLog);
-
   let subscription;
   let subscribe;
 
   return {
     unsubscribe: _ => {
       if (subscription) {
-        console.log('unsubscribing from ', subscription);
         socket.emit('unsubscribe', subscription);
         socket.off('reconnect', subscribe);
       }
     },
     subscribe: newSubscription => {
       subscription = newSubscription;
-      console.log('subscribing to ', subscription);
       subscribe = () => socket.emit('subscribe', subscription);
       socket.on('reconnect', subscribe);
       subscribe();
