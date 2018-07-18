@@ -88,11 +88,7 @@ export default function users(state = {}, action) {
       if (!combinedUsers.length) {
         return state;
       }
-      const newUsers = combinedUsers.filter(user => !state[user.id]);
-      if (!newUsers.length) {
-        return state;
-      }
-      return mergeByIds(state, newUsers.map(userParser));
+      return mergeByIds(state, combinedUsers.map(userParser));
     }
     case ActionTypes.UNAUTHENTICATED:
       return {};
