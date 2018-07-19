@@ -6,7 +6,7 @@ import { userParser } from '../../utils';
 
 const { response } = ActionHelpers;
 const indexById = list => _.keyBy(list || [], 'id');
-const mergeByIds = (state, array) => _.merge(state, indexById(array));
+const mergeByIds = (state, array) => _.merge({}, state, indexById(array));
 
 export default function users(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
