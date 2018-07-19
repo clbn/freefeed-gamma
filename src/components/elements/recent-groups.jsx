@@ -2,9 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
+import { getRecentGroups } from '../../redux/selectors';
 import { getRelativeDate } from '../../utils';
-
-const GROUPS_SIDEBAR_LIST_LENGTH = 4;
 
 const renderRecentGroup = recentGroup => {
   const updatedAgo = getRelativeDate(+recentGroup.updatedAt);
@@ -34,14 +33,8 @@ const RecentGroups = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const recentGroups = (state.me.subscriptions || [])
-    .map((id) => state.users[id] || {})
-    .filter((u) => u.type === 'group')
-    .sort((a, b) => parseInt(b.updatedAt) - parseInt(a.updatedAt))
-    .slice(0, GROUPS_SIDEBAR_LIST_LENGTH);
-
   return {
-    recentGroups
+    recentGroups: getRecentGroups(state)
   };
 };
 

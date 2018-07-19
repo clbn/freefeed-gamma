@@ -4,6 +4,7 @@ import makeGetPostLikes from './post-likes';
 import makeGetPostComments from './post-comments';
 import makeGetPostComment from './post-comment';
 import makeGetClikes from './post-comment-likes';
+import getRecentGroups from './recent-groups';
 
 export {
   // Feed
@@ -15,5 +16,8 @@ export {
   makeGetPostLikes,
   makeGetPostComments,
   makeGetPostComment,
-  makeGetClikes
+  makeGetClikes,
+
+  // Recent Groups
+  getRecentGroups
 };
