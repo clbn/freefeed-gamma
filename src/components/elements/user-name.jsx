@@ -78,8 +78,7 @@ class UserName extends React.Component {
 const mapStateToProps = (state) => {
   return {
     me: state.me.username,
-    frontendPreferences: state.me.frontendPreferences,
-    userCardView: state.userCardView
+    frontendPreferences: state.me.frontendPreferences
   };
 };
 
