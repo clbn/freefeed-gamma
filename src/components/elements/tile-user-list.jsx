@@ -37,7 +37,7 @@ class UserTile extends React.Component {
         </div>
 
         <div className="user-tile-name">
-          <UserName user={user}/>
+          <UserName id={user.id}/>
         </div>
 
         {user.status === 'loading' ? (

@@ -210,7 +210,7 @@ class PostComment extends React.Component {
 
             {' -'}&nbsp;
 
-            <UserName user={this.props.createdBy}/>
+            <UserName id={this.props.createdBy.id}/>
             {this.props.canIEdit ? (
               <span>
                 {' '}(<a onClick={this.toggleEditing}>edit</a>

@@ -19,7 +19,7 @@ const Sidebar = ({ me, signOut }) => (
 
         <div className="user">
           <div className="author">
-            <UserName user={me} display={me.screenName}/>
+            <UserName id={me.id} display={me.screenName}/>
           </div>
           <div>
             <Link to="/settings">settings</Link>

@@ -213,7 +213,7 @@ class Post extends React.Component {
       <span key={index}>
         <UserName
           className="post-recipient"
-          user={recipient}
+          id={recipient.id}
           display={recipientCustomDisplay(recipient)}/>
         {index < props.recipients.length - 2 ? ', ' : false}
         {index === props.recipients.length - 2 ? ' and ' : false}
@@ -350,7 +350,7 @@ class Post extends React.Component {
 
         <div className="post-top">
           <div className="post-header">
-            <UserName className="post-author" user={props.createdBy}/>
+            <UserName className="post-author" id={props.createdBy.id}/>
             {recipients.length > 0 ? ' to ' : false}
             {recipients}
           </div>

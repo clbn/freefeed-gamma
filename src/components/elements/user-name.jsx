@@ -1,33 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 
 import { updateUserCard } from '../../redux/action-creators';
 import * as FrontendPrefsOptions from '../../utils/frontend-preferences-options';
 import { isMobile } from '../../utils';
 
-const DisplayOption = ({ user, me, preferences }) => {
-  if (user.username === me && preferences.useYou) {
+const DisplayOption = ({ username, screenName, isItMe, myPrefs }) => {
+  const myDisPrefs = myPrefs.displayNames;
+
+  if (isItMe && myDisPrefs.useYou) {
     return <span>You</span>;
   }
 
-  if (user.screenName === user.username) {
-    return <span>{user.screenName}</span>;
+  if (screenName === username) {
+    return <span>{screenName}</span>;
   }
 
-  switch (preferences.displayOption) {
+  switch (myDisPrefs.displayOption) {
     case FrontendPrefsOptions.DISPLAYNAMES_DISPLAYNAME: {
-      return <span>{user.screenName}</span>;
+      return <span>{screenName}</span>;
     }
     case FrontendPrefsOptions.DISPLAYNAMES_BOTH: {
-      return <span>{user.screenName} ({user.username})</span>;
+      return <span>{screenName} ({username})</span>;
     }
     case FrontendPrefsOptions.DISPLAYNAMES_USERNAME: {
-      return <span>{user.username}</span>;
+      return <span>{username}</span>;
     }
   }
 
-  return <span>{user.screenName}</span>;
+  return <span>{screenName}</span>;
 };
 
 class UserName extends React.Component {
@@ -44,7 +47,7 @@ class UserName extends React.Component {
         bottom: rawRects[i].bottom
       });
     }
-    this.props.updateUserCard({ isHovered: true, username: this.props.user.username, rects, x: event.pageX, y: event.pageY });
+    this.props.updateUserCard({ isHovered: true, username: this.props.username, rects, x: event.pageX, y: event.pageY });
   };
 
   leaveUserName = () => {
@@ -59,15 +62,12 @@ class UserName extends React.Component {
         onMouseEnter={this.enterUserName}
         onMouseLeave={this.leaveUserName}>
 
-        <Link to={`/${this.props.user.username}`} className={this.props.className}
+        <Link to={`/${this.props.username}`} className={this.props.className}
               onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave}>
           {this.props.display ? (
             <span>{this.props.display}</span>
           ) : (
-            <DisplayOption
-              user={this.props.user}
-              me={this.props.me}
-              preferences={this.props.frontendPreferences.displayNames}/>
+            <DisplayOption {...this.props}/>
           )}
         </Link>
       </div>
@@ -75,17 +75,27 @@ class UserName extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    me: state.me.username,
-    frontendPreferences: state.me.frontendPreferences
-  };
-};
+const getUserName = createSelector(
+  [
+    (state, props) => state.users[props.id] && state.users[props.id].username,
+    (state, props) => state.users[props.id] && state.users[props.id].screenName,
+    (state, props) => state.me.id === props.id,
+    (state) => state.me.frontendPreferences
+  ],
+  (username, screenName, isItMe, myPrefs) => ({
+    username,
+    screenName,
+    isItMe,
+    myPrefs
+  })
+);
 
-function mapDispatchToProps(dispatch) {
-  return {
-    updateUserCard: (...args) => dispatch(updateUserCard(...args))
-  };
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...getUserName(state, ownProps)
+});
+
+const mapDispatchToProps = {
+  updateUserCard
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserName);

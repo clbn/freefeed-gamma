@@ -12,7 +12,7 @@ import throbber16 from 'assets/images/throbber-16.gif';
 
 const renderClike = (item, i, items) => (
   <li key={item.id}>
-    <UserName user={item} display={item.username}/>
+    <UserName id={item.id} display={item.username}/>
 
     {i < items.length - 2 ? (
       <span>, </span>

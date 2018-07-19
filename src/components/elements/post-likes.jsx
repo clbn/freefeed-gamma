@@ -12,7 +12,7 @@ import throbber16 from 'assets/images/throbber-16.gif';
 const renderLike = (item, i, items) => (
   <li key={item.id}>
     {item.id !== 'more-likes' ? (
-      <UserName user={item}/>
+      <UserName id={item.id}/>
     ) : (
       <span>
         <a onClick={preventDefault(item.showMoreLikes)}>{item.omittedLikes} other people</a>
