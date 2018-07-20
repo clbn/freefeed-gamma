@@ -77,9 +77,10 @@ class UserName extends React.Component {
 
 const getUserName = createSelector(
   [
-    (state, props) => state.users[props.id] && state.users[props.id].username,
-    (state, props) => state.users[props.id] && state.users[props.id].screenName,
-    (state, props) => state.me.id === props.id,
+    // If there's no props.id, fall back to optional props.username
+    (state, props) => (props.id && state.users[props.id] ? state.users[props.id].username : props.username),
+    (state, props) => (props.id && state.users[props.id] ? state.users[props.id].screenName : ''),
+    (state, props) => state.me.id === props.id || state.me.username === props.username,
     (state) => state.me.frontendPreferences
   ],
   (username, screenName, isItMe, myPrefs) => ({

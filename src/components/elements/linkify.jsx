@@ -31,7 +31,7 @@ class Linkify extends React.Component {
 
     switch (type) {
       case AT_LINK: {
-        props['user'] = { username };
+        props['username'] = username;
         props['display'] = displayedLink;
         if (this.userHover) {
           props['onMouseEnter'] = () => this.userHover.hover(username);
