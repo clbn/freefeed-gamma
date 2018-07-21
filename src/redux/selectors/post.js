@@ -89,7 +89,13 @@ const getPostAttachments = createSelector(
 const makeGetPost = () => createSelector(
   [
     (state, props) => state.posts[props.id],
-    (state, props) => state.postViews[props.id],
+
+    (state, props) => state.postViews[props.id].isEditing,
+    (state, props) => state.postViews[props.id].isHiding,
+    (state, props) => state.postViews[props.id].isLiking,
+    (state, props) => state.postViews[props.id].isModeratingComments,
+    (state, props) => state.postViews[props.id].isSaving,
+    (state, props) => state.postViews[props.id].errorMessage,
 
     (state, props) => {
       const authorId = state.posts[props.id].createdBy;
@@ -108,7 +114,8 @@ const makeGetPost = () => createSelector(
     getRecipientsRelatedThings,
     getPostAttachments
   ],
-  (post, postView, authorUsername, authorLargePic, authorMediumPic, myId, recipientsRelatedThings, attachments) => {
+  (post, isEditing, isHiding, isLiking, isModeratingComments, isSaving, errorMessage,
+   authorUsername, authorLargePic, authorMediumPic, myId, recipientsRelatedThings, attachments) => {
     if (!post) {
       return {};
     }
@@ -123,7 +130,13 @@ const makeGetPost = () => createSelector(
 
     return {
       ...post,
-      ...postView,
+
+      isEditing,
+      isHiding,
+      isLiking,
+      isModeratingComments,
+      isSaving,
+      errorMessage,
 
       authorUsername,
       authorLargePic,
