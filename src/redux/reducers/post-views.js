@@ -262,8 +262,7 @@ export default function postViews(state = {}, action) {
       const post = state[action.request.postId];
       return { ...state,
         [post.id]: { ...post,
-          isDisablingComments: false,
-          commentsDisabled: true
+          isDisablingComments: false
         }
       };
     }
@@ -288,8 +287,7 @@ export default function postViews(state = {}, action) {
       const post = state[action.request.postId];
       return { ...state,
         [post.id]: { ...post,
-          isDisablingComments: false,
-          commentsDisabled: false
+          isDisablingComments: false
         }
       };
     }
