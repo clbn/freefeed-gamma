@@ -144,7 +144,7 @@ export default function posts(state = {}, action) {
     }
     case response(ActionTypes.LIKE_POST): {
       const post = state[action.request.postId];
-      const likeAlreadyAdded = post.likes && post.likes.indexOf(action.request.userId)!==-1;
+      const likeAlreadyAdded = post.likes && post.likes.indexOf(action.request.userId) > -1;
       if (likeAlreadyAdded) {
         return state;
       }
@@ -157,7 +157,11 @@ export default function posts(state = {}, action) {
     }
     case ActionTypes.REALTIME_LIKE_NEW: {
       const post = state[action.postId];
-      if (!post || post.likes && post.likes.indexOf(action.users[0].id) !== -1) {
+      if (!post) {
+        return state;
+      }
+      const likeAlreadyAdded = post.likes && post.likes.indexOf(action.users[0].id) > -1;
+      if (likeAlreadyAdded) {
         return state;
       }
       return { ...state,
@@ -169,6 +173,10 @@ export default function posts(state = {}, action) {
     }
     case response(ActionTypes.UNLIKE_POST): {
       const post = state[action.request.postId];
+      const likeAlreadyRemoved = !post.likes || !post.likes.length || post.likes.indexOf(action.request.userId) === -1;
+      if (likeAlreadyRemoved) {
+        return state;
+      }
       return { ...state,
         [post.id]: {
           ...post,
@@ -179,6 +187,10 @@ export default function posts(state = {}, action) {
     case ActionTypes.REALTIME_LIKE_REMOVE: {
       const post = state[action.postId];
       if (!post) {
+        return state;
+      }
+      const likeAlreadyRemoved = !post.likes || !post.likes.length || post.likes.indexOf(action.userId) === -1;
+      if (likeAlreadyRemoved) {
         return state;
       }
       return { ...state,
