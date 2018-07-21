@@ -44,7 +44,7 @@ class PostComment extends React.Component {
 
   openAnsweringComment = () => {
     if (this.props.openAnsweringComment) {
-      this.props.openAnsweringComment(this.props.createdBy.username);
+      this.props.openAnsweringComment(this.props.authorUsername);
     }
   };
 
@@ -210,7 +210,7 @@ class PostComment extends React.Component {
 
             {' -'}&nbsp;
 
-            <UserName id={this.props.createdBy.id}/>
+            <UserName id={this.props.createdBy}/>
             {this.props.canIEdit ? (
               <span>
                 {' '}(<a onClick={this.toggleEditing}>edit</a>

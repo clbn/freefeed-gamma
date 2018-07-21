@@ -12,14 +12,13 @@ const makeGetPostComment = () => createSelector(
         return false;
       }
       const authorId = comment.createdBy;
-      return state.users[authorId] || { id: authorId };
+      return state.users[authorId] && state.users[authorId].username;
     },
-    (state, props) => state.posts[props.postId].createdBy,
     (state) => state.me.subscriptions,
     (state) => state.me.id,
     (state, props) => state.routing.locationBeforeTransitions.hash === '#comment-' + props.id
   ],
-  (comment, commentView, createdBy, postAuthorId, mySubscriptions, myId, isTargeted) => {
+  (comment, commentView, authorUsername, mySubscriptions, myId, isTargeted) => {
     if (!comment) {
       // Usually, it's not an error, just a "race condition" during deleting comments
       return {
@@ -33,7 +32,7 @@ const makeGetPostComment = () => createSelector(
     return {
       ...comment,
       ...commentView,
-      createdBy,
+      authorUsername,
       canIEdit,
       amISubscribedToAuthor,
       isTargeted
