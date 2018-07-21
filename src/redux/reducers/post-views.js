@@ -1,56 +1,48 @@
-import _ from 'lodash';
-
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 
 const { request, response, fail } = ActionHelpers;
-const indexById = list => _.keyBy(list || [], 'id');
-const mergeByIds = (state, array) => ({ ...state, ...indexById(array) });
-
-const initPostViewState = (post) => {
-  const id = post.id;
-  const isEditing = false;
-  const errorStatus = '';
-  const errorMessage = '';
-  const commentError = '';
-
-  return { id, isEditing, errorStatus, errorMessage, commentError };
-};
 
 export default function postViews(state = {}, action) {
+  const addRecord = (id) => ({ ...state, [id]: {} });
+  const updateRecord = (id, props) => ({ ...state, [id]: { ...state[id], ...props } });
+
   if (ActionHelpers.isFeedResponse(action)) {
-    return mergeByIds(state, (action.payload.posts || []).map(initPostViewState));
+    const newPosts = {};
+    action.payload.posts.forEach(p => {
+      newPosts[p.id] = {};
+    });
+    return { ...state, ...newPosts };
   }
   switch (action.type) {
     case request(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
-      const id = action.payload.postId;
-      const isLoadingLikes = true;
-      return { ...state, [id]: { ...state[id], isLoadingLikes } };
+      return updateRecord(action.payload.postId, {
+        isLoadingLikes: true
+      });
     }
     case response(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
-      const id = action.payload.posts.id;
-      const isLoadingLikes = false;
-      return { ...state, [id]: { ...state[id], isLoadingLikes } };
+      return updateRecord(action.payload.posts.id, {
+        isLoadingLikes: false
+      });
     }
     case fail(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
-      const id = action.request.postId;
-      const isLoadingLikes = false;
-      return { ...state, [id]: { ...state[id], isLoadingLikes } };
+      return updateRecord(action.request.postId, {
+        isLoadingLikes: false
+      });
     }
     case request(ActionTypes.SHOW_MORE_COMMENTS):
     case request(ActionTypes.GET_SINGLE_POST): {
-      const id = action.payload.postId;
-      const isLoadingComments = true;
-      return { ...state, [id]: { ...state[id], isLoadingComments } };
+      return updateRecord(action.payload.postId, {
+        isLoadingComments: true
+      });
     }
     case response(ActionTypes.SHOW_MORE_COMMENTS): {
-      const id = action.payload.posts.id;
-      const isLoadingComments = false;
-      return { ...state, [id]: { ...state[id], isLoadingComments } };
+      return updateRecord(action.payload.posts.id, {
+        isLoadingComments: false
+      });
     }
     case response(ActionTypes.GET_SINGLE_POST): {
-      const id = action.payload.posts.id;
-      return { ...state, [id]: initPostViewState(action.payload.posts) };
+      return addRecord(action.payload.posts.id);
     }
     case ActionTypes.REALTIME_POST_NEW:
     case ActionTypes.REALTIME_POST_UPDATE: {
@@ -59,253 +51,197 @@ export default function postViews(state = {}, action) {
       if (postAlreadyAdded) {
         return state;
       }
-      return { ...state, [id]: initPostViewState(action.post) };
+      return addRecord(id);
     }
     case fail(ActionTypes.GET_SINGLE_POST): {
-      const id = action.request.postId;
-      const isEditing = false;
-      const errorStatus = action.response.status + ' ' + action.response.statusText;
-      const errorMessage = (action.payload || {}).err;
-      return { ...state, [id]: { id, isEditing, errorStatus, errorMessage } };
+      return updateRecord(action.request.postId, {
+        isEditing: false,
+        errorStatus: action.response.status + ' ' + action.response.statusText,
+        errorMessage: (action.payload || {}).err
+      });
     }
     case ActionTypes.TOGGLE_EDITING_POST: {
       const id = action.payload.postId;
-      const isEditing = !state[id].isEditing;
-      return { ...state, [id]: { ...state[id], isEditing, errorStatus: '', errorMessage: '' } };
+      return updateRecord(id, {
+        isEditing: !state[id].isEditing,
+        errorStatus: '',
+        errorMessage: ''
+      });
     }
     case ActionTypes.CANCEL_EDITING_POST: {
-      const id = action.payload.postId;
-      const isEditing = false;
-      return { ...state, [id]: { ...state[id], isEditing, errorStatus: '', errorMessage: '' } };
+      return updateRecord(action.payload.postId, {
+        isEditing: false,
+        errorStatus: '',
+        errorMessage: ''
+      });
     }
     case request(ActionTypes.SAVE_EDITING_POST): {
-      const id = action.payload.postId;
-      return { ...state, [id]: { ...state[id], isSaving: true } };
+      return updateRecord(action.payload.postId, {
+        isSaving: true
+      });
     }
     case response(ActionTypes.SAVE_EDITING_POST): {
-      const id = action.payload.posts.id;
-      return { ...state, [id]: { ...state[id], isEditing: false, isSaving: false, errorStatus: '', errorMessage: '' } };
+      return updateRecord(action.payload.posts.id, {
+        isEditing: false,
+        isSaving: false,
+        errorStatus: '',
+        errorMessage: ''
+      });
     }
     case fail(ActionTypes.SAVE_EDITING_POST): {
-      const id = action.request.postId;
-      const isEditing = true;
-      const isSaving = false;
-      const errorStatus = action.response.status + ' ' + action.response.statusText;
-      const errorMessage = (action.payload || {}).err;
-      return { ...state, [id]: { ...state[id], isEditing, isSaving, errorStatus, errorMessage } };
+      return updateRecord(action.request.postId, {
+        isEditing: true,
+        isSaving: false,
+        errorStatus: action.response.status + ' ' + action.response.statusText,
+        errorMessage: (action.payload || {}).err
+      });
     }
     case fail(ActionTypes.DELETE_POST): {
-      const id = action.request.postId;
-      const errorStatus = action.response.status + ' ' + action.response.statusText;
-      const errorMessage = (action.payload || {}).err;
-      return { ...state, [id]: { ...state[id], errorStatus, errorMessage } };
+      return updateRecord(action.request.postId, {
+        errorStatus: action.response.status + ' ' + action.response.statusText,
+        errorMessage: (action.payload || {}).err
+      });
     }
     case ActionTypes.TOGGLE_COMMENTING: {
-      return { ...state,
-        [action.postId]: { ...state[action.postId],
-          isCommenting: !state[action.postId].isCommenting,
-          commentError: ''
-        }
-      };
+      const id = action.postId;
+      return updateRecord(id, {
+        isCommenting: !state[id].isCommenting,
+        commentError: ''
+      });
     }
     case request(ActionTypes.ADD_COMMENT): {
-      const post = state[action.payload.postId];
-      return { ...state,
-        [post.id]: {
-          ...post,
-          isSavingComment: true
-        } };
+      return updateRecord(action.payload.postId, {
+        isSavingComment: true
+      });
     }
     case response(ActionTypes.ADD_COMMENT): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: {
-          ...post,
-          isCommenting: false,
-          isSavingComment: false
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isCommenting: false,
+        isSavingComment: false
+      });
     }
     case fail(ActionTypes.ADD_COMMENT): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: {
-          ...post,
-          isSavingComment: false,
-          commentError: (action.payload || {}).err
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isSavingComment: false,
+        commentError: (action.payload || {}).err
+      });
     }
 
     case request(ActionTypes.LIKE_POST):
     case request(ActionTypes.UNLIKE_POST): {
-      const post = state[action.payload.postId];
-      return { ...state,
-        [post.id]: {
-          ...post,
-          isLiking: true
-        } };
+      return updateRecord(action.payload.postId, {
+        isLiking: true
+      });
     }
     case response(ActionTypes.LIKE_POST):
     case response(ActionTypes.UNLIKE_POST): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: {
-          ...post,
-          isLiking: false
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isLiking: false
+      });
     }
     case fail(ActionTypes.LIKE_POST):
     case fail(ActionTypes.UNLIKE_POST): {
-      const post = state[action.request.postId];
-      const errorString = 'Something went wrong while liking the post...';
-      return { ...state,
-        [post.id]: {
-          ...post,
-          isLiking: false,
-          likeError: errorString
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isLiking: false,
+        likeError: 'Something went wrong while liking the post...'
+      });
     }
 
     case request(ActionTypes.HIDE_POST): {
-      const post = state[action.payload.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isHiding: true
-        } };
+      return updateRecord(action.payload.postId, {
+        isHiding: true
+      });
     }
     case response(ActionTypes.HIDE_POST): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isHiding: false
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isHiding: false
+      });
     }
     case ActionTypes.REALTIME_POST_HIDE: {
-      const post = state[action.postId];
-      if (!post) {
+      const id = action.postId;
+      if (!state[id]) {
         return state;
       }
-      return { ...state,
-        [post.id]: { ...post,
-          isHiding: false
-        }
-      };
+      return updateRecord(id, {
+        isHiding: false
+      });
     }
     case fail(ActionTypes.HIDE_POST): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isHiding: false,
-          hideError: 'Something went wrong while hiding the post.'
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isHiding: false,
+        hideError: 'Something went wrong while hiding the post.'
+      });
     }
 
     case request(ActionTypes.UNHIDE_POST): {
-      const post = state[action.payload.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isHiding: true
-        } };
+      return updateRecord(action.payload.postId, {
+        isHiding: true
+      });
     }
     case response(ActionTypes.UNHIDE_POST): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isHiding: false
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isHiding: false
+      });
     }
     case ActionTypes.REALTIME_POST_UNHIDE: {
-      const post = state[action.postId];
-      if (!post) {
+      const id = action.postId;
+      if (!state[id]) {
         return state;
       }
-      return { ...state,
-        [post.id]: { ...post,
-          isHiding: false
-        }
-      };
+      return updateRecord(id, {
+        isHiding: false
+      });
     }
     case fail(ActionTypes.UNHIDE_POST): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isHiding: false,
-          hideError: 'Something went wrong while un-hiding the post.'
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isHiding: false,
+        hideError: 'Something went wrong while un-hiding the post.'
+      });
     }
 
     case ActionTypes.TOGGLE_MODERATING_COMMENTS: {
-      const post = state[action.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isModeratingComments: !post.isModeratingComments
-        }
-      };
+      const id = action.postId;
+      return updateRecord(id, {
+        isModeratingComments: !state[id].isModeratingComments
+      });
     }
 
     case request(ActionTypes.DISABLE_COMMENTS): {
-      const post = state[action.payload.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isDisablingComments: true
-        }
-      };
+      return updateRecord(action.payload.postId, {
+        isDisablingComments: true
+      });
     }
     case response(ActionTypes.DISABLE_COMMENTS): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isDisablingComments: false
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isDisablingComments: false
+      });
     }
     case fail(ActionTypes.DISABLE_COMMENTS): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isDisablingComments: false,
-          disableCommentsError: 'Something went wrong while disabling comments.'
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isDisablingComments: false,
+        disableCommentsError: 'Something went wrong while disabling comments.'
+      });
     }
 
     case request(ActionTypes.ENABLE_COMMENTS): {
-      const post = state[action.payload.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isDisablingComments: true
-        } };
+      return updateRecord(action.payload.postId, {
+        isDisablingComments: true
+      });
     }
     case response(ActionTypes.ENABLE_COMMENTS): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isDisablingComments: false
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isDisablingComments: false
+      });
     }
     case fail(ActionTypes.ENABLE_COMMENTS): {
-      const post = state[action.request.postId];
-      return { ...state,
-        [post.id]: { ...post,
-          isDisablingComments: false,
-          disableCommentsError: 'Something went wrong while enabling comments.'
-        }
-      };
+      return updateRecord(action.request.postId, {
+        isDisablingComments: false,
+        disableCommentsError: 'Something went wrong while enabling comments.'
+      });
     }
 
     case response(ActionTypes.CREATE_POST): {
-      const post = action.payload.posts;
-      return { ...state,
-        [post.id]: initPostViewState(post)
-      };
+      return addRecord(action.payload.posts.id);
     }
 
     case ActionTypes.UNAUTHENTICATED: {
