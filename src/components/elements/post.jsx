@@ -147,11 +147,11 @@ class Post extends React.Component {
       'userpic': true,
       'userpic-large': props.isSinglePost
     });
-    const userpicImage = (props.isSinglePost ? props.createdBy.profilePictureLargeUrl : props.createdBy.profilePictureMediumUrl);
+    const userpicImage = (props.isSinglePost ? props.authorLargePic : props.authorMediumPic);
     const userpicSize = (props.isSinglePost ? 75 : 50);
     const primaryUserpic = (
       <div className={primaryUserpicClasses}>
-        <Link to={`/${props.createdBy.username}`}>
+        <Link to={`/${props.authorUsername}`}>
           <img src={userpicImage} width={userpicSize} height={userpicSize}/>
         </Link>
       </div>
@@ -162,7 +162,7 @@ class Post extends React.Component {
       'userpic-secondary': true,
       'userpic-large': props.isSinglePost
     });
-    const externalRecipients = props.recipients.filter((recipient) => (recipient.id !== props.createdBy.id));
+    const externalRecipients = props.recipients.filter((recipient) => (recipient.id !== props.createdBy));
     const hasSecondaryUserpics = (externalRecipients.length > 0);
     const secondaryUserpicSize = (props.isSinglePost ? 50 : 33);
     const secondaryUserpicInterval = (props.isSinglePost ? 9 : 6);
@@ -183,7 +183,7 @@ class Post extends React.Component {
 
     // Recipients
     const recipientCustomDisplay = function(recipient) {
-      if (recipient.id !== props.createdBy.id) {
+      if (recipient.id !== props.createdBy) {
         return false;
       }
       if (recipient.username[recipient.username.length - 1] === 's') {
@@ -204,7 +204,7 @@ class Post extends React.Component {
       } else {
         // When in a many-sources list (Home, Direct messages, My discussions),
         // we should omit the only recipient if it's the author's feed.
-        if (recipients[0].id === props.createdBy.id) {
+        if (recipients[0].id === props.createdBy) {
           recipients = [];
         }
       }
@@ -350,7 +350,7 @@ class Post extends React.Component {
 
         <div className="post-top">
           <div className="post-header">
-            <UserName className="post-author" id={props.createdBy.id}/>
+            <UserName className="post-author" id={props.createdBy}/>
             {recipients.length > 0 ? ' to ' : false}
             {recipients}
           </div>
@@ -425,7 +425,7 @@ class Post extends React.Component {
           <div className="dropzone-previews"></div>
 
           <div className="post-footer">
-            <PostVisibilityIcon recipients={props.recipients} authorId={props.createdBy.id}/>
+            <PostVisibilityIcon recipients={props.recipients} authorId={props.createdBy}/>
 
             <Link to={postUrl} className="post-timestamp">
               <time dateTime={dateISO} title={dateFull}>{dateRelative}</time>

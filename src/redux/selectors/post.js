@@ -90,15 +90,25 @@ const makeGetPost = () => createSelector(
   [
     (state, props) => state.posts[props.id],
     (state, props) => state.postViews[props.id],
+
     (state, props) => {
       const authorId = state.posts[props.id].createdBy;
-      return state.users[authorId] || { id: authorId };
+      return state.users[authorId] && state.users[authorId].username;
     },
+    (state, props) => {
+      const authorId = state.posts[props.id].createdBy;
+      return state.users[authorId] && state.users[authorId].profilePictureLargeUrl;
+    },
+    (state, props) => {
+      const authorId = state.posts[props.id].createdBy;
+      return state.users[authorId] && state.users[authorId].profilePictureMediumUrl;
+    },
+
     (state) => state.me.id,
     getRecipientsRelatedThings,
     getPostAttachments
   ],
-  (post, postView, createdBy, myId, recipientsRelatedThings, attachments) => {
+  (post, postView, authorUsername, authorLargePic, authorMediumPic, myId, recipientsRelatedThings, attachments) => {
     if (!post) {
       return {};
     }
@@ -114,7 +124,11 @@ const makeGetPost = () => createSelector(
     return {
       ...post,
       ...postView,
-      createdBy,
+
+      authorUsername,
+      authorLargePic,
+      authorMediumPic,
+
       myId,
 
       recipients,
