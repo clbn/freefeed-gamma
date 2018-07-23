@@ -242,7 +242,7 @@ class Post extends React.Component {
     // If all the recipients are groups (so it's not sent to author's feed,
     // or to some user as a direct message), use the first group as primary recipient.
     // Otherwise, use author's feed.
-    let primaryRecipient = props.createdBy;
+    let primaryRecipient = { username: props.authorUsername };
     if (props.recipients.every((recipient) => recipient.type === 'group')) {
       primaryRecipient = props.recipients[0];
     }
