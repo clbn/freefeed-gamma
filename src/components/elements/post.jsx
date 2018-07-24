@@ -18,6 +18,7 @@ import PostDropzone from './post-dropzone';
 import PostMoreMenu from './post-more-menu';
 import PostVisibilityIcon from './post-visibility-icon';
 import Icon from "./icon";
+import Userpic from './userpic';
 
 class Post extends React.Component {
   constructor(props) {
@@ -147,12 +148,11 @@ class Post extends React.Component {
       'userpic': true,
       'userpic-large': props.isSinglePost
     });
-    const userpicImage = (props.isSinglePost ? props.authorLargePic : props.authorMediumPic);
     const userpicSize = (props.isSinglePost ? 75 : 50);
     const primaryUserpic = (
       <div className={primaryUserpicClasses}>
         <Link to={`/${props.authorUsername}`}>
-          <img src={userpicImage} width={userpicSize} height={userpicSize}/>
+          <Userpic id={props.createdBy} size={userpicSize}/>
         </Link>
       </div>
     );
@@ -170,7 +170,7 @@ class Post extends React.Component {
     const secondaryUserpics = externalRecipients.map((recipient, index) => (
       <div className={secondaryUserpicClasses} style={{ top: getSecondaryOffset(index) + 'px' }} key={index}>
         <Link to={`/${recipient.username}`}>
-          <img src={recipient.profilePictureMediumUrl} width={secondaryUserpicSize} height={secondaryUserpicSize}/>
+          <Userpic id={recipient.id} size={secondaryUserpicSize}/>
         </Link>
       </div>
     ));

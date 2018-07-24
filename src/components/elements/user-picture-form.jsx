@@ -2,6 +2,7 @@ import React from 'react';
 
 import { preventDefault } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
+import Userpic from './userpic';
 
 export default class UserPictureForm extends React.Component {
   refPictureFile = (input) => {
@@ -22,7 +23,7 @@ export default class UserPictureForm extends React.Component {
 
         <div className="form-group">
           <div className="userpic userpic-large">
-            <img src={this.props.user.profilePictureLargeUrl} width="75" height="75"/>
+            <Userpic id={this.props.user.id} size={75}/>
           </div>
         </div>
 

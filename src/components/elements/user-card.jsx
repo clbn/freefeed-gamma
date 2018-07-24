@@ -11,6 +11,7 @@ import throbber16 from 'assets/images/throbber-16.gif';
 import UserFeedStatus from './user-feed-status';
 import UserRelationshipStatus from './user-relationship-status';
 import Icon from "./icon";
+import Userpic from './userpic';
 
 const USERCARD_SHOW_DELAY = 1000;
 const USERCARD_HIDE_DELAY = 500;
@@ -205,7 +206,7 @@ class UserCard extends React.Component {
         <div className={cardClasses} style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
           <div className="user-card-info">
             <Link to={`/${props.user.username}`} className="userpic userpic-large">
-              <img src={props.user.profilePictureLargeUrl} width="75" height="75"/>
+              <Userpic id={props.user.id} size={75}/>
             </Link>
 
             <div className="display-name">

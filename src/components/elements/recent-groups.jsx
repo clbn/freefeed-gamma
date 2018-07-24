@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { getRecentGroups } from '../../redux/selectors';
 import { getRelativeDate } from '../../utils';
+import Userpic from './userpic';
 
 const renderRecentGroup = recentGroup => {
   const updatedAgo = getRelativeDate(+recentGroup.updatedAt);
@@ -11,7 +12,7 @@ const renderRecentGroup = recentGroup => {
     <li key={recentGroup.id}>
       <Link to={`/${recentGroup.username}`}>
         <div className="userpic">
-          <img src={recentGroup.profilePictureMediumUrl} width="33" height="33"/>
+          <Userpic id={recentGroup.id} size={33}/>
         </div>
 
         {recentGroup.screenName}

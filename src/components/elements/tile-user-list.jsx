@@ -7,6 +7,7 @@ import UserName from './user-name';
 import { confirmFirst } from '../../utils';
 import throbber16 from 'assets/images/throbber-16.gif';
 import Icon from "./icon";
+import Userpic from './userpic';
 
 class UserTile extends React.Component {
   handleAcceptRequest = () => this.props.user.acceptRequest(this.props.user.username);
@@ -32,7 +33,7 @@ class UserTile extends React.Component {
       <li className={this.tileClasses}>
         <div className="userpic">
           <Link to={`/${user.username}`}>
-            <img src={user.profilePictureUrl} width="50" height="50"/>
+            <Userpic id={user.id} size={50}/>
           </Link>
         </div>
 
@@ -143,12 +144,6 @@ class TileUserList extends React.Component {
     let usersData = props.users.map(user => {
       return {
         ..._.pick(user, ['id', 'screenName', 'username', 'status', 'updatedAt']),
-        profilePictureUrl:
-          (user.profilePictureUrl
-            ? user.profilePictureUrl
-            : (config.size === 'large'
-                ? user.profilePictureLargeUrl
-                : user.profilePictureMediumUrl)),
         ...pickActions(config.type, props)
       };
     });

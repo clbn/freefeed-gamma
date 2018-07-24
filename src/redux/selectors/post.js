@@ -101,21 +101,13 @@ const makeGetPost = () => createSelector(
       const authorId = state.posts[props.id].createdBy;
       return state.users[authorId] && state.users[authorId].username;
     },
-    (state, props) => {
-      const authorId = state.posts[props.id].createdBy;
-      return state.users[authorId] && state.users[authorId].profilePictureLargeUrl;
-    },
-    (state, props) => {
-      const authorId = state.posts[props.id].createdBy;
-      return state.users[authorId] && state.users[authorId].profilePictureMediumUrl;
-    },
 
     (state) => state.me.id,
     getRecipientsRelatedThings,
     getPostAttachments
   ],
   (post, isEditing, isHiding, isLiking, isModeratingComments, isSaving, errorMessage,
-   authorUsername, authorLargePic, authorMediumPic, myId, recipientsRelatedThings, attachments) => {
+   authorUsername, myId, recipientsRelatedThings, attachments) => {
     if (!post) {
       return {};
     }
@@ -139,8 +131,6 @@ const makeGetPost = () => createSelector(
       errorMessage,
 
       authorUsername,
-      authorLargePic,
-      authorMediumPic,
 
       myId,
 

@@ -8,13 +8,14 @@ import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
 import Icon from "./icon";
+import Userpic from './userpic';
 
 const Sidebar = ({ me, signOut }) => (
   <div className="col-md-3 sidebar-overlay" onClick={toggleSidebar}>
     <div className="sidebar" onClick={stopPropagation}>
       <div className="logged-in">
         <div className="userpic">
-          <Link to={`/${me.username}`} ><img src={me.profilePictureMediumUrl} width="50" height="50"/></Link>
+          <Link to={`/${me.username}`}><Userpic id={me.id} size={50}/></Link>
         </div>
 
         <div className="user">

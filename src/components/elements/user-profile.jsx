@@ -7,6 +7,7 @@ import UserRelationshipStatus from './user-relationship-status';
 import PostCreateForm from './post-create-form';
 import PieceOfText from './piece-of-text';
 import throbber16 from 'assets/images/throbber-16.gif';
+import Userpic from './userpic';
 
 export default class UserProfile extends React.Component {
   constructor(props) {
@@ -58,13 +59,9 @@ export default class UserProfile extends React.Component {
           <div className="user-profile">
             <div className="row">
               <div className="col-sm-9 col-xs-12">
-                {props.isLoading && !props.profilePictureLargeUrl ? (
-                  <div className="userpic userpic-large userpic-loading"></div>
-                ) : (
-                  <Link to={`/${props.username}`} className="userpic userpic-large">
-                    <img src={props.profilePictureLargeUrl} width="75" height="75"/>
-                  </Link>
-                )}
+                <Link to={`/${props.username}`} className="userpic userpic-large">
+                  <Userpic id={props.id} size={75}/>
+                </Link>
 
                 {props.isLoading && !props.screenName ? (
                   <div className="profile-displayname profile-loading">@{props.requestedUsername}</div>
