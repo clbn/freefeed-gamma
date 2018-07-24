@@ -65,7 +65,8 @@ export const authMiddleware = store => next => action => {
   }
 
   if (action.type === response(ActionTypes.WHO_AM_I) ||
-     action.type === response(ActionTypes.UPDATE_USER) ) {
+      action.type === response(ActionTypes.UPDATE_USER) ||
+      action.type === response(ActionTypes.UPDATE_FRONTEND_PREFERENCES) ) {
     persistUser(meParser(action.payload.users));
     return next(action);
   }
