@@ -3,7 +3,7 @@ import _ from 'lodash';
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 import { getPersistedUser } from '../../services/auth';
-import { userParser } from '../../utils';
+import { meParser } from '../../utils';
 import { frontendPreferences as frontendPrefsConfig } from '../../../config/app';
 
 const { request, response } = ActionHelpers;
@@ -16,7 +16,7 @@ const initUser = () => ({
 export default function me(state = initUser(), action) {
   if (ActionHelpers.isUserChangeResponse(action)) {
     const subscriptions = _.uniq((action.payload.subscriptions || []).map(sub => sub.user));
-    return { ...state, ...userParser(action.payload.users), subscriptions, isPending: false };
+    return { ...state, ...meParser(action.payload.users), subscriptions, isPending: false };
   }
   switch (action.type) {
     case request(ActionTypes.WHO_AM_I): {

@@ -6,7 +6,7 @@ import { request, response, fail, requiresAuth, isFeedRequest, isFeedResponse } 
 import { getPost } from '../services/api';
 import { setToken, getPersistedUser, persistUser } from '../services/auth';
 import { init } from '../services/realtime';
-import { userParser } from '../utils';
+import { meParser } from '../utils';
 
 //middleware for api requests
 export const apiMiddleware = store => next => async (action) => {
@@ -66,7 +66,7 @@ export const authMiddleware = store => next => action => {
 
   if (action.type === response(ActionTypes.WHO_AM_I) ||
      action.type === response(ActionTypes.UPDATE_USER) ) {
-    persistUser(userParser(action.payload.users));
+    persistUser(meParser(action.payload.users));
     return next(action);
   }
 

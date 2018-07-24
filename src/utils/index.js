@@ -108,8 +108,7 @@ export function getFullDate(date) {
 
 const userDefaults = {
   profilePictureMediumUrl: defaultUserpic50Path,
-  profilePictureLargeUrl: defaultUserpic75Path,
-  frontendPreferences: frontendPrefsConfig.defaultValues
+  profilePictureLargeUrl: defaultUserpic75Path
 };
 
 export function userParser(user) {
@@ -124,9 +123,15 @@ export function userParser(user) {
   newUser.profilePictureMediumUrl = user.profilePictureMediumUrl || userDefaults.profilePictureMediumUrl;
   newUser.profilePictureLargeUrl = user.profilePictureLargeUrl || userDefaults.profilePictureLargeUrl;
 
+  return newUser;
+}
+
+export function meParser(user) {
+  const newUser = userParser(user);
+
   // Frontend preferences (only use this client's subtree)
   const prefSubTree = user.frontendPreferences && user.frontendPreferences[frontendPrefsConfig.clientId];
-  newUser.frontendPreferences = _.merge({}, userDefaults.frontendPreferences, prefSubTree);
+  newUser.frontendPreferences = _.merge({}, frontendPrefsConfig.defaultValues, prefSubTree);
 
   return newUser;
 }
