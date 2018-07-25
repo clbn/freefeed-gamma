@@ -14,8 +14,7 @@ export default function users(state = {}, action) {
     return mergeByIds(state, combinedUsers.map(userParser));
   }
   switch (action.type) {
-    case response(ActionTypes.WHO_AM_I):
-    case response(ActionTypes.GET_USER_INFO): {
+    case response(ActionTypes.WHO_AM_I): {
       let newState = state;
 
       // Add some users from "subscribers" (that's actually your subscriPTIONs, both people and groups)
@@ -23,9 +22,6 @@ export default function users(state = {}, action) {
 
       // Add some users from "users.subscribers" (that's real subscribers, people only)
       newState = mergeByIds(newState, (action.payload.users.subscribers || []).map(userParser));
-
-      // Add some users from "admins"
-      newState = mergeByIds(newState, (action.payload.admins || []).map(userParser));
 
       // Add some users from "requests" (outcoming subscription requests)
       newState = mergeByIds(newState, (action.payload.requests || []).map(userParser));
@@ -36,6 +32,20 @@ export default function users(state = {}, action) {
         reqUsers = reqUsers.concat(g.requests || []);
       });
       newState = mergeByIds(newState, reqUsers.map(userParser));
+
+      // Add target user
+      let userId = action.payload.users.id;
+      let oldUser = state[userId] || {};
+      let newUser = userParser(action.payload.users);
+      return { ...newState,
+        [userId]: { ...oldUser, ...newUser }
+      };
+    }
+    case response(ActionTypes.GET_USER_INFO): {
+      let newState = state;
+
+      // Add some users from "admins"
+      newState = mergeByIds(newState, (action.payload.admins || []).map(userParser));
 
       // Add target user
       let userId = action.payload.users.id;
