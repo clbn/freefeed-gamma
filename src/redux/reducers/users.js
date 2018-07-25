@@ -27,6 +27,13 @@ export default function users(state = {}, action) {
       // Add some users from "admins"
       newState = mergeByIds(newState, (action.payload.admins || []).map(userParser));
 
+      // Add some users from "managedGroups[].requests" (incoming group requests, waiting for your approval)
+      let reqUsers = [];
+      action.payload.managedGroups.forEach(g => {
+        reqUsers = reqUsers.concat(g.requests || []);
+      });
+      newState = mergeByIds(newState, reqUsers.map(userParser));
+
       // Add target user
       let userId = action.payload.users.id;
       let oldUser = state[userId] || {};
