@@ -58,6 +58,10 @@ export default function users(state = {}, action) {
     case response(ActionTypes.GET_USER_SUBSCRIBERS): {
       return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
     }
+    case response(ActionTypes.BLOCKED_BY_ME): {
+      return mergeByIds(state, (action.payload || []).map(userParser));
+    }
+
     case response(ActionTypes.CREATE_POST): {
       return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
     }
