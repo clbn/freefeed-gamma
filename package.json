@@ -34,9 +34,8 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "ff-url-finder": "^2.3.3",
     "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^3.2.0",
     "isomorphic-fetch": "^2.1.1",
-    "jade": "^1.11.0",
-    "jade-html-loader": "bline/jade-html-loader",
     "lodash": "^4.8.2",
     "moment": "^2.10.6",
     "node-sass": "^4.3.0",
@@ -68,7 +67,6 @@
     "tape": "^4.2.2",
     "tippy.js": "clbn/tippyjs",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.6.1",
-    "webpack-path-rewriter": "^1.1.2"
+    "webpack-dev-server": "^2.6.1"
   }
 }

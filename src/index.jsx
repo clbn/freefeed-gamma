@@ -1,5 +1,4 @@
 import 'styles/app.scss';
-import 'index.jade';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -126,5 +125,5 @@ ReactDOM.render(
       </Route>
     </Router>
   </Provider>,
-  document.getElementById('app')
+  document.getElementById('root')
 );

@@ -1,6 +1,6 @@
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const PathRewriter = require('webpack-path-rewriter');
 
 const gitCommitDate = require('child_process').execSync('git show -s --format="%ci"').toString();
 
@@ -64,17 +64,6 @@ module.exports = function(opts) {
         { test: /[/]styles[/]app[.]scss$/,
           loader: styleLoader('css-loader?-mergeIdents&-mergeRules&-uniqueSelectors!sass-loader', cssAppExtractor)
         },
-        { test: /[.]html$/,
-          loader: PathRewriter.rewriteAndEmit({
-            name: '[path][name].html'
-          })
-        },
-        { test: /[.]jade$/,
-          loader: PathRewriter.rewriteAndEmit({
-            name: '[path][name].html',
-            loader: 'jade-html-loader?' + JSON.stringify({ pretty: true, opts: opts })
-          })
-        },
         // PhotoSwipe assets
         { test: /photoswipe.+\.(png|svg|gif)$/,
           loader: 'file-loader?name=assets/images/photoswipe/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
@@ -86,6 +75,14 @@ module.exports = function(opts) {
       ]
     },
     plugins: skipFalsy([
+      // Generate index.html
+      new HtmlWebpackPlugin({
+        template: 'src/index.html', // Input file (HTML template)
+        templateParameters: opts, // Inject some <%= VARIABLES %> into the template
+        inject: true, // Inject JS and CSS into the template (CSS appended to <head>, JS appended to <body>)
+        filename: 'index.html' // Output file (inside the build folder)
+      }),
+
       new webpack.LoaderOptionsPlugin({ debug: opts.dev }),
 
       new webpack.ContextReplacementPlugin(/moment[/]locale$/, /(?:en|ru)[.]js/),
@@ -96,12 +93,6 @@ module.exports = function(opts) {
       }),
 
       cssAppExtractor,
-
-      new PathRewriter({
-        includeHash: opts.livereload,
-        emitStats: false,
-        silent: false
-      }),
 
       new webpack.optimize.ModuleConcatenationPlugin(),
 
