@@ -62,7 +62,7 @@
     "sass-loader": "^6.0.6",
     "skin-deep": "^0.16.0",
     "socket.io-client": "^1.4.4",
-    "source-map-explorer": "^1.5.0",
+    "source-map-explorer": "^1.6.0",
     "style-loader": "^0.13.1",
     "tap-webpack-plugin": "^1.0.0",
     "tape": "^4.2.2",
