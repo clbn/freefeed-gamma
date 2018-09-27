@@ -69,7 +69,6 @@
     "tippy.js": "clbn/tippyjs",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1",
-    "webpack-path-rewriter": "^1.1.2",
-    "webpack-visualizer-plugin": "^0.1.10"
+    "webpack-path-rewriter": "^1.1.2"
   }
 }
