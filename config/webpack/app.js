@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PathRewriter = require('webpack-path-rewriter');
 const Visualizer = require('webpack-visualizer-plugin');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 
 const gitCommitDate = require('child_process').execSync('git show -s --format="%ci"').toString();
 
@@ -91,8 +90,6 @@ module.exports = function(opts) {
       new Visualizer({
         filename: '../webpack-visualizer.html'
       }),
-
-      opts.dev && new DashboardPlugin(),
 
       new webpack.LoaderOptionsPlugin({ debug: opts.dev }),
 

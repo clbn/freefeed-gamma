@@ -68,7 +68,6 @@
     "tape": "^4.2.2",
     "tippy.js": "clbn/tippyjs",
     "webpack": "^3.4.1",
-    "webpack-dashboard": "^0.2.1",
     "webpack-dev-server": "^2.6.1",
     "webpack-path-rewriter": "^1.1.2",
     "webpack-visualizer-plugin": "^0.1.10"

@@ -21,7 +21,7 @@ if [ "$1" != "-O" ]; then
   ( sleep 2 && open "http://localhost:$PORT/" ) &
 fi
 
-set -x; PORT="$PORT" DEV=1 LIVERELOAD=1 exec ./node_modules/.bin/webpack-dashboard -- ./node_modules/.bin/webpack-dev-server \
+set -x; PORT="$PORT" DEV=1 LIVERELOAD=1 exec ./node_modules/.bin/webpack-dev-server \
   --config ./config/webpack.js \
   --port $PORT \
   --host 0.0.0.0 \
