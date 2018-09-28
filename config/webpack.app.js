@@ -19,7 +19,7 @@ module.exports = function(opts) {
   const addSourceMapArg = function(loader) {
     return loader
       .split('!')
-      .map(function(l) { return l.indexOf('?') == -1 ? l + '?sourceMap' : l + '&sourceMap'; })
+      .map(function(l) { return l.indexOf('?') === -1 ? l + '?sourceMap' : l + '&sourceMap'; })
       .join('!');
   };
 
@@ -53,21 +53,25 @@ module.exports = function(opts) {
     },
     module: {
       rules: [
-        { test: /\.jsx?$/,
-          exclude: /(node_modules[/]|test[/])/,
+        // JavaScript files
+        { test: /\/(src|config)\/.+\.jsx?$/,
           use: [
             'babel-loader',
             'eslint-loader'
           ],
           enforce: 'pre'
         },
+
+        // CSS files
         { test: /[/]styles[/]app[.]scss$/,
           loader: styleLoader('css-loader?-mergeIdents&-mergeRules&-uniqueSelectors!sass-loader', cssAppExtractor)
         },
+
         // PhotoSwipe assets
         { test: /photoswipe.+\.(png|svg|gif)$/,
           loader: 'file-loader?name=assets/images/photoswipe/' + (opts.hash ? '[name]-[hash].[ext]' : '[name]-dev.[ext]')
         },
+
         // Local assets
         { test: /[/]assets[/]/,
           loader: 'file-loader?name=' + (opts.hash ? '[path][name]-[hash].[ext]' : '[path][name]-dev.[ext]')

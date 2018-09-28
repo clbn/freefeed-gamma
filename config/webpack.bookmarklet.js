@@ -9,7 +9,7 @@ module.exports = function(opts) {
     },
     module: {
       rules: [{
-        test: /bookmarklet\-popup\.js$/,
+        test: /bookmarklet-popup\.js$/,
         loader: 'file-loader?name=assets/[name].[ext]'
       }]
     }
