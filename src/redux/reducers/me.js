@@ -4,7 +4,7 @@ import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
 import { getPersistedUser } from '../../services/auth';
 import { meParser } from '../../utils';
-import { frontendPreferences as frontendPrefsConfig } from '../../../config/app';
+import { frontendPreferences as frontendPrefsConfig } from '../../../config/config';
 
 const { request, response } = ActionHelpers;
 

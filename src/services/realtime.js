@@ -1,4 +1,4 @@
-import { api as apiConfig } from '../../config/app';
+import { api as apiConfig } from '../../config/config';
 import { getToken } from './auth';
 import io from 'socket.io-client';
 

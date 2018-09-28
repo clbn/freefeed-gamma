@@ -1,5 +1,5 @@
 import { getCookie, setCookie } from '../utils/';
-import { auth as authConfig } from '../../config/app';
+import { auth as authConfig } from '../../config/config';
 
 const NAME = `${authConfig.tokenPrefix}authToken`;
 const EXP_DAYS = 365;

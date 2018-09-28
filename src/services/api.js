@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 
 import { getToken } from './auth';
-import { api as apiConfig, frontendPreferences as frontendPrefsConfig } from '../../config/app';
+import { api as apiConfig, frontendPreferences as frontendPrefsConfig } from '../../config/config';
 
 const getRequestOptions = () => ({
   headers: {

@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const env = process.env;
 
-const appConfig = require('./app');
+const appConfig = require('./config');
 
 const rootDirectory = fs.realpathSync(process.cwd());
 
@@ -36,8 +36,8 @@ const options = {
 
 module.exports = [
   // Main app config
-  require('./webpack/app.js')(options),
+  require('./webpack.app.js')(options),
 
   // Bookmarklet config
-  require('./webpack/bookmarklet.js')(options)
+  require('./webpack.bookmarklet.js')(options)
 ];

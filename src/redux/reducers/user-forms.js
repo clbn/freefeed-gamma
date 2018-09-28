@@ -1,6 +1,6 @@
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
-import { frontendPreferences as frontendPrefsConfig } from '../../../config/app';
+import { frontendPreferences as frontendPrefsConfig } from '../../../config/config';
 
 const { request, response, fail } = ActionHelpers;
 

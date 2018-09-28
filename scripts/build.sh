@@ -4,9 +4,9 @@ set -e
 : "${OUT_DIR:=./build}"
 : "${PUBLIC_PATH:=/}"
 
-if ! [ -f './config/app.js' ]; then
+if ! [ -f './config/config.js' ]; then
   echo 'Copying config.js...'
-  cp ./config/app.dist.js ./config/app.js
+  cp ./config/config.dist.js ./config/config.js
   echo 'Done!'
   echo
 fi

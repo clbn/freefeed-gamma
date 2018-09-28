@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-import { frontendPreferences as frontendPrefsConfig } from '../../config/app';
+import { frontendPreferences as frontendPrefsConfig } from '../../config/config';
 import * as PostVisibilityLevels from './post-visibility-levels';
 
 export function getCookie(name) {
