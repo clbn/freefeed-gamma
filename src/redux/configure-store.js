@@ -19,7 +19,7 @@ const middlewareChain = [
 let enhancers = [applyMiddleware(...middlewareChain)];
 
 // Tell webpack to include devtool enhancer in dev mode
-const isDevelopment = process.env.NODE_ENV != 'production';
+const isDevelopment = process.env.NODE_ENV !== 'production';
 if (isDevelopment && window.devToolsExtension) {
   enhancers.push(window.devToolsExtension());
 }

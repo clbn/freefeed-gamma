@@ -20,7 +20,7 @@ fi
 
 rm -rf $OUT_DIR
 
-set -x; UGLIFY=1 HASH=1 DEV=0 exec ./node_modules/.bin/webpack \
+set -x; exec ./node_modules/.bin/webpack \
   --config ./config/webpack.js \
   --output-path $OUT_DIR \
   --output-public-path $PUBLIC_PATH

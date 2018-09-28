@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const env = process.env;
 
 const appConfig = require('./config');
 
@@ -10,14 +9,6 @@ function resolvePath(relativePath) {
   return path.resolve(rootDirectory, relativePath);
 }
 
-function strToBool(val, def) {
-  if (val === undefined) {
-    return def;
-  }
-  val = val.toLowerCase();
-  return val === '1' || val === 'true' || val === 'yes' || val === 'y';
-}
-
 const options = {
   paths: {
     root: rootDirectory,
@@ -25,13 +16,8 @@ const options = {
     nodeModules: resolvePath('node_modules'),
     src: resolvePath('src')
   },
-  dev: strToBool(env.DEV, true),
-  livereload: strToBool(env.LIVERELOAD, false),
-  hot: process.argv.indexOf('--hot') !== -1,
-  hash: strToBool(env.HASH, false),
-  uglify: strToBool(env.UGLIFY, false),
-  port: env.PORT || '8080',
-  appConfig: appConfig
+  appConfig: appConfig,
+  dev: path.basename(require.main.filename) === 'webpack-dev-server.js'
 };
 
 module.exports = [
