@@ -63,7 +63,8 @@ class UserName extends React.Component {
         onMouseLeave={this.leaveUserName}>
 
         <Link to={`/${this.props.username}`} className={this.props.className}
-              onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave}>
+          onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave}>
+
           {this.props.display ? (
             <span>{this.props.display}</span>
           ) : (

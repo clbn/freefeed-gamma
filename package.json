@@ -14,7 +14,7 @@
     "build": "./scripts/build.sh",
     "analyze": "source-map-explorer build/*.js",
     "test": "./node_modules/.bin/webpack",
-    "lint": "./node_modules/.bin/eslint --ext .js --ext .jsx src/* test/*"
+    "lint": "./node_modules/.bin/eslint --ext .js --ext .jsx src test"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",

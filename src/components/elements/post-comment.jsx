@@ -153,9 +153,10 @@ class PostComment extends React.Component {
     return (
       <div className={commentClasses} id={`comment-${this.props.id}`} ref={this.refCommentContainer}>
         <a className={iconClasses}
-           title={dateRelative + '\n' + dateFull}
-           href={`${this.props.postUrl}#comment-${this.props.id}`}
-           onClick={preventDefault(this.openAnsweringComment)}>
+          title={dateRelative + '\n' + dateFull}
+          href={`${this.props.postUrl}#comment-${this.props.id}`}
+          onClick={preventDefault(this.openAnsweringComment)}>
+
           <Icon name="comment"/>
         </a>
 

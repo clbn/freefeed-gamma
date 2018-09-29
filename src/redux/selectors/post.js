@@ -107,7 +107,8 @@ const makeGetPost = () => createSelector(
     getPostAttachments
   ],
   (post, isEditing, isHiding, isLiking, isModeratingComments, isSaving, errorMessage,
-   authorUsername, myId, recipientsRelatedThings, attachments) => {
+    authorUsername, myId, recipientsRelatedThings, attachments) => {
+
     if (!post) {
       return {};
     }

@@ -18,6 +18,7 @@ export function getPersistedUser() {
 }
 
 export function persistUser(user) {
-  return user ? window.localStorage.setItem(authConfig.userStorageKey, JSON.stringify(user)) :
-  window.localStorage.removeItem(authConfig.userStorageKey);
+  return user
+    ? window.localStorage.setItem(authConfig.userStorageKey, JSON.stringify(user))
+    : window.localStorage.removeItem(authConfig.userStorageKey);
 }
