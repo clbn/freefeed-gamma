@@ -25,7 +25,7 @@ module.exports = function(opts) {
 
     entry: {
       app: [
-        'babel-polyfill',
+        '@babel/polyfill',
         './src'
       ]
     },
