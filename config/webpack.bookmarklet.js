@@ -2,6 +2,8 @@ module.exports = function(opts) {
   return {
     mode: opts.dev ? 'development' : 'production',
 
+    stats: opts.stats,
+
     entry: {
       'bookmarklet-popup': './assets/bookmarklet-popup.js'
     },

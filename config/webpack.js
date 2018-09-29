@@ -17,6 +17,14 @@ const options = {
     src: resolvePath('src')
   },
   appConfig: appConfig,
+  stats: {
+    builtAt: false,
+    children: false,
+    entrypoints: false,
+    excludeAssets: /assets\/(fonts|icons|images)\//,
+    hash: false,
+    modules: false
+  },
   dev: path.basename(require.main.filename) === 'webpack-dev-server.js'
 };
 

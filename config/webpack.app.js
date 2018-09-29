@@ -11,8 +11,17 @@ module.exports = function(opts) {
     devtool: opts.dev ? 'cheap-module-eval-source-map' : 'source-map',
 
     devServer: {
-      historyApiFallback: true
+      historyApiFallback: true,
+
+      // Customize CLI output for "npm start" (development mode)
+      stats: {
+        ...opts.stats,
+        children: true
+      }
     },
+
+    // Customize CLI output for "npm run build" (production mode)
+    stats: opts.stats,
 
     entry: {
       app: [
