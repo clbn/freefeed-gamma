@@ -12,7 +12,7 @@ computer, or even host it on your own server.
 After cloning the repo, switch to the app folder and run the following command:
 
 ```
-$ npm start
+$ yarn start
 ```
 
 It prepares default config file, installs dependencies from NPM and starts 
@@ -27,7 +27,7 @@ right away.
 To build a production-ready app, run:
 
 ```
-$ npm run build
+$ yarn build
 ```
 
-It builds the app to the `build` folder.
+It builds the app for production to the `build` folder.

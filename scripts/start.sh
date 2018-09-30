@@ -12,7 +12,7 @@ fi
 
 if ! [ -d './node_modules' ]; then
   echo 'Installing required NPM modules...'
-  npm install
+  yarn install
   echo 'Done!'
   echo
 fi

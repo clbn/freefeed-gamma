@@ -13,14 +13,14 @@ module.exports = function(opts) {
     devServer: {
       historyApiFallback: true,
 
-      // Customize CLI output for "npm start" (development mode)
+      // Customize CLI output for "yarn start" (development mode)
       stats: {
         ...opts.stats,
         children: true
       }
     },
 
-    // Customize CLI output for "npm run build" (production mode)
+    // Customize CLI output for "yarn build" (production mode)
     stats: opts.stats,
 
     entry: {
