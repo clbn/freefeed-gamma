@@ -55,7 +55,8 @@ export default function users(state = {}, action) {
         [userId]: { ...oldUser, ...newUser }
       };
     }
-    case response(ActionTypes.GET_USER_SUBSCRIBERS): {
+    case response(ActionTypes.GET_USER_SUBSCRIBERS):
+    case response(ActionTypes.GET_USER_SUBSCRIPTIONS): {
       return mergeByIds(state, (action.payload.subscribers || []).map(userParser));
     }
     case response(ActionTypes.BLOCKED_BY_ME): {
