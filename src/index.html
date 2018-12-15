@@ -30,10 +30,14 @@
     <meta name="msapplication-wide310x150logo" content="<%= require('assets/icons/mstile-310x150.png') %>">
 
     <style>
-      body { font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; margin: 0; padding: 0 15px }
-      h1 { font-size: 36px; font-weight: 500; margin-top: 10px }
+      * { box-sizing: border-box }
+      body { font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; margin: 0 }
+      .container { padding: 0 15px; margin: 0 auto }
+      @media (min-width: 1200px) { .container { width: 970px } }
+      h1 { font-size: 36px; font-weight: 500; margin: 10px 0 }
       h1 a { color: #222; text-decoration: none }
-      svg { width: 1em; height: 1em; }
+      h1 .tagline { color: #bbb; font-size: 12px }
+      svg { width: 1em; height: 1em }
     </style>
 
     <noscript>
@@ -44,19 +48,21 @@
   </head>
   <body>
     <div id="root">
-      <h1 class="title">
-        <a href="/">FreeFeed</a><sup title="Gamma">&nbsp;&gamma;</sup>
-      </h1>
+      <div class="container">
+        <h1 class="title">
+          <a href="/">FreeFeed</a><sup title="Gamma">&nbsp;&gamma;</sup>
+        </h1>
 
-      <div class="jsonly">
-        <p>Loading...</p>
-      </div>
-
-      <noscript>
-        <div role="alert" class="alert alert-danger">
-          Looks like you have JavaScript disabled in your browser. Please enable it to enjoy our service.
+        <div class="jsonly">
+          <p>Loading...</p>
         </div>
-      </noscript>
+
+        <noscript>
+          <div role="alert" class="alert alert-danger">
+            Looks like you have JavaScript disabled in your browser. Please enable it to enjoy our service.
+          </div>
+        </noscript>
+      </div>
     </div>
 
     <script>
