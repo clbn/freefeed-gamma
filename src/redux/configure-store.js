@@ -20,8 +20,8 @@ let enhancers = [applyMiddleware(...middlewareChain)];
 
 // Tell webpack to include devtool enhancer in dev mode
 const isDevelopment = process.env.NODE_ENV !== 'production';
-if (isDevelopment && window.devToolsExtension) {
-  enhancers.push(window.devToolsExtension());
+if (isDevelopment && window.__REDUX_DEVTOOLS_EXTENSION__) {
+  enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__());
 }
 
 const storeEnhancer = compose(...enhancers);
