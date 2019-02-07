@@ -125,7 +125,8 @@ class Post extends React.Component {
 
     const checkSave = (event) => {
       const isEnter = event.keyCode === 13;
-      if (isEnter) {
+      const isShiftPressed = event.shiftKey;
+      if (isEnter && !isShiftPressed) {
         event.preventDefault();
         if (this.state.attachmentQueueLength === 0) {
           saveEditingPost();
