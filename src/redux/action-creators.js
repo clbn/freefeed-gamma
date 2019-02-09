@@ -565,12 +565,12 @@ export function markDirectsAsRead() {
   };
 }
 
-export function getCommentLikes(commentId) {
+export function getCommentLikes(commentId, isQuiet = false) {
   return {
     type: ActionTypes.GET_COMMENT_LIKES,
     apiRequest: Api.getCommentLikes,
     nonAuthRequest: true,
-    payload: { commentId }
+    payload: { commentId, isQuiet }
   };
 }
 

@@ -1,9 +1,13 @@
 import * as ActionTypes from '../action-types';
 import { request, response, fail } from '../action-helpers';
 
-export default function commentLikesView(state = {}, action) {
+export default function commentLikesViews(state = {}, action) {
   switch (action.type) {
     case request(ActionTypes.GET_COMMENT_LIKES): {
+      if (action.payload.isQuiet) {
+        return state;
+      }
+
       return { ...state,
         [action.payload.commentId]: {
           status: 'loading'

@@ -52,7 +52,7 @@ export function postActions(dispatch) {
       toggleEditingComment: (commentId) => dispatch(toggleEditingComment(commentId)),
       saveEditingComment: (commentId, newValue) => dispatch(saveEditingComment(commentId, newValue)),
       updateHighlightedComments: (...args) => dispatch(updateHighlightedComments(...args)),
-      getCommentLikes: (commentId) => dispatch(getCommentLikes(commentId)),
+      getCommentLikes: (...args) => dispatch(getCommentLikes(...args)),
       likeComment: (commentId) => dispatch(likeComment(commentId)),
       unlikeComment: (commentId) => dispatch(unlikeComment(commentId)),
       deleteComment: (commentId) => dispatch(deleteComment(commentId))

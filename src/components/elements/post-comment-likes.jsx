@@ -55,6 +55,13 @@ class PostCommentLikes extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    // When tooltip is open, we should update the user list on realtime clikes
+    if (this.state.isOpen && prevProps.quantity !== this.props.quantity) {
+      this.props.getCommentLikes(this.props.commentId, true);
+    }
+  }
+
   handleClick = () => {
     if (this.state.isOpen) {
       this.toggleLike();
