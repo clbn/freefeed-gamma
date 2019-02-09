@@ -22,7 +22,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@tippy.js/react": "^2.0.0",
+    "@tippy.js/react": "clbn/tippy.js-react",
     "autotrack": "^0.6.3",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.0",

@@ -593,13 +593,12 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@tippy.js/react@^2.0.0":
+"@tippy.js/react@clbn/tippy.js-react":
   version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@tippy.js/react/-/react-2.0.2.tgz#5dd0c9c0a122c880b360009688dd2192d72623a1"
-  integrity sha512-sML7vtNYPaFwKmLqRvBsL5JwYAA9dg6d1tzk8f7OoBE57v+BzAuiUPK1OKNo0hiA2T1lHPvp7I3lOtwhrRP8Xw==
+  resolved "https://codeload.github.com/clbn/tippy.js-react/tar.gz/f876f496987d8ddb0d56f2335ee2bbb3169e33d7"
   dependencies:
     prop-types "^15.6.2"
-    tippy.js "^4.0.0"
+    tippy.js clbn/tippyjs#hideall-on-manual
 
 "@webassemblyjs/ast@1.7.8":
   version "1.7.8"
@@ -6085,10 +6084,9 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
-tippy.js@^4.0.0:
+tippy.js@clbn/tippyjs#hideall-on-manual:
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-4.0.0.tgz#0d09d87b1a25f48871099bd98b5ccab6ec2b2b09"
-  integrity sha512-dwITTI5rmvuZJ+vCtaP1nm9zg0CuDcJgYB0SQ9LqXBLGKujKf7Ygg6j5K+9y+h3V3Gy0a+UVjHWsXEBcgANydw==
+  resolved "https://codeload.github.com/clbn/tippyjs/tar.gz/595826f481ba43da740c0edd89adfbe0a5c779fb"
   dependencies:
     popper.js "^1.14.7"
 
