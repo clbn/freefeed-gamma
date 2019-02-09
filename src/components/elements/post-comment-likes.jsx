@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import tippy from 'tippy.js';
+import Tippy from '@tippy.js/react';
 
 import { makeGetClikes } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
@@ -24,7 +23,7 @@ const renderClike = (item, i, items) => (
   </li>
 );
 
-const renderTooltipContent = (props) => (
+const TooltipContent = (props) => (
   !props.status || props.status === 'loading' ? (
     <div className="clikes-loading">Loading likes...</div>
   ) : props.status === 'error' ? (
@@ -51,82 +50,33 @@ class PostCommentLikes extends React.Component {
     super(props);
 
     this.state = {
-      isOpen: false
+      isOpen: false,
+      isLoaded: false
     };
   }
-
-  componentDidMount() {
-    this._isMounted = true;
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.status !== this.props.status || prevProps.users.length !== this.props.users.length) {
-      this.updateTooltipContent();
-    }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-
-    if (this.triggerElement._tippy) {
-      this.triggerElement._tippy.hide();
-    }
-  }
-
-  refTrigger = (element) => {
-    this.triggerElement = element;
-  };
 
   handleClick = () => {
     if (this.state.isOpen) {
       this.toggleLike();
     } else {
       this.setState({ isOpen: true });
-
-      this.updateTooltipContent();
-
-      setTimeout(() => {
-        this.createAndShowTooltip();
-      }, 0);
     }
-  };
-
-  createAndShowTooltip = () => {
-    tippy(this.triggerElement, {
-      ...tippyOptions,
-      html: this.tooltipContainer,
-      onShow: this.handleShowTooltip,
-      onHide: this.handleHideTooltip,
-      onHidden: this.handleHiddenTooltip
-    });
-
-    this.triggerElement._tippy.show();
   };
 
   handleShowTooltip = () => {
-    this.props.getCommentLikes(this.props.commentId);
+    if (!this.state.isLoaded) {
+      this.props.getCommentLikes(this.props.commentId);
+      this.setState({ isLoaded: true });
+    }
   };
 
   handleHideTooltip = () => {
-    if (this._isMounted) { // because this can be called on/after unmount from Tippy
-      this.setState({ isOpen: false });
+    if (this.state.isOpen) {
+      this.setState({
+        isOpen: false,
+        isLoaded: false
+      });
     }
-  };
-
-  handleHiddenTooltip = () => {
-    if (this.triggerElement) {
-      this.triggerElement._tippy.destroy();
-    }
-  };
-
-  updateTooltipContent = () => {
-    if (!this.tooltipContainer) {
-      this.tooltipContainer = document.createElement('div');
-    }
-
-    const tooltipContent = renderTooltipContent(this.props);
-
-    ReactDOM.unstable_renderSubtreeIntoContainer(this, tooltipContent, this.tooltipContainer);
   };
 
   toggleLike = () => {
@@ -154,26 +104,36 @@ class PostCommentLikes extends React.Component {
       'clikes-liked': this.props.hasOwnLike
     });
 
+    const tooltipContent = <TooltipContent {...this.props}/>;
+
     return (
       <span className={classes}>
         {'-'}
 
-        <span className="clikes-trigger" ref={this.refTrigger} onClick={this.handleClick} title="Comment likes">
-          <span className="clikes-icon">
-            <Icon name="heart"/>
-          </span>
+        <Tippy
+          isVisible={this.state.isOpen}
+          content={tooltipContent}
+          onShow={this.handleShowTooltip}
+          onHide={this.handleHideTooltip}
+          {...tippyOptions}>
 
-          <span className="clikes-number">
-            {this.props.quantity}
-          </span>
+          <span className="clikes-trigger" onClick={this.handleClick} title="Comment likes">
+            <span className="clikes-icon">
+              <Icon name="heart"/>
+            </span>
 
-          <span className="clikes-sign">
-            <Icon name="plus"/>
-            <Icon name="times"/>
-          </span>
+            <span className="clikes-number">
+              {this.props.quantity}
+            </span>
 
-          <img className="clikes-throbber" width="11" height="11" src={throbber16}/>
-        </span>
+            <span className="clikes-sign">
+              <Icon name="plus"/>
+              <Icon name="times"/>
+            </span>
+
+            <img className="clikes-throbber" width="11" height="11" src={throbber16}/>
+          </span>
+        </Tippy>
       </span>
     );
   }

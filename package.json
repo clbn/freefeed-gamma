@@ -22,6 +22,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@tippy.js/react": "^2.0.0",
     "autotrack": "^0.6.3",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.0",
@@ -64,7 +65,6 @@
     "source-map-explorer": "^1.6.0",
     "style-loader": "^0.13.1",
     "tape": "^4.2.2",
-    "tippy.js": "clbn/tippyjs",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^3.1.9"
