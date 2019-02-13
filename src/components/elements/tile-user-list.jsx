@@ -143,7 +143,7 @@ class TileUserList extends React.Component {
 
     let usersData = props.users.map(user => {
       return {
-        ..._.pick(user, ['id', 'username', 'status', 'updatedAt']),
+        ..._.pick(user, ['id', 'status', 'updatedAt', 'username', 'screenName']),
         ...pickActions(config.type, props)
       };
     });
