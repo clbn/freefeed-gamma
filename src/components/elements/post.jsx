@@ -185,7 +185,7 @@ class Post extends React.Component {
     // Recipients
     const recipientCustomDisplay = function(recipient) {
       if (recipient.id !== props.createdBy) {
-        return false;
+        return null;
       }
       if (recipient.username[recipient.username.length - 1] === 's') {
         return recipient.username + "' feed";

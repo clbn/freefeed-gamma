@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -75,6 +76,18 @@ class UserName extends React.Component {
     );
   }
 }
+
+const idOrUsernameAreRequired = (props, propName, componentName) => {
+  if (!props.id && !props.username) {
+    return new Error('One of `id` or `username` is required in `' + componentName + '`, but none were provided.');
+  }
+};
+UserName.propTypes = {
+  customValidator: idOrUsernameAreRequired,
+  id: PropTypes.string,
+  username: PropTypes.string,
+  display: PropTypes.string
+};
 
 const getUserName = createSelector(
   [
