@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import classnames from 'classnames';
 import _ from 'lodash';
@@ -26,8 +27,7 @@ class UserTile extends React.Component {
   });
 
   render() {
-    const type = this.props.type;
-    const user = this.props.user;
+    const { type, user, altDisplay } = this.props;
 
     return (
       <li className={this.tileClasses}>
@@ -38,7 +38,7 @@ class UserTile extends React.Component {
         </div>
 
         <div className="user-tile-name">
-          <UserName id={user.id}/>
+          <UserName id={user.id} display={user[altDisplay]}/>
         </div>
 
         {user.status === 'loading' ? (
@@ -93,7 +93,13 @@ class UserTile extends React.Component {
   }
 }
 
-const renderUsers = (type) => (user) => <UserTile key={user.id} type={type} user={user}/>;
+UserTile.propTypes = {
+  type: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  altDisplay: PropTypes.string
+};
+
+const renderUsers = (type, altDisplay) => (user) => <UserTile key={user.id} type={type} user={user} altDisplay={altDisplay}/>;
 
 export const PLAIN = 'PLAIN';
 export const WITH_REQUEST_HANDLES = 'WITH_REQUEST_HANDLES';
@@ -156,7 +162,11 @@ class TileUserList extends React.Component {
       }
     }
 
-    const users = usersData.map(renderUsers(config.type));
+    let altDisplay = null;
+    if (['username', 'screenName'].indexOf(this.state.selectedOrder) > -1) {
+      altDisplay = this.state.selectedOrder;
+    }
+    const users = usersData.map(renderUsers(config.type, altDisplay));
 
     const listClasses = classnames({
       'row': true,
