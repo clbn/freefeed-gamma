@@ -14,11 +14,11 @@ const renderClike = (item, i, items) => (
     <UserName id={item.id} display={item.username}/>
 
     {i < items.length - 2 ? (
-      <span>, </span>
+      ', '
     ) : i === items.length - 2 ? (
-      <span> and </span>
+      ' and '
     ) : (
-      <span> liked this</span>
+      ' liked this'
     )}
   </li>
 );

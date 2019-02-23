@@ -13,31 +13,29 @@ const renderLike = (item, i, items) => (
   <li key={item.id}>
     {item.id !== 'more-likes' ? (
       <UserName id={item.id}/>
-    ) : (
-      <span>
-        <a onClick={preventDefault(item.showMoreLikes)}>{item.omittedLikes} other people</a>
+    ) : <>
+      <a onClick={preventDefault(item.showMoreLikes)}>{item.omittedLikes} other people</a>
 
-        {item.isLoadingLikes ? (
-          <span className="more-likes-throbber">
-            <img width="16" height="16" src={throbber16}/>
-          </span>
-        ) : false}
-      </span>
-    )}
+      {item.isLoadingLikes ? (
+        <span className="more-likes-throbber">
+          <img width="16" height="16" src={throbber16}/>
+        </span>
+      ) : false}
+    </>}
 
     {i < items.length - 2 ? (
-      <span>, </span>
+      ', '
     ) : i === items.length - 2 ? (
-      <span> and </span>
+      ' and '
     ) : (
-      <span> liked this</span>
+      ' liked this'
     )}
   </li>
 );
 
 const PostLikes = (props) => {
   if (!props.users.length) {
-    return <div/>;
+    return null;
   }
 
   const userList = [...props.users];
