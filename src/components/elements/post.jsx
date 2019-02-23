@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -211,14 +211,14 @@ class Post extends React.Component {
       }
     }
     recipients = recipients.map((recipient, index) => (
-      <span key={index}>
+      <Fragment key={index}>
         <UserName
           className="post-recipient"
           id={recipient.id}
           display={recipientCustomDisplay(recipient)}/>
         {index < props.recipients.length - 2 ? ', ' : false}
         {index === props.recipients.length - 2 ? ' and ' : false}
-      </span>
+      </Fragment>
     ));
 
     // DropzoneJS queue handlers
@@ -253,74 +253,62 @@ class Post extends React.Component {
     let commentLink;
     if (props.commentsDisabled) {
       if (props.canIModerate) {
-        commentLink = (
-          <span>
-            {' - '}
-            <i>Comments disabled (not for you)</i>
-            {' - '}
-            <a onClick={toggleCommenting}>Comment</a>
-          </span>
-        );
-      } else {
-        commentLink = (
-          <span>
-            {' - '}
-            <i>Comments disabled</i>
-          </span>
-        );
-      }
-    } else {
-      commentLink = (
-        <span>
+        commentLink = <>
+          {' - '}
+          <i>Comments disabled (not for you)</i>
           {' - '}
           <a onClick={toggleCommenting}>Comment</a>
-        </span>
-      );
+        </>;
+      } else {
+        commentLink = <>
+          {' - '}
+          <i>Comments disabled</i>
+        </>;
+      }
+    } else {
+      commentLink = <>
+        {' - '}
+        <a onClick={toggleCommenting}>Comment</a>
+      </>;
     }
 
     // "Like" / "Un-like"
-    const likeLink = (props.canILike ? (
-      <span>
-        {' - '}
-        {props.haveILiked ? (
-          <a onClick={unlikePost}>Un-like</a>
-        ) : (
-          <a onClick={likePost}>Like</a>
-        )}
-        {props.isLiking ? (
-          <span className="post-like-throbber">
-            <img width="16" height="16" src={throbber16}/>
-          </span>
-        ) : false}
-      </span>
-    ) : false);
+    const likeLink = (props.canILike ? <>
+      {' - '}
+      {props.haveILiked ? (
+        <a onClick={unlikePost}>Un-like</a>
+      ) : (
+        <a onClick={likePost}>Like</a>
+      )}
+      {props.isLiking ? (
+        <span className="post-like-throbber">
+          <img width="16" height="16" src={throbber16}/>
+        </span>
+      ) : false}
+    </> : false);
 
     // "Hide" / "Un-hide"
-    const hideLink = (props.isInHomeFeed ? (
-      <span>
-        {' - '}
-        <a onClick={props.isHidden ? unhidePost : hidePost}>{props.isHidden ? 'Un-hide' : 'Hide'}</a>
-        {props.isHiding ? (
-          <span className="post-hide-throbber">
-            <img width="16" height="16" src={throbber16}/>
-          </span>
-        ) : false}
-      </span>
-    ) : false);
+    const hideLink = (props.isInHomeFeed ? <>
+      {' - '}
+      <a onClick={props.isHidden ? unhidePost : hidePost}>{props.isHidden ? 'Un-hide' : 'Hide'}</a>
+      {props.isHiding ? (
+        <span className="post-hide-throbber">
+          <img width="16" height="16" src={throbber16}/>
+        </span>
+      ) : false}
+    </> : false);
 
     // "More" menu
-    const moreLink = (props.canIModerate ? (
-      <span>
-        {' - '}
-        <PostMoreMenu
-          post={props}
-          toggleEditingPost={toggleEditingPost}
-          toggleModeratingComments={toggleModeratingComments}
-          disableComments={disableComments}
-          enableComments={enableComments}
-          deletePost={deletePost}/>
-      </span>
-    ) : false);
+    const moreLink = (props.canIModerate ? <>
+      {' - '}
+      <PostMoreMenu
+        post={props}
+        toggleEditingPost={toggleEditingPost}
+        toggleModeratingComments={toggleModeratingComments}
+        disableComments={disableComments}
+        enableComments={enableComments}
+        deletePost={deletePost}/>
+    </> : false);
 
     return (props.isRecentlyHidden ? (
       <div className="post recently-hidden-post">
@@ -365,18 +353,16 @@ class Post extends React.Component {
                 onUploadSuccess={handleUploadSuccess}
                 onUploadFailure={handleUploadFailure}/>
 
-              <div>
-                <Textarea
-                  inputRef={this.refPostText}
-                  className="form-control post-textarea"
-                  defaultValue={props.body}
-                  autoFocus={true}
-                  onKeyDown={checkSave}
-                  onPaste={this.handlePaste}
-                  minRows={3}
-                  maxRows={10}
-                  maxLength="1500"/>
-              </div>
+              <Textarea
+                inputRef={this.refPostText}
+                className="form-control post-textarea"
+                defaultValue={props.body}
+                autoFocus={true}
+                onKeyDown={checkSave}
+                onPaste={this.handlePaste}
+                minRows={3}
+                maxRows={10}
+                maxLength="1500"/>
 
               <div className="post-edit-options">
                 <span className="post-edit-attachments dropzone-trigger">
