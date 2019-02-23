@@ -12,26 +12,26 @@ const DisplayOption = ({ username, screenName, isItMe, myPrefs }) => {
   const myDisPrefs = myPrefs.displayNames;
 
   if (isItMe && myDisPrefs.useYou) {
-    return <span>You</span>;
+    return 'You';
   }
 
   if (screenName === username) {
-    return <span>{screenName}</span>;
+    return screenName;
   }
 
   switch (myDisPrefs.displayOption) {
     case FrontendPrefsOptions.DISPLAYNAMES_DISPLAYNAME: {
-      return <span>{screenName}</span>;
+      return screenName;
     }
     case FrontendPrefsOptions.DISPLAYNAMES_BOTH: {
-      return <span>{screenName} ({username})</span>;
+      return `${screenName} (${username})`;
     }
     case FrontendPrefsOptions.DISPLAYNAMES_USERNAME: {
-      return <span>{username}</span>;
+      return username;
     }
   }
 
-  return <span>{screenName}</span>;
+  return screenName;
 };
 
 class UserName extends React.Component {
@@ -67,7 +67,7 @@ class UserName extends React.Component {
           onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave}>
 
           {this.props.display ? (
-            <span>{this.props.display}</span>
+            this.props.display
           ) : (
             <DisplayOption {...this.props}/>
           )}
