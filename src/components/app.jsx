@@ -167,7 +167,7 @@ class App extends React.Component {
           </div>
         </header>
 
-        {props.authenticated ? (
+        {props.authenticated && props.myId ? (
           <div className="row">
             <div className="content col-md-9">{props.children}</div>
             <Sidebar/>
@@ -188,8 +188,9 @@ class App extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    unreadDirectsNumber: state.me.unreadDirectsNumber,
     authenticated: state.authenticated,
+    myId: state.me.id,
+    unreadDirectsNumber: state.me.unreadDirectsNumber,
     isLoading: state.routeLoadingState,
     routeName: getCurrentRouteName(ownProps),
     offset: state.routing.locationBeforeTransitions.query.offset,
