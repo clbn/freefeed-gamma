@@ -8,9 +8,9 @@ const HiddenEntriesToggle = (props) => {
   let label;
 
   if (props.isOpen) {
-    label = `\u25bc Don't show ${props.count} hidden ${entriesForm}`;
+    label = <>&#x25bc; <span>Don't show {props.count} hidden {entriesForm}</span></>;
   } else {
-    label = `\u25ba Show ${props.count} hidden ${entriesForm}`;
+    label = <>&#x25ba; <span>Show {props.count} hidden {entriesForm}</span></>;
   }
 
   return (
