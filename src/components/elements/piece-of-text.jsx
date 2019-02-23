@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Linkify from './linkify';
 
 // Texts longer than thresholdTextLength should be cut to shortenedTextLength
@@ -40,7 +40,7 @@ const injectSeparator = (array, separator) => {
   const result = [];
 
   array.forEach((item, i) => {
-    result.push(<span key={'item-' + i}>{item}</span>);
+    result.push(<Fragment key={'item-' + i}>{item}</Fragment>);
     result.push(React.cloneElement(separator, { key: 'separator-' + i }, separator.props.children));
   });
 
@@ -111,6 +111,6 @@ export default class PieceOfText extends React.Component {
           ? getExpandedText(this.props.text)
           : getCollapsedText(this.props.text, this.handleExpandText)}
       </Linkify>
-    ) : <span/>);
+    ) : false);
   }
 }
