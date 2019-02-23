@@ -59,12 +59,8 @@ ul.tile-list {
         color: #a94442;
       }
 
-      span {
-        margin-left: 3px;
-      }
-
-      &:hover span {
-        text-decoration: underline;
+      [class^="icon-"], [class*=" icon-"] {
+        margin-right: 3px;
       }
     }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import classnames from 'classnames';
@@ -50,40 +50,40 @@ class UserTile extends React.Component {
             {type === WITH_REQUEST_HANDLES ? (
               <a className="user-action user-action-good" onClick={this.handleAcceptRequest}>
                 <Icon name="thumbs-up"/>
-                <span>Accept</span>
+                Accept
               </a>
             ) : false}
             {type === WITH_REQUEST_HANDLES ? (
               <a className="user-action user-action-bad" onClick={this.handleRejectRequest}>
                 <Icon name="thumbs-down"/>
-                <span>Reject</span>
+                Reject
               </a>
             ) : false}
 
             {type === WITH_REVOKE_SENT_REQUEST ? (
               <a className="user-action user-action-bad" onClick={this.handleRevokeSentRequest} title="Revoke sent request">
                 <Icon name="times"/>
-                <span>Revoke</span>
+                Revoke
               </a>
             ) : false}
 
             {type === WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
               <a className="user-action user-action-good" onClick={this.handlePromote} title="Promote user to admin">
                 <Icon name="level-up"/>
-                <span>Promote</span>
+                Promote
               </a>
             ) : false}
             {type === WITH_REMOVE_AND_MAKE_ADMIN_HANDLES ? (
               <a className="user-action user-action-bad" onClick={this.handleUnsubscribe} title="Unsubscribe user from the group">
                 <Icon name="times"/>
-                <span>Unsubscribe</span>
+                Unsubscribe
               </a>
             ) : false}
 
             {type === WITH_REMOVE_ADMIN_RIGHTS ? (
               <a className="user-action user-action-bad" onClick={this.handleDemote} title="Demote user from admin">
                 <Icon name="level-down"/>
-                <span>Demote</span>
+                Demote
               </a>
             ) : false}
           </div>
@@ -183,29 +183,27 @@ class TileUserList extends React.Component {
       <p>
         Ordered by:
         {props.sorting.map((option, index) => (
-          <span key={index}>
+          <Fragment key={index}>
             {index > 0 ? ', ' : ' '}
             {option.key === this.state.selectedOrder ? (
               <b>{option.label}</b>
             ) : (
               <a onClick={this.switchOrder(option.key, !!option.isReverse)}>{option.label}</a>
             )}
-          </span>
+          </Fragment>
         ))}
       </p>
     ) : false);
 
-    return (users.length ? (
-      <div>
-        <h3>{header}</h3>
+    return (users.length ? <>
+      <h3>{header}</h3>
 
-        {sortingOptions}
+      {sortingOptions}
 
-        <ul className={listClasses}>
-          {users}
-        </ul>
-      </div>
-    ) : <div/>);
+      <ul className={listClasses}>
+        {users}
+      </ul>
+    </> : false);
   }
 }
 

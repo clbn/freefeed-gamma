@@ -51,7 +51,7 @@ const GroupSettings = (props) => (
       </div>
     </div>
   ) : (
-    <div/>
+    false
   )
 );
 

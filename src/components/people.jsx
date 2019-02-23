@@ -24,7 +24,7 @@ const People = (props) => {
         {props.isLoading.subs ? (
           <DummyTileList/>
         ) : (
-          <div>
+          <>
             <TileListWithAcceptAndReject
               header={feedRequestsHeader}
               users={props.feedRequests}
@@ -41,7 +41,7 @@ const People = (props) => {
             <TileList {...props.otherSubscriptions}/>
 
             <TileList {...props.otherSubscribers}/>
-          </div>
+          </>
         )}
 
         {props.isLoading.blocked ? (

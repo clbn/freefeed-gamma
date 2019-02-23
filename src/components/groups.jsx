@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import _ from 'lodash';
@@ -22,13 +22,13 @@ const renderRequestsByGroup = (groupRequests, accept, reject) => {
     const rejectGroupRequest = (username) => reject(g.username, username);
 
     return (
-      <div key={g.id}>
+      <Fragment key={g.id}>
         <TileListWithAcceptAndReject
           header={header}
           users={users}
           acceptRequest={acceptGroupRequest}
           rejectRequest={rejectGroupRequest}/>
-      </div>
+      </Fragment>
     );
   });
 };
@@ -41,26 +41,25 @@ const Groups = (props) => {
       <div className="box-header-timeline">
         Groups
       </div>
+
       <div className="box-body">
         <div className="row">
           <div className="col-md-8">
             All the groups you are subscribed to
           </div>
+
           <div className="col-md-4 text-right">
             <Link to="/groups/create">Create a group</Link>
           </div>
         </div>
 
-        {groupRequests ? (
-          <div>
-            {groupRequests}
-          </div>
-        ) : false}
+        {groupRequests}
 
         <TileList {...props.managedGroups}/>
 
         <TileList {...props.otherGroups}/>
       </div>
+
       <div className="box-footer"></div>
     </div>
   );
