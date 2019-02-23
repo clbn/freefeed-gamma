@@ -113,14 +113,14 @@ class PostCreateForm extends React.Component {
     const recNames = recipients.map(getRecipientName);
 
     switch (recNames.length) {
-      case 0: return <span>{submitAction} <i>(recipient missing)</i></span>;
-      case 1: return <span>{submitAction} to {recNames[0]}</span>;
-      case 2: return <span>{submitAction} to {recNames[0]} and {recNames[1]}</span>;
-      case 3: return <span>{submitAction} to {recNames[0]}, {recNames[1]} and {recNames[2]}</span>;
+      case 0: return <>{submitAction} <i>(recipient missing)</i></>;
+      case 1: return <>{submitAction} to {recNames[0]}</>;
+      case 2: return <>{submitAction} to {recNames[0]} and {recNames[1]}</>;
+      case 3: return <>{submitAction} to {recNames[0]}, {recNames[1]} and {recNames[2]}</>;
       default:
         const firstTwo = recNames.slice(0, 2);
         const remainder = recNames.length - 2;
-        return <span>{submitAction} to {firstTwo[0]}, {firstTwo[1]} and {remainder} more</span>;
+        return <>{submitAction} to {firstTwo[0]}, {firstTwo[1]} and {remainder} more</>;
     }
   }
 
@@ -251,34 +251,32 @@ class PostCreateForm extends React.Component {
 
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
-        <div>
-          {this.state.isExpanded ? (
-            <PostRecipients ref={this.refPostRecipients}
-              feeds={this.props.sendTo.feeds}
-              defaultFeed={defaultFeed}
-              peopleFirst={this.props.peopleFirst}
-              user={this.props.me}
-              onChange={this.updateEmptinessState}/>
-          ) : false}
+        {this.state.isExpanded ? (
+          <PostRecipients ref={this.refPostRecipients}
+            feeds={this.props.sendTo.feeds}
+            defaultFeed={defaultFeed}
+            peopleFirst={this.props.peopleFirst}
+            user={this.props.me}
+            onChange={this.updateEmptinessState}/>
+        ) : false}
 
-          <PostDropzone
-            onInit={this.handleDropzoneInit}
-            onAddedFile={handleAddedFile}
-            onRemovedFile={handleRemovedFile}
-            onUploadSuccess={handleUploadSuccess}
-            onUploadFailure={handleUploadFailure}/>
+        <PostDropzone
+          onInit={this.handleDropzoneInit}
+          onAddedFile={handleAddedFile}
+          onRemovedFile={handleRemovedFile}
+          onUploadSuccess={handleUploadSuccess}
+          onUploadFailure={handleUploadFailure}/>
 
-          <Textarea
-            className="form-control post-textarea"
-            inputRef={this.refPostText}
-            onFocus={this.expand}
-            onKeyDown={this.checkIfEnterPressed}
-            onChange={this.updateEmptinessState}
-            onPaste={this.handlePaste}
-            minRows={3}
-            maxRows={10}
-            maxLength="1500"/>
-        </div>
+        <Textarea
+          className="form-control post-textarea"
+          inputRef={this.refPostText}
+          onFocus={this.expand}
+          onKeyDown={this.checkIfEnterPressed}
+          onChange={this.updateEmptinessState}
+          onPaste={this.handlePaste}
+          minRows={3}
+          maxRows={10}
+          maxLength="1500"/>
 
         <div className="post-edit-options">
           <span className="post-edit-attachments dropzone-trigger">

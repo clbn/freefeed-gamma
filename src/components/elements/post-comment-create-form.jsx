@@ -86,23 +86,20 @@ class PostCommentCreateForm extends React.Component {
 
         {writingComment ? (
           <div className="comment-body">
-            <div>
-              <Textarea
-                inputRef={this.bindTextarea}
-                className="form-control comment-textarea"
-                defaultValue=""
-                autoFocus={true}
-                onKeyDown={this.handleKeyDown}
-                onChange={this.handleChangeText}
-                minRows={2}
-                maxRows={10}
-                maxLength="1500"/>
-            </div>
+            <Textarea
+              inputRef={this.bindTextarea}
+              className="form-control comment-textarea"
+              defaultValue=""
+              autoFocus={true}
+              onKeyDown={this.handleKeyDown}
+              onChange={this.handleChangeText}
+              minRows={2}
+              maxRows={10}
+              maxLength="1500"/>
 
-            <span>
-              <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Comment</button>
-              <a className="comment-cancel" onClick={this.cancelCommenting}>Cancel</a>
-            </span>
+            <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Comment</button>
+
+            <a className="comment-cancel" onClick={this.cancelCommenting}>Cancel</a>
 
             {this.props.post.isSavingComment ? (
               <span className="comment-throbber">
@@ -122,14 +119,13 @@ class PostCommentCreateForm extends React.Component {
               defaultValue=""
               onFocus={this.startCommenting}/>
           </div>
-        ) : (
-          <div>
-            <a className="add-comment-link" onClick={this.startCommenting}>Add comment</a>
-            {this.props.post.commentsDisabled && this.props.post.canIModerate
-              ? <i> - disabled for others</i>
-              : false}
-          </div>
-        )}
+        ) : <>
+          <a className="add-comment-link" onClick={this.startCommenting}>Add comment</a>
+
+          {this.props.post.commentsDisabled && this.props.post.canIModerate && (
+            <i> - disabled for others</i>
+          )}
+        </>}
       </div>
     );
   }
