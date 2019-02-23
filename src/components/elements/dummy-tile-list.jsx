@@ -51,13 +51,11 @@ export default () => {
     tiles.push(<DummyUserTile key={i}/>);
   }
 
-  return (
-    <div>
-      <h3></h3>
+  return <>
+    <h3></h3>
 
-      <ul className="row tile-list">
-        {tiles}
-      </ul>
-    </div>
-  );
+    <ul className="row tile-list">
+      {tiles}
+    </ul>
+  </>;
 };
