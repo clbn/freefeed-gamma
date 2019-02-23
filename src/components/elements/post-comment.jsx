@@ -175,22 +175,21 @@ class PostComment extends React.Component {
           </div>
         ) : this.props.isEditing ? (
           <div className="comment-body">
-            <div>
-              <Textarea
-                inputRef={this.refCommentText}
-                className="form-control comment-textarea"
-                defaultValue={this.props.body}
-                autoFocus={true}
-                onKeyDown={this.handleKeyDown}
-                onChange={this.handleChangeText}
-                minRows={2}
-                maxRows={10}
-                maxLength="1500"/>
-            </div>
-            <span>
-              <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Post</button>
-              <a className="comment-cancel" onClick={this.toggleEditing}>Cancel</a>
-            </span>
+            <Textarea
+              inputRef={this.refCommentText}
+              className="form-control comment-textarea"
+              defaultValue={this.props.body}
+              autoFocus={true}
+              onKeyDown={this.handleKeyDown}
+              onChange={this.handleChangeText}
+              minRows={2}
+              maxRows={10}
+              maxLength="1500"/>
+
+            <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Post</button>
+
+            <a className="comment-cancel" onClick={this.toggleEditing}>Cancel</a>
+
             {this.props.isSaving ? (
               <span className="comment-throbber">
                 <img width="16" height="16" src={throbber16}/>
@@ -212,17 +211,15 @@ class PostComment extends React.Component {
             {' -'}&nbsp;
 
             <UserName id={this.props.createdBy}/>
-            {this.props.canIEdit ? (
-              <span>
-                {' '}(<a onClick={this.toggleEditing}>edit</a>
-                &nbsp;|&nbsp;
-                <a onClick={this.deleteAfterConfirmation}>delete</a>)
-              </span>
-            ) : (this.props.isModeratingComments) ? (
-              <span>
-                {' '}(<a onClick={this.deleteAfterConfirmation}>delete</a>)
-              </span>
-            ) : false}
+            {this.props.canIEdit ? <>
+              {' '}
+              (<a onClick={this.toggleEditing}>edit</a>
+              &nbsp;|&nbsp;
+              <a onClick={this.deleteAfterConfirmation}>delete</a>)
+            </> : (this.props.isModeratingComments) ? <>
+              {' '}
+              (<a onClick={this.deleteAfterConfirmation}>delete</a>)
+            </> : false}
 
             {' '}
 
