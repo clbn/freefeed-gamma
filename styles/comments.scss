@@ -114,11 +114,6 @@
       .icon-times { display: none; color: #ccc; }
     }
 
-    .clikes-throbber {
-      display: none;
-      margin: -3px 0 0 1px;
-    }
-
     &.clikes-zero {
       color: #ddd;
 
@@ -142,7 +137,6 @@
 
     &.clikes-liking {
       .clikes-sign { display: none !important; }
-      .clikes-throbber { display: inherit; }
     }
 
     &.clikes-liked {

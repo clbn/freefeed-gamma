@@ -57,7 +57,7 @@ module.exports = function(opts) {
         },
 
         // CSS files
-        { test: /[/]styles[/]app[.]scss$/,
+        { test: /\/styles\/[\w\-]+\.scss$/,
           use: [
             opts.dev ? 'style-loader' : MiniCssExtractPlugin.loader,
             opts.dev ? 'css-loader?sourceMap' : 'css-loader',

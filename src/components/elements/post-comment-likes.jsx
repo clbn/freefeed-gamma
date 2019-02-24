@@ -7,7 +7,7 @@ import { makeGetClikes } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
 import UserName from './user-name';
 import Icon from "./icon";
-import throbber16 from 'assets/images/throbber-16.gif';
+import Throbber from './throbber';
 
 const renderClike = (item, i, items) => (
   <li key={item.id}>
@@ -103,11 +103,13 @@ class PostCommentLikes extends React.Component {
   };
 
   render() {
+    const { isLiking } = this.props;
+
     const classes = classnames({
       'comment-likes': true,
       'clikes-zero': !this.props.quantity,
       'clikes-likable': this.props.isLikable && this.state.isOpen,
-      'clikes-liking': this.props.isLiking,
+      'clikes-liking': isLiking,
       'clikes-liked': this.props.hasOwnLike
     });
 
@@ -138,7 +140,9 @@ class PostCommentLikes extends React.Component {
               <Icon name="times"/>
             </span>
 
-            <img className="clikes-throbber" width="11" height="11" src={throbber16}/>
+            {isLiking && (
+              <Throbber name="clikes" size={11}/>
+            )}
           </span>
         </Tippy>
       </span>
