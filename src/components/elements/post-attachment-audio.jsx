@@ -19,21 +19,21 @@ export default (props) => {
 
   return (
     <div className="attachment">
-      <div>
+      {!props.isEditing && <>
         <audio src={props.url} title={artistAndTitle} preload="none" controls></audio>
-      </div>
-      <div>
-        <a href={props.url} title={artistAndTitle} target="_blank" rel="noopener">
-          <Icon name="file-audio"/>
-          <span>{artistAndTitle}</span>
-        </a>
+        <br/>
+      </>}
 
-        {props.isEditing ? (
-          <span className="remove-attachment" title="Remove audio file" onClick={removeAttachment}>
-            <Icon name="times"/>
-          </span>
-        ) : false}
-      </div>
+      <a href={props.url} title={artistAndTitle} target="_blank" rel="noopener">
+        <Icon name="file-audio"/>
+        {artistAndTitle}
+      </a>
+
+      {props.isEditing ? (
+        <span className="remove-attachment" title="Remove audio file" onClick={removeAttachment}>
+          <Icon name="times"/>
+        </span>
+      ) : false}
     </div>
   );
 };

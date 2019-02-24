@@ -12,7 +12,7 @@ const SortableImageAttachment = SortableElement(ImageAttachment);
 
 const SortableImageList = SortableContainer(({ items, removeAttachment }) => {
   return (
-    <div>
+    <div className="sortablecontainer-cannot-wrap-fragment">
       {items.map((attachment, index) => (
         <SortableImageAttachment
           key={`item-${attachment.id}`}
@@ -263,20 +263,25 @@ export default class PostAttachments extends React.Component {
       <div className="attachments" ref={this.refAttachmentsContainer}>
         <div className="image-attachments">
           {imageAttachments}
-          <PhotoSwipe
-            items={imageLightboxItems}
-            options={{ ...this.lightboxOptions, index: this.state.lightboxIndex }}
-            imageLoadComplete={this.handleLightboxImageLoaded}
-            isOpen={this.state.isLightboxOpen}
-            onClose={this.handleCloseLightbox}/>
+
+          {!this.props.isEditing && (
+            <PhotoSwipe
+              items={imageLightboxItems}
+              options={{ ...this.lightboxOptions, index: this.state.lightboxIndex }}
+              imageLoadComplete={this.handleLightboxImageLoaded}
+              isOpen={this.state.isLightboxOpen}
+              onClose={this.handleCloseLightbox}/>
+          )}
         </div>
+
         <div className="audio-attachments">
           {audioAttachments}
         </div>
+
         <div className="general-attachments">
           {generalAttachments}
         </div>
       </div>
-    ) : <div/>);
+    ) : false);
   }
 };

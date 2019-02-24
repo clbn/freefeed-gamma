@@ -13,7 +13,7 @@ export default (props) => {
     <div className="attachment">
       <a href={props.url} title={nameAndSize} target="_blank" rel="noopener">
         <Icon name="file"/>
-        <span>{nameAndSize}</span>
+        {nameAndSize}
       </a>
 
       {props.isEditing ? (
