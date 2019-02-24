@@ -173,7 +173,7 @@ class UserCard extends React.Component {
     const props = this.props;
 
     if (!props.userCardView.isOpen) {
-      return <div/>;
+      return false;
     }
 
     const cardClasses = classnames({
@@ -254,7 +254,7 @@ class UserCard extends React.Component {
           ) : props.authenticated && !props.isItMe ? (
             <div className="user-card-actions">
               {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
-                <span><Link to={`/filter/direct?to=${props.user.username}`}>Direct message</Link> - </span>
+                <><Link to={`/filter/direct?to=${props.user.username}`}>Direct message</Link> - </>
               ) : false}
 
               {props.user.isPrivate === '1' && !props.amISubscribedToUser ? (
@@ -278,9 +278,9 @@ class UserCard extends React.Component {
               ) : false}
 
               {props.user.type !== 'group' && !props.amISubscribedToUser ? (
-                props.userView.isBlocking ? ' - Blocking...' : <span> - <a onClick={this.handleBlock}>Block</a></span>
+                props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={this.handleBlock}>Block</a></>
               ) : props.amIGroupAdmin ? (
-                <span> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></span>
+                <> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></>
               ) : false}
 
               {props.userView.isBlocking ? (
