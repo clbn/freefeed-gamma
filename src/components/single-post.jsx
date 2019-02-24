@@ -5,25 +5,21 @@ import DummyPost from './elements/dummy-post';
 import Post from './elements/post';
 
 const SinglePost = (props) => {
-  let postBody = <div></div>;
+  let postBody = null;
 
   if (props.isLoading && !props.isPostInStore) {
     postBody = <DummyPost isSinglePost={true}/>;
   }
 
   if (props.errorStatus) {
-    postBody = (
-      <div>
-        <h2>{props.errorStatus}</h2>
-        <p><i>{props.errorMessage}</i></p>
-      </div>
-    );
+    postBody = <>
+      <h2>{props.errorStatus}</h2>
+      <p><i>{props.errorMessage}</i></p>
+    </>;
   }
 
   if (props.isPostInStore) {
-    postBody = (
-      <Post id={props.postId} isSinglePost={true}/>
-    );
+    postBody = <Post id={props.postId} isSinglePost={true}/>;
   }
 
   return (
