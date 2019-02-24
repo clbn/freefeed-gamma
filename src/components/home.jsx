@@ -25,40 +25,32 @@ const Home = (props) => {
 
   return (
     <div className="box">
-      {props.authenticated && totalRequestsCount > 0 ? (
-        <div className="box-message alert alert-info">
-          <span className="message">
-            {totalRequestsCount > 0 ? (
-              <span>
-                <span>You have </span>
-                {userRequestsCount > 0 ? (<Link to="/people">{userRequestsText}</Link>) : false}
-                {bothRequestsDisplayed ? (<span> and </span>) : false}
-                {groupRequestsCount > 0 ? (<Link to="/groups">{groupRequestsText}</Link>) : false}
-              </span>
-            ) : false}
-          </span>
-        </div>
-      ) : false}
-
-      {props.authenticated ? (
-        <div>
-          <div className="box-header-timeline">
-            {props.pageView.header}
-
-            <div className="pull-right">
-              {props.isFirstPage && props.authenticated ? <RealtimeSwitch/> : false}
-
-              {props.pageView.number > 1 ? (
-                <span className="subheader">Page {props.pageView.number}</span>
-              ) : false}
-            </div>
+      {props.authenticated ? <>
+        {totalRequestsCount > 0 ? (
+          <div className="box-message alert alert-info">
+            {'You have '}
+            {userRequestsCount > 0 ? <Link to="/people">{userRequestsText}</Link> : false}
+            {bothRequestsDisplayed ? ' and ' : false}
+            {groupRequestsCount > 0 ? <Link to="/groups">{groupRequestsText}</Link> : false}
           </div>
+        ) : false}
 
-          <PaginatedView firstPageHead={postCreateForm} {...props}>
-            <Feed {...props} isInHomeFeed={true}/>
-          </PaginatedView>
+        <div className="box-header-timeline">
+          {props.pageView.header}
+
+          <div className="pull-right">
+            {props.isFirstPage && props.authenticated ? <RealtimeSwitch/> : false}
+
+            {props.pageView.number > 1 ? (
+              <span className="subheader">Page {props.pageView.number}</span>
+            ) : false}
+          </div>
         </div>
-      ) : (
+
+        <PaginatedView firstPageHead={postCreateForm} {...props}>
+          <Feed {...props} isInHomeFeed={true}/>
+        </PaginatedView>
+      </> : (
         <Welcome/>
       )}
     </div>
