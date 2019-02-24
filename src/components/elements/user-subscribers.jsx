@@ -32,20 +32,16 @@ const UserSubscribers = (props) => {
       {props.isLoading ? (
         <DummyTileList/>
       ) : (
-        props.groupAdmins.length > 0 ? (
-          <div>
-            <TileList header="Admins" users={props.groupAdmins} sorting={props.sorting}/>
+        props.groupAdmins.length > 0 ? <>
+          <TileList header="Admins" users={props.groupAdmins} sorting={props.sorting}/>
 
-            {props.users.length === 0 ? (
-              <div>
-                <h3>Other subscribers</h3>
-                <div>There are none. Everyone is admin.</div>
-              </div>
-            ) : (
-              <TileList header="Other subscribers" users={props.users} sorting={props.sorting}/>
-            )}
-          </div>
-        ) : (
+          {props.users.length === 0 ? <>
+            <h3>Other subscribers</h3>
+            <p>There are none. Everyone is admin.</p>
+          </> : (
+            <TileList header="Other subscribers" users={props.users} sorting={props.sorting}/>
+          )}
+        </> : (
           <TileList users={props.users} sorting={props.sorting}/>
         )
       )}

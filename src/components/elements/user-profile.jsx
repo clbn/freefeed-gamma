@@ -51,143 +51,138 @@ export default class UserProfile extends React.Component {
   render() {
     const props = this.props;
 
-    return (
-      <div>
-        {!props.isLoading && !props.isUserFound ? (
-          <h2>404 Not Found</h2>
-        ) : (
-          <div className="user-profile">
-            <div className="row">
-              <div className="col-sm-9 col-xs-12">
-                <Link to={`/${props.username}`} className="userpic userpic-large">
-                  <Userpic id={props.id} size={75}/>
-                </Link>
+    return <>
+      {!props.isLoading && !props.isUserFound ? (
+        <h2>404 Not Found</h2>
+      ) : (
+        <div className="user-profile">
+          <div className="row">
+            <div className="col-sm-9 col-xs-12">
+              <Link to={`/${props.username}`} className="userpic userpic-large">
+                <Userpic id={props.id} size={75}/>
+              </Link>
 
-                {props.isLoading && !props.screenName ? (
-                  <div className="profile-displayname profile-loading">@{props.requestedUsername}</div>
-                ) : (
-                  <div>
-                    <div className="profile-displayname"><Link to={`/${props.username}`}>{props.screenName}</Link></div>
+              {props.isLoading && !props.screenName ? (
+                <div className="profile-displayname profile-loading">@{props.requestedUsername}</div>
+              ) : <>
+                <div className="profile-displayname"><Link to={`/${props.username}`}>{props.screenName}</Link></div>
 
-                    {props.screenName !== props.username ? (
-                      <div className="profile-username">@{props.username}</div>
-                    ) : false}
+                {props.screenName !== props.username ? (
+                  <div className="profile-username">@{props.username}</div>
+                ) : false}
 
-                    {props.description ? (
-                      <div className={'profile-description ' + (!props.isInUserPostFeed ? 'profile-description-collapsed' : '')}>
-                        <PieceOfText text={props.description} isExpanded={props.isInUserPostFeed} key={props.isInUserPostFeed}/>
-                      </div>
-                    ) : false}
+                {props.description ? (
+                  <div className={'profile-description ' + (!props.isInUserPostFeed ? 'profile-description-collapsed' : '')}>
+                    <PieceOfText text={props.description} isExpanded={props.isInUserPostFeed} key={props.isInUserPostFeed}/>
                   </div>
-                )}
-              </div>
-              {props.statistics && !props.isUserBlockedByMe ? (
-                <div className="col-sm-3 col-xs-12">
-                  <div className="profile-stats">
-                    {this.getProfileStatsItem('subscriber')}
-                    {' '}
-                    {this.getProfileStatsItem('subscription')}
-                    {' '}
-                    {this.getProfileStatsItem('post')}
-                    {' '}
-                    {this.getProfileStatsItem('comment')}
-                    {' '}
-                    {this.getProfileStatsItem('like')}
-                  </div>
-                </div>
-              ) : false}
+                ) : false}
+              </>}
             </div>
-          </div>
-        )}
 
-        {props.showProfileControls ? (
-          <div className="profile-status-and-controls">
-            <div className="row">
-              <div className="col-sm-6 col-xs-12">
-                <span className="profile-status">
-                  <UserFeedStatus {...props}/>
-                </span>
-
-                <span className="profile-status">
-                  <UserRelationshipStatus {...props}/>
-                </span>
+            {props.statistics && !props.isUserBlockedByMe ? (
+              <div className="col-sm-3 col-xs-12">
+                <div className="profile-stats">
+                  {this.getProfileStatsItem('subscriber')}
+                  {' '}
+                  {this.getProfileStatsItem('subscription')}
+                  {' '}
+                  {this.getProfileStatsItem('post')}
+                  {' '}
+                  {this.getProfileStatsItem('comment')}
+                  {' '}
+                  {this.getProfileStatsItem('like')}
+                </div>
               </div>
+            ) : false}
+          </div>
+        </div>
+      )}
 
-              <div className="col-sm-6 col-xs-12">
-                {props.isUserBlockedByMe ? (
-                  <div className="profile-controls">
-                    {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
+      {props.showProfileControls ? (
+        <div className="profile-status-and-controls">
+          <div className="row">
+            <div className="col-sm-6 col-xs-12">
+              <span className="profile-status">
+                <UserFeedStatus {...props}/>
+              </span>
 
-                    {props.userView.isBlocking ? (
-                      <span className="profile-controls-throbber">
-                        <img width="16" height="16" src={throbber16}/>
-                      </span>
-                    ) : false}
-                  </div>
-                ) : (
-                  <div className="profile-controls">
-                    {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
-                      <span><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </span>
-                    ) : false}
+              <span className="profile-status">
+                <UserRelationshipStatus {...props}/>
+              </span>
+            </div>
 
-                    {props.isPrivate === '1' && !props.amISubscribedToUser ? (
-                      props.hasRequestBeenSent ? (
-                        props.userView.isSubscribing ? 'Revoking...' : <a onClick={this.handleRevokeSentRequest}>Revoke request</a>
-                      ) : (
-                        props.userView.isSubscribing ? 'Requesting...' : <a onClick={this.handleSendSubRequest}>Request a subscription</a>
-                      )
+            <div className="col-sm-6 col-xs-12">
+              {props.isUserBlockedByMe ? (
+                <div className="profile-controls">
+                  {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
+
+                  {props.userView.isBlocking ? (
+                    <span className="profile-controls-throbber">
+                      <img width="16" height="16" src={throbber16}/>
+                    </span>
+                  ) : false}
+                </div>
+              ) : (
+                <div className="profile-controls">
+                  {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
+                    <><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </>
+                  ) : false}
+
+                  {props.isPrivate === '1' && !props.amISubscribedToUser ? (
+                    props.hasRequestBeenSent ? (
+                      props.userView.isSubscribing ? 'Revoking...' : <a onClick={this.handleRevokeSentRequest}>Revoke request</a>
                     ) : (
-                      props.amISubscribedToUser ? (
-                        props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={this.handleUnsubscribe}>Unsubscribe</a>
-                      ) : (
-                        props.userView.isSubscribing ? 'Subscribing...' : <a onClick={this.handleSubscribe}>Subscribe</a>
-                      )
-                    )}
+                      props.userView.isSubscribing ? 'Requesting...' : <a onClick={this.handleSendSubRequest}>Request a subscription</a>
+                    )
+                  ) : (
+                    props.amISubscribedToUser ? (
+                      props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={this.handleUnsubscribe}>Unsubscribe</a>
+                    ) : (
+                      props.userView.isSubscribing ? 'Subscribing...' : <a onClick={this.handleSubscribe}>Subscribe</a>
+                    )
+                  )}
 
-                    {props.userView.isSubscribing ? (
-                      <span className="profile-controls-throbber">
-                        <img width="16" height="16" src={throbber16}/>
-                      </span>
-                    ) : false}
+                  {props.userView.isSubscribing ? (
+                    <span className="profile-controls-throbber">
+                      <img width="16" height="16" src={throbber16}/>
+                    </span>
+                  ) : false}
 
-                    {props.type !== 'group' && !props.amISubscribedToUser ? (
-                      props.userView.isBlocking ? ' - Blocking...' : <span> - <a onClick={this.handleBlock}>Block this user</a></span>
-                    ) : false}
+                  {props.type !== 'group' && !props.amISubscribedToUser ? (
+                    props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={this.handleBlock}>Block this user</a></>
+                  ) : false}
 
-                    {props.userView.isBlocking ? (
-                      <span className="profile-controls-throbber">
-                        <img width="16" height="16" src={throbber16}/>
-                      </span>
-                    ) : false}
+                  {props.userView.isBlocking ? (
+                    <span className="profile-controls-throbber">
+                      <img width="16" height="16" src={throbber16}/>
+                    </span>
+                  ) : false}
 
-                    {props.type === 'group' && props.amIGroupAdmin ? (
-                      <span>
-                        {' - '}
-                        <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link>
-                        {' - '}
-                        <Link to={`/${props.username}/settings`}>Settings</Link>
-                      </span>
-                    ) : false}
-                  </div>
-                )}
-              </div>
-
-              {this.state.isUnsubWarningDisplayed ? (
-                <div className="col-xs-12">
-                  <div className="alert alert-warning">
-                    You are the Admin for this group. If you want to unsubscribe please drop administrative privileges first
-                    at <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link> page
-                  </div>
+                  {props.type === 'group' && props.amIGroupAdmin ? <>
+                    {' - '}
+                    <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link>
+                    {' - '}
+                    <Link to={`/${props.username}/settings`}>Settings</Link>
+                  </> : false}
                 </div>
-              ) : false}
+              )}
             </div>
-          </div>
-        ) : false}
 
-        {props.canIPostHere ? (
-          <PostCreateForm defaultRecipient={props.defaultRecipient}/>
-        ) : false}
-      </div>
-    );
+            {this.state.isUnsubWarningDisplayed ? (
+              <div className="col-xs-12">
+                <div className="alert alert-warning">
+                  You are the Admin for this group. If you want to unsubscribe please drop administrative privileges first
+                  at <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link> page
+                </div>
+              </div>
+            ) : false}
+          </div>
+        </div>
+      ) : false}
+
+      {props.canIPostHere ? (
+        <PostCreateForm defaultRecipient={props.defaultRecipient}/>
+      ) : false}
+    </>;
   }
 }

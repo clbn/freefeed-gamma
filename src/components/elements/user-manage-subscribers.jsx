@@ -35,33 +35,29 @@ const UserManageSubscribers = (props) => {
       {props.isLoading ? (
         <img width="100" height="100" src={throbber100}/>
       ) : (
-        <div>
-          {props.amILastGroupAdmin ? (
-            <div>
-              <h3>Admins</h3>
-              <div>You are the only Admin for this group. Before you can drop administrative privileges
-                or leave this group, you have to promote another group member to Admin first.</div>
-            </div>
-          ) : (
+        <>
+          {props.amILastGroupAdmin ? <>
+            <h3>Admins</h3>
+            <p>You are the only Admin for this group. Before you can drop administrative privileges
+              or leave this group, you have to promote another group member to Admin first.</p>
+          </> : (
             <AdminsList
               header="Admins"
               users={props.groupAdmins}
               removeAdminRights={demoteFromAdmin}/>
           )}
 
-          {props.users.length === 0 ? (
-            <div>
-              <h3>Other subscribers</h3>
-              <div>There are none. You might want to invite a few friends.</div>
-            </div>
-          ) : (
+          {props.users.length === 0 ? <>
+            <h3>Other subscribers</h3>
+            <p>There are none. You might want to invite a few friends.</p>
+          </> : (
             <OtherSubsList
               header="Other subscribers"
               users={props.users}
               makeAdmin={promoteToAdmin}
               remove={unsubscribe}/>
           )}
-        </div>
+        </>
       )}
     </div>
   );

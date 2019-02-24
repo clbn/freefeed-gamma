@@ -2,19 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from "./icon";
 
-const UserFeedStatus = (props) => (
-  <span>
-    {props.isPrivate === '1' ? (
-      <span><Icon name="lock"/> Private</span>
-    ) : props.isProtected === '1' ? (
-      <span><Icon name="users"/> Protected</span>
-    ) : (
-      <span><Icon name="globe"/> Public</span>
-    )}
-    {props.isRestricted === '1' ? ' restricted' : false}
-    {props.type === 'user' ? ' feed' : ' group'}
-  </span>
-);
+const UserFeedStatus = (props) => <>
+  {props.isPrivate === '1' ? (
+    <><Icon name="lock"/> Private</>
+  ) : props.isProtected === '1' ? (
+    <><Icon name="users"/> Protected</>
+  ) : (
+    <><Icon name="globe"/> Public</>
+  )}
+  {props.isRestricted === '1' ? ' restricted' : false}
+  {props.type === 'user' ? ' feed' : ' group'}
+</>;
 
 UserFeedStatus.propTypes = {
   isPrivate: PropTypes.oneOf(['0', '1']).isRequired,

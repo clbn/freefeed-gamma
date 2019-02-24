@@ -5,25 +5,25 @@ import Icon from "./icon";
 
 const UserRelationshipStatus = (props) => (
   props.isUserBlockedByMe ? (
-    <span><Icon name="ban"/> You've blocked the user</span>
+    <><Icon name="ban"/> You've blocked the user</>
   ) : props.amIBlockedByUser ? (
-    <span><Icon name="question-circle"/> User may have blocked you</span>
+    <><Icon name="question-circle"/> User may have blocked you</>
   ) : props.hasRequestBeenSent ? (
-    <span><Icon name="clock"/> You've sent sub request</span>
+    <><Icon name="clock"/> You've sent sub request</>
   ) : props.amISubscribedToUser ? (
     props.type === 'user' ? (
       props.isUserSubscribedToMe ? (
-        <span><Icon name="check-circle"/> Mutually subscribed</span>
+        <><Icon name="check-circle"/> Mutually subscribed</>
       ) : (
-        <span><Icon name="check-circle"/> You are subscribed</span>
+        <><Icon name="check-circle"/> You are subscribed</>
       )
     ) : props.amIGroupAdmin ? (
-      <span><Icon name="check-square"/> You are an admin</span>
+      <><Icon name="check-square"/> You are an admin</>
     ) : (
-      <span><Icon name="check-square"/> You are a member</span>
+      <><Icon name="check-square"/> You are a member</>
     )
   ) : props.isUserSubscribedToMe ? (
-    <span><Icon name="check-circle-o"/> User subscribed to you</span>
+    <><Icon name="check-circle-o"/> User subscribed to you</>
   ) : (
     false
   )
