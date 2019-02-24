@@ -22,11 +22,10 @@ const Sidebar = ({ me, signOut }) => (
           <div className="author">
             <UserName id={me.id} display={me.screenName}/>
           </div>
-          <div>
-            <Link to="/settings">settings</Link>
-            &nbsp;-&nbsp;
-            <a onClick={confirmFirst(signOut)}>sign out</a>
-          </div>
+
+          <Link to="/settings">settings</Link>
+          {' - '}
+          <a onClick={confirmFirst(signOut)}>sign out</a>
         </div>
       </div>
 
