@@ -41,26 +41,22 @@ export default (props) => {
 
   return (
     <div className="posts">
-      {props.isLoading ? (
-        <div>
-          <DummyPost/>
-          <DummyPost/>
-          <DummyPost/>
-        </div>
-      ) : false}
+      {props.isLoading ? <>
+        <DummyPost/>
+        <DummyPost/>
+        <DummyPost/>
+      </> : false}
 
       {visibleEntries}
 
-      {hiddenEntries.length > 0 ? (
-        <div>
-          <HiddenEntriesToggle
-            count={hiddenEntries.length}
-            isOpen={props.isHiddenRevealed}
-            toggle={props.toggleHiddenPosts}/>
+      {hiddenEntries.length > 0 ? <>
+        <HiddenEntriesToggle
+          count={hiddenEntries.length}
+          isOpen={props.isHiddenRevealed}
+          toggle={props.toggleHiddenPosts}/>
 
-          {props.isHiddenRevealed ? hiddenEntries : false}
-        </div>
-      ) : false}
+        {props.isHiddenRevealed ? hiddenEntries : false}
+      </> : false}
     </div>
   );
 };
