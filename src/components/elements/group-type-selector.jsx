@@ -62,81 +62,79 @@ export default class GroupTypeSelector extends React.Component {
       visibilityWarning = null;
     }
 
-    return (
-      <div>
-        <div className="row form-group">
-          <div className="col-sm-3">
-            <label>Who can see posts:</label>
-          </div>
-
-          <div className="col-sm-9">
-            {Object.keys(this.levels).map((level) => (
-              <div className="radio radio-groupVisibility" key={level}>
-                <label>
-                  <input
-                    type="radio"
-                    value={level}
-                    checked={groupLevel === level}
-                    onChange={this.changeVisibility}/>
-                  {this.descriptions[level]}
-                </label>
-              </div>
-            ))}
-          </div>
+    return <>
+      <div className="row form-group">
+        <div className="col-sm-3">
+          <label>Who can see posts:</label>
         </div>
 
-        <div className="row form-group">
-          <div className="col-sm-3">
-            <label>Who can write posts:</label>
-          </div>
-
-          <div className="col-sm-9">
-            <div className="radio radio-groupVisibility">
+        <div className="col-sm-9">
+          {Object.keys(this.levels).map((level) => (
+            <div className="radio radio-groupVisibility" key={level}>
               <label>
                 <input
                   type="radio"
-                  value="0"
-                  checked={currentState.isRestricted === '0'}
-                  onChange={this.changeRestricted}/>
-                Every group member
+                  value={level}
+                  checked={groupLevel === level}
+                  onChange={this.changeVisibility}/>
+                {this.descriptions[level]}
               </label>
             </div>
-
-            <div className="radio radio-groupVisibility">
-              <label>
-                <input
-                  type="radio"
-                  value="1"
-                  checked={currentState.isRestricted === '1'}
-                  onChange={this.changeRestricted}/>
-                Group administrators only
-              </label>
-            </div>
-          </div>
+          ))}
         </div>
-
-        {visibilityWarning ? (
-          <div className="alert alert-danger" role="alert">
-            You are about to change the group type
-            from <b>{visibilityWarning.from.level}</b> to <b>{visibilityWarning.to.level}</b>.
-
-            It means <b>{visibilityWarning.to.audience}</b> will be able to see its posts and comments,
-            which are only available to <b>{visibilityWarning.from.audience}</b> now.
-          </div>
-        ) : false}
-
-        {this.props.submitButton ? (
-          <p>
-            <button className="btn btn-default" type="submit">{this.props.submitButton.text + (visibilityWarning ? ' anyway' : '')}</button>
-
-            {this.props.submitButton.status === 'loading' ? (
-              <span className="settings-throbber">
-                <img width="16" height="16" src={throbber16}/>
-              </span>
-            ) : false}
-          </p>
-        ) : false}
       </div>
-    );
+
+      <div className="row form-group">
+        <div className="col-sm-3">
+          <label>Who can write posts:</label>
+        </div>
+
+        <div className="col-sm-9">
+          <div className="radio radio-groupVisibility">
+            <label>
+              <input
+                type="radio"
+                value="0"
+                checked={currentState.isRestricted === '0'}
+                onChange={this.changeRestricted}/>
+              Every group member
+            </label>
+          </div>
+
+          <div className="radio radio-groupVisibility">
+            <label>
+              <input
+                type="radio"
+                value="1"
+                checked={currentState.isRestricted === '1'}
+                onChange={this.changeRestricted}/>
+              Group administrators only
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {visibilityWarning ? (
+        <div className="alert alert-danger" role="alert">
+          You are about to change the group type
+          from <b>{visibilityWarning.from.level}</b> to <b>{visibilityWarning.to.level}</b>.
+
+          It means <b>{visibilityWarning.to.audience}</b> will be able to see its posts and comments,
+          which are only available to <b>{visibilityWarning.from.audience}</b> now.
+        </div>
+      ) : false}
+
+      {this.props.submitButton ? (
+        <p>
+          <button className="btn btn-default" type="submit">{this.props.submitButton.text + (visibilityWarning ? ' anyway' : '')}</button>
+
+          {this.props.submitButton.status === 'loading' ? (
+            <span className="settings-throbber">
+              <img width="16" height="16" src={throbber16}/>
+            </span>
+          ) : false}
+        </p>
+      ) : false}
+    </>;
   }
 }
