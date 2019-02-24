@@ -147,21 +147,19 @@ class App extends React.Component {
           </div>
 
           <div className="col-xs-4 col-sm-8 col-md-9 text-right">
-            {props.authenticated ? (
-              <div>
-                {props.routeName !== 'search' ? (
-                  <SearchForm position="in-header"/>
-                ) : false}
+            {props.authenticated ? <>
+              {props.routeName !== 'search' ? (
+                <SearchForm position="in-header"/>
+              ) : false}
 
-                <div className="mobile-sidebar-toggle" onTouchEnd={this.toggleSidebar} onClick={this.toggleSidebar}>
-                  <Icon name="bars"/>
-                  <Icon name="times"/>
-                  {props.unreadDirectsNumber > 0 ? (
-                    <span className="direct-messages-badge">{props.unreadDirectsNumber}</span>
-                  ) : false}
-                </div>
+              <div className="mobile-sidebar-toggle" onTouchEnd={this.toggleSidebar} onClick={this.toggleSidebar}>
+                <Icon name="bars"/>
+                <Icon name="times"/>
+                {props.unreadDirectsNumber > 0 ? (
+                  <span className="direct-messages-badge">{props.unreadDirectsNumber}</span>
+                ) : false}
               </div>
-            ) : (
+            </> : (
               <Link to="/signin" className="signin-link">Sign in</Link>
             )}
           </div>
@@ -170,6 +168,7 @@ class App extends React.Component {
         {props.authenticated && props.myId ? (
           <div className="row">
             <div className="content col-md-9">{props.children}</div>
+
             <Sidebar/>
           </div>
         ) : (

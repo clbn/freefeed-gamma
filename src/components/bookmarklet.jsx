@@ -102,12 +102,11 @@ class Bookmarklet extends React.Component {
             createPost={props.createBookmarkletPost}
             resetPostCreateForm={props.resetPostCreateForm}
             removeImage={this.removeImage}/>
-        ) : (
-          <div>
-            <div className="box-message alert alert-warning">You need to sign in first.</div>
-            <SignIn/>
-          </div>
-        )}
+        ) : <>
+          <div className="box-message alert alert-warning">You need to sign in first.</div>
+
+          <SignIn/>
+        </>}
       </div>
     );
   }
