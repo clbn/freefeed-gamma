@@ -7,11 +7,10 @@ import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
 import PostVisibilityIcon from './post-visibility-icon';
 import PostAttachments from './post-attachments';
-import Icon from "./icon";
+import Icon from './icon';
+import Throbber from './throbber';
 import * as PostVisibilityLevels from '../../utils/post-visibility-levels';
 import { preventDefault, getPostVisibilityLevel } from '../../utils';
-import throbber16 from 'assets/images/throbber-16.gif';
-
 import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../../redux/action-creators';
 
 class PostCreateForm extends React.Component {
@@ -303,11 +302,9 @@ class PostCreateForm extends React.Component {
         </div>
 
         <div className="post-edit-actions">
-          {this.props.createPostForm.status === 'loading' ? (
-            <span className="post-edit-throbber">
-              <img width="16" height="16" src={throbber16}/>
-            </span>
-          ) : false}
+          {this.props.createPostForm.status === 'loading' && (
+            <Throbber name="post-edit"/>
+          )}
 
           <a className="post-cancel" onClick={this.cancelCreatingPost}>Cancel</a>
 

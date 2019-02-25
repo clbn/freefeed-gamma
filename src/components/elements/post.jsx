@@ -13,7 +13,7 @@ import PostLikes from './post-likes';
 import UserName from './user-name';
 import PieceOfText from './piece-of-text';
 import Textarea from 'react-textarea-autosize';
-import throbber16 from 'assets/images/throbber-16.gif';
+import Throbber from './throbber';
 import PostDropzone from './post-dropzone';
 import PostMoreMenu from './post-more-menu';
 import PostVisibilityIcon from './post-visibility-icon';
@@ -280,22 +280,18 @@ class Post extends React.Component {
       ) : (
         <a onClick={likePost}>Like</a>
       )}
-      {props.isLiking ? (
-        <span className="post-like-throbber">
-          <img width="16" height="16" src={throbber16}/>
-        </span>
-      ) : false}
+      {props.isLiking && (
+        <Throbber name="post-like"/>
+      )}
     </> : false);
 
     // "Hide" / "Un-hide"
     const hideLink = (props.isInHomeFeed ? <>
       {' - '}
       <a onClick={props.isHidden ? unhidePost : hidePost}>{props.isHidden ? 'Un-hide' : 'Hide'}</a>
-      {props.isHiding ? (
-        <span className="post-hide-throbber">
-          <img width="16" height="16" src={throbber16}/>
-        </span>
-      ) : false}
+      {props.isHiding && (
+        <Throbber name="post-hide"/>
+      )}
     </> : false);
 
     // "More" menu
@@ -312,14 +308,10 @@ class Post extends React.Component {
 
     return (props.isRecentlyHidden ? (
       <div className="post recently-hidden-post">
-        <i>Entry hidden - </i>
-        <a onClick={unhidePost}>undo</a>.
-        {' '}
-        {props.isHiding ? (
-          <span className="post-hide-throbber">
-            <img width="16" height="16" src={throbber16}/>
-          </span>
-        ) : false}
+        <i>Entry hidden</i> - <a onClick={unhidePost}>undo</a>.
+        {props.isHiding && (
+          <Throbber name="post-hide"/>
+        )}
       </div>
     ) : (
       <div className={postClasses}>
@@ -373,11 +365,9 @@ class Post extends React.Component {
               </div>
 
               <div className="post-edit-actions">
-                {props.isSaving ? (
-                  <span className="post-edit-throbber">
-                    <img width="16" height="16" src={throbber16}/>
-                  </span>
-                ) : false}
+                {props.isSaving && (
+                  <Throbber name="post-edit"/>
+                )}
                 <a className="post-cancel" onClick={cancelEditingPost}>Cancel</a>
                 <button className="btn btn-default btn-xs"
                   onClick={saveEditingPost}

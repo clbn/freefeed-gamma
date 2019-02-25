@@ -1,4 +1,11 @@
 .throbber {
+  &-post-like,
+  &-post-hide {
+    margin: 0 2px 0 5px;
+  }
+  &-post-edit {
+    margin-right: 10px;
+  }
   &-clikes {
     margin: -3px 0 0 2px;
   }

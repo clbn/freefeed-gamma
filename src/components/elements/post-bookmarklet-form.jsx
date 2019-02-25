@@ -2,8 +2,8 @@ import React from 'react';
 
 import { preventDefault } from '../../utils';
 import PostRecipients from './post-recipients';
-import Icon from "./icon";
-import throbber16 from 'assets/images/throbber-16.gif';
+import Icon from './icon';
+import Throbber from './throbber';
 
 export default class PostBookmarkletForm extends React.Component {
   constructor(props) {
@@ -157,11 +157,9 @@ export default class PostBookmarkletForm extends React.Component {
         </div>
 
         <div className="post-edit-actions">
-          {this.props.createPostForm.status === 'loading' ? (
-            <span className="post-edit-throbber">
-              <img width="16" height="16" src={throbber16}/>
-            </span>
-          ) : false}
+          {this.props.createPostForm.status === 'loading' && (
+            <Throbber name="post-edit"/>
+          )}
 
           <button className="btn btn-default"
             onClick={preventDefault(this.submitForm)}
