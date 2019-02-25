@@ -8,12 +8,12 @@ import { makeGetPostComment } from '../../redux/selectors';
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
 import PostCommentLikes from './post-comment-likes';
-import Icon from "./icon";
+import Icon from './icon';
+import Throbber from './throbber';
 import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
 import { postActions } from '../../redux/select-utils';
 import * as CommentTypes from '../../utils/comment-types';
 import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
-import throbber16 from 'assets/images/throbber-16.gif';
 
 class PostComment extends React.Component {
   constructor(props) {
@@ -191,9 +191,7 @@ class PostComment extends React.Component {
             <a className="comment-cancel" onClick={this.toggleEditing}>Cancel</a>
 
             {this.props.isSaving ? (
-              <span className="comment-throbber">
-                <img width="16" height="16" src={throbber16}/>
-              </span>
+              <Throbber name="comment-edit"/>
             ) : this.props.errorMessage ? (
               <div className="comment-error alert alert-danger" role="alert">
                 Comment has not been saved. Server response: "{this.props.errorMessage}"

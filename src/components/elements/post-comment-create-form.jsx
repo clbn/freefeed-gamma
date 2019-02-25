@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 
 import { addComment, updateHighlightedComments } from '../../redux/action-creators';
-import Icon from "./icon";
-import throbber16 from 'assets/images/throbber-16.gif';
+import Icon from './icon';
+import Throbber from './throbber';
 
 class PostCommentCreateForm extends React.Component {
   bindTextarea = (textarea) => {
@@ -102,9 +102,7 @@ class PostCommentCreateForm extends React.Component {
             <a className="comment-cancel" onClick={this.cancelCommenting}>Cancel</a>
 
             {this.props.post.isSavingComment ? (
-              <span className="comment-throbber">
-                <img width="16" height="16" src={throbber16}/>
-              </span>
+              <Throbber name="comment-edit"/>
             ) : this.props.post.commentError ? (
               <div className="comment-error alert alert-danger" role="alert">
                 Comment has not been saved. Server response: "{this.props.post.commentError}"
