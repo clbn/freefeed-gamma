@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Tippy from '@tippy.js/react';
@@ -103,14 +104,14 @@ class PostCommentLikes extends React.Component {
   };
 
   render() {
-    const { isLiking } = this.props;
+    const { isLikable, isLiking, hasOwnLike, quantity } = this.props;
+    const { isOpen } = this.state;
 
     const classes = classnames({
       'comment-likes': true,
-      'clikes-zero': !this.props.quantity,
-      'clikes-likable': this.props.isLikable && this.state.isOpen,
-      'clikes-liking': isLiking,
-      'clikes-liked': this.props.hasOwnLike
+      'clikes-zero': quantity === 0,
+      'clikes-open': isOpen,
+      'clikes-liked': hasOwnLike
     });
 
     const tooltipContent = <TooltipContent {...this.props}/>;
@@ -120,25 +121,26 @@ class PostCommentLikes extends React.Component {
         {'-'}
 
         <Tippy
-          isVisible={this.state.isOpen}
+          isVisible={isOpen}
           content={tooltipContent}
           onShow={this.handleShowTooltip}
           onHide={this.handleHideTooltip}
           {...tippyOptions}>
 
           <span className="clikes-trigger" onClick={this.handleClick} title="Comment likes">
-            <span className="clikes-icon">
-              <Icon name="heart"/>
-            </span>
+            <Icon name="heart"/>
 
-            <span className="clikes-number">
-              {this.props.quantity}
-            </span>
+            {quantity > 0 && !(isOpen && isLikable) && (
+              <span className="clikes-number">{quantity}</span>
+            )}
 
-            <span className="clikes-sign">
-              <Icon name="plus"/>
-              <Icon name="times"/>
-            </span>
+            {isOpen && isLikable && !isLiking && (
+              hasOwnLike ? (
+                <Icon name="times"/>
+              ) : (
+                <Icon name="plus"/>
+              )
+            )}
 
             {isLiking && (
               <Throbber name="clikes" size={11}/>
@@ -149,6 +151,13 @@ class PostCommentLikes extends React.Component {
     );
   }
 }
+
+PostCommentLikes.propTypes = {
+  isLikable: PropTypes.bool,
+  isLiking: PropTypes.bool,
+  hasOwnLike: PropTypes.bool,
+  quantity: PropTypes.number
+};
 
 function makeMapStateToProps() {
   const getCommentLikes = makeGetClikes();

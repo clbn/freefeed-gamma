@@ -63,9 +63,10 @@
       height: 18px;
       padding: 0 2px 0 4px;
       margin-left: 0;
-      vertical-align: middle;
+      vertical-align: bottom;
 
       cursor: pointer;
+      border-radius: 2px;
 
       -moz-user-select: none;
       -webkit-user-select: none;
@@ -75,19 +76,17 @@
       outline: none;
     }
 
-    .clikes-icon {
+    .icon-heart {
       display: inline-block;
       line-height: 18px;
-      vertical-align: top;
+      vertical-align: baseline;
+      margin-bottom: 0;
 
       opacity: 0.8;
       font-size: 12px;
 
-      .icon-heart {
-        color: $clike-icon-color;
-        fill: lighten($clike-icon-color, 40%);
-        margin-bottom: -1px;
-      }
+      color: $clike-icon-color;
+      fill: lighten($clike-icon-color, 40%);
     }
 
     .clikes-number {
@@ -101,48 +100,46 @@
       margin-left: 2px;
     }
 
-    .clikes-sign {
-      display: none;
+    .icon-plus,
+    .icon-times {
+      display: inline-block;
       line-height: 17px;
-      vertical-align: top;
+      vertical-align: baseline;
+      margin-bottom: 0;
 
       color: $clike-icon-color;
       font-size: 11px;
       margin-left: 3px;
+    }
 
-      .icon-plus { display: inherit; }
-      .icon-times { display: none; color: #ccc; }
+    .icon-times {
+      color: #ccc;
     }
 
     &.clikes-zero {
       color: #ddd;
 
-      .clikes-icon .icon-heart {
+      .icon-heart {
         color: #dcdcdc;
         fill: #fff;
       }
+    }
+
+    &.clikes-open {
+      .clikes-trigger {
+        background-color: #f2f2f2;
+      }
+
+      .icon-heart,
       .clikes-number {
-        display: none;
+        opacity: 1;
       }
     }
 
-    &.clikes-likable .clikes-trigger {
-      background-color: #f2f2f2;
-      border-radius: 2px;
-
-      .clikes-icon { opacity: 1; }
-      .clikes-number { display: none; }
-      .clikes-sign { display: inline-block; }
-    }
-
-    &.clikes-liking {
-      .clikes-sign { display: none !important; }
-    }
-
     &.clikes-liked {
-      .icon-heart { fill: $clike-icon-color; }
-      .icon-plus { display: none; }
-      .icon-times { display: inherit; }
+      .icon-heart {
+        fill: $clike-icon-color;
+      }
     }
   }
 
@@ -205,7 +202,7 @@
       }
     }
 
-    .clikes-icon,
+    .icon-heart,
     .clikes-number {
       opacity: 1;
     }
@@ -283,7 +280,7 @@
     .comment-likes {
       color: #e0d4bf !important;
 
-      .clikes-icon .icon-heart {
+      .icon-heart {
         color: #f6c361 !important;
         fill: #fffdd6 !important;
       }
@@ -291,7 +288,7 @@
       &.clikes-zero {
         color: #f1e5ce !important;
 
-        .clikes-icon .icon-heart {
+        .icon-heart {
           color: #f2e4ca !important;
           fill: #ffffea !important;
         }
