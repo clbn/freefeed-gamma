@@ -6,8 +6,8 @@ import { makeGetPostLikes } from '../../redux/selectors';
 import { showMoreLikes } from '../../redux/action-creators';
 import { preventDefault } from '../../utils';
 import UserName from './user-name';
-import Icon from "./icon";
-import throbber16 from 'assets/images/throbber-16.gif';
+import Icon from './icon';
+import Throbber from './throbber';
 
 const renderLike = (item, i, items) => (
   <li key={item.id}>
@@ -16,11 +16,9 @@ const renderLike = (item, i, items) => (
     ) : <>
       <a onClick={preventDefault(item.showMoreLikes)}>{item.omittedLikes} other people</a>
 
-      {item.isLoadingLikes ? (
-        <span className="more-likes-throbber">
-          <img width="16" height="16" src={throbber16}/>
-        </span>
-      ) : false}
+      {item.isLoadingLikes && (
+        <Throbber name="more-likes"/>
+      )}
     </>}
 
     {i < items.length - 2 ? (
