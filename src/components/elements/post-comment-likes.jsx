@@ -7,8 +7,9 @@ import Tippy from '@tippy.js/react';
 import { makeGetClikes } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
 import UserName from './user-name';
-import Icon from "./icon";
+import Icon from './icon';
 import Throbber from './throbber';
+import 'styles/comment-likes.scss';
 
 const renderClike = (item, i, items) => (
   <li key={item.id}>
