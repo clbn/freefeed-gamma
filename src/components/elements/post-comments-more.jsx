@@ -1,18 +1,15 @@
 import React from 'react';
 
-import { preventDefault } from '../../utils';
-import throbber16 from 'assets/images/throbber-16.gif';
-import { pluralForm } from "../../utils/index";
+import { preventDefault, pluralForm } from '../../utils';
+import Throbber from './throbber';
 
 const getOmittedClikes = (n) => (n ? ' with ' + pluralForm(n, 'like') : '');
 
 export default (props) => (
   <div className="comment">
-    <span className="more-comments-throbber">
-      {props.isLoading ? (
-        <img width="16" height="16" src={throbber16}/>
-      ) : false}
-    </span>
+    {props.isLoading && (
+      <Throbber name="more-comments"/>
+    )}
     <a className="more-comments-link"
       href={props.postUrl}
       onClick={preventDefault(props.showMoreComments)}>

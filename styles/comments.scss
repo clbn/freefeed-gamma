@@ -64,16 +64,10 @@
     margin: 10px 0 0 0 !important;
   }
 
-  .more-comments-throbber {
-    display: inline-block;
-    width: 16px;
-    margin-left: -1px;
-    margin-right: 4px;
-  }
-
   .more-comments-link {
     font-style: italic;
     text-decoration: none;
+    margin-left: 19px;
 
     &:hover .more-comments-core {
       text-decoration: underline;
