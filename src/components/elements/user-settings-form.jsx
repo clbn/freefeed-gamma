@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import { preventDefault } from '../../utils';
-import throbber16 from 'assets/images/throbber-16.gif';
+import Throbber from './throbber';
 
 class FeedVisibilitySelector extends React.Component {
   levels = {
@@ -140,11 +140,9 @@ export default class UserSettingsForm extends React.Component {
         <div className="form-group">
           <button className="btn btn-default" type="submit">Update settings</button>
 
-          {this.props.status === 'loading' ? (
-            <span className="settings-throbber">
-              <img width="16" height="16" src={throbber16}/>
-            </span>
-          ) : false}
+          {this.props.status === 'loading' && (
+            <Throbber name="settings"/>
+          )}
         </div>
 
         {this.props.status === 'success' ? (

@@ -5,7 +5,7 @@ import Recaptcha from 'react-google-recaptcha';
 import { signUp } from '../redux/action-creators';
 import { preventDefault } from '../utils';
 import { captcha as captchaConfig } from '../../config/config';
-import throbber16 from 'assets/images/throbber-16.gif';
+import Throbber from './elements/throbber';
 
 class SignUp extends React.Component {
   refUsername = (input) => { this.username = input; };
@@ -59,11 +59,9 @@ class SignUp extends React.Component {
               <div className="form-group">
                 <button className="btn btn-default" type="submit">Sign up</button>
 
-                {this.props.status === 'loading' ? (
-                  <span className="settings-throbber">
-                    <img width="16" height="16" src={throbber16}/>
-                  </span>
-                ) : false}
+                {this.props.status === 'loading' && (
+                  <Throbber name="settings"/>
+                )}
               </div>
             </form>
 

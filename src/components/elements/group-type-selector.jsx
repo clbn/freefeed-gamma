@@ -1,6 +1,6 @@
 import React from 'react';
 
-import throbber16 from 'assets/images/throbber-16.gif';
+import Throbber from './throbber';
 
 export default class GroupTypeSelector extends React.Component {
   levels = {
@@ -128,11 +128,9 @@ export default class GroupTypeSelector extends React.Component {
         <p>
           <button className="btn btn-default" type="submit">{this.props.submitButton.text + (visibilityWarning ? ' anyway' : '')}</button>
 
-          {this.props.submitButton.status === 'loading' ? (
-            <span className="settings-throbber">
-              <img width="16" height="16" src={throbber16}/>
-            </span>
-          ) : false}
+          {this.props.submitButton.status === 'loading' && (
+            <Throbber name="settings"/>
+          )}
         </p>
       ) : false}
     </>;

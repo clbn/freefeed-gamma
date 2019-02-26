@@ -2,7 +2,7 @@ import React from 'react';
 
 import { preventDefault } from '../../utils';
 import * as FrontendPrefsOptions from '../../utils/frontend-preferences-options';
-import throbber16 from 'assets/images/throbber-16.gif';
+import Throbber from './throbber';
 
 export default class UserFrontendPreferencesForm extends React.Component {
   constructor(props) {
@@ -100,11 +100,10 @@ export default class UserFrontendPreferencesForm extends React.Component {
 
         <p>
           <button className="btn btn-default" type="submit">Update preferences</button>
-          {this.props.status === 'loading' ? (
-            <span className="settings-throbber">
-              <img width="16" height="16" src={throbber16}/>
-            </span>
-          ) : false}
+
+          {this.props.status === 'loading' && (
+            <Throbber name="settings"/>
+          )}
         </p>
 
         {this.props.status === 'success' ? (

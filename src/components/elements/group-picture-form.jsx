@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { preventDefault } from '../../utils';
-import throbber16 from 'assets/images/throbber-16.gif';
 import Userpic from './userpic';
+import Throbber from './throbber';
 
 export default class GroupPictureForm extends React.Component {
   refPictureFile = (input) => {
@@ -38,11 +38,9 @@ export default class GroupPictureForm extends React.Component {
         <div className="form-group">
           <button className="btn btn-default" type="submit">Update</button>
 
-          {this.props.status === 'loading' ? (
-            <span className="settings-throbber">
-              <img width="16" height="16" src={throbber16}/>
-            </span>
-          ) : false}
+          {this.props.status === 'loading' && (
+            <Throbber name="settings"/>
+          )}
         </div>
 
         {this.props.status === 'success' ? (

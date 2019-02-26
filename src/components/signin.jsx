@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { signIn } from '../redux/action-creators';
 import { preventDefault } from '../utils';
-import throbber16 from 'assets/images/throbber-16.gif';
+import Throbber from './elements/throbber';
 
 class SignIn extends React.Component {
   refUsername = (input) => { this.username = input; };
@@ -35,11 +35,9 @@ class SignIn extends React.Component {
               <div className="form-group">
                 <button className="btn btn-default" type="submit">Sign in</button>
 
-                {this.props.status === 'loading' ? (
-                  <span className="settings-throbber">
-                    <img width="16" height="16" src={throbber16}/>
-                  </span>
-                ) : false}
+                {this.props.status === 'loading' && (
+                  <Throbber name="settings"/>
+                )}
               </div>
             </form>
 
