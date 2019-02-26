@@ -19,7 +19,7 @@ import sendTo from './send-to';
 import signInForm from './sign-in-form';
 import signUpForm from './sign-up-form';
 import userCardView from './user-card-view';
-import { userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm } from './user-forms';
+import { userSettingsForm, userPictureForm, userPreferencesForm, passwordForm } from './user-forms';
 import users from './users';
 import userViews from './user-views';
 import { serverError, userErrors, groupSettings, routeLoadingState, singlePostId,
@@ -46,7 +46,7 @@ export default combineReducers({
   signUpForm,
   feeds,
   userCardView,
-  userSettingsForm, userPictureForm, frontendPreferencesForm, passwordForm,
+  userSettingsForm, userPictureForm, userPreferencesForm, passwordForm,
   users,
   userViews,
 

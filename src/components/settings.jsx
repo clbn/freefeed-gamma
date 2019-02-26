@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser, resetUserSettingsForm, updateUserPicture, updateFrontendPreferences, updatePassword } from '../redux/action-creators';
+import { updateUser, resetUserSettingsForm, updateUserPicture, updateUserPreferences, updatePassword } from '../redux/action-creators';
 import UserSettingsForm from './elements/user-settings-form';
 import UserPictureForm from './elements/user-picture-form';
-import UserFrontendPreferencesForm from './elements/user-frontend-preferences-form';
+import UserPreferencesForm from './elements/user-preferences-form';
 import UserChangePasswordForm from './elements/user-change-password-form';
 
 const Settings = (props) => (
@@ -30,11 +30,12 @@ const Settings = (props) => (
 
         <hr/>
 
-        <UserFrontendPreferencesForm
+        <UserPreferencesForm
           userId={props.me.id}
-          preferences={props.me.frontendPreferences}
-          updateFrontendPreferences={props.updateFrontendPreferences}
-          {...props.frontendPreferencesForm}/>
+          preferences={props.me.preferences}
+          frontendPreferences={props.me.frontendPreferences}
+          update={props.updateUserPreferences}
+          {...props.userPreferencesForm}/>
 
         <hr/>
 
@@ -51,19 +52,17 @@ function mapStateToProps(state) {
     me: state.me,
     userSettingsForm: state.userSettingsForm,
     userPictureForm: state.userPictureForm,
-    frontendPreferencesForm: state.frontendPreferencesForm,
+    userPreferencesForm: state.userPreferencesForm,
     passwordForm: state.passwordForm
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    updateUser: (...args) => dispatch(updateUser(...args)),
-    resetUserSettingsForm: (...args) => dispatch(resetUserSettingsForm(...args)),
-    updateUserPicture: (...args) => dispatch(updateUserPicture(...args)),
-    updateFrontendPreferences: (...args) => dispatch(updateFrontendPreferences(...args)),
-    updatePassword: (...args) => dispatch(updatePassword(...args))
-  };
-}
+const mapDispatchToProps = {
+  updateUser,
+  resetUserSettingsForm,
+  updateUserPicture,
+  updateUserPreferences,
+  updatePassword
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

@@ -1,6 +1,5 @@
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
-import { frontendPreferences as frontendPrefsConfig } from '../../../config/config';
 
 const { request, response, fail } = ActionHelpers;
 
@@ -40,18 +39,15 @@ export function userPictureForm(state={}, action) {
   return state;
 }
 
-export function frontendPreferencesForm(state={}, action) {
+export function userPreferencesForm(state = {}, action) {
   switch (action.type) {
-    case response(ActionTypes.WHO_AM_I): {
-      return { ...state, ...action.payload.users.frontendPreferences[frontendPrefsConfig.clientId] };
-    }
-    case request(ActionTypes.UPDATE_FRONTEND_PREFERENCES): {
+    case request(ActionTypes.UPDATE_USER_PREFERENCES): {
       return { ...state, status: 'loading' };
     }
-    case response(ActionTypes.UPDATE_FRONTEND_PREFERENCES): {
+    case response(ActionTypes.UPDATE_USER_PREFERENCES): {
       return { ...state, status: 'success' };
     }
-    case fail(ActionTypes.UPDATE_FRONTEND_PREFERENCES): {
+    case fail(ActionTypes.UPDATE_USER_PREFERENCES): {
       return { ...state, status: 'error', errorMessage: (action.payload || {}).err };
     }
     case ActionTypes.RESET_USER_SETTINGS_FORM: {

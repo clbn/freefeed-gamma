@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { updateFrontendPreferences, home } from '../../redux/action-creators';
+import { updateUserPreferences, home } from '../../redux/action-creators';
 
 const RealtimeSwitch = (props) => (
   <div className={'realtime-switch' + (props.frontendPreferences.realtimeActive ? ' on' : ' off')}>
@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
       const realtimeActive = !frontendPreferences.realtimeActive;
 
       // Submit new preferences
-      dispatch(updateFrontendPreferences(myId, { ...frontendPreferences, realtimeActive }));
+      dispatch(updateUserPreferences(myId, null, { ...frontendPreferences, realtimeActive }));
 
       // Reload home feed if realtime activated
       if (realtimeActive) {

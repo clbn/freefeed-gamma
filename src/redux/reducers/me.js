@@ -54,7 +54,7 @@ export default function me(state = initUser(), action) {
     }
 
     // Update the state of realtime switch immediately
-    case request(ActionTypes.UPDATE_FRONTEND_PREFERENCES): {
+    case request(ActionTypes.UPDATE_USER_PREFERENCES): {
       return { ...state,
         frontendPreferences: { ...state.frontendPreferences,
           realtimeActive: action.payload.prefs.realtimeActive

@@ -294,11 +294,14 @@ export function updateUser(id, screenName, email, description, isPrivate, isProt
   };
 }
 
-export function updateFrontendPreferences(userId, prefs) {
+export function updateUserPreferences(userId, prefs, frontendPrefs) {
+  // This includes:
+  // 1. General ("backend") preferences, i.e. stuff that didn't fit into the updateUser list (see above)
+  // 2. "Frontend" (per-client) preferences
   return {
-    type: ActionTypes.UPDATE_FRONTEND_PREFERENCES,
-    apiRequest: Api.updateFrontendPreferences,
-    payload: { userId, prefs }
+    type: ActionTypes.UPDATE_USER_PREFERENCES,
+    apiRequest: Api.updateUserPreferences,
+    payload: { userId, prefs, frontendPrefs }
   };
 }
 
