@@ -65,7 +65,17 @@ footer {
   color: #FF5A5F;
 }
 
+
+// Bootstrap override
+
+.radio input[type="radio"],
+.checkbox input[type="checkbox"] {
+  margin-top: 3px; // instead of 4px
+}
+
+
 // PhotoSwipe override
+
 .pswp__top-bar {
   background-color: transparent !important;
 }
