@@ -6,9 +6,9 @@ import _ from 'lodash';
 
 import UserName from './user-name';
 import { confirmFirst } from '../../utils';
-import throbber16 from 'assets/images/throbber-16.gif';
-import Icon from "./icon";
+import Icon from './icon';
 import Userpic from './userpic';
+import Throbber from './throbber';
 
 class UserTile extends React.Component {
   handleAcceptRequest = () => this.props.user.acceptRequest(this.props.user.username);
@@ -35,17 +35,19 @@ class UserTile extends React.Component {
           <Link to={`/${user.username}`}>
             <Userpic id={user.id} size={50}/>
           </Link>
+
+          {user.status === 'loading' && (
+            <div className="userpic-overlay">
+              <Throbber/>
+            </div>
+          )}
         </div>
 
         <div className="user-tile-name">
           <UserName id={user.id} display={user[altDisplay]}/>
         </div>
 
-        {user.status === 'loading' ? (
-          <div className="user-actions user-actions-throbber">
-            <img width="16" height="16" src={throbber16}/>
-          </div>
-        ) : (
+        {user.status !== 'loading' && (
           <div className="user-actions">
             {type === WITH_REQUEST_HANDLES ? (
               <a className="user-action user-action-good" onClick={this.handleAcceptRequest}>
