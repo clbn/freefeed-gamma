@@ -7,11 +7,11 @@ import _ from 'lodash';
 import { userActions } from '../../redux/select-utils';
 import { getUserInfo, updateUserCard } from '../../redux/action-creators';
 import { confirmFirst, isMobile } from '../../utils';
-import throbber16 from 'assets/images/throbber-16.gif';
 import UserFeedStatus from './user-feed-status';
 import UserRelationshipStatus from './user-relationship-status';
-import Icon from "./icon";
+import Icon from './icon';
 import Userpic from './userpic';
+import Throbber from './throbber';
 
 const USERCARD_SHOW_DELAY = 1000;
 const USERCARD_HIDE_DELAY = 500;
@@ -198,7 +198,7 @@ class UserCard extends React.Component {
           <div className="user-card-info">
             <div className="userpic userpic-large userpic-loading"></div>
             <div className="username">
-              <img width="16" height="16" src={throbber16}/>
+              <Throbber/>
             </div>
           </div>
         </div>
@@ -245,11 +245,9 @@ class UserCard extends React.Component {
             <div className="user-card-actions">
               {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
 
-              {props.userView.isBlocking ? (
-                <span className="user-card-actions-throbber">
-                  <img width="15" height="15" src={throbber16}/>
-                </span>
-              ) : false}
+              {props.userView.isBlocking && (
+                <Throbber name="user-card" size={15}/>
+              )}
             </div>
           ) : props.authenticated && !props.isItMe ? (
             <div className="user-card-actions">
@@ -271,11 +269,9 @@ class UserCard extends React.Component {
                 )
               )}
 
-              {props.userView.isSubscribing ? (
-                <span className="user-card-actions-throbber">
-                  <img width="15" height="15" src={throbber16}/>
-                </span>
-              ) : false}
+              {props.userView.isSubscribing && (
+                <Throbber name="user-card" size={15}/>
+              )}
 
               {props.user.type !== 'group' && !props.amISubscribedToUser ? (
                 props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={this.handleBlock}>Block</a></>
@@ -283,11 +279,9 @@ class UserCard extends React.Component {
                 <> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></>
               ) : false}
 
-              {props.userView.isBlocking ? (
-                <span className="user-card-actions-throbber">
-                  <img width="15" height="15" src={throbber16}/>
-                </span>
-              ) : false}
+              {props.userView.isBlocking && (
+                <Throbber name="user-card" size={15}/>
+              )}
             </div>
           ) : false}
         </div>
