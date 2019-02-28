@@ -187,13 +187,14 @@ export const groupPictureLogicMiddleware = store => next => action => {
 };
 
 export const redirectionMiddleware = store => next => action => {
-  //go to home if single post has been removed
+  // Redirect to homepage if single post has been removed
   if (action.type === response(ActionTypes.DELETE_POST) && !action.payload.postStillAvailable && store.getState().singlePostId) {
     return browserHistory.push('/');
   }
 
+  // Redirect to /groupName/subscribers after demoting myself from admin
   if (action.type === response(ActionTypes.DEMOTE_GROUP_ADMIN) &&
-      store.getState().user.id === action.request.user.id) {
+      store.getState().me.id === action.request.user.id) {
     browserHistory.push(`/${action.request.groupName}/subscribers`);
   }
 
