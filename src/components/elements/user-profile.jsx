@@ -6,8 +6,8 @@ import UserFeedStatus from './user-feed-status';
 import UserRelationshipStatus from './user-relationship-status';
 import PostCreateForm from './post-create-form';
 import PieceOfText from './piece-of-text';
-import throbber16 from 'assets/images/throbber-16.gif';
 import Userpic from './userpic';
+import Throbber from './throbber';
 
 export default class UserProfile extends React.Component {
   constructor(props) {
@@ -116,11 +116,9 @@ export default class UserProfile extends React.Component {
                 <div className="profile-controls">
                   {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
 
-                  {props.userView.isBlocking ? (
-                    <span className="profile-controls-throbber">
-                      <img width="16" height="16" src={throbber16}/>
-                    </span>
-                  ) : false}
+                  {props.userView.isBlocking && (
+                    <Throbber name="profile-controls"/>
+                  )}
                 </div>
               ) : (
                 <div className="profile-controls">
@@ -142,21 +140,17 @@ export default class UserProfile extends React.Component {
                     )
                   )}
 
-                  {props.userView.isSubscribing ? (
-                    <span className="profile-controls-throbber">
-                      <img width="16" height="16" src={throbber16}/>
-                    </span>
-                  ) : false}
+                  {props.userView.isSubscribing && (
+                    <Throbber name="profile-controls"/>
+                  )}
 
                   {props.type !== 'group' && !props.amISubscribedToUser ? (
                     props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={this.handleBlock}>Block this user</a></>
                   ) : false}
 
-                  {props.userView.isBlocking ? (
-                    <span className="profile-controls-throbber">
-                      <img width="16" height="16" src={throbber16}/>
-                    </span>
-                  ) : false}
+                  {props.userView.isBlocking && (
+                    <Throbber name="profile-controls"/>
+                  )}
 
                   {props.type === 'group' && props.amIGroupAdmin ? <>
                     {' - '}
