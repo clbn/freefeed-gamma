@@ -9,6 +9,7 @@ import { frontendPreferences as frontendPrefsConfig } from '../../../config/conf
 const { request, response } = ActionHelpers;
 
 const initUser = () => ({
+  preferences: {},
   frontendPreferences: frontendPrefsConfig.defaultValues,
   ...getPersistedUser()
 });
