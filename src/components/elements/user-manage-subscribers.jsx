@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -11,14 +11,18 @@ const AdminsList = tileUserListFactory({ type: WITH_REMOVE_ADMIN_RIGHTS });
 const OtherSubsList = tileUserListFactory({ type: WITH_REMOVE_AND_MAKE_ADMIN_HANDLES });
 
 const UserManageSubscribers = (props) => {
-  const unsubscribe = (username) => props.unsubscribeFromGroup(props.viewUser.username, username);
+  const unsubscribe = useCallback(username => (
+    props.unsubscribeFromGroup(props.viewUser.username, username)
+  ), [props.viewUser.username]);
 
-  const promoteToAdmin = (user) => props.promoteGroupAdmin(props.viewUser.username, user);
+  const promoteToAdmin = useCallback(user => (
+    props.promoteGroupAdmin(props.viewUser.username, user)
+  ), [props.viewUser.username]);
 
-  const demoteFromAdmin = (user) => {
+  const demoteFromAdmin = useCallback(user => {
     const isItMe = (props.myId === user.id);
     props.demoteGroupAdmin(props.viewUser.username, user, isItMe);
-  };
+  }, [props.viewUser.username, props.myId]);
 
   return (
     <div className="box-body">
@@ -86,12 +90,10 @@ function mapStateToProps(state, ownProps) {
   return { myId, isLoading, groupAdmins, users, amILastGroupAdmin };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    unsubscribeFromGroup: (...args) => dispatch(unsubscribeFromGroup(...args)),
-    promoteGroupAdmin: (...args) => dispatch(promoteGroupAdmin(...args)),
-    demoteGroupAdmin: (...args) => dispatch(demoteGroupAdmin(...args))
-  };
-}
+const mapDispatchToProps = {
+  unsubscribeFromGroup,
+  promoteGroupAdmin,
+  demoteGroupAdmin
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserManageSubscribers);
