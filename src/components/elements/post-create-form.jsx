@@ -53,6 +53,21 @@ class PostCreateForm extends React.Component {
   handleDropzoneInit = (d) => {
     this.dropzoneObject = d;
   };
+  handleAddedFile = () => {
+    this.setState({ attachmentQueueLength: this.state.attachmentQueueLength + 1 });
+  };
+  handleRemovedFile = () => {
+    if (this.state.attachmentQueueLength === 1) {
+      this.setState({ hasUploadFailed: false });
+    }
+    this.setState({ attachmentQueueLength: this.state.attachmentQueueLength - 1 });
+  };
+  handleUploadSuccess = (attachment) => (
+    this.props.addAttachmentResponse(null, attachment)
+  );
+  handleUploadFailure = () => {
+    this.setState({ hasUploadFailed: true });
+  };
 
   handlePaste = (e) => {
     if (e.clipboardData) {
@@ -226,23 +241,6 @@ class PostCreateForm extends React.Component {
   // Render
 
   render() {
-    // DropzoneJS queue handlers
-    const handleAddedFile = () => {
-      this.setState({ attachmentQueueLength: this.state.attachmentQueueLength + 1 });
-    };
-    const handleRemovedFile = () => {
-      if (this.state.attachmentQueueLength === 1) {
-        this.setState({ hasUploadFailed: false });
-      }
-      this.setState({ attachmentQueueLength: this.state.attachmentQueueLength - 1 });
-    };
-    const handleUploadSuccess = (attachment) => (
-      this.props.addAttachmentResponse(null, attachment)
-    );
-    const handleUploadFailure = () => {
-      this.setState({ hasUploadFailed: true });
-    };
-
     const defaultFeed = this.props.recipientFromUrl || this.props.defaultRecipient;
     const recipients = this.postRecipients && this.postRecipients.selectedOptions || [];
     const isSubmitButtonDisabled = this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading';
@@ -261,10 +259,10 @@ class PostCreateForm extends React.Component {
 
         <PostDropzone
           onInit={this.handleDropzoneInit}
-          onAddedFile={handleAddedFile}
-          onRemovedFile={handleRemovedFile}
-          onUploadSuccess={handleUploadSuccess}
-          onUploadFailure={handleUploadFailure}/>
+          onAddedFile={this.handleAddedFile}
+          onRemovedFile={this.handleRemovedFile}
+          onUploadSuccess={this.handleUploadSuccess}
+          onUploadFailure={this.handleUploadFailure}/>
 
         <Textarea
           className="form-control post-textarea"
