@@ -34,8 +34,24 @@ class Post extends React.Component {
     this.postText = input;
   };
 
+  // DropzoneJS handlers
   handleDropzoneInit = (d) => {
     this.dropzoneObject = d;
+  };
+  handleAddedFile = () => {
+    this.setState({ attachmentQueueLength: this.state.attachmentQueueLength + 1 });
+  };
+  handleRemovedFile = () => {
+    if (this.state.attachmentQueueLength === 1) {
+      this.setState({ hasUploadFailed: false });
+    }
+    this.setState({ attachmentQueueLength: this.state.attachmentQueueLength - 1 });
+  };
+  handleUploadSuccess = (attachment) => (
+    this.props.addAttachmentResponse(this.props.id, attachment)
+  );
+  handleUploadFailure = () => {
+    this.setState({ hasUploadFailed: true });
   };
 
   handlePaste = (e) => {
@@ -94,45 +110,42 @@ class Post extends React.Component {
     }
   }
 
+  // Click handlers
+  toggleCommenting = () => this.props.toggleCommenting(this.props.id);
+  likePost = () => this.props.likePost(this.props.id, this.props.myId);
+  unlikePost = () => this.props.unlikePost(this.props.id, this.props.myId);
+  hidePost = () => this.props.hidePost(this.props.id);
+  unhidePost = () => this.props.unhidePost(this.props.id);
+  toggleEditingPost = () => this.props.toggleEditingPost(this.props.id);
+  cancelEditingPost = () => this.props.cancelEditingPost(this.props.id);
+  saveEditingPost = () => {
+    if (!this.props.isSaving) {
+      let attachmentIds = this.getAttachments().map(item => item.id);
+      this.props.saveEditingPost(this.props.id, { body: this.postText.value, attachments: attachmentIds });
+    }
+  };
+  toggleModeratingComments = () => this.props.toggleModeratingComments(this.props.id);
+  disableComments = () => this.props.disableComments(this.props.id);
+  enableComments = () => this.props.enableComments(this.props.id);
+  deletePost = () => this.props.deletePost(this.props.id);
+
+  checkIfEnterPressed = (event) => {
+    const isEnter = event.keyCode === 13;
+    const isShiftPressed = event.shiftKey;
+    if (isEnter && !isShiftPressed) {
+      event.preventDefault();
+      if (this.state.attachmentQueueLength === 0) {
+        this.saveEditingPost();
+      }
+    }
+  };
+
   render() {
     let props = this.props;
 
     const dateISO = getISODate(+props.createdAt);
     const dateFull = getFullDate(+props.createdAt);
     const dateRelative = getRelativeDate(+props.createdAt);
-
-    const toggleEditingPost = () => props.toggleEditingPost(props.id);
-    const cancelEditingPost = () => props.cancelEditingPost(props.id);
-    const saveEditingPost = () => {
-      if (!props.isSaving) {
-        let attachmentIds = this.getAttachments().map(item => item.id);
-        props.saveEditingPost(props.id, { body: this.postText.value, attachments: attachmentIds });
-      }
-    };
-    const deletePost = () => props.deletePost(props.id);
-
-    const toggleCommenting = () => props.toggleCommenting(props.id);
-    const likePost = () => props.likePost(props.id, props.myId);
-    const unlikePost = () => props.unlikePost(props.id, props.myId);
-
-    const hidePost = () => props.hidePost(props.id);
-    const unhidePost = () => props.unhidePost(props.id);
-
-    const toggleModeratingComments = () => props.toggleModeratingComments(props.id);
-
-    const disableComments = () => props.disableComments(props.id);
-    const enableComments = () => props.enableComments(props.id);
-
-    const checkSave = (event) => {
-      const isEnter = event.keyCode === 13;
-      const isShiftPressed = event.shiftKey;
-      if (isEnter && !isShiftPressed) {
-        event.preventDefault();
-        if (this.state.attachmentQueueLength === 0) {
-          saveEditingPost();
-        }
-      }
-    };
 
     // Post class(es)
     const postClasses = classnames({
@@ -221,23 +234,6 @@ class Post extends React.Component {
       </Fragment>
     ));
 
-    // DropzoneJS queue handlers
-    const handleAddedFile = () => {
-      this.setState({ attachmentQueueLength: this.state.attachmentQueueLength + 1 });
-    };
-    const handleRemovedFile = () => {
-      if (this.state.attachmentQueueLength === 1) {
-        this.setState({ hasUploadFailed: false });
-      }
-      this.setState({ attachmentQueueLength: this.state.attachmentQueueLength - 1 });
-    };
-    const handleUploadSuccess = (attachment) => (
-      this.props.addAttachmentResponse(props.id, attachment)
-    );
-    const handleUploadFailure = () => {
-      this.setState({ hasUploadFailed: true });
-    };
-
     // Post URL
     // Primary recipient feed: used as part of canonical post URL.
     // If all the recipients are groups (so it's not sent to author's feed,
@@ -257,7 +253,7 @@ class Post extends React.Component {
           {' - '}
           <i>Comments disabled (not for you)</i>
           {' - '}
-          <a onClick={toggleCommenting}>Comment</a>
+          <a onClick={this.toggleCommenting}>Comment</a>
         </>;
       } else {
         commentLink = <>
@@ -268,7 +264,7 @@ class Post extends React.Component {
     } else {
       commentLink = <>
         {' - '}
-        <a onClick={toggleCommenting}>Comment</a>
+        <a onClick={this.toggleCommenting}>Comment</a>
       </>;
     }
 
@@ -276,9 +272,9 @@ class Post extends React.Component {
     const likeLink = (props.canILike ? <>
       {' - '}
       {props.haveILiked ? (
-        <a onClick={unlikePost}>Un-like</a>
+        <a onClick={this.unlikePost}>Un-like</a>
       ) : (
-        <a onClick={likePost}>Like</a>
+        <a onClick={this.likePost}>Like</a>
       )}
       {props.isLiking && (
         <Throbber name="post-like"/>
@@ -288,7 +284,7 @@ class Post extends React.Component {
     // "Hide" / "Un-hide"
     const hideLink = (props.isInHomeFeed ? <>
       {' - '}
-      <a onClick={props.isHidden ? unhidePost : hidePost}>{props.isHidden ? 'Un-hide' : 'Hide'}</a>
+      <a onClick={props.isHidden ? this.unhidePost : this.hidePost}>{props.isHidden ? 'Un-hide' : 'Hide'}</a>
       {props.isHiding && (
         <Throbber name="post-hide"/>
       )}
@@ -299,16 +295,16 @@ class Post extends React.Component {
       {' - '}
       <PostMoreMenu
         post={props}
-        toggleEditingPost={toggleEditingPost}
-        toggleModeratingComments={toggleModeratingComments}
-        disableComments={disableComments}
-        enableComments={enableComments}
-        deletePost={deletePost}/>
+        toggleEditingPost={this.toggleEditingPost}
+        toggleModeratingComments={this.toggleModeratingComments}
+        disableComments={this.disableComments}
+        enableComments={this.enableComments}
+        deletePost={this.deletePost}/>
     </> : false);
 
     return (props.isRecentlyHidden ? (
       <div className="post recently-hidden-post">
-        <i>Entry hidden</i> - <a onClick={unhidePost}>undo</a>.
+        <i>Entry hidden</i> - <a onClick={this.unhidePost}>undo</a>.
         {props.isHiding && (
           <Throbber name="post-hide"/>
         )}
@@ -340,17 +336,17 @@ class Post extends React.Component {
             <div className="post-editor">
               <PostDropzone
                 onInit={this.handleDropzoneInit}
-                onAddedFile={handleAddedFile}
-                onRemovedFile={handleRemovedFile}
-                onUploadSuccess={handleUploadSuccess}
-                onUploadFailure={handleUploadFailure}/>
+                onAddedFile={this.handleAddedFile}
+                onRemovedFile={this.handleRemovedFile}
+                onUploadSuccess={this.handleUploadSuccess}
+                onUploadFailure={this.handleUploadFailure}/>
 
               <Textarea
                 inputRef={this.refPostText}
                 className="form-control post-textarea"
                 defaultValue={props.body}
                 autoFocus={true}
-                onKeyDown={checkSave}
+                onKeyDown={this.checkIfEnterPressed}
                 onPaste={this.handlePaste}
                 minRows={3}
                 maxRows={10}
@@ -368,9 +364,9 @@ class Post extends React.Component {
                 {props.isSaving && (
                   <Throbber name="post-edit"/>
                 )}
-                <a className="post-cancel" onClick={cancelEditingPost}>Cancel</a>
+                <a className="post-cancel" onClick={this.cancelEditingPost}>Cancel</a>
                 <button className="btn btn-default btn-xs"
-                  onClick={saveEditingPost}
+                  onClick={this.saveEditingPost}
                   disabled={this.state.attachmentQueueLength > 0}>Update</button>
               </div>
 
