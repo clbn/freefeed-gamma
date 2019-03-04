@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import _ from 'lodash';
@@ -10,32 +11,40 @@ import { tileUserListFactory, WITH_REQUEST_HANDLES, PLAIN } from './elements/til
 const TileListWithAcceptAndReject = tileUserListFactory({ type: WITH_REQUEST_HANDLES, displayQuantity: true });
 const TileList = tileUserListFactory({ type: PLAIN, displayQuantity: true });
 
-const renderRequestsByGroup = (groupRequests, accept, reject) => {
-  let groups = groupRequests.map((r) => ({ id: r.groupId, username: r.groupName }));
-  groups = _.uniqBy(groups, 'id');
+const GroupRequestsSection = ({ users, accept, reject }) => {
+  const groupName = users[0].groupName;
+  const header = `${pluralForm(users.length, 'Request', null, 'w')} to join @${groupName}`;
 
-  return groups.map((g) => {
-    const users = groupRequests.filter((r) => r.groupName === g.username);
-    const header = `${pluralForm(users.length, 'Request', null, 'w')} to join @${g.username}`;
+  const acceptGroupRequest = useCallback(username => accept(groupName, username), [groupName]);
+  const rejectGroupRequest = useCallback(username => reject(groupName, username), [groupName]);
 
-    const acceptGroupRequest = (username) => accept(g.username, username);
-    const rejectGroupRequest = (username) => reject(g.username, username);
-
-    return (
-      <Fragment key={g.id}>
-        <TileListWithAcceptAndReject
-          header={header}
-          users={users}
-          acceptRequest={acceptGroupRequest}
-          rejectRequest={rejectGroupRequest}/>
-      </Fragment>
-    );
-  });
+  return (
+    <TileListWithAcceptAndReject
+      header={header}
+      users={users}
+      acceptRequest={acceptGroupRequest}
+      rejectRequest={rejectGroupRequest}/>
+  );
+};
+GroupRequestsSection.propTypes = {
+  users: PropTypes.array.isRequired,
+  accept: PropTypes.func.isRequired,
+  reject: PropTypes.func.isRequired
 };
 
-const Groups = (props) => {
-  const groupRequests = renderRequestsByGroup(props.groupRequests, props.acceptGroupRequest, props.rejectGroupRequest);
+const GroupRequestsList = ({ groupRequests, accept, reject }) => {
+  const groupedGroupRequests = _.groupBy(groupRequests, 'groupId');
+  return _.map(groupedGroupRequests, (users, groupId) => (
+    <GroupRequestsSection key={groupId} users={users} accept={accept} reject={reject}/>
+  ));
+};
+GroupRequestsList.propTypes = {
+  groupRequests: PropTypes.array.isRequired,
+  accept: PropTypes.func.isRequired,
+  reject: PropTypes.func.isRequired
+};
 
+const Groups = ({ groupRequests, managedGroups, otherGroups, acceptGroupRequest, rejectGroupRequest }) => {
   return (
     <div className="box">
       <div className="box-header-timeline">
@@ -53,16 +62,21 @@ const Groups = (props) => {
           </div>
         </div>
 
-        {groupRequests}
+        <GroupRequestsList groupRequests={groupRequests} accept={acceptGroupRequest} reject={rejectGroupRequest}/>
 
-        <TileList {...props.managedGroups}/>
+        <TileList {...managedGroups}/>
 
-        <TileList {...props.otherGroups}/>
+        <TileList {...otherGroups}/>
       </div>
-
-      <div className="box-footer"></div>
     </div>
   );
+};
+Groups.propTypes = {
+  groupRequests: PropTypes.array.isRequired,
+  managedGroups: PropTypes.object.isRequired,
+  otherGroups: PropTypes.object.isRequired,
+  acceptGroupRequest: PropTypes.func.isRequired,
+  rejectGroupRequest: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -100,11 +114,9 @@ function mapStateToProps(state) {
   return { groupRequests, managedGroups, otherGroups };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    acceptGroupRequest: (...args) => dispatch(acceptGroupRequest(...args)),
-    rejectGroupRequest: (...args) => dispatch(rejectGroupRequest(...args))
-  };
-}
+const mapDispatchToProps = {
+  acceptGroupRequest,
+  rejectGroupRequest
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Groups);
