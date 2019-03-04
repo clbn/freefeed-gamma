@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import numeral from 'numeral';
 import { SortableHandle } from 'react-sortable-hoc';
 
@@ -50,7 +50,7 @@ export default (props) => {
     return <div className="attachment">{attachmentBody}</div>;
   }
 
-  const removeAttachment = () => props.removeAttachment(props.id);
+  const removeAttachment = useCallback(() => props.removeAttachment(props.id), [props.id]);
 
   const removeButton = (
     <a className="remove-attachment" title="Remove image" onClick={removeAttachment}>
