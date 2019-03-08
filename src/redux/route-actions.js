@@ -4,6 +4,7 @@ import {
   discussions,
   direct,
   getSummary,
+  blockedByMe,
 
   // Public (content depends on URL params)
   getSearchResults,
@@ -36,14 +37,14 @@ export const routeActions = {
   'summary': next => [
     getSummary(days(next))
   ],
+  'people': () => [
+    blockedByMe()
+  ],
 
   'search': next => [
     getSearchResults(q(next), offset(next))
   ],
 
-  'getUserInfo': next => [
-    getUserInfo(username(next))
-  ],
   'userFeed': next => [
     getUserFeed(username(next), offset(next))
   ],
@@ -57,10 +58,15 @@ export const routeActions = {
     getUserLikes(username(next), offset(next))
   ],
   'userSubscribers': next => [
+    getUserInfo(username(next)),
     getUserSubscribers(username(next))
   ],
   'userSubscriptions': next => [
+    getUserInfo(username(next)),
     getUserSubscriptions(username(next))
+  ],
+  'groupSettings': next => [
+    getUserInfo(username(next))
   ],
 
   'post': next => [

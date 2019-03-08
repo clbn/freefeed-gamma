@@ -50,23 +50,6 @@ browserHistory.replace(location);
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-const userSubscribersActions = (next) => {
-  const username = next.params.userName;
-  store.dispatch(ActionCreators.getUserInfo(username));
-  store.dispatch(ActionCreators.getUserSubscribers(username));
-};
-
-const userSubscriptionsActions = (next) => {
-  const username = next.params.userName;
-  store.dispatch(ActionCreators.getUserInfo(username));
-  store.dispatch(ActionCreators.getUserSubscriptions(username));
-};
-
-const peopleActions = () => {
-  const username = store.getState().me.username;
-  store.dispatch(ActionCreators.blockedByMe(username));
-};
-
 const redirectFriendsToPeople = (nextState, replaceState) => {
   replaceState(null, '/people');
 };
@@ -102,7 +85,7 @@ ReactDOM.render(
         <Route path="signup" component={Signup} onEnter={enterStaticPage('Sign up')}/>
 
         <Route path="settings" component={Settings} onEnter={enterStaticPage('Settings')}/>
-        <Route name="people" path="/people" component={People} onEnter={peopleActions}/>
+        <Route name="people" path="/people" component={People} {...getRouteHooks('people')}/>
         <Route name="friends" path="/friends" onEnter={redirectFriendsToPeople}/>
         <Route name="groups" path="/groups" component={Groups} onEnter={enterStaticPage('Groups')}/>
         <Route name="groupCreate" path="/groups/create" component={GroupCreate} onEnter={enterStaticPage('Create a group')}/>
@@ -114,12 +97,12 @@ ReactDOM.render(
 
         <Route name="userFeed" path="/:userName" component={User} {...getRouteHooks('userFeed')}/>
         <Route name="userSummary" path="/:userName/summary(/:days)" component={User} {...getRouteHooks('userSummary')}/>
-        <Route name="userSubscribers" path="/:userName/subscribers" component={User} onEnter={userSubscribersActions}/>
-        <Route name="userSubscriptions" path="/:userName/subscriptions" component={User} onEnter={userSubscriptionsActions}/>
+        <Route name="userSubscribers" path="/:userName/subscribers" component={User} {...getRouteHooks('userSubscribers')}/>
+        <Route name="userSubscriptions" path="/:userName/subscriptions" component={User} {...getRouteHooks('userSubscriptions')}/>
         <Route name="userComments" path="/:userName/comments" component={User} {...getRouteHooks('userComments')}/>
         <Route name="userLikes" path="/:userName/likes" component={User} {...getRouteHooks('userLikes')}/>
-        <Route name="groupSettings" path="/:userName/settings" component={GroupSettings} onEnter={boundRouteActions('getUserInfo')}/>
-        <Route name="userManageSubscribers" path="/:userName/manage-subscribers" component={User} onEnter={userSubscribersActions}/>
+        <Route name="groupSettings" path="/:userName/settings" component={GroupSettings} {...getRouteHooks('groupSettings')}/>
+        <Route name="userManageSubscribers" path="/:userName/manage-subscribers" component={User} {...getRouteHooks('userSubscribers')}/>
 
         <Route name="post" path="/:userName/:postId" component={SinglePost} {...getRouteHooks('post')}/>
       </Route>
