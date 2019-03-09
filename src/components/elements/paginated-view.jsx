@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import { bindRouteActions } from '../../redux/route-actions';
 import PaginationLinks from './pagination-links';
 
 const PaginatedView = props => (
@@ -44,8 +43,4 @@ const mapStateToProps = (state) => {
   return { offset, isLastPage };
 };
 
-const mapDispatchToProps = dispatch => ({
-  routingActions: bindRouteActions(dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PaginatedView);
+export default connect(mapStateToProps)(PaginatedView);
