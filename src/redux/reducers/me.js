@@ -11,6 +11,7 @@ const { request, response } = ActionHelpers;
 const initUser = () => ({
   preferences: {},
   frontendPreferences: frontendPrefsConfig.defaultValues,
+  directAccepters: [],
   ...getPersistedUser()
 });
 
@@ -22,6 +23,20 @@ export default function me(state = initUser(), action) {
   switch (action.type) {
     case request(ActionTypes.WHO_AM_I): {
       return { ...state, isPending: true };
+    }
+    case response(ActionTypes.GET_USER_INFO): {
+      const userId = action.payload.users.id;
+      const acceptsDirects = action.payload.acceptsDirects;
+
+      if (acceptsDirects) {
+        return { ...state,
+          directAccepters: _.uniq([...state.directAccepters, userId])
+        };
+      } else {
+        return { ...state,
+          directAccepters: _.without(state.directAccepters, userId)
+        };
+      }
     }
     case response(ActionTypes.SEND_SUBSCRIPTION_REQUEST): {
       return { ...state,

@@ -122,9 +122,9 @@ export default class UserProfile extends React.Component {
                 </div>
               ) : (
                 <div className="profile-controls">
-                  {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
+                  {props.acceptsDirects && (
                     <><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </>
-                  ) : false}
+                  )}
 
                   {props.isPrivate === '1' && !props.amISubscribedToUser ? (
                     props.hasRequestBeenSent ? (

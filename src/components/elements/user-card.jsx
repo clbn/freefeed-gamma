@@ -251,9 +251,9 @@ class UserCard extends React.Component {
             </div>
           ) : props.authenticated && !props.isItMe ? (
             <div className="user-card-actions">
-              {props.amISubscribedToUser && props.isUserSubscribedToMe ? (
+              {props.acceptsDirects && (
                 <><Link to={`/filter/direct?to=${props.user.username}`}>Direct message</Link> - </>
-              ) : false}
+              )}
 
               {props.user.isPrivate === '1' && !props.amISubscribedToUser ? (
                 props.hasRequestBeenSent ? (
@@ -305,14 +305,19 @@ const mapStateToProps = (state) => {
 
   const authenticated = state.authenticated;
 
+  const amISubscribedToUser = ((me.subscriptions || []).indexOf(user.id) > -1);
+  const isUserSubscribedToMe = (_.findIndex(me.subscribers, { id: user.id }) > -1);
+  const acceptsDirects = (me.directAccepters.indexOf(user.id) > -1) || isUserSubscribedToMe;
+
   return {
     userCardView,
     user,
     userView,
     authenticated,
     isItMe: (me.username === user.username),
-    amISubscribedToUser: ((me.subscriptions || []).indexOf(user.id) > -1),
-    isUserSubscribedToMe: (_.findIndex(me.subscribers, { id: user.id }) > -1),
+    amISubscribedToUser,
+    isUserSubscribedToMe,
+    acceptsDirects,
     hasRequestBeenSent: ((me.pendingSubscriptionRequests || []).indexOf(user.id) > -1),
     isUserBlockedByMe: ((me.banIds || []).indexOf(user.id) > -1),
     amIGroupAdmin: (user.type === 'group' && (user.administrators || []).indexOf(me.id) > -1)

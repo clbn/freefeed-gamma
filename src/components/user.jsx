@@ -74,6 +74,9 @@ function mapStateToProps(state, ownProps) {
     !statusExtension.isItMe && !statusExtension.isLoading &&
     foundUser.isPrivate === '0' && foundUser.statistics.posts !== '0' && visibleEntries.length === 0 && offset === 0;
 
+  statusExtension.acceptsDirects = authenticated && statusExtension.isUserFound &&
+    ((me.directAccepters.indexOf(foundUser.id) > -1) || statusExtension.isUserSubscribedToMe);
+
   statusExtension.canISeeSubsList = statusExtension.isUserFound &&
     (foundUser.isPrivate === '0' || statusExtension.amISubscribedToUser || statusExtension.isItMe);
 

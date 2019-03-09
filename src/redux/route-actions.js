@@ -46,6 +46,7 @@ export const routeActions = {
   ],
 
   'userFeed': next => [
+    getUserInfo(username(next)), // Just for fetching `acceptsDirects`
     getUserFeed(username(next), offset(next))
   ],
   'userSummary': next => [
