@@ -4,6 +4,7 @@ import URLFinder from 'ff-url-finder';
 
 import config from '../../../config/config';
 import UserName from './user-name';
+import 'styles/linkify.scss';
 
 const MAX_URL_LENGTH = 50;
 
@@ -22,6 +23,20 @@ const finder = new URLFinder(
 finder.withHashTags = true;
 finder.withArrows = true;
 
+const splitLink = (url, maxLength) => {
+  let visiblePart = URLFinder.shorten(url, maxLength);
+  if (visiblePart.slice(-1) === '\u2026') {
+    visiblePart = visiblePart.slice(0, -1);
+  }
+
+  const hiddenPart = url.slice(visiblePart.length);
+
+  return {
+    visiblePart,
+    hiddenPart
+  };
+};
+
 class Linkify extends React.Component {
   parseCounter = 0;
   idx = 0;
@@ -38,13 +53,27 @@ class Linkify extends React.Component {
         props.href = it.url;
         props.target = '_blank';
         props.rel = 'noopener';
-        let visiblePart = URLFinder.shorten(it.text, MAX_URL_LENGTH);
+
+        const { visiblePart, hiddenPart } = splitLink(it.text, MAX_URL_LENGTH);
+
+        if (hiddenPart.length > 0) {
+          props.className = 'shortened-link';
+          return <a {...props}>{visiblePart}<del>{hiddenPart}</del></a>;
+        }
+
         return <a {...props}>{visiblePart}</a>;
       }
 
       case LOCAL_LINK: {
         props.to = it.uri;
-        let visiblePart = URLFinder.shorten(it.text, MAX_URL_LENGTH);
+
+        const { visiblePart, hiddenPart } = splitLink(it.text, MAX_URL_LENGTH);
+
+        if (hiddenPart.length > 0) {
+          props.className = 'shortened-link';
+          return <Link {...props}>{visiblePart}<del>{hiddenPart}</del></Link>;
+        }
+
         return <Link {...props}>{visiblePart}</Link>;
       }
 

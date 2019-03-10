@@ -1,0 +1,13 @@
+.shortened-link {
+
+  &:after {
+    content: '\02026';
+  }
+
+  del {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+}
