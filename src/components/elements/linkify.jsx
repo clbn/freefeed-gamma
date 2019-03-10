@@ -23,48 +23,72 @@ finder.withHashTags = true;
 finder.withArrows = true;
 
 class Linkify extends React.Component {
-  createLinkElement({ type, username }, displayedLink, href) {
+  parseCounter = 0;
+  idx = 0;
+
+  getElementByType = (it) => {
     const props = {
       key: `match${++this.idx}`,
       dir: 'ltr'
     };
 
-    switch (type) {
+    switch (it.type) {
+
+      case LINK: {
+        props.href = it.url;
+        props.target = '_blank';
+        props.rel = 'noopener';
+        let visiblePart = URLFinder.shorten(it.text, MAX_URL_LENGTH);
+        return <a {...props}>{visiblePart}</a>;
+      }
+
+      case LOCAL_LINK: {
+        props.to = it.uri;
+        let visiblePart = URLFinder.shorten(it.text, MAX_URL_LENGTH);
+        return <Link {...props}>{visiblePart}</Link>;
+      }
+
       case AT_LINK: {
-        props['username'] = username;
-        props['display'] = displayedLink;
+        props.username = it.username;
+        props.display = it.text;
         if (this.userHover) {
-          props['onMouseEnter'] = () => this.userHover.hover(username);
-          props['onMouseLeave'] = this.userHover.leave;
+          props.onMouseEnter = () => this.userHover.hover(it.username);
+          props.onMouseLeave = this.userHover.leave;
         }
-        return React.createElement(UserName, props);
+        return <UserName {...props}/>;
       }
-      case LOCAL_LINK:
+
+      case EMAIL: {
+        props.href = `mailto:${it.address}`;
+        return <a {...props}>{it.text}</a>;
+      }
+
       case HASHTAG: {
-        props['to'] = href;
-        return React.createElement(Link, props, displayedLink);
+        props.to = { pathname: '/search', query: { q: it.text } };
+        return <Link {...props}>{it.text}</Link>;
       }
+
       case ARROW: {
-        props['className'] = 'reference-arrow';
-        props['onClick'] = () => this.arrowHover.click(displayedLink.length);
-        props['onMouseEnter'] = () => this.arrowHover.hover(displayedLink.length);
-        props['onMouseLeave'] = this.arrowHover.leave;
-        return React.createElement('span', props, displayedLink);
+        if (!this.arrowHover) {
+          return it.text;
+        }
+
+        props.className = 'reference-arrow';
+        props.onClick = () => this.arrowHover.click(it.text.length);
+        props.onMouseEnter = () => this.arrowHover.hover(it.text.length);
+        props.onMouseLeave = this.arrowHover.leave;
+
+        return <span {...props}>{it.text}</span>;
       }
-      default: {
-        props['href'] = href;
-        props['target'] = '_blank';
-        props['rel'] = 'noopener';
-        return React.createElement('a', props, displayedLink);
-      }
+
     }
-  }
 
-  parseCounter = 0;
-  idx = 0;
+    return it.text;
+  };
 
-  parseString(string) {
+  parseString = (string) => {
     let elements = [];
+
     if (string === '') {
       return elements;
     }
@@ -73,44 +97,18 @@ class Linkify extends React.Component {
 
     try {
       finder.parse(string).map(it => {
-        let displayedLink;
-        let href;
-
-        if (it.type === LINK) {
-          displayedLink = URLFinder.shorten(it.text, MAX_URL_LENGTH);
-          href = it.url;
-        } else if (it.type === AT_LINK) {
-          displayedLink = it.text;
-          href = `/${it.username}`;
-        } else if (it.type === LOCAL_LINK) {
-          displayedLink = URLFinder.shorten(it.text, MAX_URL_LENGTH);
-          href = it.uri;
-        } else if (it.type === HASHTAG) {
-          displayedLink = it.text;
-          href = { pathname: '/search', query: { q: it.text } };
-        } else if (it.type === EMAIL) {
-          displayedLink = it.text;
-          href = `mailto:${it.address}`;
-        } else if (it.type === ARROW && this.arrowHover) {
-          displayedLink = it.text;
-        } else {
-          elements.push(it.text);
-          return;
-        }
-
-        let linkElement = this.createLinkElement(it, displayedLink, href);
-
-        elements.push(linkElement);
+        elements.push(this.getElementByType(it));
       });
 
       return (elements.length === 1) ? elements[0] : elements;
     } catch (err) {
       console.log('Error while linkifying text', string, err);
     }
-    return [string];
-  }
 
-  parse(children) {
+    return [string];
+  };
+
+  parse = (children) => {
     let parsed = children;
 
     if (typeof children === 'string') {
@@ -128,15 +126,16 @@ class Linkify extends React.Component {
     }
 
     return parsed;
-  }
+  };
 
   render() {
     this.parseCounter = 0;
     this.userHover = this.props.userHover;
     this.arrowHover = this.props.arrowHover;
+
     const parsedChildren = this.parse(this.props.children);
 
-    return <span className="Linkify" dir="auto">{parsedChildren}</span>;
+    return <span dir="auto">{parsedChildren}</span>;
   }
 }
 
