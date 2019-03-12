@@ -1,5 +1,5 @@
 import React from 'react';
-import Select from 'react-select-plus';
+import Select from 'react-select';
 import _ from 'lodash';
 
 const feedToOption = (feed) => ({
@@ -110,12 +110,11 @@ export default class PostRecipients extends React.Component {
         <Select
           name="select-feeds"
           placeholder=""
-          autoBlur={true}
-          value={this._values}
+          value={this.selectedOptions}
           options={this.state.options}
           onChange={this.selectChanged}
-          multi={true}
-          clearable={false} />
+          isMulti={true}
+          isClearable={false} />
 
         {this.state.isWarningDisplayed ? (
           <div className="alert alert-warning">
