@@ -38,6 +38,12 @@ const getNestedOptions = (feeds, username, peopleFirst = false) => {
   }
 };
 
+const reactSelectStyles = {
+  multiValueRemove: (styles, { isFocused }) => ({ ...styles,
+    color: isFocused ? '#fff' : '#bbb', // This can only be styled with a style object, not CSS
+  }),
+};
+
 export default class PostRecipients extends React.Component {
   constructor(props) {
     super(props);
@@ -109,6 +115,9 @@ export default class PostRecipients extends React.Component {
 
         <Select
           name="select-feeds"
+          className="react-select-container" // For styling with CSS
+          classNamePrefix="react-select" // For styling with CSS
+          styles={reactSelectStyles} // For styling with a style object (just that one piece unavailable in CSS)
           placeholder=""
           value={this.selectedOptions}
           options={this.state.options}
