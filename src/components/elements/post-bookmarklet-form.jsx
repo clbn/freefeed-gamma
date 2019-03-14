@@ -10,6 +10,7 @@ export default class PostBookmarkletForm extends React.Component {
     super(props);
 
     this.state = {
+      recipients: [],
       isFormEmpty: false,
       isPostSaved: false
     };
@@ -18,7 +19,6 @@ export default class PostBookmarkletForm extends React.Component {
   //
   // Refs
 
-  refPostRecipients = (input) => { this.postRecipients = input; };
   refPostText = (input) => { this.postText = input; };
   refCommentText = (input) => { this.commentText = input; };
 
@@ -30,10 +30,15 @@ export default class PostBookmarkletForm extends React.Component {
   //
   // Handling recipients, text typing and posting
 
-  updateEmptinessState = (recipientsUpdated = false) => {
-    let isFormEmpty = this.isPostTextEmpty() || this.postRecipients.values.length === 0;
+  handleRecipientsUpdate = (recipients) => {
+    this.setState({ recipients });
+    setTimeout(this.updateEmptinessState, 0);
+  };
 
-    if (isFormEmpty !== this.state.isFormEmpty || recipientsUpdated === true) {
+  updateEmptinessState = () => {
+    let isFormEmpty = this.isPostTextEmpty() || this.state.recipients.length === 0;
+
+    if (isFormEmpty !== this.state.isFormEmpty) {
       this.setState({ isFormEmpty });
     }
   };
@@ -53,7 +58,7 @@ export default class PostBookmarkletForm extends React.Component {
 
   submitForm = () => {
     // Get all the values
-    const feeds = this.postRecipients.values;
+    const feeds = this.state.recipients.map(r => r.username);
     const postText = this.postText.value;
     const imageUrls = this.props.imageUrls;
     const commentText = this.commentText.value;
@@ -93,7 +98,7 @@ export default class PostBookmarkletForm extends React.Component {
 
   render() {
     if (this.state.isPostSaved) {
-      const postUrl = `/${this.props.user.username}/${this.props.createPostForm.lastPost.id}`;
+      const postUrl = `/${this.props.me.username}/${this.props.createPostForm.lastPost.id}`;
       return (
         <div className="brand-new-post">
           Done! Check out<br/>
@@ -118,11 +123,10 @@ export default class PostBookmarkletForm extends React.Component {
           </div>
         ) : false}
 
-        <PostRecipients ref={this.refPostRecipients}
-          feeds={this.props.sendTo.feeds}
-          defaultFeed={this.props.sendTo.defaultFeed}
-          user={this.props.user}
-          onChange={this.updateEmptinessState}/>
+        <PostRecipients
+          defaultRecipient={this.props.me.username}
+          selected={this.state.recipients}
+          onChange={this.handleRecipientsUpdate}/>
 
         <textarea
           className="form-control post-textarea"

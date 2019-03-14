@@ -18,6 +18,7 @@ class PostCreateForm extends React.Component {
     super(props);
 
     this.state = {
+      recipients: [],
       isExpanded: !!props.recipientFromUrl,
       isFormEmpty: true,
       isMoreOpen: false,
@@ -30,7 +31,6 @@ class PostCreateForm extends React.Component {
   //
   // Refs
 
-  refPostRecipients = (input) => { this.postRecipients = input; };
   refPostText = (input) => { this.postText = input; };
   refCommentsDisabled = (input) => { this.commentsDisabled = input; };
 
@@ -108,10 +108,15 @@ class PostCreateForm extends React.Component {
   //
   // Handling recipients, text typing and posting
 
-  updateEmptinessState = (recipientsUpdated = false) => {
-    let isFormEmpty = this.isPostTextEmpty() || this.postRecipients.values.length === 0;
+  handleRecipientsUpdate = (recipients) => {
+    this.setState({ recipients });
+    setTimeout(this.updateEmptinessState, 0);
+  };
 
-    if (isFormEmpty !== this.state.isFormEmpty || recipientsUpdated === true) {
+  updateEmptinessState = () => {
+    let isFormEmpty = this.isPostTextEmpty() || this.state.recipients.length === 0;
+
+    if (isFormEmpty !== this.state.isFormEmpty) {
       this.setState({ isFormEmpty });
     }
   };
@@ -123,7 +128,7 @@ class PostCreateForm extends React.Component {
     const submitAction = (getPostVisibilityLevel(recipients, this.props.me.id) === PostVisibilityLevels.DIRECT ||
       (recipients.length === 0 && this.props.defaultRecipient === null) ? 'Send' : 'Post');
 
-    const getRecipientName = (r) => (r.value === this.props.me.username ? <b>my feed</b> : <b>@{r.value}</b>);
+    const getRecipientName = (r) => (r.username === this.props.me.username ? <b>my feed</b> : <b>@{r.username}</b>);
     const recNames = recipients.map(getRecipientName);
 
     switch (recNames.length) {
@@ -151,7 +156,7 @@ class PostCreateForm extends React.Component {
 
   submitForm = () => {
     // Get all the values
-    const feeds = this.postRecipients.values;
+    const feeds = this.state.recipients.map(r => r.username);
     const postText = this.postText.value;
     const attachmentIds = this.getTransientAttachments().map(item => item.id);
     const more = {
@@ -241,20 +246,18 @@ class PostCreateForm extends React.Component {
   // Render
 
   render() {
-    const defaultFeed = this.props.recipientFromUrl || this.props.defaultRecipient;
-    const recipients = this.postRecipients && this.postRecipients.selectedOptions || [];
+    const defaultRecipient = this.props.recipientFromUrl || this.props.defaultRecipient;
     const isSubmitButtonDisabled = this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading';
-    const submitButtonText = this.getSubmitButtonText(recipients);
+    const submitButtonText = this.getSubmitButtonText(this.state.recipients);
 
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
         {this.state.isExpanded ? (
-          <PostRecipients ref={this.refPostRecipients}
-            feeds={this.props.sendTo.feeds}
-            defaultFeed={defaultFeed}
+          <PostRecipients
+            defaultRecipient={defaultRecipient}
+            selected={this.state.recipients}
             peopleFirst={this.props.peopleFirst}
-            user={this.props.me}
-            onChange={this.updateEmptinessState}/>
+            onChange={this.handleRecipientsUpdate}/>
         ) : false}
 
         <PostDropzone
@@ -310,7 +313,7 @@ class PostCreateForm extends React.Component {
             {submitButtonText}
           </button>
 
-          <PostVisibilityIcon recipients={recipients} authorId={this.props.me.id}/>
+          <PostVisibilityIcon recipients={this.state.recipients} authorId={this.props.me.id}/>
         </div>
 
         {this.state.hasUploadFailed ? (
@@ -336,24 +339,19 @@ class PostCreateForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    createPostForm: state.createPostForm,
-    attachments: state.attachments,
-    me: state.me,
-    sendTo: state.sendTo,
-    defaultRecipient: (ownProps.defaultRecipient !== undefined ? ownProps.defaultRecipient : state.me.username),
-    recipientFromUrl: state.routing.locationBeforeTransitions.query.to
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  createPostForm: state.createPostForm,
+  attachments: state.attachments,
+  me: state.me,
+  defaultRecipient: (ownProps.defaultRecipient !== undefined ? ownProps.defaultRecipient : state.me.username),
+  recipientFromUrl: state.routing.locationBeforeTransitions.query.to
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    createPost: (...args) => dispatch(createPost(...args)),
-    resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),
-    addAttachmentResponse: (...args) => dispatch(addAttachmentResponse(...args)),
-    removeAttachment: (...args) => dispatch(removeAttachment(...args))
-  };
-}
+const mapDispatchToProps = {
+  createPost,
+  resetPostCreateForm,
+  addAttachmentResponse,
+  removeAttachment
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostCreateForm);

@@ -15,7 +15,6 @@ import pageView from './page-view';
 import posts from './posts';
 import postViews from './post-views';
 import { groupRequests, userRequests, sentRequests } from './requests';
-import sendTo from './send-to';
 import signInForm from './sign-in-form';
 import signUpForm from './sign-up-form';
 import userCardView from './user-card-view';
@@ -41,7 +40,6 @@ export default combineReducers({
   posts,
   postViews,
   groupRequests, userRequests, sentRequests,
-  sendTo,
   signInForm,
   signUpForm,
   feeds,

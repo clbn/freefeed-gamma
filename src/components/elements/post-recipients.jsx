@@ -1,42 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Select from 'react-select';
 import _ from 'lodash';
-
-const feedToOption = (feed) => ({
-  label: feed.user.username,
-  value: feed.user.username,
-  id: feed.user.id,
-  type: feed.user.type,
-  isPrivate: feed.user.isPrivate,
-  isProtected: feed.user.isProtected
-});
-
-const getMyFeedOption = (username) => ({
-  label: 'My feed',
-  value: username,
-  type: 'group'
-});
-
-const getOptgroup = (header, options) => ({
-  label: `${header} (${options.length})`,
-  options: options
-});
-
-const getNestedOptions = (feeds, username, peopleFirst = false) => {
-  const options = feeds.map(feedToOption);
-
-  const groupOptions = _.filter(options, (o) => (o.type === 'group'));
-  groupOptions.sort((a, b) => a.value.localeCompare(b.value));
-
-  const userOptions = _.filter(options, (o) => (o.type === 'user'));
-  userOptions.sort((a, b) => a.value.localeCompare(b.value));
-
-  if (peopleFirst) {
-    return [ getMyFeedOption(username), getOptgroup('People', userOptions), getOptgroup('Groups', groupOptions) ];
-  } else {
-    return [ getMyFeedOption(username), getOptgroup('Groups', groupOptions), getOptgroup('People', userOptions) ];
-  }
-};
 
 const reactSelectStyles = {
   multiValueRemove: (styles, { isFocused }) => ({ ...styles,
@@ -44,68 +9,61 @@ const reactSelectStyles = {
   }),
 };
 
-export default class PostRecipients extends React.Component {
+class PostRecipients extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      options: getNestedOptions(props.feeds, props.user.username, props.peopleFirst),
-      isWarningDisplayed: false
-    };
-
-    this._values = (props.defaultFeed ? [props.defaultFeed] : []);
-  }
-
-  componentDidMount() {
-    this.props.onChange(true);
+    const selected = this.getDefaultValues(props);
+    this.props.onChange(selected);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      options: getNestedOptions(nextProps.feeds, nextProps.user.username, nextProps.peopleFirst)
-    });
+    // When component is rendered first with empty options list, but then the list gets updated
+    if (this.props.users.length !== nextProps.users.length) {
+      const selected = this.getBetterValues(nextProps.users);
+      this.props.onChange(selected);
+    }
 
-    // If defaultFeed gets updated (it happens after sign-in),
-    // we also need to set values.
-    if (this.props.defaultFeed !== nextProps.defaultFeed) {
-      this._values = (nextProps.defaultFeed ? [nextProps.defaultFeed] : []);
-      this.props.onChange(true);
+    // If defaultRecipient gets updated (it happens after sign-in, or when the component is already rendered,
+    // and then we got a new recipientFromUrl - e.g., when user clicks from UserCard while on Direct messages page
+    if (this.props.defaultRecipient !== nextProps.defaultRecipient) {
+      const selected = this.getDefaultValues(nextProps);
+      this.props.onChange(selected);
     }
   }
 
-  // This getters are used in PostCreateForm
-  get values() {
-    // List of strings (selected usernames)
-    return this._values;
-  }
-  get selectedOptions() {
-    // List of objects (selected users)
-    const flatList = [
-      this.state.options[0], // My feed
-      ...this.state.options[1].options, // Groups
-      ...this.state.options[2].options  // Users
-    ];
-    return _.filter(flatList, (o) => (this._values.indexOf(o.value) > -1));
-  }
+  getOptionLabel = option => option.label || option.username;
+  getOptionValue = option => option.username;
 
-  isGroupsOrDirectsOnly = (values) => {
-    let types = {};
-    for (let v of values) {
-      types[v.type] = v;
+  getDefaultValues = ({ users, defaultRecipient }) => {
+    if (!defaultRecipient) {
+      return [];
     }
-    return Object.keys(types).length <= 1;
+
+    const foundUsers = _.filter(users, o => o.username === defaultRecipient);
+    if (foundUsers.length > 0) {
+      return foundUsers;
+    }
+
+    // Return temporary object, it will probably be updated after arrival
+    // of the options list (see componentWillReceiveProps)
+    return [ { username: defaultRecipient, type: 'user' } ];
   };
 
-  selectChanged = (selectedOptions) => {
-    this._values = selectedOptions.map(item => item.value);
-    this._values.sort((a, b) => {
-      if (a === this.props.user.username) { return -1; }
-      if (b === this.props.user.username) { return 1; }
-    });
+  getBetterValues = users => (
+    this.props.selected.map(o => (
+      _.find(users, u => u.username === o.username) || o
+    ))
+  );
 
-    let isWarningDisplayed = !this.isGroupsOrDirectsOnly(selectedOptions);
-    this.setState({ isWarningDisplayed });
-    this.props.onChange(true);
+  isNotPure = () => _.uniqBy(this.props.selected, 'type').length > 1;
+
+  handleChange = (selected) => {
+    selected.sort((a, b) => {
+      if (a.username === this.props.myUsername) { return -1; }
+      if (b.username === this.props.myUsername) { return 1; }
+    });
+    this.props.onChange(selected);
   };
 
   render() {
@@ -114,23 +72,87 @@ export default class PostRecipients extends React.Component {
         <div className="post-recipients-label">To:</div>
 
         <Select
-          name="select-feeds"
           className="react-select-container" // For styling with CSS
           classNamePrefix="react-select" // For styling with CSS
           styles={reactSelectStyles} // For styling with a style object (just that one piece unavailable in CSS)
           placeholder=""
-          value={this.selectedOptions}
-          options={this.state.options}
-          onChange={this.selectChanged}
+          value={this.props.selected}
+          options={this.props.options}
+          getOptionLabel={this.getOptionLabel}
+          getOptionValue={this.getOptionValue}
+          onChange={this.handleChange}
           isMulti={true}
           isClearable={false} />
 
-        {this.state.isWarningDisplayed ? (
+        {this.isNotPure() && (
           <div className="alert alert-warning">
             You are going to send a direct message and also post this message to a feed. This means that everyone who sees this feed will be able to see your message.
           </div>
-        ) : false}
+        )}
       </div>
     );
   }
 }
+
+const userToOption = user => _.pick(user, ['id', 'username', 'type', 'isPrivate', 'isProtected']);
+
+const getOptgroup = (header, options) => ({
+  label: `${header} (${options.length})`,
+  options: options
+});
+
+const canPostToGroup = (group, myId) => (
+  (group.isRestricted === '0') ||
+  ((group.administrators || []).indexOf(myId) > -1)
+);
+
+const mapStateToProps = (state, ownProps) => {
+  //
+  // 0. My feed
+
+  const me = {
+    ...userToOption(state.users[state.me.id]),
+    label: 'My feed',
+    type: 'group'
+  };
+
+  //
+  // 1. Groups I can post to
+
+  const groups = state.me.subscriptions
+    .map(id => state.users[id] || {})
+    .filter(u => u.type === 'group' && canPostToGroup(u, me.id))
+    .map(userToOption);
+
+  groups.sort((a, b) => a.username.localeCompare(b.username));
+
+  //
+  // 2. People I can send direct messages to
+
+  const people = state.me.subscribers
+    .map(u => state.users[u.id] || {})
+    .filter(u => u.type === 'user')
+    .map(userToOption);
+
+  people.sort((a, b) => a.username.localeCompare(b.username));
+
+  //
+  // 3. Combined objects
+
+  const users = [me].concat(groups).concat(people);
+
+  let options;
+  if (ownProps.peopleFirst) {
+    options = [ me, getOptgroup('People', people), getOptgroup('Groups', groups) ];
+  } else {
+    options = [ me, getOptgroup('Groups', groups), getOptgroup('People', people) ];
+  }
+
+  return {
+    myUsername: me.username,
+    users, // Flat list of users for easier search
+    options // Nested list of options for <Select>
+  };
+};
+
+export default connect(mapStateToProps)(PostRecipients);

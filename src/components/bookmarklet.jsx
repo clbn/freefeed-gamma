@@ -93,8 +93,7 @@ class Bookmarklet extends React.Component {
 
         {props.authenticated ? (
           <PostBookmarkletForm
-            sendTo={props.sendTo}
-            user={props.me}
+            me={props.me}
             postText={props.location.query.title + ' - ' + props.location.query.url}
             imageUrls={this.state.imageUrls}
             commentText={props.location.query.comment}
@@ -112,22 +111,17 @@ class Bookmarklet extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    authenticated: state.authenticated,
-    me: state.me,
-    sendTo: { ...state.sendTo, defaultFeed: state.me.username },
-    createPostForm: joinCreatePostData(state)
-  };
-}
+const mapStateToProps = state => ({
+  authenticated: state.authenticated,
+  me: state.me,
+  createPostForm: joinCreatePostData(state)
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    createBookmarkletPost: (...args) => dispatch(createBookmarkletPost(...args)),
-    resetPostCreateForm: (...args) => dispatch(resetPostCreateForm(...args)),
-    addAttachmentResponse: (...args) => dispatch(addAttachmentResponse(...args)),
-    removeAttachment: (...args) => dispatch(removeAttachment(...args))
-  };
-}
+const mapDispatchToProps = {
+  createBookmarkletPost,
+  resetPostCreateForm,
+  addAttachmentResponse,
+  removeAttachment
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bookmarklet);
