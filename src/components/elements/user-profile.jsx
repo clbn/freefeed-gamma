@@ -145,7 +145,7 @@ export default class UserProfile extends React.Component {
                   )}
 
                   {props.type !== 'group' && !props.amISubscribedToUser ? (
-                    props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={this.handleBlock}>Block this user</a></>
+                    props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={this.handleBlock}>Block user</a></>
                   ) : false}
 
                   {props.userView.isBlocking && (
