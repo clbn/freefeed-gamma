@@ -4,9 +4,16 @@ import Select from 'react-select/lib/Creatable';
 import _ from 'lodash';
 
 const reactSelectStyles = {
+  // These can only be styled with a style object, not CSS
   multiValueRemove: (styles, { isFocused }) => ({ ...styles,
-    color: isFocused ? '#fff' : '#bbb', // This can only be styled with a style object, not CSS
+    color: isFocused ? '#fff' : '#bbb',
   }),
+  option: (styles, { data, isFocused }) => ({ ...styles,
+    color: data.__isNew__ && ((isFocused ? '#555' : '#777') + ' !important'),
+    backgroundColor: data.__isNew__ && ((isFocused ? '#e8e8e8' : '#f8f8f8') + ' !important'),
+    borderColor: data.__isNew__ && ((isFocused ? '#aaa' : '#ccc') + ' !important'),
+    borderStyle: data.__isNew__ && 'dashed !important'
+  })
 };
 
 class PostRecipients extends React.Component {
@@ -35,12 +42,13 @@ class PostRecipients extends React.Component {
   getOptionLabel = option => option.label || option.username;
   getOptionValue = option => option.username;
 
-  formatCreateLabel = inputValue => `Add @${inputValue.trim()}`;
+  formatCreateLabel = inputValue => inputValue.trim();
   isValidNewOption = (inputValue) => (
     (inputValue.trim().length > 0) &&
     !_.find(this.props.users, u => u.username === inputValue.trim())
   );
   getNewOptionData = (inputValue, optionLabel) => ({
+    __isNew__: true, // This replicates the signature of built-in getNewOptionData()
     username: inputValue.trim(),
     label: optionLabel,
     type: 'user'
