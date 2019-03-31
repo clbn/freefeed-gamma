@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
+import Select from 'react-select/lib/Creatable';
 import _ from 'lodash';
 
 const reactSelectStyles = {
@@ -34,6 +34,17 @@ class PostRecipients extends React.Component {
 
   getOptionLabel = option => option.label || option.username;
   getOptionValue = option => option.username;
+
+  formatCreateLabel = inputValue => `Add @${inputValue.trim()}`;
+  isValidNewOption = (inputValue) => (
+    (inputValue.trim().length > 0) &&
+    !_.find(this.props.users, u => u.username === inputValue.trim())
+  );
+  getNewOptionData = (inputValue, optionLabel) => ({
+    username: inputValue.trim(),
+    label: optionLabel,
+    type: 'user'
+  });
 
   getDefaultValues = ({ users, defaultRecipient }) => {
     if (!defaultRecipient) {
@@ -76,13 +87,22 @@ class PostRecipients extends React.Component {
           classNamePrefix="react-select" // For styling with CSS
           styles={reactSelectStyles} // For styling with a style object (just that one piece unavailable in CSS)
           placeholder=""
+
           value={this.props.selected}
           options={this.props.options}
+
           getOptionLabel={this.getOptionLabel}
           getOptionValue={this.getOptionValue}
+
+          formatCreateLabel={this.formatCreateLabel}
+          isValidNewOption={this.isValidNewOption}
+          getNewOptionData={this.getNewOptionData}
+
           onChange={this.handleChange}
+
           isMulti={true}
-          isClearable={false} />
+          isClearable={false}
+        />
 
         {this.isNotPure() && (
           <div className="alert alert-warning">
