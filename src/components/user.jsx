@@ -17,8 +17,7 @@ const User = (props) => {
       <UserProfile
         {...props.viewUser}
         {...props.userActions}
-        isInUserPostFeed={props.isInUserPostFeed}
-        defaultRecipient={props.defaultRecipient}/>
+        isInUserPostFeed={props.isInUserPostFeed}/>
 
       {props.viewUser.isUserFound ? (
         props.currentRoute === 'userSubscribers' ? (
@@ -93,9 +92,7 @@ function mapStateToProps(state, ownProps) {
 
   const viewUser = { ...(foundUser), ...statusExtension };
 
-  const defaultRecipient = (foundUser ? foundUser.username : null);
-
-  return { visibleEntries, pageView, viewUser, currentRoute, isInUserPostFeed, showSummaryHeader, showPaginationHeader, defaultRecipient };
+  return { visibleEntries, pageView, viewUser, currentRoute, isInUserPostFeed, showSummaryHeader, showPaginationHeader };
 }
 
 function mapDispatchToProps(dispatch) {

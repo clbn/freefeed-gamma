@@ -175,7 +175,7 @@ export default class UserProfile extends React.Component {
       ) : false}
 
       {props.canIPostHere ? (
-        <PostCreateForm defaultRecipient={props.defaultRecipient}/>
+        <PostCreateForm defaultRecipients={[props.username]}/>
       ) : false}
     </>;
   }

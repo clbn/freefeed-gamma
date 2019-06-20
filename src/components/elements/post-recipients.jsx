@@ -20,21 +20,14 @@ class PostRecipients extends React.Component {
   constructor(props) {
     super(props);
 
-    const selected = this.getDefaultValues(props);
+    const selected = this.getBetterValues(props.users);
     this.props.onChange(selected);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     // When component is rendered first with empty options list, but then the list gets updated
-    if (this.props.users.length !== nextProps.users.length) {
-      const selected = this.getBetterValues(nextProps.users);
-      this.props.onChange(selected);
-    }
-
-    // If defaultRecipient gets updated (it happens after sign-in, or when the component is already rendered,
-    // and then we got a new recipientFromUrl - e.g., when user clicks from UserCard while on Direct messages page
-    if (this.props.defaultRecipient !== nextProps.defaultRecipient) {
-      const selected = this.getDefaultValues(nextProps);
+    if (this.props.users.length !== prevProps.users.length) {
+      const selected = this.getBetterValues(this.props.users);
       this.props.onChange(selected);
     }
   }
@@ -53,21 +46,6 @@ class PostRecipients extends React.Component {
     label: optionLabel,
     type: 'user'
   });
-
-  getDefaultValues = ({ users, defaultRecipient }) => {
-    if (!defaultRecipient) {
-      return [];
-    }
-
-    const foundUsers = _.filter(users, o => o.username === defaultRecipient);
-    if (foundUsers.length > 0) {
-      return foundUsers;
-    }
-
-    // Return temporary object, it will probably be updated after arrival
-    // of the options list (see componentWillReceiveProps)
-    return [ { username: defaultRecipient, type: 'user' } ];
-  };
 
   getBetterValues = users => (
     this.props.selected.map(o => (

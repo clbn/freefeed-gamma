@@ -18,8 +18,8 @@ class PostCreateForm extends React.Component {
     super(props);
 
     this.state = {
-      recipients: [],
-      isExpanded: !!props.recipientFromUrl,
+      recipients: props.defaultRecipients.map(username => ({ username })),
+      isExpanded: props.hasRecipientInUrl,
       isFormEmpty: true,
       isMoreOpen: false,
       transientAttachments: (props.createPostForm.attachments || []).map(id => props.attachments[id]), // for attachments during editing process, before the changes are permanent
@@ -169,19 +169,20 @@ class PostCreateForm extends React.Component {
 
   cancelCreatingPost = () => {
     if (this.isPostTextEmpty() || confirm('Discard changes and close the form?')) {
-      this.clearForm();
+      this.resetForm();
     }
   };
 
-  clearForm = () => {
+  resetForm = (keepExpanded = false) => {
     this.postText.value = '';
     setTimeout(() => document.activeElement.blur(), 0);
 
     this.setState({
-      isExpanded: false,
+      recipients: this.props.defaultRecipients.map(username => ({ username })),
+      isExpanded: keepExpanded,
       isFormEmpty: true,
       isMoreOpen: false,
-      transientAttachments: [],
+      transientAttachments: (this.props.createPostForm.attachments || []).map(id => this.props.attachments[id]), // for attachments during editing process, before the changes are permanent
       hasUploadFailed: false,
       attachmentQueueLength: 0
     });
@@ -194,38 +195,24 @@ class PostCreateForm extends React.Component {
   // Component lifecycle
 
   componentDidMount() {
-    if (this.props.recipientFromUrl) {
+    if (this.props.hasRecipientInUrl) {
       setTimeout(() => this.postText.focus(), 0);
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    // If defaultRecipient gets updated, it means the transition between Direct messages
-    // and Discussions pages happened (they share the top component, so PostCreateForm
-    // doesn't get unmounted/mounted in the process). That's one "hacky" way to check
-    // for this transition without passing another prop from discussions.jsx
-    if (newProps.defaultRecipient !== this.props.defaultRecipient) {
-      this.clearForm();
-    }
-
-    // If recipientFromUrl gets updated, focus the form again
-    // (this happens when the component is already rendered, but not expanded,
-    // and then we got a new recipientFromUrl - e.g., when user clicks from
-    // UserCard while on Direct messages or Discussions page)
-    if (newProps.recipientFromUrl && newProps.recipientFromUrl !== this.props.recipientFromUrl) {
-      this.setState({
-        isExpanded: true
-      });
-      setTimeout(() => this.postText.focus(), 0);
-    }
-
-    // If it was successful saving, clear the form
-    if (this.props.createPostForm.status === 'loading' && newProps.createPostForm.status === 'success') {
-      this.clearForm();
     }
   }
 
   componentDidUpdate(prevProps) {
+    // If it was successful saving, clear the form
+    if (prevProps.createPostForm.status === 'loading' && this.props.createPostForm.status === 'success') {
+      this.resetForm(this.props.hasRecipientInUrl);
+    }
+
+    if (!_.isEqual(prevProps.defaultRecipients, this.props.defaultRecipients)) {
+      this.resetForm(this.props.hasRecipientInUrl);
+      if (this.props.hasRecipientInUrl) {
+        setTimeout(() => this.postText.focus(), 0);
+      }
+    }
+
     // Sync attachment edits when adding items
     // (Because adding goes through Redux store now. TODO: make it work via local state as reorder/remove does.)
     if ((prevProps.createPostForm.attachments !== this.props.createPostForm.attachments) && this.state.isExpanded) {
@@ -246,7 +233,6 @@ class PostCreateForm extends React.Component {
   // Render
 
   render() {
-    const defaultRecipient = this.props.recipientFromUrl || this.props.defaultRecipient;
     const isSubmitButtonDisabled = this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading';
     const submitButtonText = this.getSubmitButtonText(this.state.recipients);
 
@@ -254,7 +240,6 @@ class PostCreateForm extends React.Component {
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
         {this.state.isExpanded ? (
           <PostRecipients
-            defaultRecipient={defaultRecipient}
             selected={this.state.recipients}
             peopleFirst={this.props.peopleFirst}
             onChange={this.handleRecipientsUpdate}/>
@@ -339,12 +324,11 @@ class PostCreateForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
   createPostForm: state.createPostForm,
   attachments: state.attachments,
   me: state.me,
-  defaultRecipient: (ownProps.defaultRecipient !== undefined ? ownProps.defaultRecipient : state.me.username),
-  recipientFromUrl: state.routing.locationBeforeTransitions.query.to
+  hasRecipientInUrl: !!state.routing.locationBeforeTransitions.query.to
 });
 
 const mapDispatchToProps = {

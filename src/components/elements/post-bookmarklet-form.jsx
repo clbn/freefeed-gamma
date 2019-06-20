@@ -10,7 +10,7 @@ export default class PostBookmarkletForm extends React.Component {
     super(props);
 
     this.state = {
-      recipients: [],
+      recipients: [props.me],
       isFormEmpty: false,
       isPostSaved: false
     };
@@ -124,7 +124,6 @@ export default class PostBookmarkletForm extends React.Component {
         ) : false}
 
         <PostRecipients
-          defaultRecipient={this.props.me.username}
           selected={this.state.recipients}
           onChange={this.handleRecipientsUpdate}/>
 

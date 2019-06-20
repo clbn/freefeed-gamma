@@ -21,7 +21,7 @@ const Home = (props) => {
   const groupRequestsText = pluralForm(groupRequestsCount, 'group subscription request');
   const bothRequestsDisplayed = userRequestsCount > 0 && groupRequestsCount > 0;
 
-  const postCreateForm = <PostCreateForm/>;
+  const postCreateForm = <PostCreateForm defaultRecipients={props.defaultRecipients}/>;
 
   return (
     <div className="box">
@@ -72,12 +72,14 @@ function mapStateToProps(state) {
 
   const isFirstPage = !state.routing.locationBeforeTransitions.query.offset;
 
+  const defaultRecipients = [state.me.username];
+
   return {
     isLoading,
     authenticated,
     visibleEntries, hiddenEntries, isHiddenRevealed,
     pageView, userRequestsCount, groupRequestsCount,
-    isFirstPage
+    isFirstPage, defaultRecipients
   };
 }
 
