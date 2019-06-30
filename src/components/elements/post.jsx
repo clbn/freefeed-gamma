@@ -14,6 +14,7 @@ import UserName from './user-name';
 import PieceOfText from './piece-of-text';
 import Textarea from 'react-textarea-autosize';
 import Throbber from './throbber';
+import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
 import PostMoreMenu from './post-more-menu';
 import PostVisibilityIcon from './post-visibility-icon';
@@ -24,6 +25,7 @@ class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      recipients: [], // for recipients during editing process
       transientAttachments: [], // for attachments during editing process, before the changes are permanent
       hasUploadFailed: false,
       attachmentQueueLength: 0
@@ -95,6 +97,13 @@ class Post extends React.Component {
     });
   };
 
+  componentWillReceiveProps(nextProps) {
+    // Set recipients before starting editing
+    if (!this.props.isEditing && nextProps.isEditing) {
+      this.updateRecipients(nextProps.recipients);
+    }
+  }
+
   componentDidUpdate(prevProps) {
     // Set transient attachments when starting editing
     if (!prevProps.isEditing && this.props.isEditing) {
@@ -120,14 +129,23 @@ class Post extends React.Component {
   cancelEditingPost = () => this.props.cancelEditingPost(this.props.id);
   saveEditingPost = () => {
     if (!this.props.isSaving) {
-      let attachmentIds = this.getAttachments().map(item => item.id);
-      this.props.saveEditingPost(this.props.id, { body: this.postText.value, attachments: attachmentIds });
+      const attachmentIds = this.getAttachments().map(item => item.id);
+      const recipientUsernames = this.state.recipients.map(item => item.username);
+      this.props.saveEditingPost(this.props.id, {
+        body: this.postText.value,
+        attachments: attachmentIds,
+        feeds: recipientUsernames
+      });
     }
   };
   toggleModeratingComments = () => this.props.toggleModeratingComments(this.props.id);
   disableComments = () => this.props.disableComments(this.props.id);
   enableComments = () => this.props.enableComments(this.props.id);
   deletePost = () => this.props.deletePost(this.props.id);
+
+  updateRecipients = (recipients) => {
+    this.setState({ recipients });
+  };
 
   checkIfEnterPressed = (event) => {
     const isEnter = event.keyCode === 13;
@@ -326,14 +344,13 @@ class Post extends React.Component {
         ) : false}
 
         <div className="post-top">
-          <div className="post-header">
-            <UserName className="post-author" id={props.createdBy}/>
-            {recipients.length > 0 ? ' to ' : false}
-            {recipients}
-          </div>
-
           {props.isEditing ? (
             <div className="post-editor">
+              <PostRecipients
+                selected={this.state.recipients}
+                peopleFirst={props.isDirect}
+                onChange={this.updateRecipients}/>
+
               <PostDropzone
                 onInit={this.handleDropzoneInit}
                 onAddedFile={this.handleAddedFile}
@@ -382,11 +399,17 @@ class Post extends React.Component {
                 </div>
               ) : false}
             </div>
-          ) : (
+          ) : <>
+            <div className="post-header">
+              <UserName className="post-author" id={props.createdBy}/>
+              {recipients.length > 0 ? ' to ' : false}
+              {recipients}
+            </div>
+
             <div className="post-text">
               <PieceOfText text={props.body} isExpanded={props.isSinglePost}/>
             </div>
-          )}
+          </>}
         </div>
 
         <div className="post-bottom">
