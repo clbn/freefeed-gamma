@@ -13,10 +13,12 @@ export default function feeds(state = {}, action) {
   }
   switch (action.type) {
     case response(ActionTypes.GET_SINGLE_POST):
-    case response(ActionTypes.CREATE_POST): {
+    case response(ActionTypes.CREATE_POST):
+    case response(ActionTypes.SAVE_EDITING_POST): {
       return mergeByIds(state, action.payload.subscriptions);
     }
-    case ActionTypes.REALTIME_POST_NEW: {
+    case ActionTypes.REALTIME_POST_NEW:
+    case ActionTypes.REALTIME_POST_UPDATE: {
       return mergeByIds(state, action.subscriptions);
     }
   }
