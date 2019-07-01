@@ -223,6 +223,12 @@ $line-height-post-body-single: 28px;
   .post-edit-actions {
     text-align: right;
     margin-bottom: 8px;
+
+    [class^="icon-"], [class*=" icon-"] {
+      position: absolute;
+      margin: -30px 0 0 -22.1px; // ".1" is needed to fix a weird issue in Chrome causing wrongly rounded width on this element
+      color: #666;
+    }
   }
 
   .post-cancel {

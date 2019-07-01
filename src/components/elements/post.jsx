@@ -381,10 +381,14 @@ class Post extends React.Component {
                 {props.isSaving && (
                   <Throbber name="post-edit"/>
                 )}
+
                 <a className="post-cancel" onClick={this.cancelEditingPost}>Cancel</a>
+
                 <button className="btn btn-default btn-xs"
                   onClick={this.saveEditingPost}
                   disabled={this.state.attachmentQueueLength > 0}>Update</button>
+
+                <PostVisibilityIcon recipients={this.state.recipients} authorId={props.createdBy}/>
               </div>
 
               {this.state.hasUploadFailed ? (
