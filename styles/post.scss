@@ -91,6 +91,8 @@ $line-height-post-body-single: 28px;
     margin-left: 52px + 10px;
     @media (max-width: 767px) { margin-left: 0; min-height: 52px; }
 
+    margin-bottom: 8px;
+
     .post-header {
       font-size: $font-size-post-header;
       line-height: $line-height-post-header;
@@ -113,8 +115,6 @@ $line-height-post-body-single: 28px;
 
       overflow-wrap: break-word;
       word-wrap: break-word;
-
-      margin-bottom: 8px;
 
       a {
         color: #000088;
