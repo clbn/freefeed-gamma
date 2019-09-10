@@ -123,9 +123,7 @@ class Post extends React.Component {
   toggleCommenting = () => this.props.toggleCommenting(this.props.id);
   likePost = () => this.props.likePost(this.props.id, this.props.myId);
   unlikePost = () => this.props.unlikePost(this.props.id, this.props.myId);
-  hidePost = () => this.props.hidePost(this.props.id);
   unhidePost = () => this.props.unhidePost(this.props.id);
-  toggleEditingPost = () => this.props.toggleEditingPost(this.props.id);
   cancelEditingPost = () => this.props.cancelEditingPost(this.props.id);
   saveEditingPost = () => {
     if (!this.props.isSaving) {
@@ -138,10 +136,6 @@ class Post extends React.Component {
       });
     }
   };
-  toggleModeratingComments = () => this.props.toggleModeratingComments(this.props.id);
-  disableComments = () => this.props.disableComments(this.props.id);
-  enableComments = () => this.props.enableComments(this.props.id);
-  deletePost = () => this.props.deletePost(this.props.id);
 
   updateRecipients = (recipients) => {
     this.setState({ recipients });
@@ -299,25 +293,10 @@ class Post extends React.Component {
       )}
     </> : false);
 
-    // "Hide" / "Un-hide"
-    const hideLink = (props.isInHomeFeed ? <>
-      {' - '}
-      <a onClick={props.isHidden ? this.unhidePost : this.hidePost}>{props.isHidden ? 'Un-hide' : 'Hide'}</a>
-      {props.isHiding && (
-        <Throbber name="post-hide"/>
-      )}
-    </> : false);
-
     // "More" menu
-    const moreLink = (props.canIModerate ? <>
+    const hideAndMore = (props.isInHomeFeed || props.canIModerate ? <>
       {' - '}
-      <PostMoreMenu
-        post={props}
-        toggleEditingPost={this.toggleEditingPost}
-        toggleModeratingComments={this.toggleModeratingComments}
-        disableComments={this.disableComments}
-        enableComments={this.enableComments}
-        deletePost={this.deletePost}/>
+      <PostMoreMenu {...props}/>
     </> : false);
 
     return (props.isRecentlyHidden ? (
@@ -433,8 +412,7 @@ class Post extends React.Component {
 
             {commentLink}
             {likeLink}
-            {hideLink}
-            {moreLink}
+            {hideAndMore}
           </div>
 
           <PostLikes postId={props.id}/>
