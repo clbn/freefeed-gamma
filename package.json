@@ -45,7 +45,6 @@
     "raw-loader": "^0.5.1",
     "react": "^16.9.0",
     "react-async-script": "^0.9.1",
-    "react-dd-menu": "^2.0.0",
     "react-dom": "^16.8.0",
     "react-dropzone-component": "^2.0.0",
     "react-google-recaptcha": "^0.9.6",

@@ -1,45 +1,46 @@
-import React from 'react';
-import DropdownMenu from 'react-dd-menu';
+import React, { useRef, useCallback } from 'react';
+import Tippy from '@tippy.js/react';
+import 'styles/more-menu.scss';
 
 import { confirmFirst } from '../../utils';
 
-export default class PostMoreMenu extends React.Component {
-  constructor(props) {
-    super(props);
+const tippyOptions = {
+  animation: 'fade',
+  arrow: true,
+  duration: [null, 0], // default for showing, instant for hiding
+  interactive: true,
+  placement: 'bottom-start',
+  theme: 'gamma gamma-dropdown',
+  trigger: 'click',
+  zIndex: 9
+};
 
-    this.state = {
-      isOpen: false
-    };
-  }
+export default function(props) {
+  const tippyInstance = useRef(null);
+  const onCreate = useCallback(instance => (tippyInstance.current = instance), []);
+  const hideMenu = useCallback(() => { tippyInstance.current.hide(); }, []);
 
-  handleToggle = () => this.setState({ isOpen: !this.state.isOpen });
+  const menuContent = (
+    <ul className="more-menu-items" onClick={hideMenu}>
+      {props.post.canIEdit && (
+        <li><a onClick={props.toggleEditingPost}>Edit</a></li>
+      )}
 
-  handleClose = () => this.setState({ isOpen: false });
+      {props.post.isModeratingComments
+        ? <li><a onClick={props.toggleModeratingComments}>Stop moderating comments</a></li>
+        : <li><a onClick={props.toggleModeratingComments}>Moderate comments</a></li>}
 
-  render() {
-    let menuOptions = {
-      align: 'left',
-      close: this.handleClose,
-      isOpen: this.state.isOpen,
-      toggle: <a onClick={this.handleToggle}>More&nbsp;&#x25be;</a>
-    };
+      {props.post.commentsDisabled
+        ? <li><a onClick={props.enableComments}>Enable comments</a></li>
+        : <li><a onClick={props.disableComments}>Disable comments</a></li>}
 
-    return (
-      <DropdownMenu {...menuOptions}>
-        {this.props.post.canIEdit ? (
-          <li className="dd-menu-item"><a className="dd-menu-item-link" onClick={this.props.toggleEditingPost}>Edit</a></li>
-        ) : false}
+      <li className="danger"><a onClick={confirmFirst(props.deletePost)}>Delete</a></li>
+    </ul>
+  );
 
-        {this.props.post.isModeratingComments
-          ? <li className="dd-menu-item"><a className="dd-menu-item-link" onClick={this.props.toggleModeratingComments}>Stop moderating comments</a></li>
-          : <li className="dd-menu-item"><a className="dd-menu-item-link" onClick={this.props.toggleModeratingComments}>Moderate comments</a></li>}
-
-        {this.props.post.commentsDisabled
-          ? <li className="dd-menu-item"><a className="dd-menu-item-link" onClick={this.props.enableComments}>Enable comments</a></li>
-          : <li className="dd-menu-item"><a className="dd-menu-item-link" onClick={this.props.disableComments}>Disable comments</a></li>}
-
-        <li className="dd-menu-item dd-menu-item-danger"><a className="dd-menu-item-link" onClick={confirmFirst(this.props.deletePost)}>Delete</a></li>
-      </DropdownMenu>
-    );
-  }
+  return (
+    <Tippy onCreate={onCreate} content={menuContent} {...tippyOptions}>
+      <a className="more-menu-trigger">More&nbsp;&#x25be;</a>
+    </Tippy>
+  );
 }
