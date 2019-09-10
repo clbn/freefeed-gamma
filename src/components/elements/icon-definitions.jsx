@@ -91,6 +91,14 @@ const IconDefinitions = () => (
     <symbol id="icon-lock" viewBox="0 0 18 28">
       <path d="M5 12h8V9a4 4 0 0 0-8 0v3zm13 1.5v9c0 .8-.7 1.5-1.5 1.5h-15C.7 24 0 23.3 0 22.5v-9c0-.8.7-1.5 1.5-1.5H2V9c0-3.8 3.2-7 7-7s7 3.2 7 7v3h.5c.8 0 1.5.7 1.5 1.5z"/>
     </symbol>
+    <symbol id="icon-more" viewBox="0 0 56 28">
+      <circle cx="9" cy="15.5" r="8" fill="currentColor"/>
+      <circle cx="9" cy="15.5" r="5"/>
+      <circle cx="28" cy="15.5" r="8" fill="currentColor"/>
+      <circle cx="28" cy="15.5" r="5"/>
+      <circle cx="47" cy="15.5" r="8" fill="currentColor"/>
+      <circle cx="47" cy="15.5" r="5"/>
+    </symbol>
     <symbol id="icon-plus" viewBox="0 0 10 14">
       <path d="M10 6.1v1.8l-.5.5H6.4v3.1l-.5.5H4.1l-.5-.5V8.4H.5L0 7.9V6.1l.5-.5h3.1V2.5l.5-.5h1.8l.5.5v3.1h3.1l.5.5z"/>
     </symbol>

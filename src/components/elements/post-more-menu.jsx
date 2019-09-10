@@ -3,6 +3,7 @@ import Tippy from '@tippy.js/react';
 
 import { confirmFirst } from '../../utils';
 import Throbber from './throbber';
+import Icon from './icon';
 import 'styles/more-menu.scss';
 
 const tippyOptions = {
@@ -60,8 +61,8 @@ export default function(props) {
 
   return (
     <Tippy onCreate={onCreate} content={menuContent} {...tippyOptions}>
-      <a className="more-menu-trigger">
-        More&nbsp;&#x25be;
+      <a className="more-menu-trigger" title="More options">
+        <Icon name="more"/>
         {props.isHiding && <Throbber name="post-hide"/>}
       </a>
     </Tippy>

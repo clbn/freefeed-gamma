@@ -7,6 +7,18 @@
   user-select: none;
 
   outline: none !important;
+
+  .icon-more {
+    color: #999;
+    fill: #eee;
+  }
+
+  &:hover {
+    .icon-more {
+      color: #777;
+      fill: #ccc;
+    }
+  }
 }
 
 
