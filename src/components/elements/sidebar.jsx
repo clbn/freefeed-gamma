@@ -54,7 +54,7 @@ const Sidebar = ({ me, signOut }) => (
             </Link></li>
 
             <li><Link to="/filter/saves">
-              <Icon name="comments"/>
+              <Icon name="bookmark"/>
               Saved for later
             </Link></li>
 
