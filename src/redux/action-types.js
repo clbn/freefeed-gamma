@@ -5,6 +5,7 @@ export const WHO_AM_I = 'WHO_AM_I';
 export const HOME = 'HOME';
 export const DISCUSSIONS = 'DISCUSSIONS';
 export const DIRECT = 'DIRECT';
+export const GET_SAVES = 'GET_SAVES';
 export const GET_USER_FEED = 'GET_USER_FEED';
 export const SHOW_MORE_COMMENTS = 'SHOW_MORE_COMMENTS';
 export const SHOW_MORE_LIKES = 'SHOW_MORE_LIKES';

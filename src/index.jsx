@@ -92,6 +92,7 @@ ReactDOM.render(
 
         <Route name="direct" path="filter/direct" component={Discussions} {...getRouteHooks('direct')}/>
         <Route name="discussions" path="filter/discussions" component={Discussions} {...getRouteHooks('discussions')}/>
+        <Route name="saves" path="filter/saves" component={Discussions} {...getRouteHooks('saves')}/>
         <Route name="summary" path="/summary(/:days)" component={Summary} {...getRouteHooks('summary')}/>
         <Route name="search" path="/search" component={Search} {...getRouteHooks('search')}/>
 

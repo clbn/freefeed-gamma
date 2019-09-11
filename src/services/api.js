@@ -30,6 +30,11 @@ export function getDirect({ offset }) {
     `${apiConfig.host}/v2/timelines/filter/directs?offset=${offset}`, getRequestOptions());
 }
 
+export function getSaves({ offset }) {
+  return fetch(
+    `${apiConfig.host}/v2/timelines/filter/saves?offset=${offset}`, getRequestOptions());
+}
+
 export function getUserFeed({ username, offset }) {
   return fetch(
     `${apiConfig.host}/v2/timelines/${username}?offset=${offset}`, getRequestOptions());

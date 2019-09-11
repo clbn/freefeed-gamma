@@ -53,6 +53,11 @@ const Sidebar = ({ me, signOut }) => (
               {me.unreadDirectsNumber > 0 ? ` (${me.unreadDirectsNumber})` : false}
             </Link></li>
 
+            <li><Link to="/filter/saves">
+              <Icon name="comments"/>
+              Saved for later
+            </Link></li>
+
             <li><Link to="/summary/1">
               <Icon name="heartbeat"/>
               Best of day

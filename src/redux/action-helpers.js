@@ -1,5 +1,5 @@
 import {
-  HOME, DISCUSSIONS, DIRECT, GET_SUMMARY, GET_SEARCH_RESULTS,
+  HOME, DISCUSSIONS, DIRECT, GET_SAVES, GET_SUMMARY, GET_SEARCH_RESULTS,
   GET_USER_FEED, GET_USER_SUMMARY, GET_USER_COMMENTS, GET_USER_LIKES,
   SIGN_UP, SIGN_IN, WHO_AM_I, SUBSCRIBE, UNSUBSCRIBE,
   UPDATE_USER, UPDATE_USER_PREFERENCES
@@ -9,7 +9,7 @@ export const request = (type) =>`${type}_REQUEST`;
 export const response = (type) => `${type}_RESPONSE`;
 export const fail = (type) => `${type}_FAIL`;
 
-const feedGeneratingActions = [HOME, DISCUSSIONS, DIRECT, GET_SUMMARY, GET_SEARCH_RESULTS, GET_USER_FEED, GET_USER_SUMMARY, GET_USER_COMMENTS, GET_USER_LIKES];
+const feedGeneratingActions = [HOME, DISCUSSIONS, DIRECT, GET_SAVES, GET_SUMMARY, GET_SEARCH_RESULTS, GET_USER_FEED, GET_USER_SUMMARY, GET_USER_COMMENTS, GET_USER_LIKES];
 const feedRequests = feedGeneratingActions.map(request);
 const feedResponses = feedGeneratingActions.map(response);
 const feedFails = feedGeneratingActions.map(fail);

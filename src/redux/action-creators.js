@@ -54,6 +54,14 @@ export function direct(offset = 0) {
   };
 }
 
+export function getSaves(offset = 0) {
+  return {
+    type: ActionTypes.GET_SAVES,
+    apiRequest: Api.getSaves,
+    payload: { offset },
+  };
+}
+
 export function getUserFeed(username, offset = 0) {
   return {
     type: ActionTypes.GET_USER_FEED,

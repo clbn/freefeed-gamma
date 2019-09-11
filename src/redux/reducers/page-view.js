@@ -37,6 +37,13 @@ export default function pageView(state = initialState, action) {
         number: getPageByOffset(action.payload.offset)
       };
     }
+    case request(ActionTypes.GET_SAVES): {
+      return {
+        title: 'Saved for later - FreeFeed',
+        header: 'Saved for later',
+        number: getPageByOffset(action.payload.offset)
+      };
+    }
     case request(ActionTypes.GET_SUMMARY): {
       const period = getSummaryPeriod(action.payload.days);
       return {

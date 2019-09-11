@@ -3,6 +3,7 @@ import {
   home,
   discussions,
   direct,
+  getSaves,
   getSummary,
   blockedByMe,
 
@@ -33,6 +34,9 @@ export const routeActions = {
   ],
   'direct': next => [
     direct(offset(next))
+  ],
+  'saves': next => [
+    getSaves(offset(next))
   ],
   'summary': next => [
     getSummary(days(next))
