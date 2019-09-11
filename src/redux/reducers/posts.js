@@ -254,6 +254,28 @@ export default function posts(state = {}, action) {
         }
       };
     }
+    case ActionTypes.REALTIME_POST_SAVE: {
+      const post = state[action.postId];
+      if (!post) {
+        return state;
+      }
+      return { ...state,
+        [post.id]: { ...post,
+          isSaved: true
+        }
+      };
+    }
+    case ActionTypes.REALTIME_POST_UNSAVE: {
+      const post = state[action.postId];
+      if (!post) {
+        return state;
+      }
+      return { ...state,
+        [post.id]: { ...post,
+          isSaved: false
+        }
+      };
+    }
     case response(ActionTypes.DISABLE_COMMENTS): {
       const post = state[action.request.postId];
       return { ...state,
