@@ -95,6 +95,7 @@ const makeGetPost = () => createSelector(
     (state, props) => state.postViews[props.id].isLiking,
     (state, props) => state.postViews[props.id].isModeratingComments,
     (state, props) => state.postViews[props.id].isSaving,
+    (state, props) => state.postViews[props.id].isSavingForLater,
     (state, props) => state.postViews[props.id].errorMessage,
 
     (state, props) => {
@@ -106,7 +107,7 @@ const makeGetPost = () => createSelector(
     getRecipientsRelatedThings,
     getPostAttachments
   ],
-  (post, isEditing, isHiding, isLiking, isModeratingComments, isSaving, errorMessage,
+  (post, isEditing, isHiding, isLiking, isModeratingComments, isSaving, isSavingForLater, errorMessage,
     authorUsername, myId, recipientsRelatedThings, attachments) => {
 
     if (!post) {
@@ -129,6 +130,7 @@ const makeGetPost = () => createSelector(
       isLiking,
       isModeratingComments,
       isSaving,
+      isSavingForLater,
       errorMessage,
 
       authorUsername,

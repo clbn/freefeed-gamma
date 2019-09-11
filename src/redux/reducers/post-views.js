@@ -199,6 +199,21 @@ export default function postViews(state = {}, action) {
       });
     }
 
+    case request(ActionTypes.SAVE_POST):
+    case request(ActionTypes.UNSAVE_POST): {
+      return updateRecord(action.payload.postId, {
+        isSavingForLater: true
+      });
+    }
+    case response(ActionTypes.SAVE_POST):
+    case response(ActionTypes.UNSAVE_POST):
+    case fail(ActionTypes.SAVE_POST):
+    case fail(ActionTypes.UNSAVE_POST): {
+      return updateRecord(action.request.postId, {
+        isSavingForLater: false
+      });
+    }
+
     case ActionTypes.TOGGLE_MODERATING_COMMENTS: {
       const id = action.postId;
       return updateRecord(id, {

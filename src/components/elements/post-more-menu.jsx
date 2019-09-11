@@ -69,7 +69,7 @@ export default function(props) {
     <Tippy onCreate={onCreate} content={menuContent} {...tippyOptions}>
       <a className="more-menu-trigger" title="More options">
         <Icon name="more"/>
-        {props.isHiding && <Throbber name="post-hide"/>}
+        {(props.isSavingForLater || props.isHiding) && <Throbber name="post-hide"/>}
       </a>
     </Tippy>
   );
