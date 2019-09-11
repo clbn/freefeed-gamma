@@ -238,6 +238,22 @@ export default function posts(state = {}, action) {
         }
       };
     }
+    case response(ActionTypes.SAVE_POST): {
+      const post = state[action.request.postId];
+      return { ...state,
+        [post.id]: { ...post,
+          isSaved: true
+        }
+      };
+    }
+    case response(ActionTypes.UNSAVE_POST): {
+      const post = state[action.request.postId];
+      return { ...state,
+        [post.id]: { ...post,
+          isSaved: false
+        }
+      };
+    }
     case response(ActionTypes.DISABLE_COMMENTS): {
       const post = state[action.request.postId];
       return { ...state,

@@ -192,6 +192,30 @@ export function unhidePost({ postId }) {
   });
 }
 
+export function savePost({ postId }) {
+  return fetch(`${apiConfig.host}/v1/posts/${postId}/save`, {
+    'method': 'POST',
+    'headers': {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-Authentication-Token': getToken()
+    },
+    'body': '{}'
+  });
+}
+
+export function unsavePost({ postId }) {
+  return fetch(`${apiConfig.host}/v1/posts/${postId}/save`, {
+    'method': 'DELETE',
+    'headers': {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-Authentication-Token': getToken()
+    },
+    'body': '{}'
+  });
+}
+
 export function disableComments({ postId }) {
   return fetch(`${apiConfig.host}/v1/posts/${postId}/disableComments`, {
     'method': 'POST',

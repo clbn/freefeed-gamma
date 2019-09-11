@@ -25,6 +25,8 @@ export default function(props) {
   const id = props.id;
   const hidePost = useCallback(() => props.hidePost(id), [id]);
   const unhidePost = useCallback(() => props.unhidePost(id), [id]);
+  const savePost = useCallback(() => props.savePost(id), [id]);
+  const unsavePost = useCallback(() => props.unsavePost(id), [id]);
   const toggleEditingPost = useCallback(() => props.toggleEditingPost(id), [id]);
   const toggleModeratingComments = useCallback(() => props.toggleModeratingComments(id), [id]);
   const disableComments = useCallback(() => props.disableComments(id), [id]);
@@ -33,6 +35,10 @@ export default function(props) {
 
   const menuContent = (
     <ul className="more-menu-items" onClick={hideMenu}>
+      {props.isSaved
+        ? <li><a onClick={unsavePost}>Un-save</a></li>
+        : <li><a onClick={savePost}>Save for later</a></li>}
+
       {props.isInHomeFeed && (
         props.isHidden
           ? <li><a onClick={unhidePost}>Un-hide on homepage</a></li>

@@ -294,10 +294,10 @@ class Post extends React.Component {
     </> : false);
 
     // "More" menu
-    const hideAndMore = (props.isInHomeFeed || props.canIModerate ? <>
+    const hideAndMore = (!!props.myId && <>
       {' - '}
       <PostMoreMenu {...props}/>
-    </> : false);
+    </>);
 
     return (props.isRecentlyHidden ? (
       <div className="post recently-hidden-post">

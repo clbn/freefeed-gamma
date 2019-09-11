@@ -185,6 +185,26 @@ export function unhidePost(postId) {
   };
 }
 
+export function savePost(postId) {
+  return {
+    type: ActionTypes.SAVE_POST,
+    apiRequest: Api.savePost,
+    payload: {
+      postId
+    }
+  };
+}
+
+export function unsavePost(postId) {
+  return {
+    type: ActionTypes.UNSAVE_POST,
+    apiRequest: Api.unsavePost,
+    payload: {
+      postId
+    }
+  };
+}
+
 export function toggleModeratingComments(postId) {
   return {
     type: ActionTypes.TOGGLE_MODERATING_COMMENTS,
