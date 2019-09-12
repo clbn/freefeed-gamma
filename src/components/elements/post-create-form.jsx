@@ -177,18 +177,18 @@ class PostCreateForm extends React.Component {
     this.postText.value = '';
     setTimeout(() => document.activeElement.blur(), 0);
 
+    const attachmentIds = this.props.createPostForm.attachments || [];
+    attachmentIds.forEach(id => this.props.removeAttachment(null, id));
+
     this.setState({
       recipients: this.props.defaultRecipients.map(username => ({ username })),
       isExpanded: keepExpanded,
       isFormEmpty: true,
       isMoreOpen: false,
-      transientAttachments: (this.props.createPostForm.attachments || []).map(id => this.props.attachments[id]), // for attachments during editing process, before the changes are permanent
+      transientAttachments: [],
       hasUploadFailed: false,
       attachmentQueueLength: 0
     });
-
-    const attachmentIds = this.props.createPostForm.attachments || [];
-    attachmentIds.forEach(id => this.props.removeAttachment(null, id));
   };
 
   //
