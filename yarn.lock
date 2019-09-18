@@ -2858,9 +2858,9 @@ fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
 
-ff-url-finder@^2.3.3:
+ff-url-finder@clbn/ff-url-finder:
   version "2.3.7"
-  resolved "https://registry.yarnpkg.com/ff-url-finder/-/ff-url-finder-2.3.7.tgz#3d88c37ebc1b10b3b9040a6eedb49d3d3163e79b"
+  resolved "https://codeload.github.com/clbn/ff-url-finder/tar.gz/a8356b639fab56c582081dc05d8f856e44305b38"
   dependencies:
     punycode "^1.3.2"
 
