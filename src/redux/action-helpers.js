@@ -13,9 +13,11 @@ const feedGeneratingActions = [HOME, DISCUSSIONS, DIRECT, GET_SAVES, GET_SUMMARY
 const feedRequests = feedGeneratingActions.map(request);
 const feedResponses = feedGeneratingActions.map(response);
 const feedFails = feedGeneratingActions.map(fail);
+export const isFeedAction = action => feedGeneratingActions.indexOf(action.type) !== -1;
 export const isFeedRequest = action => feedRequests.indexOf(action.type) !== -1;
 export const isFeedResponse = action => feedResponses.indexOf(action.type) !== -1;
 export const isFeedFail = action => feedFails.indexOf(action.type) !== -1;
+export const isUserFeedResponse = action => [GET_USER_FEED, GET_USER_SUMMARY, GET_USER_COMMENTS, GET_USER_LIKES].map(response).indexOf(action.type) !== -1;
 
 const userChangeActions = [SIGN_UP, SIGN_IN, WHO_AM_I, SUBSCRIBE, UNSUBSCRIBE, UPDATE_USER, UPDATE_USER_PREFERENCES];
 const userChangeResponses = userChangeActions.map(response);

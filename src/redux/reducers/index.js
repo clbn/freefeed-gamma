@@ -3,6 +3,7 @@ import { routerReducer } from 'react-router-redux';
 
 import attachments from './attachments';
 import authenticated from './authenticated';
+import cachedPages from './cached-pages';
 import comments from './comments';
 import commentViews from './comment-views';
 import commentLikesViews from './comment-likes-views';
@@ -26,6 +27,7 @@ import { serverError, userErrors, groupSettings, routeLoadingState, singlePostId
 
 export default combineReducers({
   routing: routerReducer,
+  cachedPages,
 
   attachments,
   authenticated,

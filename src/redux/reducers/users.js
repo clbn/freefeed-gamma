@@ -9,10 +9,15 @@ const indexById = list => _.keyBy(list || [], 'id');
 const mergeByIds = (state, array) => _.merge({}, state, indexById(array));
 
 export default function users(state = {}, action) {
+  if (action.isCached) {
+    return state;
+  }
+
   if (ActionHelpers.isFeedResponse(action)) {
     const combinedUsers = (action.payload.users || []).concat(action.payload.subscribers || []);
     return mergeByIds(state, combinedUsers.map(userParser));
   }
+
   switch (action.type) {
     case response(ActionTypes.WHO_AM_I): {
       let newState = state;

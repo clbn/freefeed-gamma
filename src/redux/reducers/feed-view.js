@@ -69,6 +69,9 @@ export default function feedViewState(state = initFeed, action) {
     return initFeed;
   }
   if (ActionHelpers.isFeedResponse(action)) {
+    if (action.isCached) {
+      return action.payload.cachedFeedView;
+    }
     let visibleEntries, hiddenEntries;
     if (action.type === response(ActionTypes.HOME)) {
       visibleEntries = (action.payload.posts || []).filter(post => !post.isHidden).map(post => post.id);

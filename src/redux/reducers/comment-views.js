@@ -19,6 +19,15 @@ const deleteRecord = (state, id) => {
 };
 
 export default function commentViews(state={}, action) {
+  if (action.isCached) {
+    // Reset this ephemeral data on cached responses
+    const newState = {};
+    Object.keys(state).forEach(id => {
+      newState[id] = {};
+    });
+    return newState;
+  }
+
   switch (action.type) {
     case response(ActionTypes.ADD_COMMENT): {
       const id = action.payload.comments.id;

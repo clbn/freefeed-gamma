@@ -52,8 +52,17 @@ const addCommentAndTrim = (state, postId, commentId) => {
 
 export default function posts(state = {}, action) {
   if (ActionHelpers.isFeedResponse(action)) {
+    // While some other reducers interrupt state changes for all cached responses, in state.posts
+    // we only prevent it for "feed" responses, not for "single post" responses. We let single-post
+    // cached responses through to populate all the post's commentIds, that could be otherwise
+    // overwritten (collapsed) in "live" post data.
+    if (action.isCached) {
+      return state;
+    }
+
     return mergeByIds(state, (action.payload.posts || []).map(postParser));
   }
+
   switch (action.type) {
     case response(ActionTypes.SHOW_MORE_COMMENTS): {
       const post = state[action.payload.posts.id];

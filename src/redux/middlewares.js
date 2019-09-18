@@ -1,8 +1,10 @@
+import _ from 'lodash';
 import { browserHistory } from 'react-router';
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 import * as ActionCreators from './action-creators';
 import * as ActionTypes from './action-types';
-import { request, response, fail, requiresAuth, isFeedRequest, isFeedResponse } from './action-helpers';
+import { request, response, fail, requiresAuth, isFeedAction, isFeedRequest, isFeedResponse } from './action-helpers';
 import { getPost } from '../services/api';
 import { setToken, getPersistedUser, persistUser } from '../services/auth';
 import { init } from '../services/realtime';
@@ -10,6 +12,35 @@ import { meParser } from '../utils';
 
 //middleware for api requests
 export const apiMiddleware = store => next => async (action) => {
+  const state = store.getState();
+  const cachedPages = state.cachedPages;
+  const currentPageKey = cachedPages.currentKey;
+
+  // Page cache step #1
+  // Read last available state of previous page and send it for saving (see step #3)
+  if (action.type === LOCATION_CHANGE) {
+    console.info('#1' + (!currentPageKey ? ' (dry)' : '') + ' get current/prev page data and send it to saving (LOCATION_CHANGE middleware); currentPageKey:', currentPageKey, ', pageYOffset:', window.pageYOffset);
+
+    if (currentPageKey) {
+      const pageType = cachedPages.pages[currentPageKey].pageType;
+      const pageUser = cachedPages.pages[currentPageKey].pageUser;
+
+      let pageData = null;
+      if (pageType === 'feed') {
+        const users = (pageUser ? _.filter(state.users, { username: pageUser }) : []);
+        pageData = { cachedFeedView: state.feedViewState, users };
+      } else if (pageType === 'post') {
+        const post = state.posts[ state.singlePostId ];
+        const author = state.users[ post.createdBy ];
+        pageData = { posts: post, users: [ author ] };
+      }
+      if (pageData) {
+        const scrollPosition = window.pageYOffset;
+        setTimeout(() => store.dispatch({ type: 'CACHE_PAGE', payload: { target: currentPageKey, data: pageData, scrollPosition } }), 0);
+      }
+    }
+  }
+
   //ignore normal actions
   if (!action.apiRequest) {
     return next(action);
@@ -18,6 +49,23 @@ export const apiMiddleware = store => next => async (action) => {
   //dispatch request begin action
   //clean apiRequest to not get caught by this middleware
   store.dispatch({ ...action, type: request(action.type), apiRequest: null });
+
+  // Page cache step #4
+  // For cacheable requests, and if the page is cached: don't call the backend, simply dispatch response action with cached data
+  if (currentPageKey) {
+    if (action.type === ActionTypes.GET_SINGLE_POST || isFeedAction(action)) {
+      const cachedData = cachedPages.pages[currentPageKey].data;
+      const cachedPosition = cachedPages.pages[currentPageKey].scrollPosition;
+      const useCached = !!cachedData;
+      console.info('#4' + (!useCached ? ' (dry)' : '') + ' use cached data instead of calling backend', response(action.type), ', isCached:', useCached, ', data: ', cachedData);
+      if (useCached) {
+        setTimeout(() => store.dispatch({ isCached: true, payload: cachedData, type: response(action.type), request: action.payload }), 50);
+        setTimeout(() => scrollTo(0, cachedPosition), 300);
+        return;
+      }
+    }
+  }
+
   try {
     const apiResponse = await action.apiRequest(action.payload);
     const obj = await apiResponse.json();

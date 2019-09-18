@@ -8,9 +8,14 @@ const indexById = list => _.keyBy(list || [], 'id');
 const mergeByIds = (state, array) => ({ ...state, ...indexById(array) });
 
 export default function feeds(state = {}, action) {
+  if (action.isCached) {
+    return state;
+  }
+
   if (ActionHelpers.isFeedResponse(action)) {
     return mergeByIds(state, action.payload.subscriptions);
   }
+
   switch (action.type) {
     case response(ActionTypes.GET_SINGLE_POST):
     case response(ActionTypes.CREATE_POST):
@@ -22,5 +27,6 @@ export default function feeds(state = {}, action) {
       return mergeByIds(state, action.subscriptions);
     }
   }
+
   return state;
 }

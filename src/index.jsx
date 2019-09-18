@@ -63,7 +63,9 @@ const getRouteHooks = (route) => ({
   onChange: (prev, next) => boundRouteActions(route)(next)
 });
 
-history.listen(() => window.location.hash || scrollTo(0, 0)); // Only scroll to the top if there's no #hash in URL
+// Only scroll to the top if it's not POP (i.e. likely cached) and there's no #hash in URL (i.e. comment anchor)
+history.listen((location) => location.action === 'POP' || window.location.hash || scrollTo(0, 0));
+
 history.listen(() => toggleSidebar(false));
 history.listen(() => store.dispatch(ActionCreators.updateUserCard({ isHovered: false, isOpen: false })));
 

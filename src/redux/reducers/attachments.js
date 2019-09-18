@@ -8,9 +8,14 @@ const indexById = list => _.keyBy(list || [], 'id');
 const mergeByIds = (state, array) => ({ ...state, ...indexById(array) });
 
 export default function attachments(state = {}, action) {
+  if (action.isCached) {
+    return state;
+  }
+
   if (ActionHelpers.isFeedResponse(action)) {
     return mergeByIds(state, action.payload.attachments);
   }
+
   switch (action.type) {
     case response(ActionTypes.GET_SINGLE_POST): {
       return mergeByIds(state, action.payload.attachments);
@@ -25,5 +30,6 @@ export default function attachments(state = {}, action) {
       };
     }
   }
+
   return state;
 }

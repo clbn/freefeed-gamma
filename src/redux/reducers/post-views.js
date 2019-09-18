@@ -4,6 +4,15 @@ import * as ActionHelpers from '../action-helpers';
 const { request, response, fail } = ActionHelpers;
 
 export default function postViews(state = {}, action) {
+  if (action.isCached) {
+    // Reset this ephemeral data on cached responses
+    const newState = {};
+    Object.keys(state).forEach(id => {
+      newState[id] = {};
+    });
+    return newState;
+  }
+
   const addRecord = (id) => ({ ...state, [id]: {} });
   const updateRecord = (id, props) => ({ ...state, [id]: { ...state[id], ...props } });
 
@@ -14,6 +23,7 @@ export default function postViews(state = {}, action) {
     });
     return { ...state, ...newPosts };
   }
+
   switch (action.type) {
     case request(ActionTypes.SHOW_MORE_LIKES_ASYNC): {
       return updateRecord(action.payload.postId, {
