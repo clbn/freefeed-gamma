@@ -28,7 +28,8 @@ export const apiMiddleware = store => next => async (action) => {
       let pageData = null;
       if (pageType === 'feed') {
         const users = (pageUser ? _.filter(state.users, { username: pageUser }) : []);
-        pageData = { cachedFeedView: state.feedViewState, users };
+        const posts = _.filter(state.posts, p => _.includes(state.feedViewState.visibleEntries, p.id));
+        pageData = { cachedFeedView: state.feedViewState, posts, users };
       } else if (pageType === 'post') {
         const post = state.posts[ state.singlePostId ];
         const author = state.users[ post.createdBy ];
