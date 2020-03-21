@@ -19,8 +19,6 @@ export const apiMiddleware = store => next => async (action) => {
   // Page cache step #1
   // Read last available state of previous page and send it for saving (see step #3)
   if (action.type === LOCATION_CHANGE) {
-    console.info('#1' + (!currentPageKey ? ' (dry)' : '') + ' get current/prev page data and send it to saving (LOCATION_CHANGE middleware); currentPageKey:', currentPageKey, ', pageYOffset:', window.pageYOffset);
-
     if (currentPageKey) {
       const pageType = cachedPages.pages[currentPageKey].pageType;
       const pageUser = cachedPages.pages[currentPageKey].pageUser;
@@ -58,8 +56,8 @@ export const apiMiddleware = store => next => async (action) => {
       const cachedData = cachedPages.pages[currentPageKey].data;
       const cachedPosition = cachedPages.pages[currentPageKey].scrollPosition;
       const useCached = !!cachedData;
-      console.info('#4' + (!useCached ? ' (dry)' : '') + ' use cached data instead of calling backend', response(action.type), ', isCached:', useCached, ', data: ', cachedData);
       if (useCached) {
+        console.log('Cache hit on', action.type);
         setTimeout(() => store.dispatch({ isCached: true, payload: cachedData, type: response(action.type), request: action.payload }), 50);
         setTimeout(() => scrollTo(0, cachedPosition), 300);
         return;

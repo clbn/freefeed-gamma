@@ -13,8 +13,6 @@ export default function cachedPages(state = initialState, action) {
   // Page cache step #2
   // Save key for next page (also, discard cache for pages we don't need)
   if (action.type === LOCATION_CHANGE) {
-    console.info('#2 save key for next page (LOCATION_CHANGE reducer)', action.payload.key);
-
     let currentKey = state.currentKey;
     let keys = [ ...state.keys ];
     let pages = { ...state.pages };
@@ -45,8 +43,6 @@ export default function cachedPages(state = initialState, action) {
   // Page cache step #3
   // Save state of previous page, sent from middleware (feedViewState or post; also, scroll position)
   if (action.type === CACHE_PAGE) {
-    console.info('#3 saving prev page into cache (CACHE_PAGE reducer)', action.payload);
-
     const targetKey = action.payload.target;
 
     if (state.pages[targetKey] === undefined) {
@@ -77,9 +73,6 @@ export default function cachedPages(state = initialState, action) {
   }
   if (pageType) {
     const currentKey = state.currentKey;
-
-    console.info('#5 save page type (not data) for the next page (DATA RESPONSE), currentKey:', currentKey, ', pageType:', pageType, ', pageUser:', pageUser);
-
     return { ...state,
       pages: { ...state.pages,
         [currentKey]: { ...state.pages[currentKey],
