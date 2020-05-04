@@ -98,11 +98,10 @@ const Sidebar = ({ me, signOut }) => (
           Coin Jar
         </div>
         <div className="box-body">
-          <ul>
-            <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=freefeed%2enet%40gmail%2ecom&lc=EE&item_name=FreeFeed%20MTU&no_note=0&cn=Add%20special%20instructions%20to%20the%20seller%3a&no_shipping=2&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank" rel="noopener">
-              Donate to support FreeFeed
-            </a></li>
-          </ul>
+          Donate to support FreeFeed! Your regular donations pay for hosting and keep FreeFeed running.
+        </div>
+        <div className="box-footer">
+          <Link to="/about/donate">See donation options →</Link>
         </div>
       </div>
 

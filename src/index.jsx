@@ -18,6 +18,7 @@ import Summary from './components/summary';
 import Search from './components/search';
 import About from './components/about';
 import Terms from './components/terms';
+import Donate from './components/donate';
 import Dev from './components/dev';
 import Signin from './components/signin';
 import Signup from './components/signup';
@@ -80,6 +81,7 @@ ReactDOM.render(
         <Route path="about">
           <IndexRoute name="about" component={About} onEnter={enterStaticPage('About')}/>
           <Route path="terms" component={Terms} onEnter={enterStaticPage('Terms')}/>
+          <Route path="donate" component={Donate} onEnter={enterStaticPage('Donate')}/>
         </Route>
 
         <Route path="dev" component={Dev} onEnter={enterStaticPage('Developers')}/>

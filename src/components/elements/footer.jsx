@@ -15,6 +15,8 @@ export default () => (
         {' \u00b7 '}
         <Link to="/about/terms">Terms</Link>
         {' \u00b7 '}
+        <Link to="/about/donate">Donate</Link>
+        {' \u00b7 '}
         <a href="https://status.freefeed.net/" target="_blank" rel="noopener">Status</a>
         {' \u00b7 '}
         <a href="https://dev.freefeed.net/" target="_blank" rel="noopener">Development</a>
