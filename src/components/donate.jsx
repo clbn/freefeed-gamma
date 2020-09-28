@@ -38,38 +38,36 @@ const Donate = () => (
 
       <h3>Paypal way <small>(7% commission fee)</small></h3>
 
-      <p>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-          <input type="hidden" name="cmd" value="_s-xclick"/>
-          <input type="hidden" name="hosted_button_id" value="97PAKQ6S97XMW"/>
-          <table>
-            <tbody>
-              <tr>
-                <td style={{ paddingBottom: '5px' }}>
-                  <input type="hidden" name="on0" value="Pick monthly donation amount" style={{ padding: '5px 0' }}/>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <select name="os0" defaultValue="Advanced">
-                    <option value="Entry Level Supporter">€5.00 EUR / month</option>
-                    <option value="Basic Level Supporter">€10.00 EUR / month</option>
-                    <option value="Standard Level Supporter">€15.00 EUR / month</option>
-                    <option value="Pro Supporter">€20.00 EUR / month</option>
-                    <option value="Master Supporter">€30.00 EUR / month</option>
-                    <option value="Honorable Supporter">€50.00 EUR / month</option>
-                    <option value="Master Donator">€75.00 EUR / month</option>
-                    <option value="Chuck Norris">€100.00 EUR / month</option>
-                  </select>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <input type="hidden" name="currency_code" value="EUR"/>
-          <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style={{ margin: '5px' }}/>
-          <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style={{ display: 'none' }}/>
-        </form>
-      </p>
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style={{ marginBottom: '10px' }}>
+        <input type="hidden" name="cmd" value="_s-xclick"/>
+        <input type="hidden" name="hosted_button_id" value="97PAKQ6S97XMW"/>
+        <table>
+          <tbody>
+            <tr>
+              <td style={{ paddingBottom: '5px' }}>
+                <input type="hidden" name="on0" value="Pick monthly donation amount" style={{ padding: '5px 0' }}/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <select name="os0" defaultValue="Advanced">
+                  <option value="Entry Level Supporter">€5.00 EUR / month</option>
+                  <option value="Basic Level Supporter">€10.00 EUR / month</option>
+                  <option value="Standard Level Supporter">€15.00 EUR / month</option>
+                  <option value="Pro Supporter">€20.00 EUR / month</option>
+                  <option value="Master Supporter">€30.00 EUR / month</option>
+                  <option value="Honorable Supporter">€50.00 EUR / month</option>
+                  <option value="Master Donator">€75.00 EUR / month</option>
+                  <option value="Chuck Norris">€100.00 EUR / month</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <input type="hidden" name="currency_code" value="EUR"/>
+        <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style={{ margin: '5px' }}/>
+        <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style={{ display: 'none' }}/>
+      </form>
 
       <p>Alternatively, you can make a <a onClick={handleClickOnOneTimeDonation}>one-time Paypal donation</a>.</p>
 
@@ -131,38 +129,36 @@ const Donate = () => (
 
       <h3>Paypal <small>(комиссия около 7%)</small></h3>
 
-      <p>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-          <input type="hidden" name="cmd" value="_s-xclick"/>
-          <input type="hidden" name="hosted_button_id" value="97PAKQ6S97XMW"/>
-          <table>
-            <tbody>
-              <tr>
-                <td style={{ paddingBottom: '5px' }}>
-                  <input type="hidden" name="on0" value="Pick monthly donation amount" style={{ padding: '5px 0' }}/>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <select name="os0" defaultValue="Advanced">
-                    <option value="Entry Level Supporter">€5.00 EUR / месяц</option>
-                    <option value="Basic Level Supporter">€10.00 EUR / месяц</option>
-                    <option value="Standard Level Supporter">€15.00 EUR / месяц</option>
-                    <option value="Pro Supporter">€20.00 EUR / месяц</option>
-                    <option value="Master Supporter">€30.00 EUR / месяц</option>
-                    <option value="Honorable Supporter">€50.00 EUR / месяц</option>
-                    <option value="Master Donator">€75.00 EUR / месяц</option>
-                    <option value="Chuck Norris">€100.00 EUR / месяц</option>
-                  </select>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <input type="hidden" name="currency_code" value="EUR"/>
-          <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style={{ margin: '5px' }}/>
-          <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style={{ display: 'none' }}/>
-        </form>
-      </p>
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style={{ marginBottom: '10px' }}>
+        <input type="hidden" name="cmd" value="_s-xclick"/>
+        <input type="hidden" name="hosted_button_id" value="97PAKQ6S97XMW"/>
+        <table>
+          <tbody>
+            <tr>
+              <td style={{ paddingBottom: '5px' }}>
+                <input type="hidden" name="on0" value="Pick monthly donation amount" style={{ padding: '5px 0' }}/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <select name="os0" defaultValue="Advanced">
+                  <option value="Entry Level Supporter">€5.00 EUR / месяц</option>
+                  <option value="Basic Level Supporter">€10.00 EUR / месяц</option>
+                  <option value="Standard Level Supporter">€15.00 EUR / месяц</option>
+                  <option value="Pro Supporter">€20.00 EUR / месяц</option>
+                  <option value="Master Supporter">€30.00 EUR / месяц</option>
+                  <option value="Honorable Supporter">€50.00 EUR / месяц</option>
+                  <option value="Master Donator">€75.00 EUR / месяц</option>
+                  <option value="Chuck Norris">€100.00 EUR / месяц</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <input type="hidden" name="currency_code" value="EUR"/>
+        <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style={{ margin: '5px' }}/>
+        <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style={{ display: 'none' }}/>
+      </form>
 
       <p>Или вы можете сделать <a onClick={handleClickOnOneTimeDonation}>единовременный взнос</a>.</p>
 
