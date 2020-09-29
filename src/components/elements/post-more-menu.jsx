@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import Tippy from '@tippy.js/react';
+import Tippy from '@tippyjs/react';
 
 import { confirmFirst } from '../../utils';
 import Throbber from './throbber';

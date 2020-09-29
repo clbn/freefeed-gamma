@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import Tippy from '@tippy.js/react';
+import Tippy from '@tippyjs/react';
 
 import { makeGetClikes } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
@@ -39,11 +39,11 @@ const TooltipContent = (props) => (
 
 const tippyOptions = {
   animation: 'fade',
+  appendTo: () => document.body,
   arrow: true,
   interactive: true,
   placement: 'bottom-start',
   theme: 'gamma',
-  trigger: 'manual',
   zIndex: 9
 };
 
@@ -79,7 +79,7 @@ class PostCommentLikes extends React.Component {
     }
   };
 
-  handleHideTooltip = () => {
+  handleClickOutside = () => {
     if (this.state.isOpen) {
       this.setState({
         isOpen: false,
@@ -122,10 +122,10 @@ class PostCommentLikes extends React.Component {
         {'-'}
 
         <Tippy
-          isVisible={isOpen}
+          visible={isOpen}
           content={tooltipContent}
           onShow={this.handleShowTooltip}
-          onHide={this.handleHideTooltip}
+          onClickOutside={this.handleClickOutside}
           {...tippyOptions}>
 
           <span className="clikes-trigger" onClick={this.handleClick} title="Comment likes">

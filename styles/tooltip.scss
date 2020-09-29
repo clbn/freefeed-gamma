@@ -1,7 +1,17 @@
-.tippy-tooltip.gamma-theme {
+.tippy-box[data-theme~='gamma'] {
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+  padding: 3px 6px;
+
+  &[data-animation='fade'] {
+    &[data-state='visible'] {
+      opacity: 1;
+    }
+    &[data-state='hidden'] {
+      opacity: 0;
+    }
+  }
 
   .tippy-arrow:before {
     // [x-arrow] is "CSS triangle" in Tippy.js, but we still need a rotated square for proper box-shadow
@@ -9,28 +19,34 @@
     position: absolute;
     z-index: -1;
     left: -5px;
-    top: 2px;
+    top: -5px;
     width: 10px;
     height: 10px;
-    background: inherit;
+    background-color: #fff;
     transform: rotate(45deg);
-    box-shadow: -2px -2px 3px -1px rgba(0, 0, 0, 0.5);
   }
 
-  .tippy-popper[x-placement^=bottom] & .tippy-arrow {
-    border-bottom-color: #fff;
+  &[data-placement^=bottom] > .tippy-arrow {
+    top: 0;
+
+    &:before {
+      box-shadow: -2px -2px 3px -1px rgba(0, 0, 0, 0.5);
+    }
   }
 
-  .tippy-popper[x-placement^=top] & .tippy-arrow {
-    border-top-color: #fff;
+  &[data-placement^=top] > .tippy-arrow {
+    bottom: 0;
 
     &:before {
       box-shadow: 2px 2px 3px -1px rgba(0, 0, 0, 0.5);
-      top: -12px;
     }
   }
 
   .tippy-content {
+    position: relative;
+    border-radius: 2px;
+    z-index: 1;
+
     color: #333;
     font-size: 12px;
     text-align: left;
@@ -42,15 +58,15 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
+}
 
-  &.gamma-dropdown-theme {
-    padding: 0;
+.tippy-box[data-theme~='gamma-dropdown'] {
+  padding: 0;
 
-    .tippy-content {
-      font-size: 14px;
-      line-height: 19px;
-      max-width: 200px;
-      max-height: 200px;
-    }
+  .tippy-content {
+    font-size: 14px;
+    line-height: 19px;
+    max-width: 200px;
+    max-height: 200px;
   }
 }
