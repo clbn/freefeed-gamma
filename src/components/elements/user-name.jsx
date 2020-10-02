@@ -53,8 +53,8 @@ const tippyOptions = {
 const UserName = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  const onShow = useCallback(() => setTooltipOpen(true), []);
-  const onHide = useCallback(() => setTooltipOpen(false), []);
+  const onShow = useCallback(() => { setTooltipOpen(true); props.onMouseEnter && props.onMouseEnter(); }, []);
+  const onHide = useCallback(() => { setTooltipOpen(false); props.onMouseLeave && props.onMouseLeave(); }, []);
   const onClick = useCallback(event => { if (isMobile()) { event.preventDefault(); } }, []);
 
   const tooltipContent = tooltipOpen && <UserCard username={props.username}/>; // only render UserCard when needed
@@ -62,8 +62,7 @@ const UserName = (props) => {
   return (
     <Tippy content={tooltipContent} onShow={onShow} onHide={onHide} {...tippyOptions}>
       <span>
-        <Link to={`/${props.username}`} className={props.className}
-          onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave} onClick={onClick}>
+        <Link to={`/${props.username}`} className={props.className} onClick={onClick}>
           {props.display || <DisplayOption {...props}/>}
         </Link>
       </span>
