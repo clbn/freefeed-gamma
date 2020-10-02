@@ -68,7 +68,6 @@ const getRouteHooks = (route) => ({
 history.listen((location) => location.action === 'POP' || window.location.hash || scrollTo(0, 0));
 
 history.listen(() => toggleSidebar(false));
-history.listen(() => store.dispatch(ActionCreators.updateUserCard({ isHovered: false, isOpen: false })));
 
 ReactDOM.render(
   <Provider store={store}>

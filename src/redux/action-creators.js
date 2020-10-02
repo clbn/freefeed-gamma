@@ -549,13 +549,6 @@ export function blockedByMe() {
   };
 }
 
-export function updateUserCard(payload) {
-  return {
-    type: ActionTypes.UPDATE_USER_CARD,
-    payload
-  };
-}
-
 export function getSummary(days = 7) {
   return {
     type: ActionTypes.GET_SUMMARY,

@@ -1,53 +1,5 @@
-.user-name-wrapper {
-  display: inline;
-
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-}
-
 .user-card {
-  position: absolute;
-  z-index: 10000;
-  margin-top: 10px;
-  margin-left: -20px;
   width: 263px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
-
-  &:before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    left: 14px;
-    top: -5px;
-    width: 12px;
-    height: 12px;
-    background: inherit;
-    transform: rotate(45deg);
-    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
-  }
-
-  &.upside-down {
-    margin-top: 0;
-    margin-bottom: 10px;
-
-    &:before {
-      top: inherit;
-      bottom: -5px;
-      background-color: #f4f4f4;
-    }
-  }
-
-  &.right-to-left {
-    margin-left: 0;
-    margin-right: -20px;
-
-    &:before {
-      left: inherit;
-      right: 14px;
-    }
-  }
 
   .user-card-info {
     min-height: 97px; // 75px + 2px + 20px

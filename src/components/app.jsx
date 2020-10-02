@@ -7,7 +7,6 @@ import classnames from 'classnames';
 import SearchForm from './elements/search-form';
 import Sidebar from './elements/sidebar';
 import Footer from './elements/footer';
-import UserCard from './elements/user-card';
 import IconDefinitions from "./elements/icon-definitions";
 import Icon from "./elements/icon";
 import { getCurrentRouteName, toggleSidebar } from '../utils';
@@ -178,8 +177,6 @@ class App extends React.Component {
         )}
 
         <Footer/>
-
-        <UserCard/>
       </div>
     );
   }

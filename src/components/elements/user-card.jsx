@@ -1,304 +1,165 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 import _ from 'lodash';
 
 import { userActions } from '../../redux/select-utils';
-import { getUserInfo, updateUserCard } from '../../redux/action-creators';
-import { confirmFirst, isMobile } from '../../utils';
+import { getUserInfo } from '../../redux/action-creators';
+import { confirmFirst } from '../../utils';
 import UserFeedStatus from './user-feed-status';
 import UserRelationshipStatus from './user-relationship-status';
 import Icon from './icon';
 import Userpic from './userpic';
 import Throbber from './throbber';
 
-const USERCARD_SHOW_DELAY = 1000;
-const USERCARD_HIDE_DELAY = 500;
+const UserCard = (props) => {
+  const isLoading = useRef(false);
+  const [isDescriptionOpen, setDescriptionOpen] = useState(false);
 
-class UserCard extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      position: { left: 0, top: 0 },
-      isDescriptionOpen: false
-    };
-
-    this.loadingUser = false;
-    this.triggerRect = {}; // clientRect that triggered UserCard
-    this.timeoutIds = [];
-  }
-
-  getTriggerRect = (nextProps) => {
-    const pageX = nextProps.userCardView.x;
-    const pageY = nextProps.userCardView.y;
-    const rects = nextProps.userCardView.rects;
-
-    for (let i = 0; i < rects.length; i++) {
-      if (pageX >= rects[i].left + window.scrollX - 2 &&
-          pageX <= rects[i].right + window.scrollX + 2 &&
-          pageY >= rects[i].top + window.scrollY - 2 &&
-          pageY <= rects[i].bottom + window.scrollY + 2) {
-        return rects[i];
-      }
+  useEffect(() => {
+    if (props.username && !props.user.id && !props.user.errorMessage && !isLoading.current) {
+      isLoading.current = true;
+      props.getUserInfo(props.username);
     }
-
-    return false;
-  };
-
-  getPosition = (nextProps) => {
-    const position = {};
-
-    const pageX = nextProps.userCardView.x;
-    const rectLeft = this.triggerRect.left;
-    const rectRight = this.triggerRect.right;
-
-    // Find X
-
-    const xOffset = 20; // offset from the edge of the rect (in px)
-    const xThreshold = 235; // threshold from the right edge of the viewport (in px)
-
-    const pageWidth = Math.max(document.body.scrollWidth, document.body.offsetWidth,
-      document.documentElement.scrollWidth, document.documentElement.offsetWidth,
-      document.documentElement.clientWidth);
-
-    const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-
-    let x = 0;
-    if (rectRight - rectLeft < xOffset * 2) {
-      x = rectLeft + (rectRight - rectLeft) / 2;
-    } else {
-      x = Math.max(rectLeft + xOffset, Math.min(pageX - window.scrollX, rectRight - xOffset));
+    if (props.user.id || props.user.errorMessage) {
+      isLoading.current = false;
     }
+  });
 
-    if (viewportWidth - x > xThreshold) {
-      position.left = x + window.scrollX;
-    } else {
-      position.right = pageWidth - x - window.scrollX;
-    }
-
-    // Find Y
-
-    const yThreshold = 150; // threshold from the bottom of the viewport (in px)
-
-    const pageHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight,
-      document.documentElement.scrollHeight, document.documentElement.offsetHeight,
-      document.documentElement.clientHeight);
-
-    const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-    if (viewportHeight - this.triggerRect.bottom > yThreshold) {
-      position.top = this.triggerRect.bottom + window.scrollY;
-    } else {
-      position.bottom = pageHeight - this.triggerRect.top - window.scrollY;
-    }
-
-    return position;
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (isMobile()) { return; }
-
-    if (nextProps.userCardView.username && !nextProps.user.id && !nextProps.user.errorMessage && !this.loadingUser) {
-      this.loadingUser = true;
-      setTimeout(() => this.props.getUserInfo(nextProps.userCardView.username), 0);
-    }
-
-    if (nextProps.user.id || nextProps.user.errorMessage) {
-      this.loadingUser = false;
-    }
-
-    if (nextProps.userCardView.rects && nextProps.userCardView.x && nextProps.userCardView.y) {
-      const nextTriggerRect = this.getTriggerRect(nextProps);
-      if (nextTriggerRect && !_.isEqual(this.triggerRect, nextTriggerRect)) {
-        this.triggerRect = nextTriggerRect;
-        this.setState({ position: this.getPosition(nextProps), isDescriptionOpen: false });
-      }
-
-      if (!this.props.userCardView.isHovered && nextProps.userCardView.isHovered) {
-        const timeoutId = setTimeout(() => {
-          if (this.props.userCardView.isHovered && !this.props.userCardView.isOpen) {
-            this.props.updateUserCard({ isOpen: true });
-          }
-          this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
-        }, USERCARD_SHOW_DELAY);
-
-        this.timeoutIds.push(timeoutId);
-      }
-
-      if (this.props.userCardView.isHovered && !nextProps.userCardView.isHovered) {
-        const timeoutId = setTimeout(() => {
-          if (!this.props.userCardView.isHovered && this.props.userCardView.isOpen) {
-            this.props.updateUserCard({ isOpen: false });
-            this.triggerRect = {};
-          }
-          this.timeoutIds = this.timeoutIds.filter((i) => (i !== timeoutId));
-        }, USERCARD_HIDE_DELAY);
-
-        this.timeoutIds.push(timeoutId);
-      }
-
-    }
-  }
-
-  enterUserCard = () => {
-    this.props.updateUserCard({ isHovered: true });
-  };
-
-  leaveUserCard = () => {
-    this.props.updateUserCard({ isHovered: false });
-  };
-
-  toggleDescription = () => {
-    this.setState({ isDescriptionOpen: !this.state.isDescriptionOpen });
-  };
-
-  unsubscribe = () => {
-    if (this.props.amIGroupAdmin) {
+  const toggleDescription = useCallback(() => setDescriptionOpen(!isDescriptionOpen), [isDescriptionOpen]);
+  const handleBlock = useCallback(() => props.ban({ username: props.user.username, id: props.user.id }), []);
+  const handleUnblock = useCallback(() => props.unban({ username: props.user.username, id: props.user.id }), []);
+  const handleSendSubRequest = useCallback(() => props.sendSubscriptionRequest({ username: props.user.username, id: props.user.id }), []);
+  const handleRevokeSentRequest = useCallback(() => props.revokeSentRequest({ username: props.user.username, id: props.user.id }), []);
+  const handleSubscribe = useCallback(() => props.subscribe({ username: props.user.username, id: props.user.id }), []);
+  const handleUnsubscribe = useCallback(confirmFirst(() => {
+    if (props.amIGroupAdmin) {
       alert('You are the Admin for this group. If you want to unsubscribe please drop administrative privileges first.');
     } else {
-      this.props.unsubscribe({ username: this.props.user.username, id: this.props.user.id });
+      props.unsubscribe({ username: props.user.username, id: props.user.id });
     }
-  };
+  }), []);
 
-  handleBlock = () => this.props.ban({ username: this.props.user.username, id: this.props.user.id });
-  handleUnblock = () => this.props.unban({ username: this.props.user.username, id: this.props.user.id });
-  handleSendSubRequest = () => this.props.sendSubscriptionRequest({ username: this.props.user.username, id: this.props.user.id });
-  handleRevokeSentRequest = () => this.props.revokeSentRequest({ username: this.props.user.username, id: this.props.user.id });
-  handleSubscribe = () => this.props.subscribe({ username: this.props.user.username, id: this.props.user.id });
-  handleUnsubscribe = confirmFirst(this.unsubscribe);
-
-  render() {
-    const props = this.props;
-
-    if (!props.userCardView.isOpen) {
-      return false;
-    }
-
-    const cardClasses = classnames({
-      'user-card': true,
-      'upside-down': !!this.state.position.bottom,
-      'right-to-left': !!this.state.position.right
-    });
-
+  if (props.user.errorMessage) {
     return (
-      props.user.errorMessage ? (
-        <div className={cardClasses} style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
-          <div className="user-card-info">
-            <div className="userpic userpic-large userpic-error">
-              <Icon name="exclamation"/>
-            </div>
-            <div className="username">@{props.user.username}</div>
-            <div className="description">{props.user.errorMessage}</div>
+      <div className="user-card">
+        <div className="user-card-info">
+          <div className="userpic userpic-large userpic-error">
+            <Icon name="exclamation"/>
           </div>
+          <div className="username">@{props.user.username}</div>
+          <div className="description">{props.user.errorMessage}</div>
         </div>
-      ) : !props.user.id ? (
-        <div className={cardClasses} style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
-          <div className="user-card-info">
-            <div className="userpic userpic-large userpic-loading"></div>
-            <div className="username">
-              <Throbber/>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className={cardClasses} style={this.state.position} onMouseEnter={this.enterUserCard} onMouseLeave={this.leaveUserCard}>
-          <div className="user-card-info">
-            <Link to={`/${props.user.username}`} className="userpic userpic-large">
-              <Userpic id={props.user.id} size={75}/>
-            </Link>
-
-            <div className="display-name">
-              <Link to={`/${props.user.username}`}>{props.user.screenName}</Link>
-            </div>
-
-            <div className="username">
-              @{props.user.username}
-              {props.user.description ? (
-                <span className="description-trigger" onClick={this.toggleDescription}>
-                  <Icon name={this.state.isDescriptionOpen ? 'chevron-up' : 'chevron-down'}/>
-                </span>
-              ) : false}
-            </div>
-
-            {this.state.isDescriptionOpen ? (
-              <div className="description">{props.user.description}</div>
-            ) : false}
-
-            {!props.isItMe ? (
-              <div className="feed-status">
-                <UserFeedStatus {...props.user}/>
-              </div>
-            ) : false}
-
-            {props.isItMe ? (
-              <div className="relationship-status">It's you!</div>
-            ) : (
-              <div className="relationship-status">
-                <UserRelationshipStatus type={props.user.type} {...props}/>
-              </div>
-            )}
-          </div>
-
-          {props.isUserBlockedByMe ? (
-            <div className="user-card-actions">
-              {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
-
-              {props.userView.isBlocking && (
-                <Throbber name="user-card" size={15}/>
-              )}
-            </div>
-          ) : props.authenticated && !props.isItMe ? (
-            <div className="user-card-actions">
-              {props.acceptsDirects && (
-                <><Link to={`/filter/direct?to=${props.user.username}`}>Direct message</Link> - </>
-              )}
-
-              {props.user.isPrivate === '1' && !props.amISubscribedToUser ? (
-                props.hasRequestBeenSent ? (
-                  props.userView.isSubscribing ? 'Revoking...' : <a onClick={this.handleRevokeSentRequest}>Revoke sub request</a>
-                ) : (
-                  props.userView.isSubscribing ? 'Requesting...' : <a onClick={this.handleSendSubRequest}>Request a subscription</a>
-                )
-              ) : (
-                props.amISubscribedToUser ? (
-                  props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={this.handleUnsubscribe}>Unsubscribe</a>
-                ) : (
-                  props.userView.isSubscribing ? 'Subscribing...' : <a onClick={this.handleSubscribe}>Subscribe</a>
-                )
-              )}
-
-              {props.userView.isSubscribing && (
-                <Throbber name="user-card" size={15}/>
-              )}
-
-              {props.user.type !== 'group' && !props.amISubscribedToUser ? (
-                props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={this.handleBlock}>Block</a></>
-              ) : props.amIGroupAdmin ? (
-                <> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></>
-              ) : false}
-
-              {props.userView.isBlocking && (
-                <Throbber name="user-card" size={15}/>
-              )}
-            </div>
-          ) : false}
-        </div>
-      )
+      </div>
     );
   }
-}
 
-const mapStateToProps = (state) => {
-  const userCardView = state.userCardView;
+  if (!props.user.id) {
+    return (
+      <div className="user-card">
+        <div className="user-card-info">
+          <div className="userpic userpic-large userpic-loading"></div>
+          <div className="username">
+            <Throbber/>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
+  return (
+    <div className="user-card">
+      <div className="user-card-info">
+        <Link to={`/${props.user.username}`} className="userpic userpic-large">
+          <Userpic id={props.user.id} size={75}/>
+        </Link>
+
+        <div className="display-name">
+          <Link to={`/${props.user.username}`}>{props.user.screenName}</Link>
+        </div>
+
+        <div className="username">
+          @{props.user.username}
+          {props.user.description && (
+            <span className="description-trigger" onClick={toggleDescription}>
+              <Icon name={isDescriptionOpen ? 'chevron-up' : 'chevron-down'}/>
+            </span>
+          )}
+        </div>
+
+        {isDescriptionOpen && (
+          <div className="description">{props.user.description}</div>
+        )}
+
+        {!props.isItMe && (
+          <div className="feed-status">
+            <UserFeedStatus {...props.user}/>
+          </div>
+        )}
+
+        {props.isItMe ? (
+          <div className="relationship-status">It's you!</div>
+        ) : (
+          <div className="relationship-status">
+            <UserRelationshipStatus type={props.user.type} {...props}/>
+          </div>
+        )}
+      </div>
+
+      {props.isUserBlockedByMe ? (
+        <div className="user-card-actions">
+          {props.userView.isBlocking ? 'Unblocking...' : <a onClick={handleUnblock}>Un-block</a>}
+
+          {props.userView.isBlocking && (
+            <Throbber name="user-card" size={15}/>
+          )}
+        </div>
+      ) : props.authenticated && !props.isItMe && (
+        <div className="user-card-actions">
+          {props.acceptsDirects && (
+            <><Link to={`/filter/direct?to=${props.user.username}`}>Direct message</Link> - </>
+          )}
+
+          {props.user.isPrivate === '1' && !props.amISubscribedToUser ? (
+            props.hasRequestBeenSent ? (
+              props.userView.isSubscribing ? 'Revoking...' : <a onClick={handleRevokeSentRequest}>Revoke sub request</a>
+            ) : (
+              props.userView.isSubscribing ? 'Requesting...' : <a onClick={handleSendSubRequest}>Request a subscription</a>
+            )
+          ) : (
+            props.amISubscribedToUser ? (
+              props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={handleUnsubscribe}>Unsubscribe</a>
+            ) : (
+              props.userView.isSubscribing ? 'Subscribing...' : <a onClick={handleSubscribe}>Subscribe</a>
+            )
+          )}
+
+          {props.userView.isSubscribing && (
+            <Throbber name="user-card" size={15}/>
+          )}
+
+          {props.user.type !== 'group' && !props.amISubscribedToUser ? (
+            props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={handleBlock}>Block</a></>
+          ) : props.amIGroupAdmin ? (
+            <> - <Link to={`/${props.user.username}/settings`}>Group settings</Link></>
+          ) : false}
+
+          {props.userView.isBlocking && (
+            <Throbber name="user-card" size={15}/>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const mapStateToProps = (state, ownProps) => {
   const me = state.me;
 
-  const user = (_.find(state.users, { username: userCardView.username }) || {});
+  const user = (_.find(state.users, { username: ownProps.username }) || {});
   if (!user.id) {
-    user.username = userCardView.username;
-    user.errorMessage = state.userErrors[userCardView.username];
+    user.username = ownProps.username;
+    user.errorMessage = state.userErrors[ownProps.username];
   }
 
   const userView = (state.userViews[user.id] || {});
@@ -310,7 +171,6 @@ const mapStateToProps = (state) => {
   const acceptsDirects = (me.directAccepters.indexOf(user.id) > -1) || isUserSubscribedToMe;
 
   return {
-    userCardView,
     user,
     userView,
     authenticated,
@@ -327,7 +187,6 @@ const mapStateToProps = (state) => {
 function mapDispatchToProps(dispatch) {
   return {
     ...userActions(dispatch),
-    updateUserCard: (...args) => dispatch(updateUserCard(...args)),
     getUserInfo: (username) => dispatch(getUserInfo(username))
   };
 }

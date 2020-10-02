@@ -116,8 +116,6 @@ Users and groups.
 
 ### `signUpForm`
 
-### `userCardView`
-
 ### `userSettingsForm`, `userPictureForm`, `frontendPreferencesForm`, `passwordForm`
 
 ### `userViews`

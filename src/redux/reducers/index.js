@@ -18,7 +18,6 @@ import postViews from './post-views';
 import { groupRequests, userRequests, sentRequests } from './requests';
 import signInForm from './sign-in-form';
 import signUpForm from './sign-up-form';
-import userCardView from './user-card-view';
 import { userSettingsForm, userPictureForm, userPreferencesForm, passwordForm } from './user-forms';
 import users from './users';
 import userViews from './user-views';
@@ -45,7 +44,6 @@ export default combineReducers({
   signInForm,
   signUpForm,
   feeds,
-  userCardView,
   userSettingsForm, userPictureForm, userPreferencesForm, passwordForm,
   users,
   userViews,

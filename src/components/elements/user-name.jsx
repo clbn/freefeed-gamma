@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import Tippy from '@tippyjs/react';
+import { inlinePositioning } from 'tippy.js';
 
-import { updateUserCard } from '../../redux/action-creators';
+import UserCard from './user-card';
 import * as FrontendPrefsOptions from '../../utils/frontend-preferences-options';
-import { isMobile } from '../../utils';
 
 const DisplayOption = ({ username, screenName, isItMe, myPrefs }) => {
   const myDisPrefs = myPrefs.displayNames;
@@ -34,48 +35,39 @@ const DisplayOption = ({ username, screenName, isItMe, myPrefs }) => {
   return screenName;
 };
 
-class UserName extends React.Component {
-  enterUserName = (event) => {
-    if (isMobile()) { return; }
+const tippyOptions = {
+  animation: 'fade',
+  appendTo: () => document.body,
+  arrow: true,
+  delay: [200, 100],
+  inlinePositioning: true,
+  interactive: true,
+  placement: 'bottom',
+  plugins: [inlinePositioning],
+  trigger: 'mouseenter',
+  theme: 'gamma gamma-usercard',
+  zIndex: 9
+};
 
-    const rawRects = event.currentTarget.getClientRects();
-    const rects = [];
-    for (let i = 0; i < rawRects.length; i++) {
-      rects.push({
-        left: rawRects[i].left,
-        right: rawRects[i].right,
-        top: rawRects[i].top,
-        bottom: rawRects[i].bottom
-      });
-    }
-    this.props.updateUserCard({ isHovered: true, username: this.props.username, rects, x: event.pageX, y: event.pageY });
-  };
+const UserName = (props) => {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  leaveUserName = () => {
-    if (isMobile()) { return; }
+  const onShow = useCallback(() => setTooltipOpen(true), []);
+  const onHide = useCallback(() => setTooltipOpen(false), []);
 
-    this.props.updateUserCard({ isHovered: false });
-  };
+  const tooltipContent = tooltipOpen && <UserCard username={props.username}/>; // only render UserCard when needed
 
-  render() {
-    return (
-      <div className="user-name-wrapper"
-        onMouseEnter={this.enterUserName}
-        onMouseLeave={this.leaveUserName}>
-
-        <Link to={`/${this.props.username}`} className={this.props.className}
-          onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave}>
-
-          {this.props.display ? (
-            this.props.display
-          ) : (
-            <DisplayOption {...this.props}/>
-          )}
+  return (
+    <Tippy content={tooltipContent} onShow={onShow} onHide={onHide} {...tippyOptions}>
+      <span>
+        <Link to={`/${props.username}`} className={props.className}
+          onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
+          {props.display || <DisplayOption {...props}/>}
         </Link>
-      </div>
-    );
-  }
-}
+      </span>
+    </Tippy>
+  );
+};
 
 const idOrUsernameAreRequired = (props, propName, componentName) => {
   if (!props.id && !props.username) {
@@ -109,8 +101,4 @@ const mapStateToProps = (state, ownProps) => ({
   ...getUserName(state, ownProps)
 });
 
-const mapDispatchToProps = {
-  updateUserCard
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserName);
+export default connect(mapStateToProps)(UserName);

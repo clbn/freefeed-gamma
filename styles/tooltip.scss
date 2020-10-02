@@ -10,6 +10,10 @@
     }
     &[data-state='hidden'] {
       opacity: 0;
+
+      .tippy-arrow:before {
+        display: none;
+      }
     }
   }
 
@@ -22,7 +26,6 @@
     top: -5px;
     width: 10px;
     height: 10px;
-    background-color: #fff;
     transform: rotate(45deg);
   }
 
@@ -30,6 +33,7 @@
     top: 0;
 
     &:before {
+      background-color: #fff;
       box-shadow: -2px -2px 3px -1px rgba(0, 0, 0, 0.5);
     }
   }
@@ -38,6 +42,7 @@
     bottom: 0;
 
     &:before {
+      background-color: #f4f4f4;
       box-shadow: 2px 2px 3px -1px rgba(0, 0, 0, 0.5);
     }
   }
@@ -47,6 +52,7 @@
     border-radius: 2px;
     z-index: 1;
 
+    background-color: #fff;
     color: #333;
     font-size: 12px;
     text-align: left;
@@ -68,5 +74,14 @@
     line-height: 19px;
     max-width: 200px;
     max-height: 200px;
+  }
+}
+
+.tippy-box[data-theme~='gamma-usercard'] {
+  padding: 0;
+
+  .tippy-content {
+    max-width: none;
+    max-height: none;
   }
 }
