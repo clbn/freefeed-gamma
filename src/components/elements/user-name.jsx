@@ -8,6 +8,7 @@ import { inlinePositioning } from 'tippy.js';
 
 import UserCard from './user-card';
 import * as FrontendPrefsOptions from '../../utils/frontend-preferences-options';
+import { isMobile } from '../../utils';
 
 const DisplayOption = ({ username, screenName, isItMe, myPrefs }) => {
   const myDisPrefs = myPrefs.displayNames;
@@ -39,12 +40,12 @@ const tippyOptions = {
   animation: 'fade',
   appendTo: () => document.body,
   arrow: true,
-  delay: [200, 100],
+  delay: isMobile() ? 0 : [200, 100],
   inlinePositioning: true,
   interactive: true,
   placement: 'bottom',
   plugins: [inlinePositioning],
-  trigger: 'mouseenter',
+  trigger: isMobile() ? 'click' : 'mouseenter',
   theme: 'gamma gamma-usercard',
   zIndex: 9
 };
@@ -54,6 +55,7 @@ const UserName = (props) => {
 
   const onShow = useCallback(() => setTooltipOpen(true), []);
   const onHide = useCallback(() => setTooltipOpen(false), []);
+  const onClick = useCallback(event => { if (isMobile()) { event.preventDefault(); } }, []);
 
   const tooltipContent = tooltipOpen && <UserCard username={props.username}/>; // only render UserCard when needed
 
@@ -61,7 +63,7 @@ const UserName = (props) => {
     <Tippy content={tooltipContent} onShow={onShow} onHide={onHide} {...tippyOptions}>
       <span>
         <Link to={`/${props.username}`} className={props.className}
-          onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
+          onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave} onClick={onClick}>
           {props.display || <DisplayOption {...props}/>}
         </Link>
       </span>
