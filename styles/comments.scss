@@ -20,9 +20,14 @@
       fill: #eee;
     }
 
-    &.comment-icon-special .icon-comment {
+    &.comment-icon-important .icon-comment {
       color: desaturate(lighten(#1d66bf, 17%), 20%);
       fill: desaturate(lighten(#1d66bf, 50%), 20%);
+    }
+
+    &.comment-icon-mine .icon-comment {
+      color: desaturate(lighten(#1d66bf, 17%), 20%);
+      fill: desaturate(lighten(#1d66bf, 27%), 20%);
     }
 
     .icon-comment-plus {
@@ -138,9 +143,13 @@
         color: #aca393 !important;
         fill: #fbf3df !important;
       }
-      &.comment-icon-special .icon-comment {
+      &.comment-icon-important .icon-comment {
         color: #8e9cab !important;
         fill: #fbf3ef !important;
+      }
+      &.comment-icon-mine .icon-comment {
+        color: #8e9cab !important;
+        fill: lighten(#8e9cab, 10%) !important;
       }
     }
 

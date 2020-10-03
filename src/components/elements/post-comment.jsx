@@ -128,7 +128,8 @@ class PostComment extends React.Component {
       return false;
     }
 
-    const isCommentSpecial = this.props.canIEdit || this.props.amISubscribedToAuthor;
+    const isCommentImportant = this.props.amISubscribedToAuthor;
+    const isCommentMine = this.props.canIEdit;
 
     const commentClasses = classnames({
       'comment': true,
@@ -140,7 +141,8 @@ class PostComment extends React.Component {
 
     const iconClasses = classnames({
       'comment-icon': true,
-      'comment-icon-special': isCommentSpecial
+      'comment-icon-important': isCommentImportant,
+      'comment-icon-mine': isCommentMine,
     });
 
     const commentPlaceholderText = this.getCommentPlaceholder();

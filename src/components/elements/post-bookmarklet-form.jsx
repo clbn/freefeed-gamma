@@ -143,7 +143,7 @@ export default class PostBookmarkletForm extends React.Component {
         )}
 
         <div className="comment">
-          <a className="comment-icon comment-icon-special">
+          <a className="comment-icon comment-icon-important">
             <Icon name="comment-plus"/>
           </a>
 
