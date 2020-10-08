@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { unauthenticated } from '../../redux/action-creators';
 import { toggleSidebar, confirmFirst, preventDefault, stopPropagation } from '../../utils';
-import UserName from './user-name';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
 import Icon from "./icon";
@@ -27,7 +26,7 @@ const Sidebar = ({ me, signOut }) => {
 
           <div className="user">
             <div className="author">
-              <UserName id={me.id} display={me.screenName}/>
+              <Link to={`/${me.username}`}>{me.screenName}</Link>
             </div>
 
             <Link to="/settings">settings</Link>
