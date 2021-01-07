@@ -1,116 +1,164 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import Linkify from './linkify';
 
 // Texts longer than thresholdTextLength should be cut to shortenedTextLength
 const thresholdTextLength = 800;
 const shortenedTextLength = 600;
 
-// Suffix to add to the shortened text
-const suffix = '...';
-
-// Separator element for "paragraphs"
-const paragraphBreak = <div className="p-break"><br/></div>;
-
-// Shorten text without cutting words
-const shortenText = (text, maxLength) => {
-  if (text.length <= maxLength) {
-    return text;
-  }
-
-  // Calculate max length taking into account the suffix
-  const maxTextLength = maxLength - suffix.length;
-
-  // Find the last space before maxTextLength
-  const lastSpacePosition = text.lastIndexOf(' ', maxTextLength + 1);
-
-  // Handle the case with a very long first word (i.e., no spaces before maxTextLength)
-  const cutIndex = lastSpacePosition > -1 ? lastSpacePosition : maxTextLength;
-
-  const newText = text.substr(0, cutIndex);
-  return newText + suffix;
-};
-
-// Inject an element between every element in array.
-// It's similar to array.join(separator), but returns an array, not a string.
-const injectSeparator = (array, separator) => {
+//
+// Insert separator between the elements of array
+//
+const intersperse = (array, separator) => {
   if (array.length < 2) {
     return array;
   }
-
-  const result = [];
-
-  array.forEach((item, i) => {
-    result.push(<Fragment key={'item-' + i}>{item}</Fragment>);
-    result.push(React.cloneElement(separator, { key: 'separator-' + i }, separator.props.children));
-  });
-
-  result.pop();
-
-  return result;
+  return array.flatMap(item => [separator, item]).slice(1);
 };
 
-// Replace single newlines with <br/> and trim every line
-const brAndTrim = (text) => {
-  const lines = text.split(/\n/g).map(line => line.trim());
-  return injectSeparator(lines, <br/>);
-};
-
+//
 // Replace single and double newlines with a clickable pilcrow
-function pilcrifyText(text, expandFn) {
-  return injectSeparator(text.split(/\s*\n\s*/g), <span className="pilcrow" onClick={expandFn}> ¶ </span>);
-}
+//
+const addPilcrows = (chunk, expandFn) => {
+  if (typeof chunk !== 'string') {
+    return [chunk];
+  }
+  return intersperse(chunk.split(/\s*\n\s*/g), { type: 'pilcrow', onClick: expandFn });
+};
 
-const getCollapsedText = (text, expandFn) => {
-  // Remove whitespace characters in the beginning and the end
-  const trimmedText = text.trim();
+//
+// Replace double+ newlines with a paragraph break
+//
+const addParagraphs = (chunk) => {
+  if (typeof chunk !== 'string') {
+    return [chunk];
+  }
+  return intersperse(chunk.split(/\n\s*\n/g), { type: 'paragraph' });
+};
 
-  // Replace repeated whitespace characters (except newline) with one space
-  const normalizedText = trimmedText.replace(/[^\S\n]+/g, ' ');
+//
+// Replace single newlines with <br/> and trim every line
+//
+const addLinebreaks = (chunk) => {
+  if (typeof chunk !== 'string') {
+    return [chunk];
+  }
+  return intersperse(chunk.split(/\n/g).map(line => line.trim()), { type: 'br' });
+};
 
-  if (normalizedText.length <= thresholdTextLength) {
-    // The text is short enough, just add pilcrows if needed
-    return pilcrifyText(normalizedText, expandFn);
+//
+// Get "length" of the chunk
+//
+const getLength = (chunk) => {
+  if (typeof chunk === 'string') {
+    return chunk.length;
+  }
+  return 1;
+};
+
+//
+// Shorten text (chunk-aware) without cutting words (when possible)
+// If shortened, add 'Read more' link.
+//
+const shortenText = (chunks, expandFn) => {
+  const fullLength = chunks.reduce((acc, chunk) => acc + getLength(chunk), 0);
+  if (fullLength <= thresholdTextLength) {
+    return chunks;
   }
 
-  // The text is too long, shorten it and complete with 'Read more'
-  const shortenedText = shortenText(normalizedText, shortenedTextLength);
+  const newChunks = [];
+  for (let i = 0, aggLength = 0; i < chunks.length; i++) {
+    const chunk = chunks[i];
+    const chunkLength = getLength(chunk);
+
+    // Keep pushing chunks until it doesn't fit anymore
+    // Also, push non-text chunks under any conditions (we can't shorten them)
+    if (aggLength + chunkLength <= shortenedTextLength
+        || typeof chunk !== 'string') {
+      aggLength += chunkLength;
+      newChunks.push(chunk);
+      continue;
+    }
+
+    // Now that it doesn't fit, let's shorten it and exit
+
+    const maxLengthLeft = shortenedTextLength - aggLength; // How much room left
+    const lastSpacePosition = chunk.lastIndexOf(' ', maxLengthLeft + 1); // The last space before the limit
+
+    // Handle the case with a very long first word (i.e., no spaces before maxLengthLeft)
+    // Note, we only let an inside-word cut happen in the very first chunk (i === 0).
+    let cutIndex = lastSpacePosition > -1 ? lastSpacePosition : (i === 0 ? maxLengthLeft : 0);
+
+    const newText = chunk.substr(0, cutIndex);
+
+    if (newText.length > 0) {
+      newChunks.push(newText);
+    }
+
+    break;
+  }
+
   return [
-    ...pilcrifyText(shortenedText, expandFn),
-    ' ',
-    <a key="read-more" className="read-more" onClick={expandFn}>Read more</a>
+    ...newChunks,
+    '... ',
+    { type: 'read-more', onClick: expandFn },
   ];
 };
 
-const getExpandedText = (text) => {
-  const trimmedText = text.trim();
-
-  if (!/\n/.test(trimmedText)) {
-    return trimmedText;
+//
+// Replace custom chunk objects with React components
+//
+const prepareForRendering = (chunk, i) => {
+  if (typeof chunk === 'string') {
+    return <Fragment key={i}>{chunk}</Fragment>;
   }
 
-  const paragraphs = trimmedText.split(/\n\s*\n/g).map(brAndTrim);
-
-  return injectSeparator(paragraphs, paragraphBreak);
+  switch (chunk.type) {
+    case 'pilcrow': return <span key={i} className="pilcrow" onClick={chunk.onClick}> ¶ </span>;
+    case 'paragraph': return <div key={i} className="p-break"><br/></div>;
+    case 'br': return <br key={i}/>;
+    case 'read-more': return <a key={i} className="read-more" onClick={chunk.onClick}>Read more</a>;
+  }
 };
 
-export default class PieceOfText extends React.Component {
-  constructor(props) {
-    super(props);
+//
+// Combine all the utils above to format the text
+//
+const formatText = (text, expanded, expandFn) => {
+  // 1. Normalize text
+  // - Remove whitespace characters in the beginning and the end
+  // - Replace repeated whitespace characters (except newline) with one space
+  const normalizedText = text.trim().replace(/[^\S\n]+/g, ' ');
 
-    this.state = {
-      isExpanded: !!props.isExpanded
-    };
+  // 2. Create the first big chunk, that's going to be broken up further
+  let chunks = [normalizedText];
+
+  // 3. Handle newlines
+  if (!expanded) {
+    chunks = chunks.flatMap(c => addPilcrows(c, expandFn));
+  } else {
+    chunks = chunks.flatMap(c => addParagraphs(c)).flatMap(c => addLinebreaks(c));
   }
 
-  handleExpandText = () => this.setState({ isExpanded: true });
-
-  render() {
-    return (this.props.text ? (
-      <Linkify userHover={this.props.userHover} arrowHover={this.props.arrowHover}>
-        {this.state.isExpanded
-          ? getExpandedText(this.props.text)
-          : getCollapsedText(this.props.text, this.handleExpandText)}
-      </Linkify>
-    ) : false);
+  // 4. Shorten if it's too long (and add "Read more" if shortened)
+  if (!expanded) {
+    chunks = shortenText(chunks, expandFn);
   }
-}
+
+  // 5. Return chunk contents prepared for React rendering
+  return chunks.map(prepareForRendering);
+};
+
+const PieceOfText = ({ text, isExpanded, userHover, arrowHover }) => {
+  const [expanded, setExpanded] = useState(!!isExpanded);
+  const handleExpand = useCallback(() => setExpanded(true), []);
+
+  const chunks = formatText(text, expanded, handleExpand);
+
+  return (
+    <Linkify userHover={userHover} arrowHover={arrowHover}>
+      {chunks}
+    </Linkify>
+  );
+};
+
+export default PieceOfText;
