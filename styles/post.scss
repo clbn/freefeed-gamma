@@ -150,6 +150,25 @@ $line-height-post-body-single: 28px;
   }
 }
 
+.spoiler {
+  > span {
+    cursor: pointer;
+  }
+
+  > u {
+    text-decoration: none;
+  }
+
+  &-hidden > u {
+    filter: blur(0.25em);
+    cursor: pointer;
+
+    * {
+      pointer-events: none;
+    }
+  }
+}
+
 // Used in both create-post and edit-post
 .post-editor {
   position: relative; // necessary for proper width of dropzone inside this container

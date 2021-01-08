@@ -1,5 +1,12 @@
 import React, { Fragment, useState, useCallback } from 'react';
 import Linkify from './linkify';
+import Spoiler from './spoiler';
+
+// Regex for spoilers
+// (copied from the official FreeFeed client to make sure it affects the same parts of text)
+const spoilerRegex = /<(spoiler|спойлер)>(?:(?!(<(spoiler|спойлер)>|<\/(spoiler|спойлер)>)).)*<\/(spoiler|спойлер)>/gi;
+const openingSpoilerTagLength = '<spoiler>'.length;
+const closingSpoilerTagLength = '</спойлер>'.length;
 
 // Texts longer than thresholdTextLength should be cut to shortenedTextLength
 const thresholdTextLength = 800;
@@ -46,11 +53,57 @@ const addLinebreaks = (chunk) => {
 };
 
 //
+// Replace spoilers with spoiler objects
+//
+const addSpoilers = (chunk) => {
+  if (typeof chunk !== 'string') {
+    return [chunk];
+  }
+
+  const spoilers = [...chunk.matchAll(spoilerRegex)];
+
+  if (spoilers.length === 0) {
+    return [chunk];
+  }
+
+  const pieces = [];
+  let index = 0;
+
+  spoilers.forEach(match => {
+    const spoilerText = match[0];
+    const spoilerPosition = match.index;
+
+    // Push text before the spoiler
+    if (spoilerPosition > index) {
+      pieces.push(chunk.slice(index, spoilerPosition));
+    }
+
+    // Push the spoiler object
+    const openingTag = spoilerText.slice(0, openingSpoilerTagLength);
+    const content = spoilerText.slice(openingSpoilerTagLength, -closingSpoilerTagLength);
+    const closingTag = spoilerText.slice(-closingSpoilerTagLength);
+    pieces.push({ type: 'spoiler', openingTag, content, closingTag });
+
+    index = spoilerPosition + spoilerText.length;
+  });
+
+  // Push text after the last spoiler
+  if (index < chunk.length) {
+    pieces.push(chunk.slice(index));
+  }
+
+  return pieces;
+};
+
+//
 // Get "length" of the chunk
 //
 const getLength = (chunk) => {
   if (typeof chunk === 'string') {
     return chunk.length;
+  }
+  if (chunk.type === 'spoiler') {
+    return chunk.content.length; // Not including `chunk.openingTag.length` and `chunk.closingTag.length` on purpose
   }
   return 1;
 };
@@ -73,7 +126,7 @@ const shortenText = (chunks, expandFn) => {
     // Keep pushing chunks until it doesn't fit anymore
     // Also, push non-text chunks under any conditions (we can't shorten them)
     if (aggLength + chunkLength <= shortenedTextLength
-        || typeof chunk !== 'string') {
+        || (typeof chunk !== 'string' && !chunk.content)) {
       aggLength += chunkLength;
       newChunks.push(chunk);
       continue;
@@ -81,17 +134,19 @@ const shortenText = (chunks, expandFn) => {
 
     // Now that it doesn't fit, let's shorten it and exit
 
+    const text = (typeof chunk === 'string' ? chunk : chunk.content);
     const maxLengthLeft = shortenedTextLength - aggLength; // How much room left
-    const lastSpacePosition = chunk.lastIndexOf(' ', maxLengthLeft + 1); // The last space before the limit
+    const lastSpacePosition = text.lastIndexOf(' ', maxLengthLeft + 1); // The last space before the limit
 
     // Handle the case with a very long first word (i.e., no spaces before maxLengthLeft)
     // Note, we only let an inside-word cut happen in the very first chunk (i === 0).
     let cutIndex = lastSpacePosition > -1 ? lastSpacePosition : (i === 0 ? maxLengthLeft : 0);
 
-    const newText = chunk.substr(0, cutIndex);
+    const newText = text.substr(0, cutIndex);
 
     if (newText.length > 0) {
-      newChunks.push(newText);
+      const newChunk = (typeof chunk === 'string' ? newText : { ...chunk, content: newText, closingTag: null });
+      newChunks.push(newChunk);
     }
 
     break;
@@ -117,6 +172,7 @@ const prepareForRendering = (chunk, i) => {
     case 'paragraph': return <div key={i} className="p-break"><br/></div>;
     case 'br': return <br key={i}/>;
     case 'read-more': return <a key={i} className="read-more" onClick={chunk.onClick}>Read more</a>;
+    case 'spoiler': return <Spoiler key={i} {...chunk}>{chunk.content}</Spoiler>;
   }
 };
 
@@ -139,12 +195,15 @@ const formatText = (text, expanded, expandFn) => {
     chunks = chunks.flatMap(c => addParagraphs(c)).flatMap(c => addLinebreaks(c));
   }
 
-  // 4. Shorten if it's too long (and add "Read more" if shortened)
+  // 4. Handle spoilers
+  chunks = chunks.flatMap(c => addSpoilers(c));
+
+  // 5. Shorten if it's too long (and add "Read more" if shortened)
   if (!expanded) {
     chunks = shortenText(chunks, expandFn);
   }
 
-  // 5. Return chunk contents prepared for React rendering
+  // 6. Return chunk contents prepared for React rendering
   return chunks.map(prepareForRendering);
 };
 

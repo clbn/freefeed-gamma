@@ -1,0 +1,26 @@
+import React, { useCallback, useState } from 'react';
+import classnames from 'classnames';
+
+const Spoiler = ({ openingTag, closingTag, children }) => {
+  if (!children) {
+    return openingTag;
+  }
+
+  const [visible, setVisible] = useState(false);
+  const handleToggle = useCallback(() => setVisible(!visible), [visible]);
+
+  const classes = classnames({
+    'spoiler': true,
+    'spoiler-hidden': !visible,
+  });
+
+  return (
+    <span className={classes} title={visible ? null : 'This is a spoiler (click to reveal)'}>
+      <span onClick={handleToggle}>{openingTag}</span>
+      <u onClick={visible ? null : handleToggle}>{children}</u>
+      {closingTag && <span onClick={handleToggle}>{closingTag}</span>}
+    </span>
+  );
+};
+
+export default Spoiler;
