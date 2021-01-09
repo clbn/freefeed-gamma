@@ -151,6 +151,16 @@ $line-height-post-body-single: 28px;
 }
 
 .spoiler {
+  .blur-1 { filter: blur(0.015em); }
+  .blur-2 { filter: blur(0.030em); }
+  .blur-3 { filter: blur(0.045em); }
+  .blur-4 { filter: blur(0.060em); }
+  .blur-5 { filter: blur(0.075em); }
+  .blur-6 { filter: blur(0.090em); }
+  .blur-7 { filter: blur(0.105em); }
+  .blur-8 { filter: blur(0.120em); }
+  .blur-9 { filter: blur(0.135em); }
+
   > span {
     cursor: pointer;
   }
