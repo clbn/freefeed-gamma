@@ -11,9 +11,10 @@
   }
 
   del {
-    position: absolute;
+    display: inline-block;
     width: 1px;
     height: 1px;
+    margin-left: -1px;
     overflow: hidden;
   }
 }
