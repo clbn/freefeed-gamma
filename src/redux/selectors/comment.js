@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 const emptyArray = [];
 
-const makeGetPostComment = () => createSelector(
+const makeGetComment = () => createSelector(
   [
     (state, props) => state.comments[props.id],
     (state, props) => state.commentViews[props.id],
@@ -40,4 +40,4 @@ const makeGetPostComment = () => createSelector(
   }
 );
 
-export default makeGetPostComment;
+export default makeGetComment;

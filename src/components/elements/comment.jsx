@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import classnames from 'classnames';
 
-import { makeGetPostComment } from '../../redux/selectors';
+import { makeGetComment } from '../../redux/selectors';
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
-import PostCommentLikes from './post-comment-likes';
+import CommentLikes from './comment-likes';
 import Icon from './icon';
 import Throbber from './throbber';
 import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
@@ -15,7 +15,7 @@ import { postActions } from '../../redux/select-utils';
 import * as CommentTypes from '../../utils/comment-types';
 import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
 
-class PostComment extends React.Component {
+class Comment extends React.Component {
   constructor(props) {
     super(props);
 
@@ -234,7 +234,7 @@ class PostComment extends React.Component {
 
             {' '}
 
-            <PostCommentLikes commentId={this.props.id}/>
+            <CommentLikes commentId={this.props.id}/>
           </div>
         )}
       </div>
@@ -243,11 +243,11 @@ class PostComment extends React.Component {
 }
 
 function makeMapStateToProps() {
-  const getPostComment = makeGetPostComment();
+  const getComment = makeGetComment();
 
   return (state, ownProps) => {
     return {
-      ...getPostComment(state, ownProps)
+      ...getComment(state, ownProps)
     };
   };
 }
@@ -258,4 +258,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(PostComment);
+export default connect(makeMapStateToProps, mapDispatchToProps)(Comment);

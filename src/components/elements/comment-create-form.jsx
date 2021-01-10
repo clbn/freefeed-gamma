@@ -6,7 +6,7 @@ import { addComment, updateHighlightedComments } from '../../redux/action-creato
 import Icon from './icon';
 import Throbber from './throbber';
 
-class PostCommentCreateForm extends React.Component {
+class CommentCreateForm extends React.Component {
   bindTextarea = (textarea) => {
     this._textarea = textarea;
     this.props.bindTextarea(this._textarea);
@@ -136,4 +136,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(PostCommentCreateForm);
+export default connect(null, mapDispatchToProps)(CommentCreateForm);

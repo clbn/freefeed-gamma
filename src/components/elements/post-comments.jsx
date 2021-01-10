@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import { makeGetPostComments } from '../../redux/selectors';
 import { showMoreComments, toggleCommenting } from '../../redux/action-creators';
-import PostComment from './post-comment';
+import Comment from './comment';
 import PostCommentsMore from './post-comments-more';
-import PostCommentCreateForm from './post-comment-create-form';
+import CommentCreateForm from './comment-create-form';
 import Icon from "./icon";
 
 class PostComments extends React.Component {
@@ -45,7 +45,7 @@ class PostComments extends React.Component {
   };
 
   getCommentById = (commentId) => (
-    <PostComment
+    <Comment
       id={commentId}
       key={commentId}
       postId={this.props.post.id}
@@ -106,7 +106,7 @@ class PostComments extends React.Component {
         {lastComments}
 
         {canAddComment ? (
-          <PostCommentCreateForm
+          <CommentCreateForm
             post={props.post}
             isSinglePost={props.isSinglePost}
             otherCommentsNumber={props.post.comments.length}

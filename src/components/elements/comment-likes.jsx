@@ -47,7 +47,7 @@ const tippyOptions = {
   zIndex: 9
 };
 
-class PostCommentLikes extends React.Component {
+class CommentLikes extends React.Component {
   constructor(props) {
     super(props);
 
@@ -153,7 +153,7 @@ class PostCommentLikes extends React.Component {
   }
 }
 
-PostCommentLikes.propTypes = {
+CommentLikes.propTypes = {
   isLikable: PropTypes.bool,
   isLiking: PropTypes.bool,
   hasOwnLike: PropTypes.bool,
@@ -178,4 +178,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(PostCommentLikes);
+export default connect(makeMapStateToProps, mapDispatchToProps)(CommentLikes);
