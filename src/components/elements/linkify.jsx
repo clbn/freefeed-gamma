@@ -4,7 +4,6 @@ import URLFinder from 'ff-url-finder';
 
 import config from '../../../config/config';
 import UserName from './user-name';
-import 'styles/linkify.scss';
 
 const MAX_URL_LENGTH = 50;
 
@@ -162,9 +161,7 @@ class Linkify extends React.Component {
     this.userHover = this.props.userHover;
     this.arrowHover = this.props.arrowHover;
 
-    const parsedChildren = this.parse(this.props.children);
-
-    return <span dir="auto">{parsedChildren}</span>;
+    return this.parse(this.props.children);
   }
 }
 

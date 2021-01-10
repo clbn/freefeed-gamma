@@ -1,3 +1,9 @@
+.piece-of-text * {
+  // In order to avoid flickering on hover when cursor moves between lines
+  padding-top: 0.15em;
+  padding-bottom: 0.15em;
+}
+
 .shortened-link {
 
   &:after {

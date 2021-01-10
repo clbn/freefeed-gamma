@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useCallback } from 'react';
 import Linkify from './linkify';
 import Spoiler from './spoiler';
+import 'styles/piece-of-text.scss';
 
 // Regex for spoilers
 // (copied from the official FreeFeed client to make sure it affects the same parts of text)
@@ -214,9 +215,11 @@ const PieceOfText = ({ text, isExpanded, userHover, arrowHover }) => {
   const chunks = formatText(text, expanded, handleExpand);
 
   return (
-    <Linkify userHover={userHover} arrowHover={arrowHover}>
-      {chunks}
-    </Linkify>
+    <span className="piece-of-text" dir="auto">
+      <Linkify userHover={userHover} arrowHover={arrowHover}>
+        {chunks}
+      </Linkify>
+    </span>
   );
 };
 
