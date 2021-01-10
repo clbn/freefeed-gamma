@@ -151,22 +151,32 @@ $line-height-post-body-single: 28px;
 }
 
 .spoiler {
-  .blur-1 { filter: blur(0.015em); }
-  .blur-2 { filter: blur(0.030em); }
-  .blur-3 { filter: blur(0.045em); }
-  .blur-4 { filter: blur(0.060em); }
-  .blur-5 { filter: blur(0.075em); }
-  .blur-6 { filter: blur(0.090em); }
-  .blur-7 { filter: blur(0.105em); }
-  .blur-8 { filter: blur(0.120em); }
-  .blur-9 { filter: blur(0.135em); }
-
   > span {
     cursor: pointer;
+
+    .blur-0, .blur-1, .blur-2, .blur-3, .blur-4,
+    .blur-5, .blur-6, .blur-7, .blur-8, .blur-9 {
+      filter: blur(0.060em);
+      transition: filter 0.5s ease;
+    }
   }
 
   > u {
     text-decoration: none;
+    transition: filter 0.5s ease;
+  }
+
+  &-hidden > span {
+    .blur-0 { filter: blur(0); }
+    .blur-1 { filter: blur(0.015em); }
+    .blur-2 { filter: blur(0.030em); }
+    .blur-3 { filter: blur(0.045em); }
+    .blur-4 { filter: blur(0.060em); }
+    .blur-5 { filter: blur(0.075em); }
+    .blur-6 { filter: blur(0.090em); }
+    .blur-7 { filter: blur(0.105em); }
+    .blur-8 { filter: blur(0.120em); }
+    .blur-9 { filter: blur(0.135em); }
   }
 
   &-hidden > u {
