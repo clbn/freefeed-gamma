@@ -8,6 +8,7 @@ import { makeGetComment } from '../../redux/selectors';
 import PieceOfText from './piece-of-text';
 import UserName from './user-name';
 import CommentLikes from './comment-likes';
+import CommentMoreMenu from './comment-more-menu';
 import Icon from './icon';
 import Throbber from './throbber';
 import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
@@ -211,15 +212,6 @@ class Comment extends React.Component {
             {' -'}&nbsp;
 
             <UserName id={this.props.createdBy}/>
-            {this.props.canIEdit ? <>
-              {' '}
-              (<a onClick={this.toggleEditing}>edit</a>
-              &nbsp;|&nbsp;
-              <a onClick={this.deleteAfterConfirmation}>delete</a>)
-            </> : (this.props.isModeratingComments) ? <>
-              {' '}
-              (<a onClick={this.deleteAfterConfirmation}>delete</a>)
-            </> : false}
 
             {' '}
 
@@ -235,6 +227,10 @@ class Comment extends React.Component {
             {' '}
 
             <CommentLikes commentId={this.props.id}/>
+
+            <CommentMoreMenu
+              isCommentMine={isCommentMine} isModeratingComments={this.props.isModeratingComments}
+              editFn={this.toggleEditing} deleteFn={this.deleteAfterConfirmation}/>
           </div>
         )}
       </div>

@@ -19,6 +19,18 @@
       fill: #ccc;
     }
   }
+
+  .icon-more-small {
+    color: #ccc;
+    fill: #f2f2f2;
+  }
+
+  &:hover {
+    .icon-more-small {
+      color: #aaa;
+      fill: #ddd;
+    }
+  }
 }
 
 

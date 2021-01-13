@@ -102,6 +102,14 @@ const IconDefinitions = () => (
       <circle cx="47" cy="15.5" r="8" fill="currentColor"/>
       <circle cx="47" cy="15.5" r="5"/>
     </symbol>
+    <symbol id="icon-more-small" viewBox="0 0 47 28">
+      <circle cx="8" cy="15.5" r="6.5" fill="currentColor"/>
+      <circle cx="8" cy="15.5" r="4"/>
+      <circle cx="23.5" cy="15.5" r="6.5" fill="currentColor"/>
+      <circle cx="23.5" cy="15.5" r="4"/>
+      <circle cx="39" cy="15.5" r="6.5" fill="currentColor"/>
+      <circle cx="39" cy="15.5" r="4"/>
+    </symbol>
     <symbol id="icon-plus" viewBox="0 0 10 14">
       <path d="M10 6.1v1.8l-.5.5H6.4v3.1l-.5.5H4.1l-.5-.5V8.4H.5L0 7.9V6.1l.5-.5h3.1V2.5l.5-.5h1.8l.5.5v3.1h3.1l.5.5z"/>
     </symbol>
