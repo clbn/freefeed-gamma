@@ -112,6 +112,7 @@ class CommentLikes extends React.Component {
       'comment-likes': true,
       'clikes-zero': quantity === 0,
       'clikes-open': isOpen,
+      'clikes-likable': isLikable,
       'clikes-liked': hasOwnLike
     });
 

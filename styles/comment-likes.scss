@@ -8,9 +8,8 @@
 
   .clikes-trigger {
     display: inline-block;
-    min-width: 31px;
     height: 18px;
-    padding: 0 2px 0 4px;
+    padding: 0 4px;
     margin-left: 0;
     vertical-align: bottom;
 
@@ -82,6 +81,14 @@
     .icon-heart,
     .clikes-number {
       opacity: 1;
+    }
+  }
+
+  &.clikes-likable {
+    .clikes-trigger {
+      min-width: 31px;
+      padding-right: 1px;
+      margin-right: 2px;
     }
   }
 
