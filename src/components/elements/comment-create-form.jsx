@@ -5,6 +5,7 @@ import Textarea from 'react-textarea-autosize';
 import { addComment, updateHighlightedComments } from '../../redux/action-creators';
 import Icon from './icon';
 import Throbber from './throbber';
+import { setDraftCA } from '../../utils/drafts';
 
 class CommentCreateForm extends React.Component {
   bindTextarea = (textarea) => {
@@ -25,6 +26,7 @@ class CommentCreateForm extends React.Component {
       this.props.toggleCommenting();
       this.props.updateHighlightedComments();
       this.typedArrows = [];
+      setDraftCA(this.props.post.id, null);
     }
   };
 
@@ -50,6 +52,8 @@ class CommentCreateForm extends React.Component {
         this.props.updateHighlightedComments();
       }
     }
+
+    setDraftCA(this.props.post.id, this._textarea.value);
   };
 
   saveComment = () => {
@@ -66,6 +70,7 @@ class CommentCreateForm extends React.Component {
     const isSavingFailed = newProps.post.commentError;
     if (isSavingFinished && !isSavingFailed) {
       this._textarea.value = '';
+      setDraftCA(this.props.post.id, null);
     }
   }
 

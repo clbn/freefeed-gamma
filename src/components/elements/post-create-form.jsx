@@ -12,6 +12,7 @@ import Throbber from './throbber';
 import * as PostVisibilityLevels from '../../utils/post-visibility-levels';
 import { preventDefault, getPostVisibilityLevel } from '../../utils';
 import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../../redux/action-creators';
+import { setDraftPA } from '../../utils/drafts';
 
 class PostCreateForm extends React.Component {
   constructor(props) {
@@ -119,6 +120,8 @@ class PostCreateForm extends React.Component {
     if (isFormEmpty !== this.state.isFormEmpty) {
       this.setState({ isFormEmpty });
     }
+
+    setDraftPA(this.postText.value);
   };
 
   isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
@@ -189,6 +192,8 @@ class PostCreateForm extends React.Component {
       hasUploadFailed: false,
       attachmentQueueLength: 0
     });
+
+    setDraftPA(null);
   };
 
   //
