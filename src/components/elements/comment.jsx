@@ -15,6 +15,7 @@ import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate 
 import { postActions } from '../../redux/select-utils';
 import * as CommentTypes from '../../utils/comment-types';
 import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
+import { setDraftCU } from '../../utils/drafts';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class Comment extends React.Component {
     this.props.toggleEditingComment(this.props.id);
     this.props.updateHighlightedComments();
     this.typedArrows = [];
+    setDraftCU(this.props.id, null);
   };
 
   deleteAfterConfirmation = confirmFirst(() => this.props.deleteComment(this.props.id));
@@ -70,6 +72,8 @@ class Comment extends React.Component {
         this.props.updateHighlightedComments();
       }
     }
+
+    setDraftCU(this.props.id, this.commentText.value);
   };
 
   saveComment = () => {
@@ -121,6 +125,13 @@ class Comment extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.isTargeted && this.props.isTargeted) {
       setTimeout(this.scrollToComment, 0);
+    }
+
+    // If the saving was successful, discard the draft
+    const isSavingFinished = prevProps.isSaving && !this.props.isSaving;
+    const isSavingFailed = !!this.props.errorMessage;
+    if (isSavingFinished && !isSavingFailed) {
+      setDraftCU(this.props.id, null);
     }
   }
 

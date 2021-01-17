@@ -20,6 +20,7 @@ import PostMoreMenu from './post-more-menu';
 import PostVisibilityIcon from './post-visibility-icon';
 import Icon from "./icon";
 import Userpic from './userpic';
+import { setDraftPU } from '../../utils/drafts';
 
 class Post extends React.Component {
   constructor(props) {
@@ -73,6 +74,10 @@ class Post extends React.Component {
     }
   };
 
+  handleChange = () => {
+    setDraftPU(this.props.id, this.postText.value);
+  };
+
   getAttachments = () => {
     if (!this.props.isEditing) {
       return this.props.attachments;
@@ -116,6 +121,13 @@ class Post extends React.Component {
       const addedAttachments = _.differenceWith(this.props.attachments, prevProps.attachments, (a, b) => (a.id === b.id));
       const newAttachments = this.getAttachments().concat(addedAttachments) || [];
       this.updateTransientAttachments(newAttachments);
+    }
+
+    // If the saving was successful, discard the draft
+    const isSavingFinished = prevProps.isSaving && !this.props.isSaving;
+    const isSavingFailed = !!this.props.errorMessage;
+    if (isSavingFinished && !isSavingFailed) {
+      setDraftPU(this.props.id, null);
     }
   }
 
@@ -343,6 +355,7 @@ class Post extends React.Component {
                 defaultValue={props.body}
                 autoFocus={true}
                 onKeyDown={this.checkIfEnterPressed}
+                onChange={this.handleChange}
                 onPaste={this.handlePaste}
                 minRows={3}
                 maxRows={10}
