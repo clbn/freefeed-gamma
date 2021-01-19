@@ -3,12 +3,20 @@
   padding-bottom: 8px;
   border-bottom: 1px solid #eee;
 
+  .post-textarea {
+    color: #999;
+  }
+
   .post-edit-options,
   .post-edit-actions {
     display: none;
   }
 
   &.expanded {
+    .post-textarea {
+      color: #000;
+    }
+
     .post-edit-options,
     .post-edit-actions {
       display: block;

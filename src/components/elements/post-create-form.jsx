@@ -12,7 +12,7 @@ import Throbber from './throbber';
 import * as PostVisibilityLevels from '../../utils/post-visibility-levels';
 import { preventDefault, getPostVisibilityLevel } from '../../utils';
 import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../../redux/action-creators';
-import { setDraftPA } from '../../utils/drafts';
+import { getDraftPA, setDraftPA } from '../../utils/drafts';
 
 class PostCreateForm extends React.Component {
   constructor(props) {
@@ -240,6 +240,7 @@ class PostCreateForm extends React.Component {
   render() {
     const isSubmitButtonDisabled = this.state.isFormEmpty || this.state.attachmentQueueLength > 0 || this.props.createPostForm.status === 'loading';
     const submitButtonText = this.getSubmitButtonText(this.state.recipients);
+    const draft = getDraftPA();
 
     return (
       <div className={'create-post post-editor' + (this.state.isExpanded ? ' expanded' : '')}>
@@ -260,6 +261,7 @@ class PostCreateForm extends React.Component {
         <Textarea
           className="form-control post-textarea"
           inputRef={this.refPostText}
+          defaultValue={draft}
           onFocus={this.expand}
           onKeyDown={this.checkIfEnterPressed}
           onChange={this.updateEmptinessState}
