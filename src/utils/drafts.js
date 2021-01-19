@@ -40,7 +40,17 @@ function setDraft(section, id, text) {
   window.localStorage.setItem('drafts', JSON.stringify(drafts));
 }
 
+function getDraft(section, id) {
+  const drafts = JSON.parse(window.localStorage.getItem('drafts') ?? '{}');
+  return drafts?.[section]?.[id];
+}
+
 export function setDraftPA(text) { setDraft('post-add', 0, text); }
 export function setDraftPU(id, text) { setDraft('post-update', id, text); }
 export function setDraftCA(id, text) { setDraft('comment-add', id, text); }
 export function setDraftCU(id, text) { setDraft('comment-update', id, text); }
+
+export function getDraftPA() { return getDraft('post-add', 0); }
+export function getDraftPU(id) { return getDraft('post-update', id); }
+export function getDraftCA(id) { return getDraft('comment-add', id); }
+export function getDraftCU(id) { return getDraft('comment-update', id); }

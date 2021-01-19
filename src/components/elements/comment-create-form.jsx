@@ -5,7 +5,7 @@ import Textarea from 'react-textarea-autosize';
 import { addComment, updateHighlightedComments } from '../../redux/action-creators';
 import Icon from './icon';
 import Throbber from './throbber';
-import { setDraftCA } from '../../utils/drafts';
+import { getDraftCA, setDraftCA } from '../../utils/drafts';
 
 class CommentCreateForm extends React.Component {
   bindTextarea = (textarea) => {
@@ -78,8 +78,9 @@ class CommentCreateForm extends React.Component {
     const writingComment = this.props.post.isCommenting;
     const singlePost = this.props.isSinglePost;
     const manyComments = this.props.otherCommentsNumber > 2 && !this.props.post.omittedComments /* TODO: && user_is_signed_in */;
+    const draft = getDraftCA(this.props.post.id);
 
-    if (!writingComment && !singlePost && !manyComments) {
+    if (!writingComment && !singlePost && !draft && !manyComments) {
       return false;
     }
 
@@ -94,7 +95,7 @@ class CommentCreateForm extends React.Component {
             <Textarea
               inputRef={this.bindTextarea}
               className="form-control comment-textarea"
-              defaultValue=""
+              defaultValue={draft}
               autoFocus={true}
               onKeyDown={this.handleKeyDown}
               onChange={this.handleChangeText}
@@ -114,12 +115,12 @@ class CommentCreateForm extends React.Component {
               </div>
             ) : false}
           </div>
-        ) : singlePost ? (
+        ) : (singlePost || draft) ? (
           <div className="comment-body">
             <textarea
               className="form-control comment-textarea"
               rows={2}
-              defaultValue=""
+              placeholder={draft}
               onFocus={this.startCommenting}/>
           </div>
         ) : <>
