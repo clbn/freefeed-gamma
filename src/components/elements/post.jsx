@@ -20,7 +20,7 @@ import PostMoreMenu from './post-more-menu';
 import PostVisibilityIcon from './post-visibility-icon';
 import Icon from "./icon";
 import Userpic from './userpic';
-import { setDraftPU } from '../../utils/drafts';
+import { getDraftPU, setDraftPU } from '../../utils/drafts';
 
 class Post extends React.Component {
   constructor(props) {
@@ -136,7 +136,14 @@ class Post extends React.Component {
   likePost = () => this.props.likePost(this.props.id, this.props.myId);
   unlikePost = () => this.props.unlikePost(this.props.id, this.props.myId);
   unhidePost = () => this.props.unhidePost(this.props.id);
-  cancelEditingPost = () => this.props.cancelEditingPost(this.props.id);
+  toggleEditingPost = () => this.props.toggleEditingPost(this.props.id);
+  cancelEditingPost = () => {
+    const isTextNotChanged = this.props.body === this.postText.value;
+    if (isTextNotChanged || confirm('Discard changes and close the form?')) {
+      this.props.cancelEditingPost(this.props.id);
+      setDraftPU(this.props.id, null);
+    }
+  }
   saveEditingPost = () => {
     if (!this.props.isSaving) {
       const attachmentIds = this.getAttachments().map(item => item.id);
@@ -305,6 +312,15 @@ class Post extends React.Component {
       )}
     </> : false);
 
+    // "Changes not saved" when there is a draft
+    const draft = getDraftPU(props.id);
+    const draftLink = (draft && (draft !== props.body) ? <>
+      {' - '}
+      <a onClick={this.toggleEditingPost} title={`Click to review your changes:\n\n${draft}`}>
+        <i className="alert-warning">Changes not saved</i>
+      </a>
+    </> : false);
+
     // "More" menu
     const hideAndMore = (!!props.myId && <>
       {' - '}
@@ -352,7 +368,7 @@ class Post extends React.Component {
               <Textarea
                 inputRef={this.refPostText}
                 className="form-control post-textarea"
-                defaultValue={props.body}
+                defaultValue={draft ?? props.body}
                 autoFocus={true}
                 onKeyDown={this.checkIfEnterPressed}
                 onChange={this.handleChange}
@@ -425,6 +441,7 @@ class Post extends React.Component {
 
             {commentLink}
             {likeLink}
+            {draftLink}
             {hideAndMore}
           </div>
 
