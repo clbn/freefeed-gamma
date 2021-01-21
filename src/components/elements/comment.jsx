@@ -15,7 +15,7 @@ import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate 
 import { postActions } from '../../redux/select-utils';
 import * as CommentTypes from '../../utils/comment-types';
 import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
-import { setDraftCU } from '../../utils/drafts';
+import { getDraftCU, setDraftCU } from '../../utils/drafts';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -40,8 +40,14 @@ class Comment extends React.Component {
     this.props.toggleEditingComment(this.props.id);
     this.props.updateHighlightedComments();
     this.typedArrows = [];
-    setDraftCU(this.props.id, null);
   };
+  cancelEditing = () => {
+    const isTextNotChanged = this.props.body === this.commentText.value;
+    if (isTextNotChanged || confirm('Discard changes and close the form?')) {
+      this.toggleEditing();
+      setDraftCU(this.props.id, null);
+    }
+  }
 
   deleteAfterConfirmation = confirmFirst(() => this.props.deleteComment(this.props.id));
 
@@ -164,6 +170,15 @@ class Comment extends React.Component {
     const dateRelative = getRelativeDate(+this.props.createdAt);
     const dateRelativeShort = getRelativeDate(+this.props.createdAt, false);
 
+    // "Changes not saved" when there is a draft
+    const draft = getDraftCU(this.props.id);
+    const draftLink = (draft && (draft !== this.props.body) ? <>
+      {' -'}&nbsp;
+      <a onClick={this.toggleEditing} title={`Click to review your changes:\n\n${draft}`}>
+        <i className="alert-warning">Changes not saved</i>
+      </a>
+    </> : false);
+
     return (
       <div className={commentClasses} id={`comment-${this.props.id}`} ref={this.refCommentContainer}>
         <a className={iconClasses}
@@ -192,7 +207,7 @@ class Comment extends React.Component {
             <Textarea
               inputRef={this.refCommentText}
               className="form-control comment-textarea"
-              defaultValue={this.props.body}
+              defaultValue={draft ?? this.props.body}
               autoFocus={true}
               onKeyDown={this.handleKeyDown}
               onChange={this.handleChangeText}
@@ -202,7 +217,7 @@ class Comment extends React.Component {
 
             <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Post</button>
 
-            <a className="comment-cancel" onClick={this.toggleEditing}>Cancel</a>
+            <a className="comment-cancel" onClick={this.cancelEditing}>Cancel</a>
 
             {this.props.isSaving ? (
               <Throbber name="comment-edit"/>
@@ -219,6 +234,8 @@ class Comment extends React.Component {
               isExpanded={this.state.isExpanded}
               userHover={this.userHoverHandlers}
               arrowHover={this.arrowHoverHandlers}/>
+
+            {draftLink}
 
             {' -'}&nbsp;
 
