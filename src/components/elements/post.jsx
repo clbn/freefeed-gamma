@@ -123,13 +123,6 @@ class Post extends React.Component {
       const newAttachments = this.getAttachments().concat(addedAttachments) || [];
       this.updateTransientAttachments(newAttachments);
     }
-
-    // If the saving was successful, discard the draft
-    const isSavingFinished = prevProps.isSaving && !this.props.isSaving;
-    const isSavingFailed = !!this.props.errorMessage;
-    if (isSavingFinished && !isSavingFailed) {
-      setDraftPU(this.props.id, null);
-    }
   }
 
   // Click handlers

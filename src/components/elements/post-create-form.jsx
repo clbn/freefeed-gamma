@@ -261,7 +261,7 @@ class PostCreateForm extends React.Component {
         <Textarea
           className="form-control post-textarea"
           inputRef={this.refPostText}
-          defaultValue={draft}
+          defaultValue={draft ?? ''}
           onFocus={this.expand}
           onKeyDown={this.checkIfEnterPressed}
           onChange={this.updateEmptinessState}

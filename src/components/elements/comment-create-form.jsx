@@ -70,7 +70,6 @@ class CommentCreateForm extends React.Component {
     const isSavingFailed = newProps.post.commentError;
     if (isSavingFinished && !isSavingFailed) {
       this._textarea.value = '';
-      setDraftCA(this.props.post.id, null);
     }
   }
 
@@ -95,7 +94,7 @@ class CommentCreateForm extends React.Component {
             <Textarea
               inputRef={this.bindTextarea}
               className="form-control comment-textarea"
-              defaultValue={draft}
+              defaultValue={draft ?? ''}
               autoFocus={true}
               onKeyDown={this.handleKeyDown}
               onChange={this.handleChangeText}

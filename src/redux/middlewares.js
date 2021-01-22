@@ -9,6 +9,7 @@ import { getPost } from '../services/api';
 import { setToken, getPersistedUser, persistUser } from '../services/auth';
 import { init } from '../services/realtime';
 import { meParser } from '../utils';
+import { setDraftPA, setDraftCA, setDraftPU, setDraftCU } from '../utils/drafts';
 
 //middleware for api requests
 export const apiMiddleware = store => next => async (action) => {
@@ -260,6 +261,24 @@ export const directsMiddleware = store => next => action => {
   if (action.type === response(ActionTypes.MARK_DIRECTS_AS_READ)) {
     persistUser({ ...getPersistedUser(), unreadDirectsNumber: 0 });
   }
+
+  return next(action);
+};
+
+export const draftsMiddleware = () => next => action => {
+  // When post or comment is successfully saved, we should discard its draft
+
+  if (action.type === response(ActionTypes.CREATE_POST)) { setDraftPA(null); }
+  if (action.type === ActionTypes.REALTIME_POST_NEW) { setDraftPA(null); }
+
+  if (action.type === response(ActionTypes.ADD_COMMENT)) { setDraftCA(action.request.postId, null); }
+  if (action.type === ActionTypes.REALTIME_COMMENT_NEW) { setDraftCA(action.comment.postId, null); }
+
+  if (action.type === response(ActionTypes.SAVE_EDITING_POST)) { setDraftPU(action.payload.posts.id); }
+  if (action.type === ActionTypes.REALTIME_POST_UPDATE) { setDraftPU(action.post.id); }
+
+  if (action.type === response(ActionTypes.SAVE_EDITING_COMMENT)) { setDraftCU(action.payload.comments.id, null); }
+  if (action.type === ActionTypes.REALTIME_COMMENT_UPDATE) { setDraftCU(action.comment.id, null); }
 
   return next(action);
 };

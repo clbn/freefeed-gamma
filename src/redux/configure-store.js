@@ -13,6 +13,7 @@ const middlewareChain = [
   middlewares.groupPictureLogicMiddleware,
   middlewares.redirectionMiddleware,
   middlewares.directsMiddleware,
+  middlewares.draftsMiddleware,
   middlewares.realtimeMiddleware
 ];
 

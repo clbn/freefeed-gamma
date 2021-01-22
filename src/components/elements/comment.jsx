@@ -133,13 +133,6 @@ class Comment extends React.Component {
     if (!prevProps.isTargeted && this.props.isTargeted) {
       setTimeout(this.scrollToComment, 0);
     }
-
-    // If the saving was successful, discard the draft
-    const isSavingFinished = prevProps.isSaving && !this.props.isSaving;
-    const isSavingFailed = !!this.props.errorMessage;
-    if (isSavingFinished && !isSavingFailed) {
-      setDraftCU(this.props.id, null);
-    }
   }
 
   render() {
