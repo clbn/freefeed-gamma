@@ -75,7 +75,8 @@ class Post extends React.Component {
   };
 
   handleChange = () => {
-    setDraftPU(this.props.id, this.postText.value);
+    const isTextChanged = this.props.body !== this.postText.value.trim();
+    setDraftPU(this.props.id, isTextChanged ? this.postText.value : null);
   };
 
   getAttachments = () => {
@@ -138,7 +139,7 @@ class Post extends React.Component {
   unhidePost = () => this.props.unhidePost(this.props.id);
   toggleEditingPost = () => this.props.toggleEditingPost(this.props.id);
   cancelEditingPost = () => {
-    const isTextNotChanged = this.props.body === this.postText.value;
+    const isTextNotChanged = this.props.body === this.postText.value.trim();
     if (isTextNotChanged || confirm('Discard changes and close the form?')) {
       this.props.cancelEditingPost(this.props.id);
       setDraftPU(this.props.id, null);

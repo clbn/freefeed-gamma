@@ -42,7 +42,7 @@ class Comment extends React.Component {
     this.typedArrows = [];
   };
   cancelEditing = () => {
-    const isTextNotChanged = this.props.body === this.commentText.value;
+    const isTextNotChanged = this.props.body === this.commentText.value.trim();
     if (isTextNotChanged || confirm('Discard changes and close the form?')) {
       this.toggleEditing();
       setDraftCU(this.props.id, null);
@@ -79,7 +79,8 @@ class Comment extends React.Component {
       }
     }
 
-    setDraftCU(this.props.id, this.commentText.value);
+    const isTextChanged = this.props.body !== this.commentText.value.trim();
+    setDraftCU(this.props.id, isTextChanged ? this.commentText.value : null);
   };
 
   saveComment = () => {
