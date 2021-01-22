@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 /*
 Data structure:
 
@@ -24,8 +26,21 @@ drafts: {
 
 */
 
+// Use local cache for faster reading...
+let drafts;
+
+// ...but sync with LocalStorage occasionally, in case it was updated from the other tab
+const readFromLocalStorage = _.throttle(() => {
+  drafts = JSON.parse(window.localStorage.getItem('drafts') ?? '{}');
+}, 1000);
+
+// Actually, writes should be throttled as well, for the fast typers among us
+const writeToLocalStorage = _.throttle(() => {
+  window.localStorage.setItem('drafts', JSON.stringify(drafts));
+}, 200);
+
 function setDraft(section, id, text) {
-  const drafts = JSON.parse(window.localStorage.getItem('drafts') ?? '{}');
+  readFromLocalStorage();
 
   if (drafts[section] === undefined) {
     drafts[section] = {};
@@ -37,11 +52,11 @@ function setDraft(section, id, text) {
     delete drafts[section][id];
   }
 
-  window.localStorage.setItem('drafts', JSON.stringify(drafts));
+  writeToLocalStorage();
 }
 
 function getDraft(section, id) {
-  const drafts = JSON.parse(window.localStorage.getItem('drafts') ?? '{}');
+  readFromLocalStorage();
   return drafts?.[section]?.[id];
 }
 
