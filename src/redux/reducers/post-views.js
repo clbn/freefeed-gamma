@@ -116,18 +116,20 @@ export default function postViews(state = {}, action) {
       const id = action.postId;
       return updateRecord(id, {
         isCommenting: !state[id].isCommenting,
-        commentError: ''
+        commentError: null
       });
     }
     case request(ActionTypes.ADD_COMMENT): {
       return updateRecord(action.payload.postId, {
-        isSavingComment: true
+        isSavingComment: true,
+        commentError: null
       });
     }
     case response(ActionTypes.ADD_COMMENT): {
       return updateRecord(action.request.postId, {
         isCommenting: false,
-        isSavingComment: false
+        isSavingComment: false,
+        commentError: null
       });
     }
     case fail(ActionTypes.ADD_COMMENT): {
