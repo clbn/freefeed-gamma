@@ -154,14 +154,18 @@ class Post extends React.Component {
     this.setState({ recipients });
   };
 
-  checkIfEnterPressed = (event) => {
-    const isEnter = event.keyCode === 13;
-    const isShiftPressed = event.shiftKey;
-    if (isEnter && !isShiftPressed) {
+  handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       if (this.state.attachmentQueueLength === 0) {
         this.saveEditingPost();
       }
+    }
+  };
+
+  handleKeyUp = (event) => {
+    if (event.key === 'Escape') {
+      this.cancelEditingPost();
     }
   };
 
@@ -364,7 +368,8 @@ class Post extends React.Component {
                 className="form-control post-textarea"
                 defaultValue={draft ?? props.body}
                 autoFocus={true}
-                onKeyDown={this.checkIfEnterPressed}
+                onKeyDown={this.handleKeyDown}
+                onKeyUp={this.handleKeyUp}
                 onChange={this.handleChange}
                 onPaste={this.handlePaste}
                 minRows={3}

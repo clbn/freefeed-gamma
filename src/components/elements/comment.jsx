@@ -58,11 +58,15 @@ class Comment extends React.Component {
   };
 
   handleKeyDown = (event) => {
-    const enterPressed = (event.keyCode === 13);
-    const shiftPressed = event.shiftKey;
-    if (enterPressed && !shiftPressed) {
+    if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       setTimeout(this.saveComment, 0);
+    }
+  };
+
+  handleKeyUp = (event) => {
+    if (event.key === 'Escape') {
+      this.cancelEditing();
     }
   };
 
@@ -204,6 +208,7 @@ class Comment extends React.Component {
               defaultValue={draft ?? this.props.body}
               autoFocus={true}
               onKeyDown={this.handleKeyDown}
+              onKeyUp={this.handleKeyUp}
               onChange={this.handleChangeText}
               minRows={2}
               maxRows={10}

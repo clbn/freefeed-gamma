@@ -45,11 +45,9 @@ export default class PostBookmarkletForm extends React.Component {
 
   isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
 
-  checkIfEnterPressed = (e) => {
-    const isEnter = e.keyCode === 13;
-    const isShiftPressed = e.shiftKey;
-    if (isEnter && !isShiftPressed) {
-      e.preventDefault();
+  checkIfEnterPressed = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
       if (!this.state.isFormEmpty && this.props.createPostForm.status !== 'loading') {
         this.submitForm();
       }

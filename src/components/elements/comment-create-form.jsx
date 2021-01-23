@@ -31,12 +31,15 @@ class CommentCreateForm extends React.Component {
   };
 
   handleKeyDown = (event) => {
-    const enterPressed = (event.keyCode === 13);
-    const shiftPressed = event.shiftKey;
-    if (enterPressed && !shiftPressed) {
+    if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
-      event.target.blur();
       setTimeout(this.saveComment, 0);
+    }
+  };
+
+  handleKeyUp = (event) => {
+    if (event.key === 'Escape') {
+      this.cancelCommenting();
     }
   };
 
@@ -97,6 +100,7 @@ class CommentCreateForm extends React.Component {
               defaultValue={draft ?? ''}
               autoFocus={true}
               onKeyDown={this.handleKeyDown}
+              onKeyUp={this.handleKeyUp}
               onChange={this.handleChangeText}
               minRows={2}
               maxRows={10}

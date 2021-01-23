@@ -146,14 +146,18 @@ class PostCreateForm extends React.Component {
     }
   }
 
-  checkIfEnterPressed = (e) => {
-    const isEnter = e.keyCode === 13;
-    const isShiftPressed = e.shiftKey;
-    if (isEnter && !isShiftPressed) {
-      e.preventDefault();
+  handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
       if (!this.state.isFormEmpty && this.state.attachmentQueueLength === 0 && this.props.createPostForm.status !== 'loading') {
         this.submitForm();
       }
+    }
+  };
+
+  handleKeyUp = (event) => {
+    if (event.key === 'Escape') {
+      this.cancelCreatingPost();
     }
   };
 
@@ -178,7 +182,7 @@ class PostCreateForm extends React.Component {
 
   resetForm = (keepExpanded = false) => {
     this.postText.value = '';
-    setTimeout(() => document.activeElement.blur(), 0);
+    document.activeElement.blur();
 
     const attachmentIds = this.props.createPostForm.attachments || [];
     attachmentIds.forEach(id => this.props.removeAttachment(null, id));
@@ -263,7 +267,8 @@ class PostCreateForm extends React.Component {
           inputRef={this.refPostText}
           defaultValue={draft ?? ''}
           onFocus={this.expand}
-          onKeyDown={this.checkIfEnterPressed}
+          onKeyDown={this.handleKeyDown}
+          onKeyUp={this.handleKeyUp}
           onChange={this.updateEmptinessState}
           onPaste={this.handlePaste}
           minRows={3}
