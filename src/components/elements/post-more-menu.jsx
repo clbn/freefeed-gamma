@@ -39,11 +39,9 @@ export default function(props) {
         ? <li><a onClick={unsavePost}>Un-save</a></li>
         : <li><a onClick={savePost}>Save for later</a></li>}
 
-      {props.isInHomeFeed && (
-        props.isHidden
-          ? <li><a onClick={unhidePost}>Un-hide on homepage</a></li>
-          : <li><a onClick={hidePost}>Hide on homepage</a></li>
-      )}
+      {props.isHidden
+        ? <li><a onClick={unhidePost}>Un-hide on homepage</a></li>
+        : <li><a onClick={hidePost}>Hide on homepage</a></li>}
 
       {props.canIModerate && <>
         {props.canIEdit && (
