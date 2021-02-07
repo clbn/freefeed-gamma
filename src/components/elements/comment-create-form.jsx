@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 
 import { addComment, updateHighlightedComments } from '../../redux/action-creators';
@@ -7,142 +7,125 @@ import Icon from './icon';
 import Throbber from './throbber';
 import { getDraftCA, setDraftCA } from '../../utils/drafts';
 
-class CommentCreateForm extends React.Component {
-  bindTextarea = (textarea) => {
-    this._textarea = textarea;
-    this.props.bindTextarea(this._textarea);
-  };
+const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleCommenting, bindTextarea }) => {
+  const dispatch = useDispatch();
 
-  typedArrows = []; // Array of arrows (^^^) lengths, that user typing in the textarea
+  const textarea = useRef({}); // Textarea DOM element
+  const typedArrows = useRef([]); // Array of arrows (^^^) lengths, that user typing in the textarea
 
-  startCommenting = () => {
-    if (!this.props.post.isCommenting) {
-      this.props.toggleCommenting();
+  const textareaCallbackRef = useCallback(textareaElement => {
+    textarea.current = textareaElement;
+    bindTextarea(textareaElement);
+  }, [bindTextarea]);
+
+  const startCommenting = useCallback(() => {
+    if (!post.isCommenting) {
+      toggleCommenting();
     }
-  };
+  }, [post.isCommenting, toggleCommenting]);
 
-  cancelCommenting = () => {
-    if (!this._textarea.value || confirm('Discard changes and close the form?')) {
-      this.props.toggleCommenting();
-      this.props.updateHighlightedComments();
-      this.typedArrows = [];
-      setDraftCA(this.props.post.id, null);
+  const cancelCommenting = useCallback(() => {
+    if (!textarea.current.value || confirm('Discard changes and close the form?')) {
+      toggleCommenting();
+      dispatch(updateHighlightedComments());
+      typedArrows.current = [];
+      setDraftCA(post.id, null);
     }
-  };
+  }, [dispatch, post.id, toggleCommenting]);
 
-  handleKeyDown = (event) => {
+  const saveComment = useCallback(() => {
+    if (!post.isSavingComment) {
+      dispatch(addComment(post.id, textarea.current.value));
+      dispatch(updateHighlightedComments());
+      typedArrows.current = [];
+    }
+  }, [dispatch, post.id, post.isSavingComment]);
+
+  const handleKeyDown = useCallback(event => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
-      setTimeout(this.saveComment, 0);
+      setTimeout(saveComment, 0);
     }
-  };
+  }, [saveComment]);
 
-  handleKeyUp = (event) => {
+  const handleKeyUp = useCallback(event => {
     if (event.key === 'Escape') {
-      this.cancelCommenting();
+      cancelCommenting();
     }
-  };
+  }, [cancelCommenting]);
 
-  handleChangeText = () => {
-    const arrowsFound = this._textarea.value.match(/\^+/g);
+  const handleChangeText = useCallback(() => {
+    const arrowsFound = textarea.current.value.match(/\^+/g);
     const arrows = (arrowsFound ? arrowsFound.map(a => a.length) : []);
 
-    if (this.typedArrows.length !== arrows.length || !this.typedArrows.every((v, i) => (v === arrows[i]))) { // just comparing two arrays
-      this.typedArrows = arrows;
+    if (typedArrows.current.length !== arrows.length || !typedArrows.current.every((v, i) => (v === arrows[i]))) { // just comparing two arrays
+      typedArrows.current = arrows;
       if (arrows.length > 0) {
-        this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.post.id, baseCommentId: null, arrows });
+        dispatch(updateHighlightedComments({ reason: 'hover-arrows', postId: post.id, baseCommentId: null, arrows }));
       } else {
-        this.props.updateHighlightedComments();
+        dispatch(updateHighlightedComments());
       }
     }
 
-    setDraftCA(this.props.post.id, this._textarea.value);
-  };
+    setDraftCA(post.id, textarea.current.value);
+  }, [dispatch, post.id]);
 
-  saveComment = () => {
-    if (!this.props.post.isSavingComment) {
-      this.props.addComment(this.props.post.id, this._textarea.value);
-      this.props.updateHighlightedComments();
-      this.typedArrows = [];
-    }
-  };
+  const needsAddCommentLink = otherCommentsNumber > 2 && !post.omittedComments;
+  const draft = getDraftCA(post.id);
 
-  componentWillReceiveProps(newProps) {
-    // If it was successful saving, clear the form
-    const isSavingFinished = this.props.post.isSavingComment && !newProps.post.isSavingComment;
-    const isSavingFailed = newProps.post.commentError;
-    if (isSavingFinished && !isSavingFailed) {
-      this._textarea.value = '';
-    }
+  if (!post.isCommenting && !isSinglePost && !draft && !needsAddCommentLink) {
+    return false;
   }
 
-  render() {
-    const writingComment = this.props.post.isCommenting;
-    const singlePost = this.props.isSinglePost;
-    const manyComments = this.props.otherCommentsNumber > 2 && !this.props.post.omittedComments /* TODO: && user_is_signed_in */;
-    const draft = getDraftCA(this.props.post.id);
+  return (
+    <div className="comment">
+      <a className="comment-icon comment-icon-add" onClick={startCommenting}>
+        <Icon name="comment-plus"/>
+      </a>
 
-    if (!writingComment && !singlePost && !draft && !manyComments) {
-      return false;
-    }
+      {post.isCommenting ? (
+        <div className="comment-body">
+          <Textarea
+            inputRef={textareaCallbackRef}
+            className="form-control comment-textarea"
+            defaultValue={draft ?? ''}
+            autoFocus={true}
+            onKeyDown={handleKeyDown}
+            onKeyUp={handleKeyUp}
+            onChange={handleChangeText}
+            minRows={2}
+            maxRows={10}
+            maxLength="1500"/>
 
-    return (
-      <div className="comment">
-        <a className="comment-icon comment-icon-add" onClick={this.startCommenting}>
-          <Icon name="comment-plus"/>
-        </a>
+          <button className="btn btn-default btn-xs comment-post" onClick={saveComment}>Comment</button>
 
-        {writingComment ? (
-          <div className="comment-body">
-            <Textarea
-              inputRef={this.bindTextarea}
-              className="form-control comment-textarea"
-              defaultValue={draft ?? ''}
-              autoFocus={true}
-              onKeyDown={this.handleKeyDown}
-              onKeyUp={this.handleKeyUp}
-              onChange={this.handleChangeText}
-              minRows={2}
-              maxRows={10}
-              maxLength="1500"/>
+          <a className="comment-cancel" onClick={cancelCommenting}>Cancel</a>
 
-            <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Comment</button>
+          {post.isSavingComment ? (
+            <Throbber name="comment-edit"/>
+          ) : post.commentError ? (
+            <div className="comment-error alert alert-danger" role="alert">
+              Comment has not been saved. Server response: "{post.commentError}"
+            </div>
+          ) : false}
+        </div>
+      ) : (isSinglePost || draft) ? (
+        <div className="comment-body">
+          <textarea
+            className="form-control comment-textarea"
+            rows={2}
+            placeholder={draft}
+            onFocus={startCommenting}/>
+        </div>
+      ) : <>
+        <a className="add-comment-link" onClick={startCommenting}>Add comment</a>
 
-            <a className="comment-cancel" onClick={this.cancelCommenting}>Cancel</a>
+        {post.commentsDisabled && post.canIModerate && (
+          <i> - disabled for others</i>
+        )}
+      </>}
+    </div>
+  );
+};
 
-            {this.props.post.isSavingComment ? (
-              <Throbber name="comment-edit"/>
-            ) : this.props.post.commentError ? (
-              <div className="comment-error alert alert-danger" role="alert">
-                Comment has not been saved. Server response: "{this.props.post.commentError}"
-              </div>
-            ) : false}
-          </div>
-        ) : (singlePost || draft) ? (
-          <div className="comment-body">
-            <textarea
-              className="form-control comment-textarea"
-              rows={2}
-              placeholder={draft}
-              onFocus={this.startCommenting}/>
-          </div>
-        ) : <>
-          <a className="add-comment-link" onClick={this.startCommenting}>Add comment</a>
-
-          {this.props.post.commentsDisabled && this.props.post.canIModerate && (
-            <i> - disabled for others</i>
-          )}
-        </>}
-      </div>
-    );
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    addComment: (...args) => dispatch(addComment(...args)),
-    updateHighlightedComments: (...args) => dispatch(updateHighlightedComments(...args))
-  };
-}
-
-export default connect(null, mapDispatchToProps)(CommentCreateForm);
+export default CommentCreateForm;
