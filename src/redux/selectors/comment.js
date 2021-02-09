@@ -4,10 +4,10 @@ const emptyArray = [];
 
 const makeGetComment = () => createSelector(
   [
-    (state, props) => state.comments[props.id],
-    (state, props) => state.commentViews[props.id],
-    (state, props) => {
-      const comment = state.comments[props.id];
+    (state, id) => state.comments[id],
+    (state, id) => state.commentViews[id],
+    (state, id) => {
+      const comment = state.comments[id];
       if (!comment) {
         return false;
       }
@@ -16,7 +16,7 @@ const makeGetComment = () => createSelector(
     },
     (state) => state.me.subscriptions,
     (state) => state.me.id,
-    (state, props) => state.routing.locationBeforeTransitions.hash === '#comment-' + props.id
+    (state, id) => state.routing.locationBeforeTransitions.hash === '#comment-' + id
   ],
   (comment, commentView, authorUsername, mySubscriptions, myId, isTargeted) => {
     if (!comment) {

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import classnames from 'classnames';
 
@@ -12,273 +12,239 @@ import CommentMoreMenu from './comment-more-menu';
 import Icon from './icon';
 import Throbber from './throbber';
 import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
-import { postActions } from '../../redux/select-utils';
+import { toggleEditingComment, saveEditingComment, updateHighlightedComments, deleteComment } from '../../redux/action-creators';
 import * as CommentTypes from '../../utils/comment-types';
 import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
 import { getDraftCU, setDraftCU } from '../../utils/drafts';
 
-class Comment extends React.Component {
-  constructor(props) {
-    super(props);
+const Comment = ({ id, postId, postUrl, isModeratingComments, openAnsweringComment }) => {
+  const getComment = useMemo(makeGetComment, []);
+  const {
+    body, createdBy, createdAt, hideType, // data from store.comments
+    isEditing, isSaving, isHighlighted, errorMessage, // data from store.commentViews
+    authorUsername, canIEdit, amISubscribedToAuthor, isTargeted, notFound // derived data
+  } = useSelector(state => getComment(state, id), shallowEqual);
 
-    this.state = {
-      isExpanded: false
-    };
-  }
+  const dispatch = useDispatch();
 
-  refCommentContainer = (element) => {
-    this.commentContainer = element;
-  };
+  const [isExpanded, setExpanded] = useState(false);
 
-  refCommentText = (input) => {
-    this.commentText = input;
-  };
+  const commentContainerRef = useRef({});
+  const commentTextRef = useRef({});
 
-  typedArrows = []; // Array of arrows (^^^) lengths, that user typing in the textarea
+  const typedArrows = useRef([]); // Array of arrows (^^^) lengths, that user typing in the textarea
 
-  toggleEditing = () => {
-    this.props.toggleEditingComment(this.props.id);
-    this.props.updateHighlightedComments();
-    this.typedArrows = [];
-  };
-  cancelEditing = () => {
-    const isTextNotChanged = this.props.body === this.commentText.value.trim();
+  const toggleEditing = useCallback(() => {
+    dispatch(toggleEditingComment(id));
+    dispatch(updateHighlightedComments());
+    typedArrows.current = [];
+  }, [dispatch, id]);
+
+  const cancelEditing = useCallback(() => {
+    const isTextNotChanged = body === commentTextRef.current.value.trim();
     if (isTextNotChanged || confirm('Discard changes and close the form?')) {
-      this.toggleEditing();
-      setDraftCU(this.props.id, null);
+      toggleEditing();
+      setDraftCU(id, null);
     }
-  }
+  }, [body, id, toggleEditing]);
 
-  deleteAfterConfirmation = confirmFirst(() => this.props.deleteComment(this.props.id));
+  const saveComment = useCallback(() => {
+    if (!isSaving) {
+      dispatch(saveEditingComment(id, commentTextRef.current.value));
 
-  openAnsweringComment = () => {
-    if (this.props.openAnsweringComment) {
-      this.props.openAnsweringComment(this.props.authorUsername);
+      dispatch(updateHighlightedComments());
+      typedArrows.current = [];
+
+      setExpanded(true);
     }
-  };
+  }, [dispatch, id, isSaving]);
 
-  handleKeyDown = (event) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const deleteAfterConfirmation = useCallback(confirmFirst(() => dispatch(deleteComment(id))), [dispatch, id]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleIconClick = useCallback(preventDefault(() => {
+    if (openAnsweringComment) {
+      openAnsweringComment(authorUsername);
+    }
+  }), [openAnsweringComment, authorUsername]);
+
+  const handleKeyDown = useCallback((event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
-      setTimeout(this.saveComment, 0);
+      setTimeout(saveComment, 0);
     }
-  };
+  }, [saveComment]);
 
-  handleKeyUp = (event) => {
+  const handleKeyUp = useCallback((event) => {
     if (event.key === 'Escape') {
-      this.cancelEditing();
+      cancelEditing();
     }
-  };
+  }, [cancelEditing]);
 
-  handleChangeText = () => {
-    const arrowsFound = this.commentText.value.match(/\^+/g);
+  const handleChangeText = useCallback(() => {
+    const arrowsFound = commentTextRef.current.value.match(/\^+/g);
     const arrows = (arrowsFound ? arrowsFound.map(a => a.length) : []);
 
-    if (this.typedArrows.length !== arrows.length || !this.typedArrows.every((v, i) => (v === arrows[i]))) { // just comparing two arrays
-      this.typedArrows = arrows;
+    if (typedArrows.current.length !== arrows.length || !typedArrows.current.every((v, i) => (v === arrows[i]))) { // just comparing two arrays
+      typedArrows.current = arrows;
       if (arrows.length > 0) {
-        this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.postId, baseCommentId: this.props.id, arrows });
+        dispatch(updateHighlightedComments({ reason: 'hover-arrows', postId: postId, baseCommentId: id, arrows }));
       } else {
-        this.props.updateHighlightedComments();
+        dispatch(updateHighlightedComments());
       }
     }
 
-    const isTextChanged = this.props.body !== this.commentText.value.trim();
-    setDraftCU(this.props.id, isTextChanged ? this.commentText.value : null);
-  };
+    const isTextChanged = body !== commentTextRef.current.value.trim();
+    setDraftCU(id, isTextChanged ? commentTextRef.current.value : null);
+  }, [dispatch, body, id, postId]);
 
-  saveComment = () => {
-    if (!this.props.isSaving) {
-      this.props.saveEditingComment(this.props.id, this.commentText.value);
+  const userHoverHandlers = useMemo(() => ({
+    hover: (username) => dispatch(updateHighlightedComments({ reason: 'hover-author', postId: postId, username })),
+    leave: () => dispatch(updateHighlightedComments())
+  }), [dispatch, postId]);
 
-      this.props.updateHighlightedComments();
-      this.typedArrows = [];
+  const arrowHoverHandlers = useMemo(() => ({
+    click: (arrows) => dispatch(updateHighlightedComments({ reason: 'click-arrows', postId: postId, baseCommentId: id, arrows })),
+    hover: (arrows) => dispatch(updateHighlightedComments({ reason: 'hover-arrows', postId: postId, baseCommentId: id, arrows })),
+    leave: () => dispatch(updateHighlightedComments())
+  }), [dispatch, id, postId]);
 
-      this.setState({ isExpanded: true });
-    }
-  };
-
-  userHoverHandlers = {
-    hover: (username) => this.props.updateHighlightedComments({ reason: 'hover-author', postId: this.props.postId, username }),
-    leave: () => this.props.updateHighlightedComments()
-  };
-
-  arrowHoverHandlers = {
-    click: (arrows) => this.props.updateHighlightedComments({ reason: 'click-arrows', postId: this.props.postId, baseCommentId: this.props.id, arrows }),
-    hover: (arrows) => this.props.updateHighlightedComments({ reason: 'hover-arrows', postId: this.props.postId, baseCommentId: this.props.id, arrows }),
-    leave: () => this.props.updateHighlightedComments()
-  };
-
-  getCommentPlaceholder = () => {
-    switch (this.props.hideType) {
+  const getCommentPlaceholder = useCallback(() => {
+    switch (hideType) {
       case CommentTypes.COMMENT_HIDDEN_BANNED: return 'Comment from banned';
       case CommentTypes.COMMENT_HIDDEN_ARCHIVED: return 'Comment in archive';
     }
-    return this.props.body;
-  };
+    return body;
+  }, [body, hideType]);
 
-  scrollToComment = () => {
-    if (this.commentContainer) {
-      const rect = this.commentContainer.getBoundingClientRect();
+  useEffect(() => {
+    if (isTargeted && commentContainerRef.current) {
+      const rect = commentContainerRef.current.getBoundingClientRect();
       const middleScreenPosition = window.pageYOffset + ((rect.top + rect.bottom) / 2) - (window.innerHeight / 2);
       if (rect.top < 0 || rect.bottom > window.innerHeight) {
         window.scrollTo(0, middleScreenPosition);
       }
     }
-  };
+  }, [isTargeted]);
 
-  componentDidMount() {
-    if (this.props.isTargeted) {
-      setTimeout(this.scrollToComment, 0);
-    }
+  if (notFound) {
+    return false;
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.isTargeted && this.props.isTargeted) {
-      setTimeout(this.scrollToComment, 0);
-    }
-  }
+  const commentClasses = classnames({
+    'comment': true,
+    'comment-from-archive': (+createdAt < ARCHIVE_WATERSHED_TIMESTAMP),
+    'hidden-comment': !!hideType,
+    'highlighted': isHighlighted,
+    'targeted-comment': isTargeted
+  });
 
-  render() {
-    if (this.props.notFound) {
-      return false;
-    }
+  const iconClasses = classnames({
+    'comment-icon': true,
+    'comment-icon-important': amISubscribedToAuthor,
+    'comment-icon-mine': canIEdit,
+  });
 
-    const isCommentImportant = this.props.amISubscribedToAuthor;
-    const isCommentMine = this.props.canIEdit;
+  const dateISO = getISODate(+createdAt);
+  const dateFull = getFullDate(+createdAt);
+  const dateRelative = getRelativeDate(+createdAt);
+  const dateRelativeShort = getRelativeDate(+createdAt, false);
 
-    const commentClasses = classnames({
-      'comment': true,
-      'comment-from-archive': (+this.props.createdAt < ARCHIVE_WATERSHED_TIMESTAMP),
-      'hidden-comment': !!this.props.hideType,
-      'highlighted': this.props.isHighlighted,
-      'targeted-comment': this.props.isTargeted
-    });
+  // "Changes not saved" when there is a draft
+  const draft = getDraftCU(id);
+  const draftLink = (draft && (draft !== body) ? <>
+    {' -'}&nbsp;
+    <a onClick={toggleEditing} title={`Click to review your changes:\n\n${draft}`}>
+      <i className="alert-warning">Changes not saved</i>
+    </a>
+  </> : false);
 
-    const iconClasses = classnames({
-      'comment-icon': true,
-      'comment-icon-important': isCommentImportant,
-      'comment-icon-mine': isCommentMine,
-    });
+  return (
+    <div className={commentClasses} id={`comment-${id}`} ref={commentContainerRef}>
+      <a className={iconClasses}
+        title={dateRelative + '\n' + dateFull}
+        href={`${postUrl}#comment-${id}`}
+        onClick={handleIconClick}>
 
-    const commentPlaceholderText = this.getCommentPlaceholder();
-
-    const dateISO = getISODate(+this.props.createdAt);
-    const dateFull = getFullDate(+this.props.createdAt);
-    const dateRelative = getRelativeDate(+this.props.createdAt);
-    const dateRelativeShort = getRelativeDate(+this.props.createdAt, false);
-
-    // "Changes not saved" when there is a draft
-    const draft = getDraftCU(this.props.id);
-    const draftLink = (draft && (draft !== this.props.body) ? <>
-      {' -'}&nbsp;
-      <a onClick={this.toggleEditing} title={`Click to review your changes:\n\n${draft}`}>
-        <i className="alert-warning">Changes not saved</i>
+        <Icon name="comment"/>
       </a>
-    </> : false);
 
-    return (
-      <div className={commentClasses} id={`comment-${this.props.id}`} ref={this.refCommentContainer}>
-        <a className={iconClasses}
-          title={dateRelative + '\n' + dateFull}
-          href={`${this.props.postUrl}#comment-${this.props.id}`}
-          onClick={preventDefault(this.openAnsweringComment)}>
+      {hideType ? (
+        <div className="comment-body">
+          {getCommentPlaceholder()}
 
-          <Icon name="comment"/>
-        </a>
+          {dateRelativeShort ? (
+            <span className="comment-timestamp">
+              {' - '}
+              <Link to={`${postUrl}#comment-${id}`} dir="auto">
+                <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
+              </Link>
+            </span>
+          ) : false}
+        </div>
+      ) : isEditing ? (
+        <div className="comment-body">
+          <Textarea
+            ref={commentTextRef}
+            className="form-control comment-textarea"
+            defaultValue={draft ?? body}
+            autoFocus={true}
+            onKeyDown={handleKeyDown}
+            onKeyUp={handleKeyUp}
+            onChange={handleChangeText}
+            minRows={2}
+            maxRows={10}
+            maxLength="1500"/>
 
-        {this.props.hideType ? (
-          <div className="comment-body">
-            {commentPlaceholderText}
+          <button className="btn btn-default btn-xs comment-post" onClick={saveComment}>Post</button>
 
-            {dateRelativeShort ? (
-              <span className="comment-timestamp">
-                {' - '}
-                <Link to={`${this.props.postUrl}#comment-${this.props.id}`} dir="auto">
-                  <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
-                </Link>
-              </span>
-            ) : false}
-          </div>
-        ) : this.props.isEditing ? (
-          <div className="comment-body">
-            <Textarea
-              ref={this.refCommentText}
-              className="form-control comment-textarea"
-              defaultValue={draft ?? this.props.body}
-              autoFocus={true}
-              onKeyDown={this.handleKeyDown}
-              onKeyUp={this.handleKeyUp}
-              onChange={this.handleChangeText}
-              minRows={2}
-              maxRows={10}
-              maxLength="1500"/>
+          <a className="comment-cancel" onClick={cancelEditing}>Cancel</a>
 
-            <button className="btn btn-default btn-xs comment-post" onClick={this.saveComment}>Post</button>
+          {isSaving ? (
+            <Throbber name="comment-edit"/>
+          ) : errorMessage ? (
+            <div className="comment-error alert alert-danger" role="alert">
+              Comment has not been saved. Server response: "{errorMessage}"
+            </div>
+          ) : false}
+        </div>
+      ) : (
+        <div className="comment-body">
+          <PieceOfText
+            text={body}
+            isExpanded={isExpanded}
+            userHover={userHoverHandlers}
+            arrowHover={arrowHoverHandlers}/>
 
-            <a className="comment-cancel" onClick={this.cancelEditing}>Cancel</a>
+          {draftLink}
 
-            {this.props.isSaving ? (
-              <Throbber name="comment-edit"/>
-            ) : this.props.errorMessage ? (
-              <div className="comment-error alert alert-danger" role="alert">
-                Comment has not been saved. Server response: "{this.props.errorMessage}"
-              </div>
-            ) : false}
-          </div>
-        ) : (
-          <div className="comment-body">
-            <PieceOfText
-              text={this.props.body}
-              isExpanded={this.state.isExpanded}
-              userHover={this.userHoverHandlers}
-              arrowHover={this.arrowHoverHandlers}/>
+          {' -'}&nbsp;
 
-            {draftLink}
+          <UserName id={createdBy}/>
 
-            {' -'}&nbsp;
+          {' '}
 
-            <UserName id={this.props.createdBy}/>
+          {dateRelativeShort ? (
+            <span className="comment-timestamp">
+              {'-\u00a0'}
+              <Link to={`${postUrl}#comment-${id}`} dir="auto">
+                <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
+              </Link>
+            </span>
+          ) : false}
 
-            {' '}
+          {' '}
 
-            {dateRelativeShort ? (
-              <span className="comment-timestamp">
-                {'-\u00a0'}
-                <Link to={`${this.props.postUrl}#comment-${this.props.id}`} dir="auto">
-                  <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
-                </Link>
-              </span>
-            ) : false}
+          <CommentLikes commentId={id}/>
 
-            {' '}
+          <CommentMoreMenu
+            isCommentMine={canIEdit} isModeratingComments={isModeratingComments}
+            editFn={toggleEditing} deleteFn={deleteAfterConfirmation}/>
+        </div>
+      )}
+    </div>
+  );
+};
 
-            <CommentLikes commentId={this.props.id}/>
-
-            <CommentMoreMenu
-              isCommentMine={isCommentMine} isModeratingComments={this.props.isModeratingComments}
-              editFn={this.toggleEditing} deleteFn={this.deleteAfterConfirmation}/>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-
-function makeMapStateToProps() {
-  const getComment = makeGetComment();
-
-  return (state, ownProps) => {
-    return {
-      ...getComment(state, ownProps)
-    };
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    ...postActions(dispatch).commentEdit
-  };
-}
-
-export default connect(makeMapStateToProps, mapDispatchToProps)(Comment);
+export default Comment;
