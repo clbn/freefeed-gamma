@@ -86,7 +86,7 @@ const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleComm
       {post.isCommenting ? (
         <div className="comment-body">
           <Textarea
-            inputRef={textareaCallbackRef}
+            ref={textareaCallbackRef}
             className="form-control comment-textarea"
             defaultValue={draft ?? ''}
             autoFocus={true}

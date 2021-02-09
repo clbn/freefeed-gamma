@@ -364,7 +364,7 @@ class Post extends React.Component {
                 onUploadFailure={this.handleUploadFailure}/>
 
               <Textarea
-                inputRef={this.refPostText}
+                ref={this.refPostText}
                 className="form-control post-textarea"
                 defaultValue={draft ?? props.body}
                 autoFocus={true}

@@ -203,7 +203,7 @@ class Comment extends React.Component {
         ) : this.props.isEditing ? (
           <div className="comment-body">
             <Textarea
-              inputRef={this.refCommentText}
+              ref={this.refCommentText}
               className="form-control comment-textarea"
               defaultValue={draft ?? this.props.body}
               autoFocus={true}
