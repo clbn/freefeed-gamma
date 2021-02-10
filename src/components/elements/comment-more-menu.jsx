@@ -16,13 +16,13 @@ const tippyOptions = {
 };
 
 const CommentMoreMenu = ({ isCommentMine, isModeratingComments, editFn, deleteFn }) => {
-  if (!isCommentMine && !isModeratingComments) {
-    return false;
-  }
-
   const tippyInstance = useRef(null);
   const onCreate = useCallback(instance => (tippyInstance.current = instance), []);
   const hideMenu = useCallback(() => { tippyInstance.current.hide(); }, []);
+
+  if (!isCommentMine && !isModeratingComments) {
+    return false;
+  }
 
   const menuContent = (
     <ul className="more-menu-items" onClick={hideMenu}>

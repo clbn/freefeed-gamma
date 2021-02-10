@@ -8,12 +8,12 @@ const Blurred = ({ children, backward = false }) => (
 );
 
 const Spoiler = ({ openingTag, closingTag, children }) => {
+  const [visible, setVisible] = useState(false);
+  const handleToggle = useCallback(() => setVisible(!visible), [visible]);
+
   if (!children) {
     return openingTag;
   }
-
-  const [visible, setVisible] = useState(false);
-  const handleToggle = useCallback(() => setVisible(!visible), [visible]);
 
   const classes = classnames({
     'spoiler': true,
