@@ -7,8 +7,8 @@ import classnames from 'classnames';
 import SearchForm from './elements/search-form';
 import Sidebar from './elements/sidebar';
 import Footer from './elements/footer';
-import IconDefinitions from "./elements/icon-definitions";
-import Icon from "./elements/icon";
+import IconDefinitions from './elements/icon-definitions';
+import Icon from './elements/icon';
 import { getCurrentRouteName, toggleSidebar } from '../utils';
 import throbber100 from 'assets/images/throbber.gif';
 

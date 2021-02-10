@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import classnames from 'classnames';
 
 import { preventDefault } from '../../utils';
-import Icon from "./icon";
+import Icon from './icon';
 
 class SearchForm extends React.Component {
   constructor(props) {

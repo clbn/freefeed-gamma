@@ -6,7 +6,7 @@ import { showMoreComments, toggleCommenting } from '../../redux/action-creators'
 import Comment from './comment';
 import PostCommentsMore from './post-comments-more';
 import CommentCreateForm from './comment-create-form';
-import Icon from "./icon";
+import Icon from './icon';
 
 class PostComments extends React.Component {
   constructor(props) {

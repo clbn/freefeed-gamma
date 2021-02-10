@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import { getVisibleEntriesWithHidden } from '../redux/selectors';
-import { getSummaryPeriod } from "../utils/index";
+import { getSummaryPeriod } from '../utils/index';
 import Feed from './elements/feed';
 
 class Summary extends React.Component {

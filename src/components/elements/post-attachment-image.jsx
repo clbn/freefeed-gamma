@@ -3,7 +3,7 @@ import numeral from 'numeral';
 import { SortableHandle } from 'react-sortable-hoc';
 
 import { preventDefault } from '../../utils';
-import Icon from "./icon";
+import Icon from './icon';
 
 const DragHandle = SortableHandle((props) => props.children);
 

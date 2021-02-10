@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as PostVisibilityLevels from '../../utils/post-visibility-levels';
 import { getPostVisibilityLevel } from '../../utils';
-import Icon from "./icon";
+import Icon from './icon';
 
 const PostVisibilityIcon = (props) => {
   const postLevel = getPostVisibilityLevel(props.recipients, props.authorId);

@@ -18,7 +18,7 @@ import PostRecipients from './post-recipients';
 import PostDropzone from './post-dropzone';
 import PostMoreMenu from './post-more-menu';
 import PostVisibilityIcon from './post-visibility-icon';
-import Icon from "./icon";
+import Icon from './icon';
 import Userpic from './userpic';
 import { getDraftPU, setDraftPU } from '../../utils/drafts';
 

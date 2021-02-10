@@ -6,7 +6,7 @@ import { unauthenticated } from '../../redux/action-creators';
 import { toggleSidebar, confirmFirst, preventDefault, stopPropagation } from '../../utils';
 import SearchForm from './search-form';
 import RecentGroups from './recent-groups';
-import Icon from "./icon";
+import Icon from './icon';
 import Userpic from './userpic';
 
 const Sidebar = ({ me, signOut }) => {

@@ -6,7 +6,7 @@ import { PhotoSwipe } from 'react-photoswipe';
 import ImageAttachment from './post-attachment-image';
 import AudioAttachment from './post-attachment-audio';
 import GeneralAttachment from './post-attachment-general';
-import Icon from "./icon";
+import Icon from './icon';
 
 const SortableImageAttachment = SortableElement(ImageAttachment);
 
