@@ -1,0 +1,104 @@
+import React, { useCallback, useRef } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import Textarea from 'react-textarea-autosize';
+
+import Throbber from './throbber';
+import { toggleEditingComment, saveEditingComment, updateHighlightedComments } from '../../redux/action-creators';
+import { getDraftCU, setDraftCU } from '../../utils/drafts';
+
+const CommentEditForm = ({ id, postId, expandFn }) => {
+  const body = useSelector(state => state.comments[id].body);
+  const { isSaving, errorMessage } = useSelector(state => state.commentViews[id], shallowEqual);
+
+  const dispatch = useDispatch();
+
+  const textarea = useRef({}); // Textarea DOM element
+  const typedArrows = useRef([]); // Array of arrows (^^^) lengths, that user typing in the textarea
+
+  const toggleEditing = useCallback(() => {
+    dispatch(toggleEditingComment(id));
+    dispatch(updateHighlightedComments());
+    typedArrows.current = [];
+  }, [dispatch, id]);
+
+  const cancelEditing = useCallback(() => {
+    const isTextNotChanged = body === textarea.current.value.trim();
+    if (isTextNotChanged || confirm('Discard changes and close the form?')) {
+      toggleEditing();
+      setDraftCU(id, null);
+    }
+  }, [body, id, toggleEditing]);
+
+  const saveComment = useCallback(() => {
+    if (!isSaving) {
+      dispatch(saveEditingComment(id, textarea.current.value));
+
+      dispatch(updateHighlightedComments());
+      typedArrows.current = [];
+
+      expandFn(true);
+    }
+  }, [dispatch, expandFn, id, isSaving]);
+
+  const handleKeyDown = useCallback((event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      setTimeout(saveComment, 0);
+    }
+  }, [saveComment]);
+
+  const handleKeyUp = useCallback((event) => {
+    if (event.key === 'Escape') {
+      cancelEditing();
+    }
+  }, [cancelEditing]);
+
+  const handleChangeText = useCallback(() => {
+    const arrowsFound = textarea.current.value.match(/\^+/g);
+    const arrows = (arrowsFound ? arrowsFound.map(a => a.length) : []);
+
+    if (typedArrows.current.length !== arrows.length || !typedArrows.current.every((v, i) => (v === arrows[i]))) { // just comparing two arrays
+      typedArrows.current = arrows;
+      if (arrows.length > 0) {
+        dispatch(updateHighlightedComments({ reason: 'hover-arrows', postId: postId, baseCommentId: id, arrows }));
+      } else {
+        dispatch(updateHighlightedComments());
+      }
+    }
+
+    const isTextChanged = body !== textarea.current.value.trim();
+    setDraftCU(id, isTextChanged ? textarea.current.value : null);
+  }, [dispatch, body, id, postId]);
+
+  const draft = getDraftCU(id);
+
+  return (
+    <div className="comment-body">
+      <Textarea
+        ref={textarea}
+        className="form-control comment-textarea"
+        defaultValue={draft ?? body}
+        autoFocus={true}
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
+        onChange={handleChangeText}
+        minRows={2}
+        maxRows={10}
+        maxLength="1500"/>
+
+      <button className="btn btn-default btn-xs comment-post" onClick={saveComment}>Post</button>
+
+      <a className="comment-cancel" onClick={cancelEditing}>Cancel</a>
+
+      {isSaving ? (
+        <Throbber name="comment-edit"/>
+      ) : errorMessage ? (
+        <div className="comment-error alert alert-danger" role="alert">
+          Comment has not been saved. Server response: "{errorMessage}"
+        </div>
+      ) : false}
+    </div>
+  );
+};
+
+export default CommentEditForm;
