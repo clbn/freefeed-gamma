@@ -17,48 +17,53 @@ const tippyOptions = {
   zIndex: 9
 };
 
-export default function(props) {
-  const tippyInstance = useRef(null);
+export default function({
+  id, isSaved, isHidden, canIModerate, canIEdit, isEditing,
+  isModeratingComments, commentsDisabled, isSavingForLater, isHiding,
+  hidePost, unhidePost, savePost, unsavePost, toggleEditingPost, deletePost,
+  toggleModeratingComments, disableComments, enableComments
+}) {
+  const tippyInstance = useRef();
   const onCreate = useCallback(instance => (tippyInstance.current = instance), []);
   const hideMenu = useCallback(() => { tippyInstance.current.hide(); }, []);
 
-  const id = props.id;
-  const hidePost = useCallback(() => props.hidePost(id), [id]);
-  const unhidePost = useCallback(() => props.unhidePost(id), [id]);
-  const savePost = useCallback(() => props.savePost(id), [id]);
-  const unsavePost = useCallback(() => props.unsavePost(id), [id]);
-  const toggleEditingPost = useCallback(() => props.toggleEditingPost(id), [id]);
-  const toggleModeratingComments = useCallback(() => props.toggleModeratingComments(id), [id]);
-  const disableComments = useCallback(() => props.disableComments(id), [id]);
-  const enableComments = useCallback(() => props.enableComments(id), [id]);
-  const deletePost = useCallback(() => props.deletePost(id), [id]);
+  const handleHidePost = useCallback(() => hidePost(id), [id, hidePost]);
+  const handleUnhidePost = useCallback(() => unhidePost(id), [id, unhidePost]);
+  const handleSavePost = useCallback(() => savePost(id), [id, savePost]);
+  const handleUnsavePost = useCallback(() => unsavePost(id), [id, unsavePost]);
+  const handleToggleEditingPost = useCallback(() => toggleEditingPost(id), [id, toggleEditingPost]);
+  const handleToggleModeratingComments = useCallback(() => toggleModeratingComments(id), [id, toggleModeratingComments]);
+  const handleDisableComments = useCallback(() => disableComments(id), [id, disableComments]);
+  const handleEnableComments = useCallback(() => enableComments(id), [id, enableComments]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleDeletePost = useCallback(confirmFirst(() => deletePost(id)), [id, deletePost]);
 
   const menuContent = (
     <ul className="more-menu-items" onClick={hideMenu}>
-      {props.isSaved
-        ? <li><a onClick={unsavePost}>Un-save</a></li>
-        : <li><a onClick={savePost}>Save for later</a></li>}
+      {isSaved
+        ? <li><a onClick={handleUnsavePost}>Un-save</a></li>
+        : <li><a onClick={handleSavePost}>Save for later</a></li>}
 
-      {props.isHidden
-        ? <li><a onClick={unhidePost}>Un-hide on homepage</a></li>
-        : <li><a onClick={hidePost}>Hide on homepage</a></li>}
+      {isHidden
+        ? <li><a onClick={handleUnhidePost}>Un-hide on homepage</a></li>
+        : <li><a onClick={handleHidePost}>Hide on homepage</a></li>}
 
-      {props.canIModerate && <>
-        {props.canIEdit && (
-          props.isEditing
-            ? <li><a onClick={toggleEditingPost}>Cancel editing</a></li>
-            : <li><a onClick={toggleEditingPost}>Edit</a></li>
+      {canIModerate && <>
+        {canIEdit && (
+          isEditing
+            ? <li><a onClick={handleToggleEditingPost}>Cancel editing</a></li>
+            : <li><a onClick={handleToggleEditingPost}>Edit</a></li>
         )}
 
-        {props.isModeratingComments
-          ? <li><a onClick={toggleModeratingComments}>Stop moderating comments</a></li>
-          : <li><a onClick={toggleModeratingComments}>Moderate comments</a></li>}
+        {isModeratingComments
+          ? <li><a onClick={handleToggleModeratingComments}>Stop moderating comments</a></li>
+          : <li><a onClick={handleToggleModeratingComments}>Moderate comments</a></li>}
 
-        {props.commentsDisabled
-          ? <li><a onClick={enableComments}>Enable comments</a></li>
-          : <li><a onClick={disableComments}>Disable comments</a></li>}
+        {commentsDisabled
+          ? <li><a onClick={handleEnableComments}>Enable comments</a></li>
+          : <li><a onClick={handleDisableComments}>Disable comments</a></li>}
 
-        <li className="danger"><a onClick={confirmFirst(deletePost)}>Delete</a></li>
+        <li className="danger"><a onClick={handleDeletePost}>Delete</a></li>
       </>}
     </ul>
   );
@@ -67,7 +72,7 @@ export default function(props) {
     <Tippy onCreate={onCreate} content={menuContent} {...tippyOptions}>
       <a className="more-menu-trigger" title="More options">
         <Icon name="more"/>
-        {(props.isSavingForLater || props.isHiding) && <Throbber name="post-hide"/>}
+        {(isSavingForLater || isHiding) && <Throbber name="post-hide"/>}
       </a>
     </Tippy>
   );

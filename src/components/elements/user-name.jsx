@@ -50,20 +50,23 @@ const tippyOptions = {
   zIndex: 9
 };
 
-const UserName = (props) => {
+const UserName = ({
+  username, screenName, isItMe, myPrefs,
+  display, className, onMouseEnter, onMouseLeave
+}) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  const onShow = useCallback(() => { setTooltipOpen(true); props.onMouseEnter && props.onMouseEnter(); }, []);
-  const onHide = useCallback(() => { setTooltipOpen(false); props.onMouseLeave && props.onMouseLeave(); }, []);
+  const onShow = useCallback(() => { setTooltipOpen(true); onMouseEnter && onMouseEnter(); }, [onMouseEnter]);
+  const onHide = useCallback(() => { setTooltipOpen(false); onMouseLeave && onMouseLeave(); }, [onMouseLeave]);
   const onClick = useCallback(event => { if (isMobile()) { event.preventDefault(); } }, []);
 
-  const tooltipContent = tooltipOpen && <UserCard username={props.username}/>; // only render UserCard when needed
+  const tooltipContent = tooltipOpen && <UserCard username={username}/>; // only render UserCard when needed
 
   return (
     <Tippy content={tooltipContent} onShow={onShow} onHide={onHide} {...tippyOptions}>
       <span>
-        <Link to={`/${props.username}`} className={props.className} onClick={onClick}>
-          {props.display || <DisplayOption {...props}/>}
+        <Link to={`/${username}`} className={className} onClick={onClick}>
+          {display || <DisplayOption username={username} screenName={screenName} isItMe={isItMe} myPrefs={myPrefs}/>}
         </Link>
       </span>
     </Tippy>

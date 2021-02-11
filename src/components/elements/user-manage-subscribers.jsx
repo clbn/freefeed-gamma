@@ -10,54 +10,58 @@ import throbber100 from 'assets/images/throbber.gif';
 const AdminsList = tileUserListFactory({ type: WITH_REMOVE_ADMIN_RIGHTS });
 const OtherSubsList = tileUserListFactory({ type: WITH_REMOVE_AND_MAKE_ADMIN_HANDLES });
 
-const UserManageSubscribers = (props) => {
+const UserManageSubscribers = ({
+  viewUser,
+  myId, isLoading, groupAdmins, users, amILastGroupAdmin,
+  unsubscribeFromGroup, promoteGroupAdmin, demoteGroupAdmin
+}) => {
   const unsubscribe = useCallback(username => (
-    props.unsubscribeFromGroup(props.viewUser.username, username)
-  ), [props.viewUser.username]);
+    unsubscribeFromGroup(viewUser.username, username)
+  ), [unsubscribeFromGroup, viewUser.username]);
 
   const promoteToAdmin = useCallback(user => (
-    props.promoteGroupAdmin(props.viewUser.username, user)
-  ), [props.viewUser.username]);
+    promoteGroupAdmin(viewUser.username, user)
+  ), [promoteGroupAdmin, viewUser.username]);
 
   const demoteFromAdmin = useCallback(user => {
-    const isItMe = (props.myId === user.id);
-    props.demoteGroupAdmin(props.viewUser.username, user, isItMe);
-  }, [props.viewUser.username, props.myId]);
+    const isItMe = (myId === user.id);
+    demoteGroupAdmin(viewUser.username, user, isItMe);
+  }, [myId, demoteGroupAdmin, viewUser.username]);
 
   return (
     <div className="box-body">
       <h4 className="user-subheader">
         Manage subscribers
 
-        {props.viewUser.amIGroupAdmin ? (
+        {viewUser.amIGroupAdmin ? (
           <div className="user-subheader-sidelinks">
-            <Link to={`/${props.viewUser.username}/subscribers`}>Browse subscribers</Link>
+            <Link to={`/${viewUser.username}/subscribers`}>Browse subscribers</Link>
           </div>
         ) : false}
       </h4>
 
-      {props.isLoading ? (
+      {isLoading ? (
         <img width="100" height="100" src={throbber100}/>
       ) : (
         <>
-          {props.amILastGroupAdmin ? <>
+          {amILastGroupAdmin ? <>
             <h3>Admins</h3>
             <p>You are the only Admin for this group. Before you can drop administrative privileges
               or leave this group, you have to promote another group member to Admin first.</p>
           </> : (
             <AdminsList
               header="Admins"
-              users={props.groupAdmins}
+              users={groupAdmins}
               removeAdminRights={demoteFromAdmin}/>
           )}
 
-          {props.users.length === 0 ? <>
+          {users.length === 0 ? <>
             <h3>Other subscribers</h3>
             <p>There are none. You might want to invite a few friends.</p>
           </> : (
             <OtherSubsList
               header="Other subscribers"
-              users={props.users}
+              users={users}
               makeAdmin={promoteToAdmin}
               remove={unsubscribe}/>
           )}

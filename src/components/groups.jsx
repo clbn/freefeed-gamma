@@ -15,8 +15,8 @@ const GroupRequestsSection = ({ users, accept, reject }) => {
   const groupName = users[0].groupName;
   const header = `${pluralForm(users.length, 'Request', null, 'w')} to join @${groupName}`;
 
-  const acceptGroupRequest = useCallback(username => accept(groupName, username), [groupName]);
-  const rejectGroupRequest = useCallback(username => reject(groupName, username), [groupName]);
+  const acceptGroupRequest = useCallback(username => accept(groupName, username), [accept, groupName]);
+  const rejectGroupRequest = useCallback(username => reject(groupName, username), [reject, groupName]);
 
   return (
     <TileListWithAcceptAndReject
