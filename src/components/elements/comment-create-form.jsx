@@ -6,6 +6,7 @@ import { addComment, updateHighlightedComments } from '../../redux/action-creato
 import Icon from './icon';
 import Throbber from './throbber';
 import { getDraftCA, setDraftCA } from '../../utils/drafts';
+import { useUploader } from '../../utils/useUploader';
 
 const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleCommenting, bindTextarea }) => {
   const dispatch = useDispatch();
@@ -73,6 +74,17 @@ const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleComm
   const needsAddCommentLink = otherCommentsNumber > 2 && !post.omittedComments;
   const draft = getDraftCA(post.id);
 
+  const appendUrlAfterUpload = useCallback(attUrl => {
+    const text = textarea.current.value;
+    const addSpace = text.length && !text.match(/\s$/);
+    textarea.current.value = `${text}${addSpace ? ' ' : ''}${attUrl} `;
+    textarea.current.focus();
+    handleChangeText();
+  }, [handleChangeText]);
+  const { getDropzoneProps, getFileInputProps, openFileDialog, queueLength } = useUploader(appendUrlAfterUpload);
+
+  const isSubmitButtonDisabled = queueLength > 0 || post.isSavingComment;
+
   if (!post.isCommenting && !isSinglePost && !draft && !needsAddCommentLink) {
     return false;
   }
@@ -84,7 +96,7 @@ const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleComm
       </a>
 
       {post.isCommenting ? (
-        <div className="comment-body">
+        <div className="comment-body" {...getDropzoneProps()}>
           <Textarea
             ref={textareaCallbackRef}
             className="form-control comment-textarea"
@@ -97,17 +109,37 @@ const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleComm
             maxRows={10}
             maxLength="1500"/>
 
-          <button className="btn btn-default btn-xs comment-post" onClick={saveComment}>Comment</button>
+          <div className="comment-edit-actions">
+            <div className="comment-attachments" onClick={openFileDialog}>
+              <input {...getFileInputProps()}/>
+              <Icon name="cloud-upload"/>{' '}
+              <span>Add photos or files</span>
+              {queueLength > 0 && (
+                <span className="comment-attachments-uploading">
+                  <Throbber name="comment-attachment" size={12}/>
+                  {queueLength > 1 && queueLength}
+                </span>
+              )}
+            </div>
 
-          <a className="comment-cancel" onClick={cancelCommenting}>Cancel</a>
+            <div>
+              {post.isSavingComment && (
+                <Throbber name="comment-edit" size={14}/>
+              )}
 
-          {post.isSavingComment ? (
-            <Throbber name="comment-edit"/>
-          ) : post.commentError ? (
+              <a className="comment-cancel" onClick={cancelCommenting}>Cancel</a>
+
+              <button className="btn btn-default btn-xs comment-post" onClick={saveComment} disabled={isSubmitButtonDisabled}>
+                Comment
+              </button>
+            </div>
+          </div>
+
+          {post.commentError && (
             <div className="comment-error alert alert-danger" role="alert">
               Comment has not been saved. Server response: "{post.commentError}"
             </div>
-          ) : false}
+          )}
         </div>
       ) : (isSinglePost || draft) ? (
         <div className="comment-body">

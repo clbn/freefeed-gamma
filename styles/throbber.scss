@@ -13,8 +13,11 @@
     position: absolute;
     margin-top: 1px;
   }
+  &-comment-attachment {
+    margin: 0 5px 0 10px;
+  }
   &-comment-edit {
-    margin-left: 10px;
+    margin-right: 10px;
   }
   &-clikes {
     margin: -3px 0 0 2px;

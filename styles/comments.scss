@@ -60,9 +60,34 @@
     @include editarea;
   }
 
-  .comment-cancel {
+  .comment-edit-actions {
     font-size: 12px;
-    margin-left: 10px;
+
+    display: flex;
+    justify-content: space-between;
+
+    .comment-attachments {
+      cursor: pointer;
+      color: #777;
+
+      &:hover span {
+        text-decoration: underline;
+      }
+    }
+
+    .comment-attachments-uploading {
+      color: #999;
+      font-size: 10px;
+    }
+
+    .comment-cancel {
+      color: #666;
+      margin-right: 10px;
+    }
+
+    .comment-post {
+      margin-top: -2px;
+    }
   }
 
   .comment-error {

@@ -2,9 +2,11 @@ import React, { useCallback, useRef } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 
+import Icon from './icon';
 import Throbber from './throbber';
 import { toggleEditingComment, saveEditingComment, updateHighlightedComments } from '../../redux/action-creators';
 import { getDraftCU, setDraftCU } from '../../utils/drafts';
+import { useUploader } from '../../utils/useUploader';
 
 const CommentEditForm = ({ id, postId, expandFn }) => {
   const body = useSelector(state => state.comments[id].body);
@@ -72,8 +74,19 @@ const CommentEditForm = ({ id, postId, expandFn }) => {
 
   const draft = getDraftCU(id);
 
+  const appendUrlAfterUpload = useCallback(attUrl => {
+    const text = textarea.current.value;
+    const addSpace = text.length && !text.match(/\s$/);
+    textarea.current.value = `${text}${addSpace ? ' ' : ''}${attUrl} `;
+    textarea.current.focus();
+    handleChangeText();
+  }, [handleChangeText]);
+  const { getDropzoneProps, getFileInputProps, openFileDialog, queueLength } = useUploader(appendUrlAfterUpload);
+
+  const isSubmitButtonDisabled = queueLength > 0 || isSaving;
+
   return (
-    <div className="comment-body">
+    <div className="comment-body" {...getDropzoneProps()}>
       <Textarea
         ref={textarea}
         className="form-control comment-textarea"
@@ -86,17 +99,37 @@ const CommentEditForm = ({ id, postId, expandFn }) => {
         maxRows={10}
         maxLength="1500"/>
 
-      <button className="btn btn-default btn-xs comment-post" onClick={saveComment}>Post</button>
+      <div className="comment-edit-actions">
+        <div className="comment-attachments" onClick={openFileDialog}>
+          <input {...getFileInputProps()}/>
+          <Icon name="cloud-upload"/>{' '}
+          <span>Add photos or files</span>
+          {queueLength > 0 && (
+            <span className="comment-attachments-uploading">
+              <Throbber name="comment-attachment" size={12}/>
+              {queueLength > 1 && queueLength}
+            </span>
+          )}
+        </div>
 
-      <a className="comment-cancel" onClick={cancelEditing}>Cancel</a>
+        <div>
+          {isSaving && (
+            <Throbber name="comment-edit" size={14}/>
+          )}
 
-      {isSaving ? (
-        <Throbber name="comment-edit"/>
-      ) : errorMessage ? (
+          <a className="comment-cancel" onClick={cancelEditing}>Cancel</a>
+
+          <button className="btn btn-default btn-xs comment-post" onClick={saveComment} disabled={isSubmitButtonDisabled}>
+            Save changes
+          </button>
+        </div>
+      </div>
+
+      {errorMessage && (
         <div className="comment-error alert alert-danger" role="alert">
           Comment has not been saved. Server response: "{errorMessage}"
         </div>
-      ) : false}
+      )}
     </div>
   );
 };

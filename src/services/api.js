@@ -562,3 +562,16 @@ export function unlikeComment({ commentId }) {
     },
   });
 }
+
+export function uploadAttachment(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return fetch(`${apiConfig.host}/v1/attachments`, {
+    method: 'POST',
+    headers: {
+      'X-Authentication-Token': getToken()
+    },
+    body: formData
+  });
+}
