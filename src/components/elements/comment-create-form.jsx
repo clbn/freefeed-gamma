@@ -81,7 +81,7 @@ const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleComm
     textarea.current.focus();
     handleChangeText();
   }, [handleChangeText]);
-  const { getDropzoneProps, getFileInputProps, openFileDialog, queueLength } = useUploader(appendUrlAfterUpload);
+  const { getDropzoneProps, getFileInputProps, openFileDialog, handlePaste, queueLength } = useUploader(appendUrlAfterUpload);
 
   const isSubmitButtonDisabled = queueLength > 0 || post.isSavingComment;
 
@@ -105,6 +105,7 @@ const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleComm
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
             onChange={handleChangeText}
+            onPaste={handlePaste}
             minRows={2}
             maxRows={10}
             maxLength="1500"/>

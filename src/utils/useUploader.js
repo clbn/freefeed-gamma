@@ -15,6 +15,20 @@ export const useUploader = (onUpload) => {
       });
   }, [onUpload]);
 
+  const handlePaste = useCallback(e => {
+    const items = e.clipboardData?.items || [];
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image/') > -1) {
+        e.preventDefault(); // for an image copied from Finder, prevent pasting its filename
+        const file = items[i].getAsFile();
+        if (!file.name) {
+          file.name = 'image.png';
+        }
+        uploadFile(file);
+      }
+    }
+  }, [uploadFile]);
+
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(f => uploadFile(f));
   }, [uploadFile]);
@@ -29,6 +43,7 @@ export const useUploader = (onUpload) => {
     getDropzoneProps: getRootProps,
     getFileInputProps: getInputProps,
     openFileDialog: open,
+    handlePaste,
     queueLength
   };
 };

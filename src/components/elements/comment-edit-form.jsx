@@ -81,7 +81,7 @@ const CommentEditForm = ({ id, postId, expandFn }) => {
     textarea.current.focus();
     handleChangeText();
   }, [handleChangeText]);
-  const { getDropzoneProps, getFileInputProps, openFileDialog, queueLength } = useUploader(appendUrlAfterUpload);
+  const { getDropzoneProps, getFileInputProps, openFileDialog, handlePaste, queueLength } = useUploader(appendUrlAfterUpload);
 
   const isSubmitButtonDisabled = queueLength > 0 || isSaving;
 
@@ -95,6 +95,7 @@ const CommentEditForm = ({ id, postId, expandFn }) => {
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
         onChange={handleChangeText}
+        onPaste={handlePaste}
         minRows={2}
         maxRows={10}
         maxLength="1500"/>
