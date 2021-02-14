@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { uploadAttachment } from '../services/api';
+import { convertToJpeg } from './convert-to-jpeg';
 
 export const useUploader = (onUpload) => {
   const [queueLength, setQueueLength] = useState(0);
@@ -24,7 +25,7 @@ export const useUploader = (onUpload) => {
         if (!file.name) {
           file.name = 'image.png';
         }
-        uploadFile(file);
+        convertToJpeg(file).then(uploadFile);
       }
     }
   }, [uploadFile]);
