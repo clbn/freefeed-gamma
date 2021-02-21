@@ -7,6 +7,7 @@ import Icon from './icon';
 import Throbber from './throbber';
 import { getDraftCA, setDraftCA } from '../../utils/drafts';
 import { useUploader } from '../../utils/useUploader';
+import { insertText } from '../../utils/insert-text';
 
 const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleCommenting, bindTextarea }) => {
   const dispatch = useDispatch();
@@ -74,14 +75,11 @@ const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleComm
   const needsAddCommentLink = otherCommentsNumber > 2 && !post.omittedComments;
   const draft = getDraftCA(post.id);
 
-  const appendUrlAfterUpload = useCallback(attUrl => {
-    const text = textarea.current.value;
-    const addSpace = text.length && !text.match(/\s$/);
-    textarea.current.value = `${text}${addSpace ? ' ' : ''}${attUrl} `;
-    textarea.current.focus();
+  const insertUrlAfterUpload = useCallback(attUrl => {
+    insertText(textarea.current, attUrl);
     handleChangeText();
   }, [handleChangeText]);
-  const { getDropzoneProps, getFileInputProps, openFileDialog, handlePaste, queueLength } = useUploader(appendUrlAfterUpload);
+  const { getDropzoneProps, getFileInputProps, openFileDialog, handlePaste, queueLength } = useUploader(insertUrlAfterUpload);
 
   const isSubmitButtonDisabled = queueLength > 0 || post.isSavingComment;
 

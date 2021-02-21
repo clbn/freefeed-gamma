@@ -7,6 +7,7 @@ import Throbber from './throbber';
 import { toggleEditingComment, saveEditingComment, updateHighlightedComments } from '../../redux/action-creators';
 import { getDraftCU, setDraftCU } from '../../utils/drafts';
 import { useUploader } from '../../utils/useUploader';
+import { insertText } from '../../utils/insert-text';
 
 const CommentEditForm = ({ id, postId, expandFn }) => {
   const body = useSelector(state => state.comments[id].body);
@@ -74,14 +75,11 @@ const CommentEditForm = ({ id, postId, expandFn }) => {
 
   const draft = getDraftCU(id);
 
-  const appendUrlAfterUpload = useCallback(attUrl => {
-    const text = textarea.current.value;
-    const addSpace = text.length && !text.match(/\s$/);
-    textarea.current.value = `${text}${addSpace ? ' ' : ''}${attUrl} `;
-    textarea.current.focus();
+  const insertUrlAfterUpload = useCallback(attUrl => {
+    insertText(textarea.current, attUrl);
     handleChangeText();
   }, [handleChangeText]);
-  const { getDropzoneProps, getFileInputProps, openFileDialog, handlePaste, queueLength } = useUploader(appendUrlAfterUpload);
+  const { getDropzoneProps, getFileInputProps, openFileDialog, handlePaste, queueLength } = useUploader(insertUrlAfterUpload);
 
   const isSubmitButtonDisabled = queueLength > 0 || isSaving;
 
