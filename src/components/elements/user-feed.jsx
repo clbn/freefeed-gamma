@@ -4,7 +4,12 @@ import PaginatedView from './paginated-view';
 import Feed from './feed';
 
 export default (props) => (
-  props.viewUser.isUserBlockedByMe ? (
+  props.viewUser.isGone ? (
+    <div className="box-body feed-message">
+      <p><b>{props.viewUser.screenName}</b> {props.viewUser.type === 'user' ? 'has deleted their account' : 'has been deleted'}.
+        This page still exists as a stub for the username, but the {props.viewUser.type} is not on FreeFeed anymore.</p>
+    </div>
+  ) : props.viewUser.isUserBlockedByMe ? (
     <div className="box-body feed-message">
       <p>You have blocked <b>{props.viewUser.screenName}</b>, so all of their posts and comments are invisible to you.</p>
     </div>

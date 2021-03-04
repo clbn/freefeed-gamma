@@ -106,7 +106,7 @@ const UserCard = (props) => {
         )}
       </div>
 
-      {props.isUserBlockedByMe ? (
+      {!props.isGone && props.isUserBlockedByMe ? (
         <div className="user-card-actions">
           {props.userView.isBlocking ? 'Unblocking...' : <a onClick={handleUnblock}>Un-block</a>}
 
@@ -114,7 +114,7 @@ const UserCard = (props) => {
             <Throbber name="user-card" size={15}/>
           )}
         </div>
-      ) : props.authenticated && !props.isItMe && (
+      ) : !props.isGone && !props.isItMe && props.authenticated && (
         <div className="user-card-actions">
           {props.acceptsDirects && (
             <><Link to={`/filter/direct?to=${props.user.username}`}>Direct message</Link> - </>
@@ -175,6 +175,7 @@ const mapStateToProps = (state, ownProps) => {
     userView,
     authenticated,
     isItMe: (me.username === user.username),
+    isGone: user.isGone,
     amISubscribedToUser,
     isUserSubscribedToMe,
     acceptsDirects,

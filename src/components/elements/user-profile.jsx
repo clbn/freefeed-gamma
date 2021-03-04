@@ -79,7 +79,7 @@ export default class UserProfile extends React.Component {
               </>}
             </div>
 
-            {props.statistics && !props.isUserBlockedByMe ? (
+            {props.statistics && !props.isUserBlockedByMe && !props.isGone ? (
               <div className="col-sm-3 col-xs-12">
                 <div className="profile-stats">
                   {this.getProfileStatsItem('subscriber')}
@@ -111,56 +111,58 @@ export default class UserProfile extends React.Component {
               </span>
             </div>
 
-            <div className="col-sm-6 col-xs-12">
-              {props.isUserBlockedByMe ? (
-                <div className="profile-controls">
-                  {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
+            {!props.isGone && (
+              <div className="col-sm-6 col-xs-12">
+                {props.isUserBlockedByMe ? (
+                  <div className="profile-controls">
+                    {props.userView.isBlocking ? 'Unblocking...' : <a onClick={this.handleUnblock}>Un-block</a>}
 
-                  {props.userView.isBlocking && (
-                    <Throbber name="profile-controls"/>
-                  )}
-                </div>
-              ) : (
-                <div className="profile-controls">
-                  {props.acceptsDirects && (
-                    <><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </>
-                  )}
+                    {props.userView.isBlocking && (
+                      <Throbber name="profile-controls"/>
+                    )}
+                  </div>
+                ) : (
+                  <div className="profile-controls">
+                    {props.acceptsDirects && (
+                      <><Link to={`/filter/direct?to=${props.username}`}>Direct message</Link> - </>
+                    )}
 
-                  {props.isPrivate === '1' && !props.amISubscribedToUser ? (
-                    props.hasRequestBeenSent ? (
-                      props.userView.isSubscribing ? 'Revoking...' : <a onClick={this.handleRevokeSentRequest}>Revoke request</a>
+                    {props.isPrivate === '1' && !props.amISubscribedToUser ? (
+                      props.hasRequestBeenSent ? (
+                        props.userView.isSubscribing ? 'Revoking...' : <a onClick={this.handleRevokeSentRequest}>Revoke request</a>
+                      ) : (
+                        props.userView.isSubscribing ? 'Requesting...' : <a onClick={this.handleSendSubRequest}>Request a subscription</a>
+                      )
                     ) : (
-                      props.userView.isSubscribing ? 'Requesting...' : <a onClick={this.handleSendSubRequest}>Request a subscription</a>
-                    )
-                  ) : (
-                    props.amISubscribedToUser ? (
-                      props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={this.handleUnsubscribe}>Unsubscribe</a>
-                    ) : (
-                      props.userView.isSubscribing ? 'Subscribing...' : <a onClick={this.handleSubscribe}>Subscribe</a>
-                    )
-                  )}
+                      props.amISubscribedToUser ? (
+                        props.userView.isSubscribing ? 'Unsubscribing...' : <a onClick={this.handleUnsubscribe}>Unsubscribe</a>
+                      ) : (
+                        props.userView.isSubscribing ? 'Subscribing...' : <a onClick={this.handleSubscribe}>Subscribe</a>
+                      )
+                    )}
 
-                  {props.userView.isSubscribing && (
-                    <Throbber name="profile-controls"/>
-                  )}
+                    {props.userView.isSubscribing && (
+                      <Throbber name="profile-controls"/>
+                    )}
 
-                  {props.type !== 'group' && !props.amISubscribedToUser ? (
-                    props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={this.handleBlock}>Block user</a></>
-                  ) : false}
+                    {props.type !== 'group' && !props.amISubscribedToUser ? (
+                      props.userView.isBlocking ? ' - Blocking...' : <> - <a onClick={this.handleBlock}>Block user</a></>
+                    ) : false}
 
-                  {props.userView.isBlocking && (
-                    <Throbber name="profile-controls"/>
-                  )}
+                    {props.userView.isBlocking && (
+                      <Throbber name="profile-controls"/>
+                    )}
 
-                  {props.type === 'group' && props.amIGroupAdmin ? <>
-                    {' - '}
-                    <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link>
-                    {' - '}
-                    <Link to={`/${props.username}/settings`}>Settings</Link>
-                  </> : false}
-                </div>
-              )}
-            </div>
+                    {props.type === 'group' && props.amIGroupAdmin ? <>
+                      {' - '}
+                      <Link to={`/${props.username}/manage-subscribers`}>Manage subscribers</Link>
+                      {' - '}
+                      <Link to={`/${props.username}/settings`}>Settings</Link>
+                    </> : false}
+                  </div>
+                )}
+              </div>
+            )}
 
             {this.state.isUnsubWarningDisplayed ? (
               <div className="col-xs-12">
