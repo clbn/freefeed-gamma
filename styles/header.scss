@@ -8,11 +8,18 @@ header {
     white-space: nowrap;
 
     a {
-      color: #222;
+      color: transparent;
       text-decoration: none;
 
+      background-image: url("data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20322%2092%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M344.6%202L24-83.9l-3.8%2014.5%20320.6%2085.9%204-14.5z%22%20fill%3D%22%23008026%22%2F%3E%0A%3Cpath%20d%3D%22M340.8%2016.5L20-69.4l-4%2014.5L337%2031l3.9-14.5z%22%20fill%3D%22%23004dff%22%2F%3E%0A%3Cpath%20d%3D%22M336.9%2031L16.2-55l-4%2014.5L333%2045.5l3.9-14.5z%22%20fill%3D%22%23750787%22%2F%3E%0A%3Cpath%20d%3D%22M333%2045.5l-320.7-86-3.9%2014.6L329.1%2060l3.9-14.5z%22%20fill%3D%22%23e40303%22%2F%3E%0A%3Cpath%20d%3D%22M329.1%2060L8.4-26%204.5-11.3l320.7%2085.8%204-14.4z%22%20fill%3D%22%23ff8c00%22%2F%3E%0A%3Cpath%20d%3D%22M325.2%2074.4L4.5-11.4.7%203l320.7%2085.8%203.8-14.5z%22%20fill%3D%22%23ffed00%22%2F%3E%0A%3Cpath%20d%3D%22M321.4%2089L.7%203l-4%2014.6%20320.8%2085.8%203.9-14.5z%22%20fill%3D%22%23008026%22%2F%3E%0A%3Cpath%20d%3D%22M317.5%20103.4L-3.2%2017.6l-4%2014.4%20320.8%2086%203.9-14.6z%22%20fill%3D%22%23004dff%22%2F%3E%0A%3Cpath%20d%3D%22M313.6%20118L-7.1%2032-11%2046.5l320.7%2085.9%203.9-14.5z%22%20fill%3D%22%23750787%22%2F%3E%0A%3Cpath%20d%3D%22M309.7%20132.4L-11%2046.5-14.9%2061%20305.8%20147l4-14.5z%22%20fill%3D%22%23e40303%22%2F%3E%0A%3Cpath%20d%3D%22M305.8%20146.9L-14.9%2061l-3.8%2014.5L302%20161.4l3.8-14.5z%22%20fill%3D%22%23ff8c00%22%2F%3E%0A%3Cpath%20d%3D%22M302%20161.4L-18.9%2075.5-22.6%2090%20298%20175.9l3.8-14.5z%22%20fill%3D%22%23ffed00%22%2F%3E%0A%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-size: contain;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
       &:active, &:focus, &:hover, &:visited {
-        color: #222;
+        color: transparent;
         text-decoration: none;
       }
     }
