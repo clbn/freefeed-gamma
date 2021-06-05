@@ -2,7 +2,8 @@ import React from 'react';
 import classnames from 'classnames';
 
 const dummyWord = (length, volatility) => {
-  const dummyChar = '\u2586'; // U+2586 LOWER THREE QUARTERS BLOCK
+  // const dummyChar = '\u2586'; // U+2586 LOWER THREE QUARTERS BLOCK (seems to be broken in Firefox since March 2021)
+  const dummyChar = '\u2580'; // U+2580 UPPER HALF BLOCK
   const charWidthFactor = 0.7; // because that block is much wider than the average latin letter
 
   let normalizedLength;
