@@ -69,6 +69,11 @@ export const apiMiddleware = store => next => async (action) => {
   try {
     const apiResponse = await action.apiRequest(action.payload);
     const obj = await apiResponse.json();
+
+    if (apiResponse.status === 401 && action.type !== ActionTypes.SIGN_IN) {
+      return store.dispatch(ActionCreators.unauthenticated());
+    }
+
     if (apiResponse.status === 200) {
       return store.dispatch({ payload: obj, type: response(action.type), request: action.payload });
     } else {
