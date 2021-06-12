@@ -20,16 +20,14 @@ const CommentMoreMenu = ({ isCommentMine, isModeratingComments, editFn, deleteFn
   const onCreate = useCallback(instance => (tippyInstance.current = instance), []);
   const hideMenu = useCallback(() => { tippyInstance.current.hide(); }, []);
 
-  if (!isCommentMine && !isModeratingComments) {
-    return false;
-  }
-
   const menuContent = (
     <ul className="more-menu-items" onClick={hideMenu}>
       {isCommentMine && (
         <li><a onClick={editFn}>Edit</a></li>
       )}
-      <li className="danger"><a onClick={deleteFn}>Delete</a></li>
+      {(isCommentMine || isModeratingComments) && (
+        <li className="danger"><a onClick={deleteFn}>Delete</a></li>
+      )}
     </ul>
   );
 

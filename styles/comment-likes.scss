@@ -1,7 +1,44 @@
+// Comment Likes trigger + Comment More Menu trigger
+
+.comment-likes-and-more {
+  display: inline-block;
+  width: 4.3em;
+  height: 1.18em;
+  vertical-align: text-bottom; // vertically align the outer container (with '-')
+  white-space: nowrap;
+  color: #ccc;
+
+  // The "overflow-x: hidden, overflow-y: visible" problem is only solved with this additional container
+  > span {
+    display: inline-block;
+    margin-top: -0.09em; // vertically align the inner container (with clikes and more-menu)
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .clikes-trigger {
+    position: relative;
+    z-index: 2; // must be higher than in .more-menu-trigger
+
+    min-width: 19px;
+  }
+
+  .more-menu-trigger {
+    position: relative;
+    z-index: 1; // must be lower than in .clikes-trigger, because its left padding is under clikes (see below)
+
+    // To show tooltip, we need to properly catch both mousedown and mouseup events on the trigger.
+    // 1. Since the trigger might move left after mousedown, we add RIGHT PADDING for catching mouseup.
+    // 2. Then, for proper tooltip positioning in the center of the trigger, we also add equal LEFT PADDING.
+    // 3. Then, to make left padding invisible to the user, we compensate it with MARGIN-LEFT.
+    padding: 0 0.8em;
+    margin-left: -0.8em;
+  }
+}
+
 // Clike trigger
 
 .comment-likes {
-  color: #ccc;
   white-space: nowrap;
 
   $clike-icon-color: #ffb914;
@@ -81,14 +118,6 @@
     .icon-heart,
     .clikes-number {
       opacity: 1;
-    }
-  }
-
-  &.clikes-likable {
-    .clikes-trigger {
-      min-width: 31px;
-      padding-right: 1px;
-      margin-right: 2px;
     }
   }
 

@@ -161,11 +161,13 @@ const Comment = ({ id, postId, postUrl, isModeratingComments, openAnsweringComme
 
           {' '}
 
-          <CommentLikes commentId={id}/>
-
-          <CommentMoreMenu
-            isCommentMine={canIEdit} isModeratingComments={isModeratingComments}
-            editFn={toggleEditing} deleteFn={deleteAfterConfirmation}/>
+          <span className="comment-likes-and-more"><span>
+            {'-'}
+            <CommentLikes commentId={id}/>
+            <CommentMoreMenu
+              isCommentMine={canIEdit} isModeratingComments={isModeratingComments}
+              editFn={toggleEditing} deleteFn={deleteAfterConfirmation}/>
+          </span></span>
         </div>
       )}
     </div>

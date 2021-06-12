@@ -120,8 +120,6 @@ class CommentLikes extends React.Component {
 
     return (
       <span className={classes}>
-        {'-'}
-
         <Tippy
           visible={isOpen}
           content={tooltipContent}
