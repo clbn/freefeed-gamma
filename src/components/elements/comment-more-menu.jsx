@@ -15,13 +15,14 @@ const tippyOptions = {
   zIndex: 9
 };
 
-const CommentMoreMenu = ({ isCommentMine, isModeratingComments, editFn, deleteFn }) => {
+const CommentMoreMenu = ({ isCommentMine, isModeratingComments, shareFn, editFn, deleteFn }) => {
   const tippyInstance = useRef(null);
   const onCreate = useCallback(instance => (tippyInstance.current = instance), []);
   const hideMenu = useCallback(() => { tippyInstance.current.hide(); }, []);
 
   const menuContent = (
     <ul className="more-menu-items" onClick={hideMenu}>
+      <li><a onClick={shareFn}>Share (copy link)</a></li>
       {isCommentMine && (
         <li><a onClick={editFn}>Edit</a></li>
       )}

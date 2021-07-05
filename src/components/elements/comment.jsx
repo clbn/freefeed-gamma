@@ -11,6 +11,7 @@ import CommentMoreMenu from './comment-more-menu';
 import CommentEditForm from './comment-edit-form';
 import Icon from './icon';
 import { preventDefault, confirmFirst, getISODate, getFullDate, getRelativeDate } from '../../utils';
+import { getCanonicalURL, copyToClipboard } from '../../utils/clipboard';
 import { toggleEditingComment, updateHighlightedComments, deleteComment } from '../../redux/action-creators';
 import * as CommentTypes from '../../utils/comment-types';
 import ARCHIVE_WATERSHED_TIMESTAMP from '../../utils/archive-timestamps';
@@ -31,6 +32,13 @@ const Comment = ({ id, postId, postUrl, isModeratingComments, openAnsweringComme
   const commentContainerRef = useRef({});
 
   const typedArrows = useRef([]); // Array of arrows (^^^) lengths, that user typing in the textarea
+
+  const commentUrl = `${postUrl}#comment-${id}`;
+
+  const copyURL = useCallback(() => {
+    const canonicalURL = getCanonicalURL(commentUrl);
+    copyToClipboard(canonicalURL);
+  }, [commentUrl]);
 
   const toggleEditing = useCallback(() => {
     dispatch(toggleEditingComment(id));
@@ -113,7 +121,7 @@ const Comment = ({ id, postId, postUrl, isModeratingComments, openAnsweringComme
     <div className={commentClasses} id={`comment-${id}`} ref={commentContainerRef}>
       <a className={iconClasses}
         title={dateRelative + '\n' + dateFull}
-        href={`${postUrl}#comment-${id}`}
+        href={commentUrl}
         onClick={handleIconClick}>
 
         <Icon name="comment"/>
@@ -126,7 +134,7 @@ const Comment = ({ id, postId, postUrl, isModeratingComments, openAnsweringComme
           {dateRelativeShort ? (
             <span className="comment-timestamp">
               {' - '}
-              <Link to={`${postUrl}#comment-${id}`} dir="auto">
+              <Link to={commentUrl} dir="auto">
                 <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
               </Link>
             </span>
@@ -153,7 +161,7 @@ const Comment = ({ id, postId, postUrl, isModeratingComments, openAnsweringComme
           {dateRelativeShort ? (
             <span className="comment-timestamp">
               {'-\u00a0'}
-              <Link to={`${postUrl}#comment-${id}`} dir="auto">
+              <Link to={commentUrl} dir="auto">
                 <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
               </Link>
             </span>
@@ -166,6 +174,7 @@ const Comment = ({ id, postId, postUrl, isModeratingComments, openAnsweringComme
             <CommentLikes commentId={id}/>
             <CommentMoreMenu
               isCommentMine={canIEdit} isModeratingComments={isModeratingComments}
+              shareFn={copyURL}
               editFn={toggleEditing} deleteFn={deleteAfterConfirmation}/>
           </span></span>
         </div>
