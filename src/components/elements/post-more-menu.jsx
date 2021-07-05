@@ -5,6 +5,7 @@ import { confirmFirst } from '../../utils';
 import Throbber from './throbber';
 import Icon from './icon';
 import 'styles/more-menu.scss';
+import { getCanonicalURL, copyToClipboard } from '../../utils/clipboard';
 
 const tippyOptions = {
   animation: 'fade',
@@ -18,7 +19,7 @@ const tippyOptions = {
 };
 
 export default function({
-  id, isSaved, isHidden, canIModerate, canIEdit, isEditing,
+  id, postUrl, isSaved, isHidden, canIModerate, canIEdit, isEditing,
   isModeratingComments, commentsDisabled, isSavingForLater, isHiding,
   hidePost, unhidePost, savePost, unsavePost, toggleEditingPost, deletePost,
   toggleModeratingComments, disableComments, enableComments
@@ -26,6 +27,11 @@ export default function({
   const tippyInstance = useRef();
   const onCreate = useCallback(instance => (tippyInstance.current = instance), []);
   const hideMenu = useCallback(() => { tippyInstance.current.hide(); }, []);
+
+  const copyURL = useCallback(() => {
+    const canonicalURL = getCanonicalURL(postUrl);
+    copyToClipboard(canonicalURL);
+  }, [postUrl]);
 
   const handleHidePost = useCallback(() => hidePost(id), [id, hidePost]);
   const handleUnhidePost = useCallback(() => unhidePost(id), [id, unhidePost]);
@@ -40,6 +46,8 @@ export default function({
 
   const menuContent = (
     <ul className="more-menu-items" onClick={hideMenu}>
+      <li><a onClick={copyURL}>Share (copy link)</a></li>
+
       {isSaved
         ? <li><a onClick={handleUnsavePost}>Un-save</a></li>
         : <li><a onClick={handleSavePost}>Save for later</a></li>}

@@ -322,7 +322,7 @@ class Post extends React.Component {
     // "More" menu
     const hideAndMore = (!!props.myId && <>
       {' - '}
-      <PostMoreMenu {...props}/>
+      <PostMoreMenu postUrl={postUrl} {...props}/>
     </>);
 
     return (props.isRecentlyHidden ? (
