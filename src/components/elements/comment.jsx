@@ -131,14 +131,12 @@ const Comment = ({ id, postId, postUrl, isModeratingComments, openAnsweringComme
         <div className="comment-body">
           {getCommentPlaceholder()}
 
-          {dateRelativeShort ? (
-            <span className="comment-timestamp">
-              {' - '}
-              <Link to={commentUrl} dir="auto">
-                <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
-              </Link>
-            </span>
-          ) : false}
+          <span className="comment-timestamp">
+            {' - '}
+            <Link to={commentUrl} dir="auto">
+              <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
+            </Link>
+          </span>
         </div>
       ) : isEditing ? (
         <CommentEditForm id={id} postId={postId} expandFn={setExpanded}/>
@@ -158,14 +156,12 @@ const Comment = ({ id, postId, postUrl, isModeratingComments, openAnsweringComme
 
           {' '}
 
-          {dateRelativeShort ? (
-            <span className="comment-timestamp">
-              {'-\u00a0'}
-              <Link to={commentUrl} dir="auto">
-                <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
-              </Link>
-            </span>
-          ) : false}
+          <span className="comment-timestamp">
+            {'-\u00a0'}
+            <Link to={commentUrl} dir="auto">
+              <time dateTime={dateISO} title={dateFull}>{dateRelativeShort}</time>
+            </Link>
+          </span>
 
           {' '}
 

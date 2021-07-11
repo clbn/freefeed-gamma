@@ -41,10 +41,7 @@ export function getRelativeDate(timestamp, long = true) {
 
   // Just now (when age < 45s)
   if (age < 45 * 1000) {
-    return (long
-      ? 'Just now'
-      : false
-    );
+    return 'Just now';
   }
 
   // 1-59 minutes ago (when 45s <= age < 59.5m)
