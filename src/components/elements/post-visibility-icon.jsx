@@ -5,6 +5,10 @@ import { getPostVisibilityLevel } from '../../utils';
 import Icon from './icon';
 
 const PostVisibilityIcon = (props) => {
+  if (props.isDirect) {
+    return <Icon name="envelope" title="This is direct message"/>;
+  }
+
   const postLevel = getPostVisibilityLevel(props.recipients, props.authorId);
 
   switch (postLevel) {

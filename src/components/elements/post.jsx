@@ -269,7 +269,7 @@ class Post extends React.Component {
     // or to some user as a direct message), use the first group as primary recipient.
     // Otherwise, use author's feed.
     let primaryRecipient = { username: props.authorUsername };
-    if (props.recipients.every((recipient) => recipient.type === 'group')) {
+    if (props.recipients.length > 0 && props.recipients.every((recipient) => recipient.type === 'group')) {
       primaryRecipient = props.recipients[0];
     }
     const postUrl = `/${primaryRecipient.username}/${props.id}`;
@@ -395,7 +395,7 @@ class Post extends React.Component {
                   onClick={this.saveEditingPost}
                   disabled={this.state.attachmentQueueLength > 0}>Update</button>
 
-                <PostVisibilityIcon recipients={this.state.recipients} authorId={props.createdBy}/>
+                <PostVisibilityIcon isDirect={props.isDirect} recipients={this.state.recipients} authorId={props.createdBy}/>
               </div>
 
               {this.state.hasUploadFailed ? (
@@ -413,7 +413,7 @@ class Post extends React.Component {
           ) : <>
             <div className="post-header">
               <UserName className="post-author" id={props.createdBy}/>
-              {recipients.length > 0 ? ' to ' : false}
+              {recipients.length > 0 ? ' to ' : (props.isDirect ? ' to nobody ' : false)}
               {recipients}
             </div>
 
@@ -432,7 +432,7 @@ class Post extends React.Component {
           <div className="dropzone-previews"></div>
 
           <div className="post-footer">
-            <PostVisibilityIcon recipients={props.recipients} authorId={props.createdBy}/>
+            <PostVisibilityIcon isDirect={props.isDirect} recipients={props.recipients} authorId={props.createdBy}/>
 
             <Link to={postUrl} className="post-timestamp">
               <time dateTime={dateISO} title={dateFull}>{dateRelative}</time>
