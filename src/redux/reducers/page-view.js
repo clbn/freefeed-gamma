@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import * as ActionTypes from '../action-types';
 import * as ActionHelpers from '../action-helpers';
-import { getSummaryPeriod } from '../../utils';
+import { getSummaryPeriod, userParser } from '../../utils';
 
 const { request, response } = ActionHelpers;
 
@@ -12,7 +12,7 @@ const initialState = {
 
 export default function pageView(state = initialState, action) {
   const getPageByOffset = (offset) => (offset ? Math.floor(offset / 30 + 1) : 1);
-  const getUserOnResponse = () => _.find(action.payload.users, { username: action.request.username });
+  const getUserOnResponse = () => userParser(_.find(action.payload.users, { username: action.request.username }));
   const getFormattedName = (user) => user.screenName + (user.username !== user.screenName ? ' (' + user.username + ')' : '');
 
   switch (action.type) {
