@@ -110,7 +110,9 @@ export function userParser(user) {
 
   // Remove invisible characters from display name
   if (newUser.screenName) {
-    newUser.screenName = newUser.screenName.replace(/[\u180E\u2000-\u200F\u2060\u2800\u3000\u3164\u{1D159}]/gu, '');
+    newUser.screenName = newUser.screenName
+      .replace(/[\u180E\u2000-\u200F\u2060\u2800\u3000\u3164\u{1D159}]/gu, '')
+      .trim();
   }
 
   // Missing display name
