@@ -71,12 +71,12 @@ $switch-toggle-color: #fff;
   visibility: hidden;
   z-index: 10;
 
-  left: ($switch-toggle-diameter + $switch-padding) / 2 - 2px;
+  left: ($switch-toggle-diameter + $switch-padding) * 0.5 - 2px;
 
   color: $switch-off-state-color;
 }
 .realtime-switch.on .realtime-switch-state {
-  left: -($switch-toggle-diameter + $switch-padding) / 2;
+  left: -($switch-toggle-diameter + $switch-padding) * 0.5;
   color: $switch-on-state-color;
 }
 .realtime-switch:hover .realtime-switch-state {

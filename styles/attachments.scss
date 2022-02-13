@@ -99,7 +99,7 @@
 
     .icon-times {
       width: 14px;
-      height: 14px / 10 * 14;
+      height: calc(14px / 10 * 14);
       margin: 6px 0 0 0;
     }
   }
