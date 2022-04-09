@@ -188,6 +188,8 @@ export function isMobile() {
   return (viewportWidth <= 991);
 }
 
+export const isOSK = isMobile(); // Not the best way to detect on-screen keyboards, but good enough
+
 export function toggleSidebar(val = null) {
   if (val === true || val === false) {
     document.body.classList.toggle('mobile-sidebar-open', val); // if true, then add class, if not, remove class

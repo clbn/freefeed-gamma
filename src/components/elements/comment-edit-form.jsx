@@ -5,6 +5,7 @@ import Textarea from 'react-textarea-autosize';
 import Icon from './icon';
 import Throbber from './throbber';
 import { toggleEditingComment, saveEditingComment, updateHighlightedComments } from '../../redux/action-creators';
+import { isOSK } from '../../utils';
 import { getDraftCU, setDraftCU } from '../../utils/drafts';
 import { useUploader } from '../../utils/useUploader';
 import { insertText } from '../../utils/insert-text';
@@ -44,7 +45,7 @@ const CommentEditForm = ({ id, postId, expandFn }) => {
   }, [dispatch, expandFn, id, isSaving]);
 
   const handleKeyDown = useCallback((event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter' && !(event.shiftKey || isOSK)) {
       event.preventDefault();
       setTimeout(saveComment, 0);
     }

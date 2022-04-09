@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { preventDefault } from '../../utils';
+import { preventDefault, isOSK } from '../../utils';
 import PostRecipients from './post-recipients';
 import Icon from './icon';
 import Throbber from './throbber';
@@ -46,7 +46,7 @@ export default class PostBookmarkletForm extends React.Component {
   isPostTextEmpty = () => (!this.postText || this.postText.value === '' || /^\s+$/.test(this.postText.value));
 
   checkIfEnterPressed = (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter' && !(event.shiftKey || isOSK)) {
       event.preventDefault();
       if (!this.state.isFormEmpty && this.props.createPostForm.status !== 'loading') {
         this.submitForm();

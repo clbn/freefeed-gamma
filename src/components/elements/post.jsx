@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import { makeGetPost } from '../../redux/selectors';
 import { postActions } from '../../redux/select-utils';
-import { getISODate, getRelativeDate, getFullDate } from '../../utils';
+import { getISODate, getRelativeDate, getFullDate, isOSK } from '../../utils';
 import PostAttachments from './post-attachments';
 import PostComments from './post-comments';
 import PostLikes from './post-likes';
@@ -155,7 +155,7 @@ class Post extends React.Component {
   };
 
   handleKeyDown = (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter' && !(event.shiftKey || isOSK)) {
       event.preventDefault();
       if (this.state.attachmentQueueLength === 0) {
         this.saveEditingPost();

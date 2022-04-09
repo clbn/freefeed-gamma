@@ -10,7 +10,7 @@ import PostAttachments from './post-attachments';
 import Icon from './icon';
 import Throbber from './throbber';
 import * as PostVisibilityLevels from '../../utils/post-visibility-levels';
-import { preventDefault, getPostVisibilityLevel } from '../../utils';
+import { preventDefault, getPostVisibilityLevel, isOSK } from '../../utils';
 import { createPost, resetPostCreateForm, addAttachmentResponse, removeAttachment } from '../../redux/action-creators';
 import { getDraftPA, setDraftPA } from '../../utils/drafts';
 
@@ -147,7 +147,7 @@ class PostCreateForm extends React.Component {
   }
 
   handleKeyDown = (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter' && !(event.shiftKey || isOSK)) {
       event.preventDefault();
       if (!this.state.isFormEmpty && this.state.attachmentQueueLength === 0 && this.props.createPostForm.status !== 'loading') {
         this.submitForm();
