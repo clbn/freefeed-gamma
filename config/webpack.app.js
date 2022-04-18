@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -48,11 +49,17 @@ module.exports = function(opts) {
     module: {
       rules: [
         // JavaScript files
-        { test: /\/(src|config)\/.+\.jsx?$/,
-          use: [
-            'babel-loader',
-            'eslint-loader'
+        { test: /\.jsx?$/,
+          include: [
+            path.resolve(__dirname, '../src/'),
+            path.resolve(__dirname, '../node_modules/social-text-tokenizer/'),
           ],
+          use: {
+            loader: 'babel-loader',
+            options: {
+              configFile: path.resolve(__dirname, '../.babelrc') // otherwise it won't pick up the config one level above
+            }
+          },
           enforce: 'pre'
         },
 

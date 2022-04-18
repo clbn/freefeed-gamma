@@ -58,8 +58,10 @@ const CommentCreateForm = ({ post, isSinglePost, otherCommentsNumber, toggleComm
   }, [cancelCommenting]);
 
   const handleChangeText = useCallback(() => {
-    const arrowsFound = textarea.current.value.match(/\^+/g);
-    const arrows = (arrowsFound ? arrowsFound.map(a => a.length) : []);
+    const arrowsFound = textarea.current.value.match(/\u2191+|\^([1-9]\d*|\^*)/g);
+    const arrows = arrowsFound?.map(a =>
+      Number(a.match(/\d+/)?.[0]) || a.length // Support both "^12" and "^^^"
+    ) ?? [];
 
     if (typedArrows.current.length !== arrows.length || !typedArrows.current.every((v, i) => (v === arrows[i]))) { // just comparing two arrays
       typedArrows.current = arrows;

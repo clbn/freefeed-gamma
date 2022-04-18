@@ -52,12 +52,12 @@ const tippyOptions = {
 
 const UserName = ({
   username, screenName, isItMe, myPrefs,
-  display, className, onMouseEnter, onMouseLeave
+  display, className, userHover
 }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  const onShow = useCallback(() => { setTooltipOpen(true); onMouseEnter && onMouseEnter(); }, [onMouseEnter]);
-  const onHide = useCallback(() => { setTooltipOpen(false); onMouseLeave && onMouseLeave(); }, [onMouseLeave]);
+  const onShow = useCallback(() => { setTooltipOpen(true); userHover?.hover(username); }, [userHover, username]);
+  const onHide = useCallback(() => { setTooltipOpen(false); userHover?.leave(); }, [userHover]);
   const onClick = useCallback(event => { if (isMobile()) { event.preventDefault(); } }, []);
 
   const tooltipContent = tooltipOpen && <UserCard username={username}/>; // only render UserCard when needed

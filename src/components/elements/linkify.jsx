@@ -1,34 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router';
-import URLFinder from 'ff-url-finder';
+import {
+  combine, withText,
+  hashTags, emails, mentions, foreignMentions, links, arrows,
+  HashTag, Email, Mention, ForeignMention, Link as TLink, Arrows
+} from 'social-text-tokenizer';
 
 import config from '../../../config/config';
 import UserName from './user-name';
 
 const MAX_URL_LENGTH = 50;
 
-const LINK = 'link';
-const AT_LINK = 'atLink';
-const LOCAL_LINK = 'localLink';
-const HASHTAG = 'hashTag';
-const EMAIL = 'email';
-const ARROW = 'arrow';
+const getLocalPart = (url) => {
+  const m = url.match(/^https?:\/\/([^/]+)(.*)/i);
+  let hostname, path;
 
-const finder = new URLFinder(
-  ['ru', 'com', 'net', 'org', 'info', 'gov', 'edu', 'рф', 'ua'],
-  config.siteDomains
-);
+  if (m) {
+    hostname = m[1].toLowerCase();
+    path = m[2] || '/';
+  }
 
-finder.withHashTags = true;
-finder.withArrows = true;
+  const p = config.siteDomains.indexOf(hostname);
 
-const splitLink = (url, maxLength) => {
-  let visiblePart = URLFinder.shorten(url, maxLength);
+  if (p > -1 && path !== '/') {
+    return path;
+  }
+
+  return null;
+};
+
+const splitLink = (linkToken, maxLength) => {
+  let visiblePart = linkToken.shorten(maxLength);
   if (visiblePart.slice(-1) === '\u2026') {
     visiblePart = visiblePart.slice(0, -1);
   }
 
-  const hiddenPart = url.slice(visiblePart.length);
+  const hiddenPart = linkToken.pretty.slice(visiblePart.length);
 
   return {
     visiblePart,
@@ -36,133 +43,70 @@ const splitLink = (url, maxLength) => {
   };
 };
 
-class Linkify extends React.Component {
-  parseCounter = 0;
-  idx = 0;
+// Break down the string into hashTags, emails, mentions, foreignMentions, links and arrows,
+// then include Text tokens in between
+const tokenize = withText(combine(hashTags(), emails(), mentions(), foreignMentions(), links(), arrows(/\u2191+|\^([1-9]\d*|\^*)/g)));
 
-  getElementByType = (it) => {
-    const props = {
-      key: `match${++this.idx}`,
-      dir: 'ltr'
-    };
+const Linkify = ({ userHover, arrowHover, children }) => tokenize(children).map((token, i) => {
+  if (token instanceof TLink) {
+    let Component;
+    const props = { key: i };
+    const { visiblePart, hiddenPart } = splitLink(token, MAX_URL_LENGTH);
 
-    switch (it.type) {
+    const localURL = getLocalPart(token.text);
 
-      case LINK: {
-        props.href = it.url;
-        props.target = '_blank';
-        props.rel = 'noopener';
-
-        const { visiblePart, hiddenPart } = splitLink(it.text, MAX_URL_LENGTH);
-
-        if (hiddenPart.length > 0) {
-          props.className = 'shortened-link';
-          return <a {...props}>{visiblePart}<del>{hiddenPart}</del></a>;
-        }
-
-        return <a {...props}>{visiblePart}</a>;
-      }
-
-      case LOCAL_LINK: {
-        props.to = it.uri;
-
-        const { visiblePart, hiddenPart } = splitLink(it.text, MAX_URL_LENGTH);
-
-        if (hiddenPart.length > 0) {
-          props.className = 'shortened-link';
-          return <Link {...props}>{visiblePart}<del>{hiddenPart}</del></Link>;
-        }
-
-        return <Link {...props}>{visiblePart}</Link>;
-      }
-
-      case AT_LINK: {
-        props.username = it.username;
-        props.display = it.text;
-        if (this.userHover) {
-          props.onMouseEnter = () => this.userHover.hover(it.username);
-          props.onMouseLeave = this.userHover.leave;
-        }
-        return <UserName {...props}/>;
-      }
-
-      case EMAIL: {
-        props.href = `mailto:${it.address}`;
-        return <a {...props}>{it.text}</a>;
-      }
-
-      case HASHTAG: {
-        props.to = { pathname: '/search', query: { q: it.text } };
-        return <Link {...props}>{it.text}</Link>;
-      }
-
-      case ARROW: {
-        if (!this.arrowHover) {
-          return it.text;
-        }
-
-        props.className = 'reference-arrow';
-        props.onClick = () => this.arrowHover.click(it.text.length);
-        props.onMouseEnter = () => this.arrowHover.hover(it.text.length);
-        props.onMouseLeave = this.arrowHover.leave;
-
-        return <span {...props}>{it.text}</span>;
-      }
-
+    if (localURL) {
+      Component = Link;
+      props.to = localURL;
+    } else {
+      Component = (props) => <a {...props}>{props.children}</a>;
+      props.href = token.href;
+      props.target = '_blank';
+      props.rel = 'noopener';
     }
 
-    return it.text;
-  };
-
-  parseString = (string) => {
-    let elements = [];
-
-    if (string === '') {
-      return elements;
+    if (hiddenPart.length > 0) {
+      props.className = 'shortened-link';
+      return <Component {...props}>{visiblePart}<del>{hiddenPart}</del></Component>;
     }
 
-    this.idx = 0;
-
-    try {
-      finder.parse(string).map(it => {
-        elements.push(this.getElementByType(it));
-      });
-
-      return (elements.length === 1) ? elements[0] : elements;
-    } catch (err) {
-      console.log('Error while linkifying text', string, err);
-    }
-
-    return [string];
-  };
-
-  parse = (children) => {
-    let parsed = children;
-
-    if (typeof children === 'string') {
-      parsed = this.parseString(children);
-    } else if (React.isValidElement(children) && (children.type !== 'a') && (children.type !== 'button')) {
-      parsed = React.cloneElement(
-        children,
-        { key: `parse${++this.parseCounter}` },
-        this.parse(children.props.children)
-      );
-    } else if (children instanceof Array) {
-      parsed = children.map(child => {
-        return this.parse(child);
-      });
-    }
-
-    return parsed;
-  };
-
-  render() {
-    this.parseCounter = 0;
-    this.userHover = this.props.userHover;
-    this.arrowHover = this.props.arrowHover;
-
-    return this.parse(this.props.children);
+    return <Component {...props}>{visiblePart}</Component>;
   }
-}
+
+  if (token instanceof Mention) {
+    return (
+      <UserName
+        key={i}
+        username={token.text.slice(1).toLowerCase()}
+        display={token.text}
+        userHover={userHover}/>
+    );
+  }
+
+  if (token instanceof Arrows && arrowHover) {
+    const length = Number(token.text.match(/\d+/)?.[0]) || token.text.length; // Support both "^^^" and "^12"
+    return (
+      <span
+        key={i}
+        className={'reference-arrow'}
+        onClick={() => arrowHover.click(length)} // eslint-disable-line react/jsx-no-bind
+        onMouseEnter={() => arrowHover.hover(length)} // eslint-disable-line react/jsx-no-bind
+        onMouseLeave={arrowHover.leave}
+      >
+        {token.text}
+      </span>
+    );
+  }
+
+  if (token instanceof Email) {
+    return <a key={i} href={`mailto:${token.text}`}>{token.pretty}</a>;
+  }
+
+  if (token instanceof HashTag) {
+    return <Link key={i} to={{ pathname: '/search', query: { q: token.text } }}>{token.text}</Link>;
+  }
+
+  return token.text;
+});
 
 export default Linkify;

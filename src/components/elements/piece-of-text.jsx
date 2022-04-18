@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import Linkify from './linkify';
 import Spoiler from './spoiler';
 import 'styles/piece-of-text.scss';
@@ -163,9 +163,9 @@ const shortenText = (chunks, expandFn) => {
 //
 // Replace custom chunk objects with React components
 //
-const prepareForRendering = (chunk, i) => {
+const prepareForRendering = (userHover, arrowHover) => (chunk, i) => {
   if (typeof chunk === 'string') {
-    return <Fragment key={i}>{chunk}</Fragment>;
+    return <Linkify key={i} userHover={userHover} arrowHover={arrowHover}>{chunk}</Linkify>;
   }
 
   switch (chunk.type) {
@@ -173,14 +173,18 @@ const prepareForRendering = (chunk, i) => {
     case 'paragraph': return <div key={i} className="p-break"><br/></div>;
     case 'br': return <br key={i}/>;
     case 'read-more': return <a key={i} className="read-more" onClick={chunk.onClick}>Read more</a>;
-    case 'spoiler': return <Spoiler key={i} {...chunk}>{chunk.content}</Spoiler>;
+    case 'spoiler': return (
+      <Spoiler key={i} {...chunk}>
+        <Linkify userHover={userHover} arrowHover={arrowHover}>{chunk.content}</Linkify>
+      </Spoiler>
+    );
   }
 };
 
 //
 // Combine all the utils above to format the text
 //
-const formatText = (text, expanded, expandFn) => {
+const formatText = (text, expanded, expandFn, userHover, arrowHover) => {
   // 1. Normalize text
   // - Remove whitespace characters in the beginning and the end
   // - Replace repeated whitespace characters (except newline) with one space
@@ -204,21 +208,19 @@ const formatText = (text, expanded, expandFn) => {
     chunks = shortenText(chunks, expandFn);
   }
 
-  // 6. Return chunk contents prepared for React rendering
-  return chunks.map(prepareForRendering);
+  // 6. Linkify chunk contents and convert them to components
+  return chunks.map(prepareForRendering(userHover, arrowHover));
 };
 
 const PieceOfText = ({ text, isExpanded, userHover, arrowHover }) => {
   const [expanded, setExpanded] = useState(!!isExpanded);
   const handleExpand = useCallback(() => setExpanded(true), []);
 
-  const chunks = formatText(text, expanded, handleExpand);
+  const chunks = formatText(text, expanded, handleExpand, userHover, arrowHover);
 
   return (
     <span className="piece-of-text" dir="auto">
-      <Linkify userHover={userHover} arrowHover={arrowHover}>
-        {chunks}
-      </Linkify>
+      {chunks}
     </span>
   );
 };
