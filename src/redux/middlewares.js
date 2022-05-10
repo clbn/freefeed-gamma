@@ -140,46 +140,32 @@ export const highlightedCommentsMiddleware = store => next => action => {
 
     let { reason, postId, baseCommentId, username, arrows } = action.payload || {};
 
-    if (!Array.isArray(arrows)) {
-      arrows = [ arrows ];
-    }
-
-    let baseCommentIndex, targetedCommentIndices, targetedCommentIds, highlightedCommentIds;
+    let baseCommentIndex, targetedCommentIds, highlightedCommentIds;
 
     const post = state.posts[postId];
+    const comments = post?.comments.map(cId => state.comments[cId]) ?? [];
 
-    if (post) {
-      baseCommentIndex = (baseCommentId ? post.comments.indexOf(baseCommentId) : post.comments.length); // For a new comment, baseCommentId is null
+    if (arrows && post) {
+      // Index (seqNumber) of the base comment. For a new comment, take the last comment's index, plus one.
+      baseCommentIndex = (baseCommentId
+        ? state.comments[baseCommentId].seqNumber
+        : comments[comments.length - 1].seqNumber + 1
+      );
 
-      const getTargetedCommentIndex = (a) => {
-        // Comment(s) below "N more comments"
-        if (baseCommentIndex - a > 0) {
-          return baseCommentIndex - a;
-        }
-        // Comment above "N more comments"
-        if (baseCommentIndex - a === -post.omittedComments) {
-          return 0;
-        }
-        // Everything else is inside the collapsed comments and shouldn't be highlighted
-        return -1;
+      if (!Array.isArray(arrows)) {
+        arrows = [ arrows ];
+      }
 
-        // N.B. This algorithm assumes exactly one comment above the fold
-        // and arbitrary number of comments below the fold. Expanded comments
-        // (i.e. omittedComments = 0) is just the particular case of this
-        // general method.
-      };
-
-      targetedCommentIndices = arrows.map(getTargetedCommentIndex);
-      targetedCommentIds = targetedCommentIndices.map(i => post.comments[i]);
+      // Find IDs of comments with specific indexes (seqNumbers)
+      // and filter out absent seqNumbers (for arrows that point at deleted comments)
+      targetedCommentIds = arrows
+        .map(a => comments.find(c => c.seqNumber === baseCommentIndex - a)?.id)
+        .filter(id => id);
     }
 
     switch (reason) {
       case 'hover-author':
-        highlightedCommentIds = post.comments.filter(commentId => {
-          const comment = state.comments[commentId];
-          const authorUsername = comment.createdBy && state.users[comment.createdBy].username;
-          return (authorUsername === username);
-        });
+        highlightedCommentIds = comments.filter(c => state.users[c.createdBy]?.username === username).map(c => c.id);
         break;
 
       case 'hover-arrows':
