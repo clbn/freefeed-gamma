@@ -62,7 +62,7 @@
     "skin-deep": "^0.16.0",
     "social-text-tokenizer": "^2.2.0",
     "socket.io-client": "^2.1.1",
-    "source-map-explorer": "^1.6.0",
+    "source-map-explorer": "^2.5.2",
     "style-loader": "^1.2.1",
     "tape": "^4.2.2",
     "tippy.js": "^6.2.0",
